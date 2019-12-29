@@ -1,15 +1,14 @@
 
 .container
 {
-    display:flex;
-    align-content: stretch;
-    height: 1200px;
-    width:800px;
-    margin: auto;
-    font-family: 'Times New Roman', Times, serif,sans-serif;
+  display:flex;
+  align-content: stretch;
+  width:800px;
+  margin: auto;
+  font-family: 'Times New Roman', Times, serif,sans-serif;
 }
 
-/*================ MISE EN PAGE DU RUBAN GAUCHE=========*/
+/*I) MISE EN PAGE DU RUBAN GAUCHE=========*/
 .ruban
 {
   width: 40%;
@@ -39,20 +38,19 @@ h3+p
 .loisir
 { 
   margin-bottom: 10px;
-  margin-left: 15px;
   color: deepskyblue;
+  text-align: center;
 }
 
 
-/* MISE EN PAGE DU CONTENU ET DE SES PARTIES =========*/
+/* II) MISE EN PAGE DU CONTENU ET DE SES PARTIES =========*/
 
 .contenu
 {  
- padding-bottom: 60px;
- width: 80%;
+width: 80%;
  background-color:rgb(176, 238, 233);
 }
-/*============== EN TETE =================*/
+
 
 h1
 {
@@ -70,88 +68,231 @@ h1
  color: deepskyblue;
 }
 
-/*============================ PARTIE EXP/FORM/RECOMM ============*/
-.partie
+/* 1) PARTIE FORMATION ET EXPERIENCE =========================*/
+
+/* a) Structuration des dates et intitules*/
+
+.date-intitule
+{ 
+  display:flex;
+  margin-right: 5px;
+}
+
+.date-actual,.date-past
 {
-    display:flex;
-    flex: 1;
-    margin-left: 30px;
-    margin-right: 5px;
+  width:40%;
 }
 
-
-/* SECTION GAUCHE AVEC PUCES UNICODES =================*/
-.gauche
-{  
-  width: 40%;
-  
-}
-
-.puce1 p::before
-{   
-  font-family:'Font Awesome 5 Free';
-  content:"\f192"; 
-  padding-right:5px;
-  color:darkblue; 
-}
-
-.puce2 p::before
+ .intitule 
 {
-  content:"\2022";
-  color:darkslateblue;
-  padding-right:5px;
-  font-weight: bold ;
- 
-}
-
-/* PARTIE DROITE DE PARTIE ======================================*/
-.droite
-{  
-    margin-left:10px;
-    width: 60%;
+  margin-left: auto;
+  width: 60%;
 }
 
 .titre
 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-/*PARTIE RECOMMANDATION ==============================*/
 
-.gauche2
+/* b) Puces unicodes fontawesome pour les dates (avec difference entre recent et passe)=================*/
+
+.date-actual p::before
+{   
+  font-family:'Font Awesome 5 Free';
+  content:"\f192"; 
+  color:darkblue; 
+  margin-left: 30px;
+}
+
+.date-past p::before
+{
+  content:"\2022";
+  color:darkslateblue;
+  font-weight: bold ;
+  margin-left: 30px; 
+ 
+}
+
+/* c) Icones fontawesome unicode pour les titres hé des 3 parties ===========================*/
+
+/*Formation*/
+.icon1 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f501";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+    
+}
+
+/*Experience Pro*/
+.icon2 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f0b1";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+}
+
+/*Recommandations*/
+.icon3 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f044";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+}
+
+
+/* 2) PARTIE RECOMMANDATION ==============================*/
+
+/* Structuration différente des 2 autres parties*/
+.recommandation
+{
+  display:flex;
+  flex:1;
+  margin-left: 30px; 
+}
+
+.recommandation1
 {
   width: 50%;
 }
 
-.droite2
+.recommandation2
 {
  width: 50%;
 }
-/* FONTAWESOME UNICODE DES 3 PARTIES ===========================*/
-.icon1 h2::before
+
+
+
+/* III) RESPONSIVE MEDIA QUERIES  =====================================*/
+
+
+@media all and (max-device-width: 480px)
 {
-    font-family: 'Font Awesome 5 Free';
-    content: "\f501";
-    padding-right:15px;
-    color:deepskyblue;
-    margin-left: 30px;
+  body 
+  {
+    word-wrap: break-word;
+  }
+  
+ .pic
+  {
+    padding-top: 20px;
+  }
+  
+ h1
+  {
+   font-size: 25px;
+  }
+
+  .sous-titre
+  {
+    font-size:15px ;
+  }
+
+  h2
+  {
+    font-size:20px;
+  }
+  
+  h3 
+  {
+   font-size:20px;
+  }
+
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+  }
+
+  .icon2 h2::before
+  {
+   padding-right: 5px;
+  }
+
+  .icon3 h2::before
+  {
+   padding-right: 5px;
+  }
+ 
+ .date-intitule
+  {
+    display: flex;
+    flex-direction: column;
     
-}
+  }
 
-.icon2 h2::before
-{
-    font-family: 'Font Awesome 5 Free';
-    content: "\f0b1";
-    padding-right:15px;
-    color:deepskyblue;
-    margin-left: 30px;
-}
+ .date-actual,.date-past
+  {
+   width:100%;
+  }
 
-.icon3 h2::before
-{
-    font-family: 'Font Awesome 5 Free';
-    content: "\f044";
-    padding-right:15px;
-    color:deepskyblue;
-    margin-left: 30px;
+ .intitule 
+  {
+   width: 100%;
+   margin-left: 5px;
+  }
+
+ .recommandation
+  {
+    display: flex;
+    flex-direction: column;
+  }
+
 }
+  
+/* tablette Medium devices (landscape tablets, 768px and up) */
+ 
+@media only screen and (min-width: 768px) {
+
+  .container
+  {
+    width: 100%;
+    margin: auto;
+    padding: auto;
+  }
+  .ruban
+  {
+    width:30%;
+  }
+  .contenu
+  {
+    width:70%;
+  }
+  
+  .date-actual p::before,.date-past p::before
+  {
+  margin-left:0px;
+  }
+} 
+
+
+
+
+
+/*si largeur ecran ne depasse pas 1024px*/
+
+@media screen and (max-width: 1024px) 
+{
+  .container
+  {
+    width: 100%;
+    margin: auto;
+    padding: auto;
+  }
+  .ruban
+  {
+    width:30%;
+  }
+  .contenu
+  {
+    width:70%;
+  }
+}
+/*media="all"    // Used for all media type devices ( its default under html 5)
+media="screen" // Used for computer screens(default value  for html 4.01)*/

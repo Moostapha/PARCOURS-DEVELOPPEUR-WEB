@@ -47,7 +47,7 @@ h3+p
 
 .contenu
 {  
-width: 80%;
+ width: 80%;
  background-color:rgb(176, 238, 233);
 }
 
@@ -208,18 +208,26 @@ h1
   .icon1 h2::before
   {
     padding-right: 5px;
+    margin-left: 5px;
   }
 
   .icon2 h2::before
   {
    padding-right: 5px;
+   margin-left: 5px;
   }
 
   .icon3 h2::before
   {
    padding-right: 5px;
+   margin-left: 5px;
   }
  
+  .date-actual p::before,.date-past p::before
+  {
+  margin-left:0px;
+  }
+
  .date-intitule
   {
     display: flex;
@@ -242,13 +250,14 @@ h1
   {
     display: flex;
     flex-direction: column;
+    margin-left:10px
   }
 
 }
   
 /* tablette Medium devices (landscape tablets, 768px and up) */
  
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 768px) {
 
   .container
   {
@@ -265,10 +274,34 @@ h1
     width:70%;
   }
   
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+    margin-left: 10px;
+  }
+
+  .icon2 h2::before
+  {
+   padding-right: 5px;
+   margin-left: 10px;
+  }
+
+  .icon3 h2::before
+  {
+   padding-right: 5px;
+   margin-left: 10px;
+  }
+  
   .date-actual p::before,.date-past p::before
   {
   margin-left:0px;
   }
+
+  .recommandation
+  {
+    margin-left:0px;
+  }
+
 } 
 
 

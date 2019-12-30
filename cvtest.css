@@ -8,7 +8,7 @@
   font-family: 'Times New Roman', Times, serif,sans-serif;
 }
 
-/*I) MISE EN PAGE DU RUBAN GAUCHE=========*/
+/*================ 1) MISE EN PAGE DU RUBAN GAUCHE=========*/
 .ruban
 {
   width: 40%;
@@ -43,11 +43,11 @@ h3+p
 }
 
 
-/* II) MISE EN PAGE DU CONTENU ET DE SES PARTIES =========*/
+/* 2) MISE EN PAGE DU CONTENU ET DE SES PARTIES =========*/
 
 .contenu
 {  
- width: 80%;
+width: 80%;
  background-color:rgb(176, 238, 233);
 }
 
@@ -68,7 +68,7 @@ h1
  color: deepskyblue;
 }
 
-/* 1) PARTIE FORMATION ET EXPERIENCE =========================*/
+/*============================ A) PARTIE FORMATION ET EXPERIENCE =========================*/
 
 /* a) Structuration des dates et intitules*/
 
@@ -148,7 +148,7 @@ h1
 }
 
 
-/* 2) PARTIE RECOMMANDATION ==============================*/
+/* B) PARTIE RECOMMANDATION ==============================*/
 
 /* Structuration différente des 2 autres parties*/
 .recommandation
@@ -170,37 +170,35 @@ h1
 
 
 
-/* III) RESPONSIVE MEDIA QUERIES  =====================================*/
+/* 3) RESPONSIVE MEDIA QUERIES=====================================*/
 
+/*media="all"    // Used for all media type devices ( its default under html 5)
+media="screen" // Used for computer screens(default value  for html 4.01)*/
 
-@media all and (max-device-width: 480px)
+/* Smartphones*/
+@media all and (max-device-width: 500px)
 {
+  .container
+  {
+    width:100%;
+  }
  
- .container
- {
-   width:100%;
-   position:absolute;
-   margin: auto;
-   padding: auto;
- }
-
-.pic
+  .pic
   {
     padding-top: 20px;
   }
-  
-  p
+  .date-intitule
   {
-    font-size: 12px;
+   width:auto;
   }
- h1
+
+  h1
   {
    font-size: 25px;
   }
-
   .sous-titre
   {
-    font-size:15px;
+    font-size:15px ;
   }
 
   h2
@@ -215,104 +213,63 @@ h1
 
   .icon1 h2::before
   {
+    margin-left: auto;
     padding-right: 5px;
-    margin-left: 5px;
   }
 
   .icon2 h2::before
   {
-   padding-right: 5px;
-   margin-left: 5px;
+    margin-left: auto;
+    padding-right: 5px;
   }
 
   .icon3 h2::before
   {
-   padding-right: 5px;
-   margin-left: 5px;
-  }
- 
-  .date-actual p::before,.date-past p::before
-  {
-  margin-left:0px;
+    margin-left: auto;
+    padding-right: 5px;
   }
 
- .date-intitule
+  .date-actual p::before
   {
-    display: flex;
-    flex-direction: column;
+    margin-left: auto;
   }
-
- .date-actual,.date-past
-  {
-   width:100%;
-  }
-
- .intitule 
-  {
-   width: 100%;
-   margin-left: 5px;
-  }
-
- .recommandation
-  {
-    display: flex;
-    flex-direction: column;
-    margin-left:10px;
-  }
-
-}
   
-/* tablette Medium devices (landscape tablets, 768px and up) */
- 
-@media only screen and (max-width: 768px) {
+  .date-past p::before
+  {
+    margin-left: auto;
+  }
 
-  .container
+  .date-intitule
+  {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .date-actual,.date-past
  {
    width:100%;
  }
 
-  .ruban
-  {
-    width:30%;
-  }
-  .contenu
-  {
-    width:70%;
-  }
-  
-  .icon1 h2::before
-  {
-    padding-right: 5px;
-    margin-left: 10px;
-  }
+ .intitule 
+ {
+   margin-left: auto;
+   width: 100%;
+ }
 
-  .icon2 h2::before
-  {
-   padding-right: 5px;
-   margin-left: 10px;
-  }
-
-  .icon3 h2::before
-  {
-   padding-right: 5px;
-   margin-left: 10px;
-  }
-  
-  .date-actual p::before,.date-past p::before
-  {
-  margin-left:0px;
-  }
 
   .recommandation
   {
-    margin-left:10px;
+    display: flex;
+    flex-direction: column;
   }
+}
 
-} 
+/* Medium devices (landscape tablets, 768px and up)
+@media only screen and (min-width: 768px) {...} */
 
 
 
-
+/* Desktop*/
 
 /*si largeur ecran ne depasse pas 1024px*/
 
@@ -333,5 +290,3 @@ h1
     width:70%;
   }
 }
-/*media="all"    // Used for all media type devices ( its default under html 5)
-media="screen" // Used for computer screens(default value  for html 4.01)*/

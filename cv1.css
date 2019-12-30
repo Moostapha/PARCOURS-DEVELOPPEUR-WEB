@@ -1,0 +1,224 @@
+
+.container
+{
+  display:flex;
+  align-content: stretch;
+  width:800px;
+  margin: auto;
+  font-family: 'Times New Roman', Times, serif,sans-serif;
+}
+
+/*================ MISE EN PAGE DU RUBAN GAUCHE=========*/
+.ruban
+{
+  width: 40%;
+  background-color: rgb(216, 231, 231);
+}
+
+.pic
+{ 
+  text-align: center;
+  padding-top: 35px;
+}
+
+h3
+{ 
+  text-align: center;
+  font-size:27px ;
+  color: darkcyan;
+  background-color: darkgrey;
+}
+
+h3+p 
+{ 
+  padding:10px;
+}
+
+
+.loisir
+{ 
+  margin-bottom: 10px;
+  color: deepskyblue;
+  text-align: center;
+}
+
+
+/* MISE EN PAGE DU CONTENU ET DE SES PARTIES =========*/
+
+.contenu
+{  
+ padding-bottom: 60px;
+ width: 80%;
+ background-color:rgb(176, 238, 233);
+}
+/*============== EN TETE =================*/
+
+h1
+{
+ font-size: 40px;
+}
+
+.sous-titre
+{
+  font-size: 25px;
+  
+}
+
+.prenom
+{
+ color: deepskyblue;
+}
+
+/*============================ PARTIE EXP/FORM/RECOMM ============*/
+
+.partie
+{
+  display:flex;
+  flex: 1;
+  margin-left: 30px;
+  margin-right: 5px;
+}
+
+
+/* SECTION GAUCHE AVEC PUCES UNICODES =================*/
+
+.gauche
+{  
+  width: 40%;
+  
+}
+
+.puce1 p::before
+{   
+  font-family:'Font Awesome 5 Free';
+  content:"\f192"; 
+  padding-right:5px;
+  color:darkblue; 
+}
+
+.puce2 p::before
+{
+  content:"\2022";
+  color:darkslateblue;
+  padding-right:5px;
+  font-weight: bold ;
+ 
+}
+
+/* PARTIE DROITE DE PARTIE ======================================*/
+
+.droite
+{  
+  margin-left:10px;
+  width: 60%;
+}
+
+.titre
+{
+  font-weight: bold;
+}
+
+/*PARTIE RECOMMANDATION ==============================*/
+
+.gauche2
+{
+  width: 50%;
+}
+
+.droite2
+{
+ width: 50%;
+}
+/* FONTAWESOME UNICODE DES 3 PARTIES ===========================*/
+
+.icon1 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f501";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+    
+}
+
+.icon2 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f0b1";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+}
+
+.icon3 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f044";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+}
+
+/* RESPONSIVE MEDIA QUERIES=====================================*/
+
+
+/* Smartphones*/
+@media screen and (max-device-width: 680px)
+{
+  .container{
+    width:100%;
+  }
+  .partie
+  {
+    width:auto;
+  }
+  .pic
+  {
+    padding-top: 20px;
+  }
+  .gauche
+  {
+   width:auto;
+  }
+
+  h1
+  {
+   font-size: 25px;
+  }
+  .sous-titre
+  {
+    font-size:15px ;
+  }
+
+  h2
+  {
+    font-size:20px;
+  }
+  
+  h3 
+  {
+   font-size:20px;
+  }
+}
+
+/* Desktop + Tablette*/
+
+/*si largeur ecran ne depasse pas 1024px*/
+
+@media screen and (max-width: 1024px) 
+{
+  .container
+  {
+    width: 100%;
+    margin: auto;
+    padding: auto;
+  }
+  .ruban
+  {
+    width:30%;
+  }
+  .contenu
+  {
+    width:70%;
+  }
+}

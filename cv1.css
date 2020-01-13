@@ -1,0 +1,393 @@
+body{
+  margin:0px;
+}
+.container
+{
+  display:flex;
+  align-content: stretch;
+  width:800px;
+  margin: auto;
+  font-family: 'Times New Roman', Times, serif,sans-serif;
+}
+
+/*I) MISE EN PAGE DU RUBAN GAUCHE=========*/
+#ruban
+{
+  width: 40%;
+  background-color: rgb(216, 231, 231);
+}
+
+.pic
+{ 
+  text-align: center;
+  padding-top: 35px;
+}
+
+h3
+{ 
+  text-align: center;
+  font-size:27px ;
+  color: darkcyan;
+  background-color: darkgrey;
+}
+
+h3+p 
+{ 
+  padding:10px;
+}
+
+.espace-ruban
+{
+ height: 20px;
+}
+
+.loisir
+{ 
+  margin-bottom: 10px;
+  color: deepskyblue;
+  text-align: center;
+}
+
+/*ARRONDI/COULEUR ARRONDI DES ICONES LOISIR*/
+
+.fa.fa-guitar.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-book.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-dumbbell.fa-2x.fa-pull-center.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-basketball-ball.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+
+
+/* II) MISE EN PAGE DU CONTENU ET DE SES PARTIES =========*/
+
+.contenu
+{  
+ width: 80%;
+ background-color:rgb(176, 238, 233);
+}
+
+
+h1
+{
+ font-size: 40px;
+}
+
+.sous-titre
+{
+  font-size: 25px;
+  
+}
+.souligner
+{
+  border-bottom:2px solid deepskyblue;
+  
+}
+.prenom
+{
+ color: deepskyblue;
+}
+
+/* 1) PARTIE FORMATION ET EXPERIENCE =========================*/
+
+/* a) Structuration des dates et intitules*/
+
+hr.surlignement
+{
+  border: 1px solid;
+ border-style: inset;
+}
+
+.date-intitule
+{ 
+  display:flex;
+  margin-right: 5px;
+}
+
+.date-actual,.date-past
+{
+  width:40%;
+}
+
+ .intitule 
+{
+  margin-left: auto;
+  width: 60%;
+}
+
+.titre
+{
+  font-weight: bold;
+}
+
+
+/* b) Puces unicodes fontawesome pour les dates (avec difference entre recent et passe)=================*/
+
+.date-actual p::before
+{   
+  font-family:'Font Awesome 5 Free';
+  content:"\f192"; 
+  color:darkblue; 
+  margin-left: 30px;
+}
+
+.date-past p::before
+{
+  content:"\2022";
+  color:darkslateblue;
+  font-weight: bold ;
+  margin-left: 30px; 
+ 
+}
+
+/* c) Icones fontawesome unicode pour les titres hé des 3 parties ===========================*/
+
+/*Formation*/
+.icon1 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f501";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+    
+}
+
+/*Experience Pro*/
+.icon2 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f0b1";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+}
+
+/*Recommandations*/
+.icon3 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f044";
+  padding-right:15px;
+  color:deepskyblue;
+  margin-left: 30px;
+}
+
+
+/* 2) PARTIE RECOMMANDATION ==============================*/
+
+/* Structuration différente des 2 autres parties*/
+.recommandation
+{
+  display:flex;
+  flex:1;
+  margin-left: 30px; 
+}
+
+.recommandation1
+{
+  width: 50%;
+}
+
+.recommandation2
+{
+ width: 50%;
+}
+
+
+
+/* III) RESPONSIVE MEDIA QUERIES  =====================================*/
+
+
+@media all and (max-device-width: 480px)
+{
+ 
+ .container
+ {
+  display:flex;
+  flex-direction: column;
+  margin: 0px;
+  width: 100%;
+ }
+ .contenu
+ {
+  width:100%;
+ }
+ .entete
+ {
+   display:flex;
+ }
+ h1 
+ {
+  text-align: center;
+ }
+ #ruban
+ {
+   display:flex;
+   width:100%;
+   
+ }
+
+ #ruban .pic
+  { 
+   display:none;
+  }
+  
+
+  p
+  {
+    font-size: 12px;
+  }
+
+ h1
+  {
+   font-size: 25px;
+  }
+
+  .sous-titre
+  {
+    font-size:15px;
+  }
+
+  h2
+  {
+    font-size:20px;
+  }
+  
+  h3 
+  {
+   font-size:20px;
+  }
+
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+    margin-left: 5px;
+  }
+
+  .icon2 h2::before
+  {
+   padding-right: 5px;
+   margin-left: 5px;
+  }
+
+  .icon3 h2::before
+  {
+   padding-right: 5px;
+   margin-left: 5px;
+  }
+ 
+  .date-actual p::before,.date-past p::before
+  {
+  margin-left:0px;
+  }
+
+ .date-intitule
+  {
+    display: flex;
+    flex-direction: column;
+  }
+
+ .date-actual,.date-past
+  {
+   width:100%;
+  }
+
+ .intitule 
+  {
+   width: 100%;
+   margin-left: 5px;
+  }
+
+ .recommandation
+  {
+    display: flex;
+    flex-direction: column;
+    margin-left:10px;
+  }
+
+}
+  
+/* tablette Medium devices (landscape tablets, 768px and up) */
+ 
+@media only screen and (min-width: 768px) and (max-device-width:1024px)  {
+
+  .container
+ { 
+   width:100%;
+ }
+
+  .ruban
+  {
+    width:30%;
+  }
+  .contenu
+  {
+    width:70%;
+  }
+  
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+    margin-left: 10px;
+  }
+
+  .icon2 h2::before
+  {
+   padding-right: 5px;
+   margin-left: 10px;
+  }
+
+  .icon3 h2::before
+  {
+   padding-right: 5px;
+   margin-left: 10px;
+  }
+  
+  .date-actual p::before,.date-past p::before
+  {
+  margin-left:0px;
+  }
+
+  .recommandation
+  {
+    margin-left:10px;
+  }
+
+} 
+
+
+/*si largeur ecran ne depasse pas 1024px*/
+
+@media screen and (min-width: 1024px) 
+{
+  .container
+  {
+    width: 100%;
+    margin: auto;
+    
+  }
+  .ruban
+  {
+    width:30%;
+  }
+  .contenu
+  {
+    width:70%;
+  }
+}
+/*media="all"    // Used for all media type devices ( its default under html 5)
+media="screen" // Used for computer screens(default value  for html 4.01)*/

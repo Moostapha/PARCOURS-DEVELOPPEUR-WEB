@@ -1,17 +1,18 @@
   body{
   margin:0px;
+  padding:0px;
  
 }
 .container
 {
   display:flex;
   align-content: stretch;
-  width:auto;
+  width:auto;  
   margin:auto;
   font-family: 'Times New Roman', Times, serif,sans-serif;
 }
 
-/*I) MISE EN PAGE DU RUBAN GAUCHE=========*/
+/* ================================================ MISE EN PAGE DU RUBAN GAUCHE ==================================================*/
 #ruban
 {
   width: 30%;
@@ -28,6 +29,7 @@
 {
   display:none;
 }
+
 h3
 { 
   text-align: center;
@@ -43,7 +45,7 @@ h3+p
 
 .espace-apropos
 {
- height: 20px;
+ height: 100px;
 }
 
 .loisir
@@ -53,7 +55,7 @@ h3+p
   text-align: center;
 }
 
-/*ELEMENTS GRAPHIQUES:ARRONDI/COULEUR ARRONDI DES ICONES LOISIR*/
+/* => ELEMENTS GRAPHIQUES DE LA SECTION LOISIR DE RUBAN: ARRONDI/COULEUR DES ICONES*/
 
 .fa.fa-guitar.fa-2x.fa-border
 {
@@ -77,18 +79,31 @@ h3+p
 }
 
 
-/* II) MISE EN PAGE DU CONTENU ET DE SES PARTIES =========*/
+/* ========================================= MISE EN PAGE DU CONTENU ET DE SES PARTIES =========================================== */
 
 .contenu
 {  
- width: 80%;
+ width: 70%;
  background-color:rgb(176, 238, 233);
 }
 
+.espace1
+{
+  height:50px
+}
+.espace2
+{
+  height: 20px;
+}
+.espace3
+{
+  height: 20px;
+}
 
 h1
 {
- font-size: 35px;
+ font-size: 40px;
+ padding-top:20px;
 }
 
 .sous-titre
@@ -106,22 +121,18 @@ h1
  color: deepskyblue;
 }
 
-/* 1) PARTIE FORMATION ET EXPERIENCE =========================*/
-
-/* a) Structuration des dates et intitules*/
-
+/*                       => PARTIE FORMATION ET EXPERIENCE*/
+/*a)ORGANISATION DES TEXTES DANS LES DATES ET LES INTITULES*/
 hr.surlignement
 {
   border: 1px solid;
- border-style: inset;
+  border-style: inset;
 }
 
 .date-intitule
 { 
   display:flex;
- /* margin-right: 15px;*/
   margin-left:10px;
-  
 }
 
 .date-actual,.date-past
@@ -131,7 +142,6 @@ hr.surlignement
 
  .intitule 
 {
-  margin-left: auto;
   width: 60%;
 }
 
@@ -141,8 +151,8 @@ hr.surlignement
 }
 
 
-/* b) Puces unicodes fontawesome pour les dates (avec difference entre recent et passe)=================*/
-
+/*ELEMENTS GRAPHIQUES TITRES (FORMATION | EXPERIENCES | FORMATION )*/
+/* Puces unicodes fontawesome pour les dates (avec difference entre recent et passe)=================*/
 .date-actual p::before
 {   
   font-family:'Font Awesome 5 Free';
@@ -160,8 +170,7 @@ hr.surlignement
  
 }
 
-/* c) Icones fontawesome unicode pour les titres h2 des 3 parties ===========================*/
-
+/* Icones fontawesome unicode pour les titres h2 des 3 parties */
 /*Formation*/
 .icon1 h2::before
 {
@@ -193,10 +202,8 @@ hr.surlignement
   margin-left: 30px;
 }
 
+/*      => PARTIE RECOMMANDATION (Structuration différente des 2 autres parties)*/
 
-/* 2) PARTIE RECOMMANDATION ==============================*/
-
-/* Structuration différente des 2 autres parties*/
 .recommandation
 {
   display:flex;
@@ -215,146 +222,183 @@ hr.surlignement
 }
 
 
-/* III) RESPONSIVE MEDIA QUERIES  =====================================*/
 
+
+/* ============================================= RESPONSIVE MEDIA QUERIES  =====================================================*/
+
+/* SMARTPHONES Small | Medium | Large
+ => REORGANISATION DES BLOCS: BREAKPOINT A 600PX CAR A CETTE TAILLE => CASSURE DU VISUEL
+LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
 
 @media all and (max-device-width: 600px)
 {
- /* REORGANISATION DES BLOCS BREACKPOINT
- A 600PX CAR A CETTE TAILLE => CASSURE DU VISUEL:
- LES TEXTES DES DATESDEBORDENT SUR LES TEXTES DES INTITULES*/
- /*RUBAN EST MIS EN BAS AVEC COLUMN-REVERSE*/
- .container 
- {
-  display:flex;
-  flex-direction: column-reverse;
-  margin: 0px;
-  width: 100%;
- }
- .contenu
- {
-  width:100%;
- }
- .entete
- {
-   display:flex;
-   justify-content:center;
- }
+  
+  .container 
+  {
+    display:flex;
+    flex-direction: column-reverse;  /*RUBAN EST MIS EN BAS AVEC COLUMN-REVERSE*/
+    margin: 0px;
+    width: auto;
+  }
 
-/*REORGANISATION RUBAN GRIS | DISPARITION DE PIC*/
+  /*PARTIE BLEUE CONTENU*/
+  .contenu
+  {
+    width:100%;
+  }
+  .entete
+  {
+    display:flex;
+    justify-content:center;
+  }
+    
+  .date-intitule
+  {
+    margin-left:none;
+  }
+
+  .intitule
+  {
+    margin-right:10px;
+    margin-left:10px;
+  }
+
+  .espace1
+  {
+    display:none
+  }
+
+  .espace2
+  {
+    display:none
+  }
+
+  .espace3
+  {
+    display:none
+  }
+
+  .espace-apropos
+  {
+    display:none;
+  }
+   
+   
+  /*REORGANISATION RUBAN GRIS | DISPARITION DE PIC*/
   #ruban
- {
-   display:flex;
-   width:100%;
-   flex-direction: column;
- }
-
+  {
+    display:flex;
+    width:100%;
+    flex-direction: column;
+  }
+   
   #ruban .pic
   { 
-   display:none;
+    display:none;
   }
-  
+     
   .contenu .pic
   {
-    display:block;
-    float:left;
-    padding:0px;
+   display:block;
+   float:left;
+   padding:0px;
   }
- 
+    
   /*REORGANISATION DU BLOC CONTACT DE RUBAN*/
   .contact
   {
     display: flex;
     margin-left:10px;
   }
-
+   
   .space-contact
   {
     width:25px;
   }
-  
-
-  /*TITRES | POLICE | SOUS-TITRE | ICONES | PUCES | MARGES*/
+     
+   
+  /* RESTRUCTURATION TITRES | POLICE | SOUS-TITRE | ICONES | PUCES | MARGES*/
   h1 
   {
-   text-align: center;
-   font-size:30px;
+    text-align: center;
+    font-size:30px;
+    padding-top:0px;
   }
-
+   
   .sous-titre
   {
     font-size:20px;
   }
-
+   
   h2
   {
     font-size:20px;
     text-align:center;
   }
-
+   
   h3 
   {
-   font-size:20px;
-   margin-block-start: 0px;
+    font-size:20px;
+    margin-block-start: 0px;
   }
-
+   
   p
   {
     font-size: 12px;
   }
- 
+    
   .icon1 h2::before
   {
     padding-right: 5px;
     margin-left: 5px;
   }
-
+   
   .icon2 h2::before
   {
    padding-right: 5px;
    margin-left: 5px;
   }
-
+   
   .icon3 h2::before
   {
-   padding-right: 5px;
-   margin-left: 5px;
+    padding-right: 5px;
+    margin-left: 5px;
   }
- 
+    
   .date-actual p::before,.date-past p::before
   {
-  margin-left:10px;
+    margin-left:10px;
   }
-
- .date-actual,.date-past
+   
+  .date-actual,.date-past
   {
-   width:100%;
+    width:100%;
   }
-
- .intitule 
+   
+  .intitule 
   {
    width: 100%;
    margin-left: 5px;
   }
-
- .recommandation
+   
+  .recommandation
   {
     display: flex;
     margin-left:10px;
   }
-
+   
 }
-  
-/* tablette Medium devices (landscape tablets, 768px and up) */
  
-@media only screen and (min-width: 768px) and (max-device-width:1024px) 
-{
 
+/* TABLETTES ECRANS MOYENS: INTERVALLE [768px-1024px]*/
+@media only screen and (min-width: 768px) and (max-device-width:1024px) {
+ 
   .container
- { 
-   width:100%;
- }
-
+  { 
+    width:100%;
+    height:auto;
+  }
+ 
   .ruban
   {
     width:30%;
@@ -363,48 +407,63 @@ hr.surlignement
   {
     width:70%;
   }
-  
+   
   .icon1 h2::before
   {
     padding-right: 5px;
     margin-left: 10px;
   }
-
+ 
   .icon2 h2::before
   {
-   padding-right: 5px;
-   margin-left: 10px;
+    padding-right: 5px;
+    margin-left: 10px;
   }
-
+ 
   .icon3 h2::before
   {
-   padding-right: 5px;
+    padding-right: 5px;
    margin-left: 10px;
   }
-  
+   
   .date-actual p::before,.date-past p::before
   {
-  margin-left:0px;
+   margin-left:0px;
   }
-
+ 
   .recommandation
   {
     margin-left:10px;
   }
 
+  .espace-apropos
+  {
+    height:150px ;
+  }
+ 
+  /*.espace2
+  {
+   display:none
+  }
+  .espace3
+  {
+    height:150px;
+  }
+ 
+ */
 } 
 
-
-/*si largeur ecran ne depasse pas 1024px*/
-
+ 
+/*ECRAN DE PLUS DE 1024 PX INTERVALLE [1024;=>[*/
 @media screen and (min-width: 1024px) 
 {
   .container
   {
-    width: 800px;
-    margin: auto;
-    
+    width:auto;
+    height:auto;
+    margin:auto;
   }
+ 
   .ruban
   {
     width:30%;
@@ -413,9 +472,14 @@ hr.surlignement
   {
     width:70%;
   }
-  .contact{
+  .contact
+  {
     padding:10px;
   }
+  .espace2
+  {
+    height: 50px;
+  }
 }
-/*media="all"    // Used for all media type devices ( its default under html 5)
-media="screen" // Used for computer screens(default value  for html 4.01)*/
+ 
+ 

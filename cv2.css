@@ -1,7 +1,7 @@
-  body{
+body
+{
   margin:0px;
   padding:0px;
- 
 }
 .container
 {
@@ -43,19 +43,22 @@ h3+p
   padding:10px;
 }
 
+.contact
+{
+  padding-left:10px;
+}
 .espace-apropos
 {
- height: 100px;
+ height:100px;
 }
 
 .loisir
 { 
-  margin-bottom: 10px;
   color: deepskyblue;
   text-align: center;
 }
 
-/* => ELEMENTS GRAPHIQUES DE LA SECTION LOISIR DE RUBAN: ARRONDI/COULEUR DES ICONES*/
+/* => ELEMENTS GRAPHIQUES DE LOISIR/RUBAN: ARRONDI/COULEUR DES ICONES*/
 
 .fa.fa-guitar.fa-2x.fa-border
 {
@@ -100,6 +103,10 @@ h3+p
   height: 20px;
 }
 
+.entete
+{
+  padding-left:30px;
+}
 h1
 {
  font-size: 40px;
@@ -121,7 +128,7 @@ h1
  color: deepskyblue;
 }
 
-/*                       => PARTIE FORMATION ET EXPERIENCE*/
+/* => PARTIE FORMATION ET EXPERIENCE*/
 /*a)ORGANISATION DES TEXTES DANS LES DATES ET LES INTITULES*/
 hr.surlignement
 {
@@ -129,10 +136,24 @@ hr.surlignement
   border-style: inset;
 }
 
+/*MARGES INTERIEURE DES 3 ARTICLES */
+#formation
+{
+  padding:30px;
+}
+#experience
+{
+  padding:30px;
+}
+#recommandations
+{
+  padding:30px;
+}
+
+/*STRUCTURATION DE L'INTERIEUR DES ARTICLES */
 .date-intitule
 { 
   display:flex;
-  margin-left:10px;
 }
 
 .date-actual,.date-past
@@ -158,7 +179,7 @@ hr.surlignement
   font-family:'Font Awesome 5 Free';
   content:"\f192"; 
   color:darkblue; 
-  margin-left: 30px;
+  
 }
 
 .date-past p::before
@@ -166,8 +187,6 @@ hr.surlignement
   content:"\2022";
   color:darkslateblue;
   font-weight: bold ;
-  margin-left: 30px; 
- 
 }
 
 /* Icones fontawesome unicode pour les titres h2 des 3 parties */
@@ -178,8 +197,6 @@ hr.surlignement
   content: "\f501";
   padding-right:15px;
   color:deepskyblue;
-  margin-left: 30px;
-    
 }
 
 /*Experience Pro*/
@@ -189,7 +206,7 @@ hr.surlignement
   content: "\f0b1";
   padding-right:15px;
   color:deepskyblue;
-  margin-left: 30px;
+  
 }
 
 /*Recommandations*/
@@ -199,7 +216,6 @@ hr.surlignement
   content: "\f044";
   padding-right:15px;
   color:deepskyblue;
-  margin-left: 30px;
 }
 
 /*      => PARTIE RECOMMANDATION (Structuration différente des 2 autres parties)*/
@@ -208,7 +224,7 @@ hr.surlignement
 {
   display:flex;
   flex:1;
-  margin-left: 30px; 
+  /*padding-left:30px;*/
 }
 
 .recommandation1
@@ -226,11 +242,178 @@ hr.surlignement
 
 /* ============================================= RESPONSIVE MEDIA QUERIES  =====================================================*/
 
-/* SMARTPHONES Small | Medium | Large
- => REORGANISATION DES BLOCS: BREAKPOINT A 600PX CAR A CETTE TAILLE => CASSURE DU VISUEL
-LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
+/*SMARTPHONES L M ET S CHOIX BREAKPOINT A 425px DISPOSITION EN COLONNE PARTOUT*/
+@media all and (max-device-width: 425px)
+{
+  .container 
+  {
+    display:flex;
+    flex-direction: column-reverse;  /*RUBAN EST MIS EN BAS AVEC COLUMN-REVERSE*/
+    margin: 0px;
+    padding:0px;
+    width: auto;
+  }
 
-@media all and (max-device-width: 600px)
+  /*PARTIE BLEUE CONTENU*/
+  .contenu
+  { 
+    width:100%;
+    margin:0px;
+  }
+  .entete
+  {
+    display:flex;
+    justify-content:center;
+    padding-left:1px;
+  }
+
+  /*RESTRUCTURATION COLONNES DES DATES INTITULES*/
+  .date-intitule
+  {
+    display:flex;
+    flex-direction:column;
+  }
+  
+  /*REORGANISATION STRUCTURE BLOC CONTENU*/
+  /*STRUCTURE DES BLOCS DANS LES ARTICLES */
+  .date-actual,.date-past
+  {
+    width:100%;
+  }
+   
+  .intitule 
+  {
+   width: 100%;
+  }
+   
+  .recommandation
+  {
+    display: flex;
+    flex-direction:column;
+  }
+  /*DISPARITION DES ESPACES ET DES MARGES*/
+  .espace1
+  {
+    display:none
+  }
+
+  .espace2
+  {
+    display:none
+  }
+
+  .espace3
+  {
+    display:none
+  }
+
+  .espace-apropos
+  {
+    display:none;
+  }
+   
+  /*REORGANISATION PARTIE RUBAN GRIS */
+  #ruban
+  {
+    display:flex;
+    width:100%;
+    flex-direction: column;
+  }
+  /*TRAVAIL SUR LA PHOTO DISPARITION DE LA PIC DU HAUT ET APPARITION POSITIONNEMENT*/ 
+  #ruban .pic
+  { 
+    display:none;
+  }
+     
+  .contenu .pic
+  {
+   display:block;
+   float:left;
+   padding:0px;
+  }
+    
+  /*REORGANISATION DU BLOC CONTACT DE RUBAN*/
+  .contact
+  {
+    display: flex;
+    flex-direction:column;
+    padding-left:0px;
+   }
+   
+  .space-contact
+  {
+    width:0px;
+  }
+  
+  .loisir
+  {
+    margin-bottom:15px;
+  }
+
+ /* TITRES | POLICE | SOUS-TITRE | ICONES | PUCES | MARGES*/
+
+ /*BAISSE DE LA TAILLE DE POLICE TITRES ET PARAGRAPHES*/
+  h1 
+  {
+    text-align: center;
+    font-size:12px;
+    padding-top:0px;
+  }
+   
+  .sous-titre
+  {
+    font-size:25px;
+  }
+   
+  h2
+  {
+    font-size:20px;
+    text-align:center;
+  }
+   
+  h3 
+  {
+    font-size:15px;
+    margin-block-start: 0px;
+  }
+   
+  p
+  {
+    font-size: 12px;
+  }
+   
+  /*MARGE ICONES GRAPHIQUES*/
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+  }
+   
+  .icon2 h2::before
+  {
+   padding-right: 5px;
+  }
+   
+  .icon3 h2::before
+  {
+    padding-right: 5px;
+  }
+
+  /*MARGE DES ARTICLES  FORMATION | EXPERIENCES | RECOMMANDATION
+  + MARGE GAUCHE DE CONTACT (SUR LES DIV ADRESSE TEL MAIL...)*/ 
+  #formation,#experience,#recommandations
+  {
+    padding:5px;
+  }
+  
+  .adresse,.tel,.mail,.web,.skype
+  {
+    padding-left:10px;
+  }
+}
+
+/* TABLETTES */
+
+@media all and (max-device-width: 768px)
 {
   
   .container 
@@ -238,10 +421,11 @@ LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
     display:flex;
     flex-direction: column-reverse;  /*RUBAN EST MIS EN BAS AVEC COLUMN-REVERSE*/
     margin: 0px;
+    padding:0px;
     width: auto;
   }
 
-  /*PARTIE BLEUE CONTENU*/
+  /* REORGANISATION PARTIE BLEUE CONTENU */
   .contenu
   {
     width:100%;
@@ -251,18 +435,8 @@ LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
     display:flex;
     justify-content:center;
   }
-    
-  .date-intitule
-  {
-    margin-left:none;
-  }
-
-  .intitule
-  {
-    margin-right:10px;
-    margin-left:10px;
-  }
-
+  
+  /*DISPARITION DES ESPACES ET DES MARGES*/
   .espace1
   {
     display:none
@@ -284,14 +458,15 @@ LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
   }
    
    
-  /*REORGANISATION RUBAN GRIS | DISPARITION DE PIC*/
+  /* REORGANISATION RUBAN GRIS */
   #ruban
   {
     display:flex;
     width:100%;
     flex-direction: column;
   }
-   
+
+  /*DISPARITION DE PIC */
   #ruban .pic
   { 
     display:none;
@@ -308,16 +483,26 @@ LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
   .contact
   {
     display: flex;
-    margin-left:10px;
   }
    
   .space-contact
   {
     width:25px;
   }
-     
+  
+  .loisir
+  {
+    margin-bottom:15px;
+  }
+
+  .adresse
+  {
+    padding-left:5px;
+  }
    
-  /* RESTRUCTURATION TITRES | POLICE | SOUS-TITRE | ICONES | PUCES | MARGES*/
+  /* MODIFICATIONS TITRES | POLICE | SOUS-TITRE | ICONES | PUCES | MARGES*/
+
+  /*BAISSE DE LA TAILLE DE POLICE TITRES ET PARAGRAPHES*/
   h1 
   {
     text-align: center;
@@ -344,32 +529,26 @@ LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
    
   p
   {
-    font-size: 12px;
+    font-size: 15px;
   }
-    
+   
+  /*ICONES GRAPHIQUES*/
   .icon1 h2::before
   {
     padding-right: 5px;
-    margin-left: 5px;
   }
    
   .icon2 h2::before
   {
    padding-right: 5px;
-   margin-left: 5px;
   }
    
   .icon3 h2::before
   {
     padding-right: 5px;
-    margin-left: 5px;
   }
-    
-  .date-actual p::before,.date-past p::before
-  {
-    margin-left:10px;
-  }
-   
+
+ /*STRUCTURE DES BLOCS DANS LES ARTICLES */
   .date-actual,.date-past
   {
     width:100%;
@@ -378,22 +557,20 @@ LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
   .intitule 
   {
    width: 100%;
-   margin-left: 5px;
   }
    
   .recommandation
   {
     display: flex;
-    margin-left:10px;
   }
-   
+  
 }
  
 
-/* TABLETTES ECRANS MOYENS: INTERVALLE [768px-1024px]*/
-@media only screen and (min-width: 768px) and (max-device-width:1024px) {
+/*ECRANS LAPTOP S M ET L*/
+@media only screen and (min-width: 769px) 
  
-  .container
+  {.container
   { 
     width:100%;
     height:auto;
@@ -417,69 +594,24 @@ LES TEXTES DES DATES DEBORDENT SUR LES TEXTES DES INTITULES*/
   .icon2 h2::before
   {
     padding-right: 5px;
-    margin-left: 10px;
+   
   }
  
   .icon3 h2::before
   {
     padding-right: 5px;
-   margin-left: 10px;
-  }
    
-  .date-actual p::before,.date-past p::before
-  {
-   margin-left:0px;
   }
- 
-  .recommandation
-  {
-    margin-left:10px;
-  }
-
   .espace-apropos
   {
-    height:150px ;
+    height:200px;
   }
- 
-  /*.espace2
-  {
-   display:none
-  }
-  .espace3
-  {
-    height:150px;
-  }
- 
- */
+ .espace1,.espace2,.espace3
+ {
+  height:0px;
+ }
+
 } 
 
- 
-/*ECRAN DE PLUS DE 1024 PX INTERVALLE [1024;=>[*/
-@media screen and (min-width: 1024px) 
-{
-  .container
-  {
-    width:auto;
-    height:auto;
-    margin:auto;
-  }
- 
-  .ruban
-  {
-    width:30%;
-  }
-  .contenu
-  {
-    width:70%;
-  }
-  .contact
-  {
-    padding:10px;
-  }
-  .espace2
-  {
-    height: 50px;
-  }
-}
  
  

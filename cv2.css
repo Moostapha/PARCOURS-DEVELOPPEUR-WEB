@@ -374,7 +374,6 @@ hr.surlignement
   h3 
   {
     font-size:15px;
-    margin-block-start: 0px;
   }
    
   p
@@ -524,7 +523,7 @@ hr.surlignement
   h3 
   {
     font-size:20px;
-    margin-block-start: 0px;
+    
   }
    
   p

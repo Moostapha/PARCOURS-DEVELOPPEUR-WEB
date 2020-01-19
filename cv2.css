@@ -374,6 +374,7 @@ hr.surlignement
   h3 
   {
     font-size:15px;
+    
   }
    
   p
@@ -566,7 +567,7 @@ hr.surlignement
 }
  
 
-/*ECRANS LAPTOP S M ET L*/
+/*ECRANS LAPTOP M ET L*/
 @media only screen and (min-width: 769px) 
  
   {.container
@@ -603,7 +604,7 @@ hr.surlignement
   }
   .espace-apropos
   {
-    height:200px;
+    height:236px;
   }
  .espace1,.espace2,.espace3
  {

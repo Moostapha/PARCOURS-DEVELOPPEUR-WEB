@@ -34,12 +34,38 @@ h3+p
   padding:10px;
 }
 
+.espace-ruban
+{
+ height: 20px;
+}
 
 .loisir
 { 
   margin-bottom: 10px;
   color: deepskyblue;
   text-align: center;
+}
+
+/*ARRONDI/COULEUR ARRONDI DES ICONES LOISIR*/
+.fa.fa-guitar.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-book.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-dumbbell.fa-2x.fa-pull-center.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-basketball-ball.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
 }
 
 
@@ -62,7 +88,11 @@ h1
   font-size: 25px;
   
 }
-
+.souligner
+{
+  border-bottom:2px solid deepskyblue;
+  
+}
 .prenom
 {
  color: deepskyblue;
@@ -71,6 +101,12 @@ h1
 /* 1) PARTIE FORMATION ET EXPERIENCE =========================*/
 
 /* a) Structuration des dates et intitules*/
+
+hr.surlignement
+{
+  border: 1px solid;
+ border-style: inset;
+}
 
 .date-intitule
 { 
@@ -181,11 +217,10 @@ h1
    width:100%;
    position:absolute;
    margin: auto;
-   padding: auto;
  }
 
-.pic
-  {
+ .pic
+  { 
     padding-top: 20px;
   }
   
@@ -267,7 +302,7 @@ h1
 @media only screen and (max-width: 768px) {
 
   .container
- {
+ { 
    width:100%;
  }
 
@@ -311,9 +346,6 @@ h1
 } 
 
 
-
-
-
 /*si largeur ecran ne depasse pas 1024px*/
 
 @media screen and (max-width: 1024px) 
@@ -322,7 +354,7 @@ h1
   {
     width: 100%;
     margin: auto;
-    padding: auto;
+    
   }
   .ruban
   {

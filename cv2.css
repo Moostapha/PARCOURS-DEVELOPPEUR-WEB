@@ -33,7 +33,7 @@ body
 h3
 { 
   text-align: center;
-  font-size:27px ;
+  font-size:25px ;
   color: darkcyan;
   background-color: darkgrey;
 }
@@ -604,7 +604,7 @@ hr.surlignement
   }
   .espace-apropos
   {
-    height:232px;
+    height:400px;
   }
  .espace1,.espace2,.espace3
  {

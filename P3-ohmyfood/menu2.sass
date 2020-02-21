@@ -1,0 +1,134 @@
+//STYLE DU "CHIC A LA FRANCAISE"
+$policeheader-footer-titre: 'Bai Jamjuree';
+$police-heading2: 'Times New Roman';
+$police-sub2: 'Times New Roman';
+$fond-menu2: #fff5fe; 
+$color-police-entree: #d8852e;
+$color-police-resistance: #c4786b;
+$color-police-dessert: #ac6baf;
+$widthLigneStyle1: 90%;
+$widthLigneStyle2: 300px;
+$widthLigneStyle3: 250px;
+
+
+//mixin body et html
+@mixin body-html($police-sub,$fond-menu)
+    height: 100%
+    padding: 0px
+    margin: 0px
+    font-family: $police-sub
+    font-size: 24px
+    background-color: $fond-menu
+    width: auto
+
+body,html
+    @include body-html($police-sub2,$fond-menu2)
+
+//titre du menu en dehors de la carte
+@mixin nom-du-menu($police-head)
+   display: flex
+   justify-content: center
+   h1 
+     font-size: 40px
+     font-family: $policeheader-footer-titre
+     margin: 0px
+     padding: 10px
+
+.nom-menu
+ @include nom-du-menu($police-heading2)
+
+//Nom du menu dans le container
+@mixin titre-menu($police-heading,$color1,$color2,$color3)
+ display: flex
+ flex-direction: column
+ text-align: center
+ padding: 20px
+ background-image: linear-gradient(to right, $color1, $color2, $color3)
+ -webkit-background-clip: text
+ color: transparent
+ font-family: $police-heading
+ font-size: 24px
+ padding-bottom: 60px
+ h1 
+    margin: 0px
+    font-weight: bold
+    font-size: 60px
+
+.head-menu
+ @include titre-menu($police-heading2,$color-police-entree, $color-police-resistance, $color-police-dessert)
+ 
+    
+@mixin container($fond-menu)
+    width: auto //en mettant auto j'evite hor.scroll
+    height: 1100px
+    background-color: $fond-menu
+    margin: auto
+    margin-bottom: 70px
+    padding: 0px 100px
+    h2 
+     text-align: center
+     margin: 0px
+     font-weight: unset
+
+.container
+ @include container($fond-menu2)
+
+//STYLE DES LIGNES DES TITRES-PLATS. CHAQUE LIGNE A UNE COULEUR DIFFERENTE !!! 
+@mixin style-titre($color, $width)
+    display: flex
+    justify-self: stretch //ou auto
+    h2 
+     margin: -5px
+     cursor: pointer
+     position: relative
+     &::after
+         content: ""
+         display: block
+         position: absolute //positionnement par rapport à h2
+         bottom: 0
+         left: 0
+         height: 2px
+         width: 0px
+         background-color: $color
+         transition: width 600ms ease 0s
+     &:hover::after
+         left: 0
+         width: 100%
+    hr.ligne
+     border: 0px
+     height: 7px
+     width: $width
+     background-color: $color
+     border-radius: 0% 2% 5% 0%
+
+    
+
+.style-titre1--menu2
+    @include style-titre($color-police-entree, $widthLigneStyle1)
+
+.style-titre2--menu2
+    @include style-titre($color-police-resistance, $widthLigneStyle2)
+    
+.style-titre3--menu2
+    @include style-titre($color-police-dessert, $widthLigneStyle3)
+    
+@mixin liste
+ul 
+ list-style: none
+ display: flex
+ flex-direction: column
+ padding: 0px 30px
+li
+ display: flex
+ justify-content: space-between
+
+ul,li 
+    @include liste
+
+.entrees
+    color: $color-police-entree 
+.resistance
+    color: $color-police-resistance 
+.dessert
+    color: $color-police-dessert  
+   

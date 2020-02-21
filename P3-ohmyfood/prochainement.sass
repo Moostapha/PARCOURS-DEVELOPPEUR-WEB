@@ -1,0 +1,46 @@
+$police: 'Bai Jamjuree';
+$fond-main: #ffffff;
+$yellow: #fdcb46;
+$green: #579c87;
+
+@mixin body-html($police,$fond-color-menu)
+    height: 100%
+    padding: 0px
+    margin: 0px
+    font-family: $police
+    font-size: 24px
+    background-color: $fond-color-menu
+
+@mixin main($fond-menu)
+    width: 1000px
+    height: 1000px
+    background-color: $fond-menu
+    margin: auto
+    margin-bottom: 70px
+    padding: 50px
+    text-align: center
+    margin-top: 50px
+    h1 
+        margin: 0px
+        text-align: center
+    h2
+        color: $yellow
+    
+
+@mixin liste
+ul 
+ list-style: none
+ display: flex
+ flex-direction: column
+li
+ //display: flex
+// justify-content: space-between
+
+ul,li 
+    @include liste
+
+body,html
+    @include body-html($police,$fond-main)
+
+.container
+    @include main($green) 

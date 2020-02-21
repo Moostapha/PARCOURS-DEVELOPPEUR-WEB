@@ -1,0 +1,64 @@
+$yellow: rgb(253,203,70);
+$green: rgb(87,156,135);
+    
+.header
+ padding-top: 0px
+ height: 100px
+ width: 100%
+ background-color: $green
+ &__heading
+     color: $yellow
+     text-align: center
+     margin: 0px
+     padding-top: 13px
+     font-size: 55px
+     font-weight: bold
+     font-family: Bai Jamjuree
+
+// FOOTER ACCUEIL
+.foot
+ display: flex
+ justify-content: space-between
+ text-align: center
+ height: 30px
+ //width:auto
+ background-color: $green
+ padding: 20px
+ position: fixed
+ bottom: 0
+ width: 100%
+ 
+ &__heading
+     margin: 0px
+     color: $yellow
+     font-size: 30px
+     cursor: pointer
+     font-family: Bai Jamjuree
+
+//ANIMATION WIGGLE SUR MENTIONS LEGALES ET CONTACTER NOUS DU FOOTER
+@keyframes wiggle
+ 0%
+     transform: rotate(0deg)
+ 25%
+     transform: rotate(3deg)
+ 50%
+     transform: rotate(0deg)
+ 75%
+     transform: rotate(-4deg)
+ 100%
+     transform: rotate(0deg)
+     
+.foot__heading
+  &:hover
+     animation: wiggle .2s infinite 
+
+//Media queries du footer pour mobiles
+
+
+
+
+
+
+
+
+    

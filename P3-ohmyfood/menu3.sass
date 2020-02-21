@@ -1,0 +1,132 @@
+// STYLE DU MENU "LE DELICE DES PAPILLES"
+    
+$policeheader-footer-titre: 'Bai Jamjuree';
+$police-heading3: 'Alex Brush';
+$police-sub3: 'Exo';
+$fond-menu3: rgb(255,249,249); 
+$color1--menu3: rgb(4,49,223);
+$color2--menu3: rgb(52,110,236);
+$color3--menu3: rgb(188,219,249);
+$widthLigne1--menu3: 250px ;
+$widthLigne2--menu3: 270px ;
+$widthLigne3--menu3: 270px;
+
+
+//mixin body et html
+@mixin body-html($police-sub,$fond-menu)
+    height: 100%
+    padding: 0px
+    margin: 0px
+    font-family: $police-sub
+    font-size: 24px
+    background-color: $fond-menu
+    width: auto // EVITE LE SCROLL HORIZONTAL !!!
+
+body,html
+    @include body-html($police-sub3,$fond-menu3)
+
+// Nom du menu en dehors de la carte (sous le footer)
+@mixin nom-du-menu($police-head)
+   display: flex
+   justify-content: center
+   h1 
+     font-size: 40px
+     font-family: $police-head
+     margin: 5px
+     padding: 10px
+
+.nom-menu
+ @include nom-du-menu($policeheader-footer-titre)
+
+@mixin titre-menu($police-heading,$color1,$color2,$color3)
+ display: flex
+ flex-direction: column
+ text-align: center
+ padding: 20px
+ background-image: linear-gradient(to right, $color1--menu3, $color2--menu3, $color3--menu3)
+ -webkit-background-clip: text
+ color: transparent
+ font-family: $police-heading
+ padding-bottom: 60px
+ h1 
+     font-size: 100px
+     margin: 0px
+     font-weight: bold
+
+.head-menu
+ @include titre-menu($police-heading3, $color1--menu3, $color2--menu3, $color3--menu3)
+ 
+    
+@mixin container($fond-menu)
+    width: auto //en mettant auto, j'evite scroll hor.
+    height: 1200px
+    background-color: $fond-menu
+    margin: auto
+    margin-bottom: 70px
+    padding: 0px 100px
+    h2 
+        font-weight: unset
+        margin: 0px
+        text-align: center
+
+.container 
+ @include container($fond-menu3)
+
+//STYLE DES LIGNES DES TITRES-PLATS. CHAQUE LIGNE A UNE COULEUR DIFFERENTE !!!
+@mixin style-titre($color, $width)
+    display: flex
+    justify-self: stretch
+    h2 
+     cursor: pointer
+     position: relative
+     &::after
+         content: ""
+         display: block
+         position: absolute
+         bottom: 0
+         left: 0
+         height: 2px
+         background-color: $color1--menu3
+         width: 0
+         transition: width 600ms ease 0s
+     &:hover::after
+         left: 0
+         width: 100%
+    hr.ligne
+     border: 0px
+     height: 10px
+     width: $width
+     background-color: $color
+     margin: auto
+   
+     
+ 
+.style-titre1--menu3
+    @include style-titre($color1--menu3, $widthLigne1--menu3)
+
+.style-titre2--menu3
+    @include style-titre($color2--menu3, $widthLigne2--menu3 )
+
+.style-titre3--menu3
+    @include style-titre($color3--menu3, $widthLigne3--menu3)
+
+@mixin liste
+ul 
+ list-style: none
+ display: flex
+ flex-direction: column
+ padding: 0px 20px
+li
+ display: flex
+ justify-content: space-between
+
+ul,li 
+    @include liste  
+
+    
+
+/*BORDS POINTUS DE MES LIGNES
+    h2:before
+        border-radius: 20% 0% 0% 500%
+     h2:after
+        border-radius: 0% 20% 500% 0%*/

@@ -1,0 +1,165 @@
+body, html {
+  font-size: 20px;
+}
+
+.container {
+  margin: 2px 0px 100px;
+  padding: 5px;
+}
+
+.container h2 {
+  font-size: 24px;
+}
+
+.nom-menu h1 {
+  font-size: 35px;
+}
+
+.head-menu h1 {
+  font-size: 55px;
+}
+
+.style-titre hr.ligne {
+  height: 2px;
+}
+
+ul {
+  padding: 0px;
+}
+
+.head-menu .fas.fa-music {
+  font-size: 75px;
+}
+
+.style-titre hr.ligne {
+  width: 160px;
+}
+
+.pied-de-page .fas.fa-music {
+  font-size: 60px;
+}
+
+.style-titre1--menu2 hr.ligne {
+  width: 112px;
+  background-color: #d8852e;
+}
+
+.style-titre2--menu2 hr.ligne {
+  width: 112px;
+  background-color: #c4786b;
+}
+
+.style-titre3--menu2 hr.ligne {
+  width: 112px;
+  background-color: #ac6baf;
+}
+
+.style-titre1--menu3 hr.ligne {
+  width: 112px;
+  background-color: #0431df;
+}
+
+.style-titre2--menu3 hr.ligne {
+  width: 112px;
+  background-color: #346eec;
+}
+
+.style-titre3--menu3 hr.ligne {
+  width: 112px;
+  background-color: #bcdbf9;
+}
+
+.container {
+  margin: 0px;
+  padding: 0px;
+}
+
+.container h2 {
+  font-size: 25px;
+}
+
+.main-accueil {
+  padding: 0px;
+  margin: 0px;
+}
+
+.les-menus {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  display-flex-wrap: wrap;
+  display-text-align: center;
+  display-justify-content: space-between;
+  display-padding-top: 20px;
+}
+
+.menu {
+  width: 45%;
+  height: 250px;
+}
+
+.zoom-fondu:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+}
+
+.menu--noteEnchantee {
+  margin-bottom: 5px;
+}
+
+.fas.fa-music {
+  font-size: 30px;
+}
+
+.menu--chicALaFrancaise {
+  margin-bottom: 5px;
+}
+
+.menu--chicALaFrancaise__heading {
+  font-size: 40px;
+}
+
+.menu--chicALaFrancaise__sub {
+  font-size: 25px;
+}
+
+.menu--delicesDesPapilles {
+  margin-bottom: 5px;
+}
+
+.menu--delicesDesPapilles__heading {
+  font-size: 40px;
+}
+
+.menu--delicesDesPapilles__sub {
+  font-size: 25px;
+}
+
+.menu--paletteDuGout {
+  margin-bottom: 5px;
+}
+
+.menu--paletteDuGout__heading {
+  font-size: 40px;
+}
+
+.menu--paletteDuGout__sub {
+  font-size: 25px;
+}
+
+.btn {
+  width: 167px;
+  margin-top: 10px;
+  padding: 20px;
+  height: 25px;
+}
+
+.btn .pointilles {
+  font-size: 20px;
+  margin-left: 4px;
+}
+
+.btn h1 {
+  font-size: 20px;
+}
+/*# sourceMappingURL=responsive-smartphoneTabletPaysage-tabletPortrait.css.map */

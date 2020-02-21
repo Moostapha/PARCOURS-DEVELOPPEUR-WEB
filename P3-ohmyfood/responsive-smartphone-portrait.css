@@ -1,0 +1,188 @@
+body, html {
+  font-size: 16px;
+}
+
+.container {
+  margin: 2px 0px 100px;
+  padding: 5px;
+}
+
+.container h2 {
+  font-size: 20px;
+}
+
+.nom-menu h1 {
+  font-size: 20px;
+}
+
+.head-menu {
+  padding: 0px;
+  margin: 0px;
+}
+
+.head-menu h1 {
+  font-size: 34px;
+}
+
+ul {
+  padding: 0px;
+}
+
+.head-menu .fas.fa-music {
+  font-size: 60px;
+}
+
+.style-titre {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-self: stretch;
+}
+
+.style-titre hr.ligne {
+  height: 1px;
+  width: 85px;
+}
+
+.pied-de-page .fas.fa-music {
+  font-size: 50px;
+}
+
+.head-menu {
+  padding-bottom: 20px;
+}
+
+.style-titre1--menu2 hr.ligne {
+  height: 1px;
+  width: 40px;
+  background-color: #d8852e;
+}
+
+.style-titre2--menu2 hr.ligne {
+  height: 1px;
+  width: 40px;
+  background-color: #c4786b;
+}
+
+.style-titre3--menu2 hr.ligne {
+  height: 1px;
+  width: 40px;
+  background-color: #ac6baf;
+}
+
+.style-titre1--menu3 hr.ligne {
+  height: 1px;
+  width: 40px;
+  background-color: #0431df;
+}
+
+.style-titre2--menu3 hr.ligne {
+  height: 1px;
+  width: 40px;
+  background-color: #346eec;
+}
+
+.style-titre3--menu3 hr.ligne {
+  height: 1px;
+  width: 40px;
+  background-color: #bcdbf9;
+}
+
+.style-titre hr.ligne {
+  width: 40px;
+}
+
+.container {
+  margin: 0px;
+  padding: 0px;
+}
+
+.container h2 {
+  font-size: 25px;
+}
+
+.main-accueil {
+  padding: 0px;
+  margin: 0px;
+}
+
+.les-menus {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.menu {
+  width: 100%;
+  height: 220px;
+}
+
+.zoom-fondu:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+}
+
+.menu--noteEnchantee {
+  margin-bottom: 5px;
+}
+
+.fas.fa-music {
+  font-size: 30px;
+}
+
+.menu--chicALaFrancaise {
+  margin-bottom: 5px;
+}
+
+.menu--chicALaFrancaise__heading {
+  font-size: 35px;
+}
+
+.menu--chicALaFrancaise__sub {
+  font-size: 20px;
+}
+
+.menu--delicesDesPapilles {
+  margin-bottom: 5px;
+}
+
+.menu--delicesDesPapilles__heading {
+  font-size: 35px;
+}
+
+.menu--delicesDesPapilles__sub {
+  font-size: 20px;
+}
+
+.menu--paletteDuGout {
+  margin-bottom: 5px;
+}
+
+.menu--paletteDuGout__heading {
+  font-size: 35px;
+}
+
+.menu--paletteDuGout__sub {
+  font-size: 20px;
+}
+
+.btn {
+  width: 167px;
+  margin-top: 10px;
+  padding: 20px;
+  height: 25px;
+}
+
+.btn .pointilles {
+  font-size: 20px;
+  margin-left: 4px;
+}
+
+.btn h1 {
+  font-size: 20px;
+}
+/*# sourceMappingURL=responsive-smartphone-portrait.css.map */

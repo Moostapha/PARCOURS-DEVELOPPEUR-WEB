@@ -1,0 +1,154 @@
+.style-titre--animation {
+  text-decoration: none;
+  opacity: 1;
+  -webkit-transition: -webkit-transform 0.75s, -webkit-text-decoration 1s;
+  transition: -webkit-transform 0.75s, -webkit-text-decoration 1s;
+  transition: transform 0.75s, text-decoration 1s;
+  transition: transform 0.75s, text-decoration 1s, -webkit-transform 0.75s, -webkit-text-decoration 1s;
+  -webkit-text-decoration: 2px solid black;
+          text-decoration: 2px solid black;
+  opacity: 0.9;
+}
+
+body, html {
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Zhi Mang Xing';
+  font-size: 24px;
+  width: auto;
+}
+
+.nom-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.nom-menu h1 {
+  font-size: 40px;
+  font-family: "Bai Jamjuree";
+  margin: 5px;
+  padding: 10px;
+}
+
+.head-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.head-menu .fas.fa-music {
+  font-size: 100px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f16364), to(#f6916a));
+  background-image: linear-gradient(to right, #f16364, #f6916a);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.head-menu h1 {
+  font-weight: bold;
+  margin: 0px;
+}
+
+.container {
+  width: auto;
+  background-color: #fcdfdb;
+  margin: 50px 50px 200px;
+  padding: 50px;
+  -webkit-box-shadow: 10px 10px 5px #ededed;
+          box-shadow: 10px 10px 5px #ededed;
+}
+
+.style-titre {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-self: stretch;
+}
+
+.style-titre hr.ligne {
+  border: 0px;
+  height: 10px;
+  width: 350px;
+  background-color: black;
+  border-radius: 5px;
+  margin: auto;
+}
+
+.style-titre h2 {
+  font-weight: unset;
+  margin: 0px;
+  cursor: pointer;
+  position: relative;
+}
+
+.style-titre h2::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background-color: black;
+  width: 0;
+  -webkit-transition: width 600ms ease 0s;
+  transition: width 600ms ease 0s;
+}
+
+.style-titre h2:hover::after {
+  left: 0;
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 0px 30px;
+}
+
+li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.pied-de-page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 20px;
+}
+
+.pied-de-page .fas.fa-music {
+  font-size: 50px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f16364), to(#f6916a));
+  background-image: linear-gradient(to right, #f16364, #f6916a);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.pied-de-page h2 {
+  margin: 10px;
+}
+/*# sourceMappingURL=menu1.css.map */

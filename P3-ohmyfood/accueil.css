@@ -1,0 +1,308 @@
+body, html {
+  margin: 0px;
+  padding: 0px;
+  width: auto;
+}
+
+.header {
+  padding-top: 0px;
+  height: 100px;
+  width: auto;
+  background-color: #579c87;
+}
+
+.header__heading {
+  color: #fdcb46;
+  text-align: center;
+  margin: 0px;
+  padding-top: 13px;
+  font-size: 55px;
+  font-weight: bold;
+  font-family: Bai Jamjuree;
+}
+
+.main-accueil {
+  padding: 15px 50px;
+}
+
+.les-menus {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  text-align: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding-top: 20px;
+}
+
+.menu {
+  height: 500px;
+  width: 45%;
+  -webkit-box-shadow: 10px 5px 5px #ededed;
+          box-shadow: 10px 5px 5px #ededed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.menu__heading {
+  font-family: 'Zhi Mang Xing';
+  font-size: 37px;
+  margin: 0px;
+}
+
+.menu__sub {
+  font-family: 'Caveat';
+  font-size: 35px;
+  margin: 10px;
+}
+
+.zoom-fondu {
+  opacity: 1;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: background-color 700ms 150ms, -webkit-transform 600ms;
+  transition: background-color 700ms 150ms, -webkit-transform 600ms;
+  transition: transform 600ms, background-color 700ms 150ms;
+  transition: transform 600ms, background-color 700ms 150ms, -webkit-transform 600ms;
+}
+
+.zoom-fondu:hover {
+  -webkit-transform: scale(1.4);
+          transform: scale(1.4);
+  opacity: 0.7;
+}
+
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  75% {
+    -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  75% {
+    -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+
+.foot__heading:hover {
+  -webkit-animation: wiggle .2s infinite;
+          animation: wiggle .2s infinite;
+}
+
+.menu--noteEnchantee {
+  margin-bottom: 40px;
+  background-color: #fcdfdb;
+}
+
+.menu--noteEnchantee__heading {
+  font-family: 'Zhi Mang Xing';
+  font-size: 37px;
+  margin: 0px;
+}
+
+.menu--noteEnchantee__sub {
+  font-family: 'Caveat';
+  font-size: 35px;
+  margin: 10px;
+}
+
+.menu--noteEnchantee .fas.fa-music {
+  color: pink;
+  font-size: 60px;
+  padding: 10px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f16364), to(#f6916a));
+  background-image: linear-gradient(to right, #f16364, #f6916a);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.menu--chicALaFrancaise {
+  background-color: #fff5fe;
+}
+
+.menu--chicALaFrancaise__heading {
+  font-size: 37px;
+  margin: 0px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#d8852e), color-stop(#c4786b), to(#ac6baf));
+  background-image: linear-gradient(to right, #d8852e, #c4786b, #ac6baf);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.menu--chicALaFrancaise__sub {
+  font-size: 35px;
+  color: #c77412;
+}
+
+.menu--delicesDesPapilles {
+  background-color: #fff9f9;
+}
+
+.menu--delicesDesPapilles__heading {
+  font-size: 37px;
+  font-family: 'Alex Brush';
+  margin: 0px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#0431df), color-stop(#346eec), to(#bcdbf9));
+  background-image: linear-gradient(to right, #0431df, #346eec, #bcdbf9);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.menu--delicesDesPapilles__sub {
+  font-family: 'Exo';
+  font-size: 35px;
+  color: #0887fb;
+}
+
+.menu--paletteDuGout {
+  background-color: #fdfffd;
+}
+
+.menu--paletteDuGout__heading {
+  font-family: 'Allura';
+  font-size: 37px;
+  margin: 0px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#42973c), color-stop(#81cc5e), color-stop(#9be16c), to(#caf8a4));
+  background-image: linear-gradient(to right, #42973c, #81cc5e, #9be16c, #caf8a4);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.menu--paletteDuGout__sub {
+  font-family: 'Exo';
+  font-size: 35px;
+  color: #72bf56;
+}
+
+.btn {
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 80px;
+  padding: 10px;
+  background: #579c87;
+  color: #fdcb46;
+  width: 325px;
+  height: 50px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: Bai Jamjuree;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.btn .pointilles {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.btn h1 {
+  text-align: center;
+  font-size: 40px;
+  margin: 0px;
+}
+
+@-webkit-keyframes animerBoutonPoint {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animerBoutonPoint {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pointilles > .point1 {
+  -webkit-animation: animerBoutonPoint 2.4s infinite;
+          animation: animerBoutonPoint 2.4s infinite;
+}
+
+.pointilles > .point2 {
+  -webkit-animation: animerBoutonPoint 2.5s infinite;
+          animation: animerBoutonPoint 2.5s infinite;
+}
+
+.pointilles > .point3 {
+  -webkit-animation: animerBoutonPoint 2.6s infinite;
+          animation: animerBoutonPoint 2.6s infinite;
+}
+
+.foot {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: center;
+  height: 30px;
+  background-color: #579c87;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.foot__heading {
+  margin: 0px;
+  color: #fdcb46;
+  font-size: 30px;
+  cursor: pointer;
+  font-family: Bai Jamjuree;
+}
+/*# sourceMappingURL=accueil.css.map */

@@ -1,0 +1,111 @@
+//STYLE DE LA NOTE ENCHANTEE
+//VARIABLES COULEUR DE TITRE ET COULEUR DE FOND POUR HEADER ET FOOTER
+$yellow: rgb(253,203,70);
+$green: rgb(87,156,135);
+$fond-menu1: rgb(252,223,219);
+//VARIABLE POUR L'OMBRE DE .CONTAINER/BOX-SHADOW CONTENU DANS FOOTER-HEADER.CSS/SASS
+$menu-ombre: rgb(237,237,237);
+$dureeTransitionSouligner: 0.75s;
+$delayOpacity: 1s;
+
+// ANIMATION DE MES TITRES H2 DES 4 MENUS var a preciser au dessus de cette ligne
+@mixin style-titre--animation($dureeTransitionSouligner,$delayOpacity)
+ text-decoration: none
+ opacity: 1
+ transition: transform $dureeTransitionSouligner, text-decoration $delayOpacity
+ &:hover
+ text-decoration: 2px solid black
+ opacity: 0.9
+
+.style-titre--animation
+    @include style-titre--animation($dureeTransitionSouligner,$delayOpacity)
+
+body, html
+    //height: 100%
+    padding: 0px
+    margin: 0px
+    font-family: 'Zhi Mang Xing'
+    font-size: 24px
+    width: auto     //TRES IMPORTANT POUR ELIMINER LE SCROLL HORIZONTAL !!!!!
+ 
+.nom-menu
+    display: flex
+    justify-content: center
+    h1 
+      font-size: 40px
+      font-family: "Bai Jamjuree"
+      margin: 5px
+      padding: 10px
+.head-menu
+    display: flex
+    flex-direction: column
+    text-align: center
+    padding: 20px
+    .fas.fa-music
+        font-size: 100px
+        background-image: linear-gradient(to right, rgb(241,99,100), rgb(246,145,106) )
+        -webkit-background-clip: text
+        color: transparent
+    h1  
+        font-weight: bold
+        margin: 0px
+
+.container
+    width: auto //EVITEMENT SCROLL HORIZONTAL !!!!
+    background-color: $fond-menu1
+    margin: 50px 50px 200px     // mes bordures blanches autour de fond-menu
+    padding: 50px
+    box-shadow: 10px 10px 5px $menu-ombre
+
+//style-titre avec PSEUDO CLASSE => HR/H2
+.style-titre
+    display: flex
+    justify-self: stretch
+    hr.ligne
+     border: 0px
+     height: 10px
+     width: 350px
+     background-color: black
+     border-radius: 5px
+     margin: auto
+    h2 
+     font-weight: unset //j'ai du le rajouter a cause de h1
+     margin: 0px
+     cursor: pointer
+     position: relative
+     &::after
+         content: ""
+         display: block
+         position: absolute
+         bottom: 0
+         left: 0
+         height: 2px
+         background-color: black
+         width: 0
+         transition: width 600ms ease 0s
+     &:hover::after
+         left: 0
+         width: 100%
+    
+    
+ul 
+ list-style: none
+ display: flex
+ flex-direction: column
+ padding: 0px 30px
+li
+ display: flex
+ justify-content: space-between
+
+.pied-de-page
+    display: flex
+    justify-content: center
+    padding: 20px
+    .fas.fa-music
+        font-size: 50px
+        background-image: linear-gradient(to right, rgb(241,99,100), rgb(246,145,106) )
+        -webkit-background-clip: text
+        color: transparent
+    h2 
+        margin: 10px
+    

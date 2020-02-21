@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACA,AACE,KADG,CACH,cAAc,CAAC;EACb,SAAS,EAAE,IAAI;CAAG",
+    "sources": [
+        "footer-header-mobile.sass"
+    ],
+    "names": [],
+    "file": "footer-header-mobile.css"
+}

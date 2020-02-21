@@ -1,0 +1,171 @@
+//REGLE RESPONSIVE NOTE ENCHANTEE POUR SMARTPHONE | SMALLTABLETTE paysage ET BIGTABLETTE portrait
+
+@media screen and (min-width:480px) and (max-width:1024px)
+
+//MES VARIABLES FONT-SIZE | PADDING | LONGUEUR DES LIGNES TITRE
+//VARIABLES BASE GENERALE
+$taillePolice-Body: 20px;
+$padding-container: 12px;
+$titreMenuSousHeaderh1: 35px;
+$titreMenuh1: 55px;
+$titreCategorieMenuh2: 24px;
+$widthLigne--titreh2: 112px;
+
+//VAR MENU1 la note enchantée
+$tailleIconeMusicHead: 75px;
+$tailleIconeMusicFoot: 60px;
+$widthLigne--menu1: 160px;
+
+//VARIABLES MENU2 le chic à la française
+$color-police-entree--menu2: #d8852e;
+$color-police-resistance--menu2: #c4786b;
+$color-police-dessert--menu2: #ac6baf;
+
+//VARIABLES MENU3 délice des papilles
+$color1--menu3: rgb(4,49,223);
+$color2--menu3: rgb(52,110,236);
+$color3--menu3: rgb(188,219,249);
+
+//VARIABLES MENU4
+
+//VARIABLES FONTSIZE DE LA PAGE D'ACCUEIL
+$sizeMenuTitle: 40px;
+$sizePoliceDeMenu: 25px
+
+
+//RESPONSIVE DE BASE
+body, html
+    font-size: $taillePolice-Body
+
+.container
+  margin: 2px 0px 100px
+  padding: 5px
+  h2 
+    font-size: $titreCategorieMenuh2 
+     
+//Nom menu en dessous de header
+.nom-menu
+  h1 
+    font-size: $titreMenuSousHeaderh1
+      
+//Nom menu dans le corps de la carte
+.head-menu
+ h1 
+    font-size: $titreMenuh1
+//Hauteur des lignes de titre h2 
+.style-titre
+  hr.ligne
+    height: 2px
+//Marge des ul
+ul 
+ padding: 0px
+
+//RESPONSIVE MENU 1 => La note enchantée     
+//Nom menu  dans le corps de la carte
+.head-menu
+  .fas.fa-music
+    font-size: $tailleIconeMusicHead
+  
+//Lignes autour de h2
+.style-titre
+    hr.ligne
+     width: $widthLigne--menu1
+//Icone music et titre "la note enchantée en bas de page"
+.pied-de-page
+  .fas.fa-music
+    font-size: $tailleIconeMusicFoot
+     
+// MIXIN DES LIGNES POUR LES 3 AUTRES MENUS
+@mixin style-titre($color)
+  hr.ligne 
+    width: $widthLigne--titreh2
+    background-color: $color
+
+// RESPONSIVE MENU2 => Chic à la française
+//Lignes autour de h2    
+.style-titre1--menu2
+  @include style-titre($color-police-entree--menu2)
+.style-titre2--menu2
+  @include style-titre($color-police-resistance--menu2)
+.style-titre3--menu2
+  @include style-titre($color-police-dessert--menu2)
+
+//RESPONSIVE MENU3 => délice des papilles
+//Lignes autour de h2 pour menu3
+.style-titre1--menu3
+  @include style-titre($color1--menu3)
+.style-titre2--menu3
+  @include style-titre($color2--menu3)
+.style-titre3--menu3
+  @include style-titre($color3--menu3)
+
+//RESPONSIVE MENU4 =>
+
+//RESPONSIVE PAGE D'ACCUEIL
+//STRUCTURE DE BASE
+.container
+  margin: 0px
+  padding: 0px
+  h2 
+    font-size: 25px
+
+.main-accueil
+  padding: 0px
+  margin: 0px
+
+//disposition des cartes comme sur le maquette
+.les-menus
+  display: flex
+   flex-wrap: wrap
+   text-align: center
+   justify-content: space-between
+   padding-top: 20px
+  
+//Dimensions des 4 cartes
+.menu
+  width: 45%
+  height: 250px
+
+//Modification grossissement sur zoom-fondu pour les 4 menus
+.zoom-fondu
+  &:hover
+    transform: scale(1.2)
+
+// LES 4 MENUS:REDIMENSION DES FONT-SIZES | Marges | Icônes 
+.menu--noteEnchantee
+  margin-bottom: 5px
+.fas.fa-music
+  font-size: 30px
+
+.menu--chicALaFrancaise
+  margin-bottom: 5px
+  &__heading
+    font-size: $sizeMenuTitle
+  &__sub
+    font-size: $sizePoliceDeMenu
+.menu--delicesDesPapilles
+  margin-bottom: 5px
+  &__heading
+    font-size: $sizeMenuTitle
+  &__sub
+    font-size: $sizePoliceDeMenu
+.menu--paletteDuGout
+  margin-bottom: 5px
+  &__heading
+    font-size: $sizeMenuTitle
+  &__sub
+    font-size: $sizePoliceDeMenu
+//REDIMENSION DU BOUTON "PROCHAINEMENT"
+.btn
+  width: 167px
+  margin-top: 10px
+  padding: 20px
+  height: 25px
+  .pointilles
+    font-size: 20px
+    margin-left: 4px
+  h1 
+    font-size: 20px
+    
+
+        

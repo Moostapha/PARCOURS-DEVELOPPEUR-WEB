@@ -1,0 +1,92 @@
+.header {
+  padding-top: 0px;
+  height: 100px;
+  width: 100%;
+  background-color: #579c87;
+}
+
+.header__heading {
+  color: #fdcb46;
+  text-align: center;
+  margin: 0px;
+  padding-top: 13px;
+  font-size: 55px;
+  font-weight: bold;
+  font-family: Bai Jamjuree;
+}
+
+.foot {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: center;
+  height: 30px;
+  background-color: #579c87;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.foot__heading {
+  margin: 0px;
+  color: #fdcb46;
+  font-size: 30px;
+  cursor: pointer;
+  font-family: Bai Jamjuree;
+}
+
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  75% {
+    -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  75% {
+    -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+
+.foot__heading:hover {
+  -webkit-animation: wiggle .2s infinite;
+          animation: wiggle .2s infinite;
+}
+/*# sourceMappingURL=footer-header.css.map */

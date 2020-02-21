@@ -1,0 +1,120 @@
+// STYLE DU MENU "LA PALETTE DU GOUT"
+$policeheader-footer-titre: 'Bai Jamjuree';
+$police-heading4: 'Allura';
+$police-sub4: 'Exo';
+$fond-menu4: rgb(253,255,253); 
+$color1: rgb(66,151,60);
+$color2: rgb(129,204,94);
+$color3: rgb(155,225,108);
+$color4: rgb(202,248,164);
+$widthLigneStyle1: 250px;
+$widthLigneStyle2: 270px;
+$widthLigneStyle3: 270px;
+
+
+//mixin body et html
+@mixin body-html($police-sub, $fond-menu)
+    height: 100%
+    padding: 0px
+    margin: 0px
+    font-family: $police-sub
+    font-size: 24px
+    
+
+body,html
+    @include body-html($police-sub4,$fond-menu4)
+
+//titre du menu en dehors de la carte
+@mixin nom-du-menu-hors-carte($police-head)
+   display: flex
+   justify-content: center
+   h1 
+     font-size: 40px
+     font-family: $police-head
+     margin: 5px
+     padding: 10px
+
+.nom-menu
+ @include nom-du-menu-hors-carte($policeheader-footer-titre)
+
+//Titre du menu dans la carte
+@mixin titre-menu($police-heading,$color1,$color2,$color3,$color4)
+ display: flex
+ flex-direction: column
+ text-align: center
+ padding: 20px
+ background-image: linear-gradient(to right, $color1, $color2, $color3, $color4)
+ -webkit-background-clip: text
+ color: transparent
+ font-family: $police-heading
+ padding-bottom: 60px
+ h1 
+     font-size: 100px
+     margin: 0px
+     font-weight: bold
+
+.head-menu
+ @include titre-menu($police-heading4,$color1,$color2,$color3,$color4)
+ 
+    
+@mixin container($fond-menu)
+    width: auto // stop horizontal scroll
+    height: 1250px
+    background-color: $fond-menu
+    margin: auto
+    margin-bottom: 70px
+    padding: 0px 100px
+    h2 
+        text-align: center
+        font-weight: unset
+        margin: 0px
+
+    
+.container 
+ @include container($fond-menu4)
+
+//Effet soulignement de h2 et lignes dégradées autour + réglage de la largeur de chacune
+.style-titre
+    display: flex
+    justify-self: stretch
+    hr.ligne
+     border: 0px
+     height: 10px
+     width: 300px
+     border-radius: 7px
+     background-image: linear-gradient(to right, $color1,$color2,$color3,$color4)
+     -webkit-background-clip: content-box
+     color: transparent
+     margin:auto
+    h2 
+     cursor: pointer
+     margin: -5px
+     position: relative
+     &::after
+         content: ""
+         display: block
+         position: absolute
+         bottom: 0
+         left: 0
+         height: 2px
+         background-color: $color1
+         width: 0
+         transition: width 600ms ease 0s
+     &:hover::after
+         left: 0
+         width: 100%
+    
+
+
+@mixin liste
+ul 
+ list-style: none
+ display: flex
+ flex-direction: column
+ padding: 0px 20px
+li
+ display: flex
+ justify-content: space-between
+
+ul,li 
+    @include liste

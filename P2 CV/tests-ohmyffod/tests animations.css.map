@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAEA,UAAU,CAAV,yBAAU;EACT,EAAE;IACE,SAAS,EAAE,gBAAgB;;EAC/B,IAAI;IACA,SAAS,EAAE,gBAAgB;;;;AAEhC,AACI,0BADsB,AACrB,MAAM,CAAC;EACP,SAAS,EAAE,4BAA4B;CAAG",
+    "sources": [
+        "tests animations.sass"
+    ],
+    "names": [],
+    "file": "tests animations.css"
+}

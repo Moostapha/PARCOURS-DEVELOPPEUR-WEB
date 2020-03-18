@@ -1,0 +1,36 @@
+body, html {
+  font-size: 40px;
+}
+
+.nom-menu h1 {
+  font-size: 30px;
+}
+
+.head-menu .fas.fa-music {
+  font-size: 75px;
+}
+
+.container {
+  height: 2300px;
+  margin: 0px 0px 100px;
+  padding: 12px;
+}
+
+.container h2 {
+  font-size: 50px;
+}
+
+.style-titre hr.ligne {
+  border: 0px;
+  height: 5px;
+  width: 260px;
+}
+
+ul {
+  padding: 0px;
+}
+
+.pied-de-page .fas.fa-music {
+  font-size: 70px;
+}
+/*# sourceMappingURL=responsive-laptopmedium-resolution.css.map */

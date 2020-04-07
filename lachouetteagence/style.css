@@ -16,7 +16,7 @@ button {
 a:hover {
     text-decoration: none;
     cursor: pointer;
-    background: #7b67418c;
+    background: rgb(204, 69, 16);
 }
 a.social{
     background-color: transparent;
@@ -101,9 +101,9 @@ a.social{
 .b-parallax {
     background-attachment: fixed;
 }
-
+/*changement Footer WCAG 2.0 pour la phrase | Intitulés et puces*/
 .d-bloc {
-    color: rgba(255, 255, 255, .7);
+    color: black;
 }
 
 .d-bloc button:hover {
@@ -121,7 +121,7 @@ a.social{
 .d-bloc .divider-h span {
     border-color: rgba(255, 255, 255, .2);
 }
-
+/*Changement couleur des textes foreground pour respect WCAG 2.0*/
 .d-bloc .a-btn,
 .d-bloc .navbar a,
 .d-bloc .navbar-brand,
@@ -136,7 +136,7 @@ a.social{
 .d-bloc h5 a,
 .d-bloc h6 a,
 .d-bloc p a {
-    color: rgba(255, 255, 255, .6);
+    color: #333;
 }
 
 .d-bloc .a-btn:hover,
@@ -507,7 +507,7 @@ button {
 .panel-rd .panel-footer {
     border-radius: 0 0 29px 29px;
 }
-/*changement des bordures en enlevant l'opacité pour un meilleur contraste et mise en place du focus*/
+/*focus sur champ de formulaire et changement des bordures en enlevant l'opacité pour un meilleur contraste*/
 .form-control:focus{
     border-color: rgba(0, 0, 0,);
     box-shadow: none;
@@ -659,7 +659,7 @@ label,
 a {
     font-family: "helvetica";
     font-weight: 400;
-    color: black!important;
+    color: #333!important;
 }
 
 .container {
@@ -706,9 +706,9 @@ p {
     font-size: 16px;
     font-weight: 700;
 }
-
+/*changement pour accessibilite ajout de texte sur liens sociaux*/
 .social {
-    max-width: 400px;
+    /*max-width: 400px;*/
     margin: auto auto auto auto;
 }
 
@@ -742,9 +742,9 @@ h4 {
     margin-bottom: 14px;
     margin-top: 24px;
 }
-
+/*changement accessibilité pour normes WCAG 2.0*/
 .white {
-    color: #FFFFFF!important;
+    color: black!important;
 }
 
 .portfolio-thumb {
@@ -777,18 +777,18 @@ h4 {
 .bgc-dark-slate-blue {
     background-color: #364577;
 }
-
+/*changement background footer pour accessibilité*/
 .bgc-atomic-tangerine {
     background-color: #F3976C;
 }
 
 .tc-white {
-    color: #F3976C!important;
+    color: #ee5c06!important;
 }
-
+/*changement accessibilité des boutons pour norme WCAG 2.0*/
 .btn-atomic-tangerine {
     background: #F3976C;
-    color: #FFFFFF!important;
+    color: #333!important;
 }
 
 .btn-atomic-tangerine:hover {

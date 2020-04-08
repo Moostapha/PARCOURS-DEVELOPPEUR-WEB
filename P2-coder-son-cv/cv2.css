@@ -1,0 +1,617 @@
+body
+{
+  margin:0px;
+  padding:0px;
+}
+.container
+{
+  display:flex;
+  align-content: stretch;
+  width:auto;  
+  margin:auto;
+  font-family: 'Times New Roman', Times, serif,sans-serif;
+}
+
+/* ================================================ MISE EN PAGE DU RUBAN GAUCHE ==================================================*/
+#ruban
+{
+  width: 30%;
+  background-color: rgb(216, 231, 231);
+}
+
+.pic
+{ 
+  text-align: center;
+  padding-top: 35px;
+}
+
+.contenu .pic
+{
+  display:none;
+}
+
+h3
+{ 
+  text-align: center;
+  font-size:25px ;
+  color: darkcyan;
+  background-color: darkgrey;
+}
+
+h3+p 
+{ 
+  padding:10px;
+}
+
+.contact
+{
+  padding-left:10px;
+}
+.espace-apropos
+{
+ height:236px;
+}
+
+.loisir
+{ 
+  color: deepskyblue;
+  text-align: center;
+}
+
+/* => ELEMENTS GRAPHIQUES DE LOISIR/RUBAN: ARRONDI/COULEUR DES ICONES*/
+
+.fa.fa-guitar.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-book.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-dumbbell.fa-2x.fa-pull-center.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+.fas.fa-basketball-ball.fa-2x.fa-border
+{
+  border-radius:50%;
+  border-color:deepskyblue;
+}
+
+
+/* ========================================= MISE EN PAGE DU CONTENU ET DE SES PARTIES =========================================== */
+
+.contenu
+{  
+ width: 70%;
+ background-color:rgb(176, 238, 233);
+}
+
+.espace1
+{
+  height:50px
+}
+.espace2
+{
+  height: 20px;
+}
+.espace3
+{
+  height: 20px;
+}
+
+.entete
+{
+  padding-left:30px;
+}
+h1
+{
+ font-size: 40px;
+ padding-top:20px;
+}
+
+.sous-titre
+{
+  font-size: 25px;
+  
+}
+.souligner
+{
+  border-bottom:2px solid deepskyblue;
+  
+}
+.prenom
+{
+ color: deepskyblue;
+}
+
+/* => PARTIE FORMATION ET EXPERIENCE*/
+/*a)ORGANISATION DES TEXTES DANS LES DATES ET LES INTITULES*/
+hr.surlignement
+{
+  border: 1px solid;
+  border-style: inset;
+}
+
+/*MARGES INTERIEURE DES 3 ARTICLES */
+#formation
+{
+  padding:30px;
+}
+#experience
+{
+  padding:30px;
+}
+#recommandations
+{
+  padding:30px;
+}
+
+/*STRUCTURATION DE L'INTERIEUR DES ARTICLES */
+.date-intitule
+{ 
+  display:flex;
+}
+
+.date-actual,.date-past
+{
+  width:40%;
+}
+
+ .intitule 
+{
+  width: 60%;
+}
+
+.titre
+{
+  font-weight: bold;
+}
+
+
+/*ELEMENTS GRAPHIQUES TITRES (FORMATION | EXPERIENCES | FORMATION )*/
+/* Puces unicodes fontawesome pour les dates (avec difference entre recent et passe)=================*/
+.date-actual p::before
+{   
+  font-family:'Font Awesome 5 Free';
+  content:"\f192"; 
+  color:darkblue; 
+  
+}
+
+.date-past p::before
+{
+  content:"\2022";
+  color:darkslateblue;
+  font-weight: bold ;
+}
+
+/* Icones fontawesome unicode pour les titres h2 des 3 parties */
+/*Formation*/
+.icon1 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f501";
+  padding-right:15px;
+  color:deepskyblue;
+}
+
+/*Experience Pro*/
+.icon2 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f0b1";
+  padding-right:15px;
+  color:deepskyblue;
+  
+}
+
+/*Recommandations*/
+.icon3 h2::before
+{
+  font-family: 'Font Awesome 5 Free';
+  content: "\f044";
+  padding-right:15px;
+  color:deepskyblue;
+}
+
+/*      => PARTIE RECOMMANDATION (Structuration différente des 2 autres parties)*/
+
+.recommandation
+{
+  display:flex;
+  flex:1;
+  /*padding-left:30px;*/
+}
+
+.recommandation1
+{
+  width: 50%;
+}
+
+.recommandation2
+{
+ width: 50%;
+}
+
+
+
+
+/* ============================================= RESPONSIVE MEDIA QUERIES  =====================================================*/
+
+/*SMARTPHONES L M ET S CHOIX BREAKPOINT A 425px DISPOSITION EN COLONNE PARTOUT*/
+@media all and (max-device-width: 425px)
+{
+  .container 
+  {
+    display:flex;
+    flex-direction: column-reverse;  /*RUBAN EST MIS EN BAS AVEC COLUMN-REVERSE*/
+    margin: 0px;
+    padding:0px;
+    width: auto;
+  }
+
+  /*PARTIE BLEUE CONTENU*/
+  .contenu
+  { 
+    width:100%;
+    margin:0px;
+  }
+  .entete
+  {
+    display:flex;
+    justify-content:center;
+    padding-left:1px;
+  }
+
+  /*RESTRUCTURATION COLONNES DES DATES INTITULES*/
+  .date-intitule
+  {
+    display:flex;
+    flex-direction:column;
+  }
+  
+  /*REORGANISATION STRUCTURE BLOC CONTENU*/
+  /*STRUCTURE DES BLOCS DANS LES ARTICLES */
+  .date-actual,.date-past
+  {
+    width:100%;
+  }
+   
+  .intitule 
+  {
+   width: 100%;
+  }
+   
+  .recommandation
+  {
+    display: flex;
+    flex-direction:column;
+  }
+  /*DISPARITION DES ESPACES ET DES MARGES*/
+  .espace1
+  {
+    display:none
+  }
+
+  .espace2
+  {
+    display:none
+  }
+
+  .espace3
+  {
+    display:none
+  }
+
+  .espace-apropos
+  {
+    display:none;
+  }
+   
+  /*REORGANISATION PARTIE RUBAN GRIS */
+  #ruban
+  {
+    display:flex;
+    width:100%;
+    flex-direction: column;
+  }
+  /*TRAVAIL SUR LA PHOTO DISPARITION DE LA PIC DU HAUT ET APPARITION POSITIONNEMENT*/ 
+  #ruban .pic
+  { 
+    display:none;
+  }
+     
+  .contenu .pic
+  {
+   display:block;
+   float:left;
+   padding:0px;
+  }
+    
+  /*REORGANISATION DU BLOC CONTACT DE RUBAN*/
+  .contact
+  {
+    display: flex;
+    flex-direction:column;
+    padding-left:0px;
+   }
+   
+  .space-contact
+  {
+    width:0px;
+  }
+  
+  .loisir
+  {
+    margin-bottom:15px;
+  }
+
+ /* TITRES | POLICE | SOUS-TITRE | ICONES | PUCES | MARGES*/
+
+ /*BAISSE DE LA TAILLE DE POLICE TITRES ET PARAGRAPHES*/
+  h1 
+  {
+    text-align: center;
+    font-size:12px;
+    padding-top:0px;
+  }
+   
+  .sous-titre
+  {
+    font-size:25px;
+  }
+   
+  h2
+  {
+    font-size:20px;
+    text-align:center;
+  }
+   
+  h3 
+  {
+    font-size:15px;
+    
+  }
+   
+  p
+  {
+    font-size: 12px;
+  }
+   
+  /*MARGE ICONES GRAPHIQUES*/
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+  }
+   
+  .icon2 h2::before
+  {
+   padding-right: 5px;
+  }
+   
+  .icon3 h2::before
+  {
+    padding-right: 5px;
+  }
+
+  /*MARGE DES ARTICLES  FORMATION | EXPERIENCES | RECOMMANDATION
+  + MARGE GAUCHE DE CONTACT (SUR LES DIV ADRESSE TEL MAIL...)*/ 
+  #formation,#experience,#recommandations
+  {
+    padding:5px;
+  }
+  
+  .adresse,.tel,.mail,.web,.skype
+  {
+    padding-left:10px;
+  }
+}
+
+/* TABLETTES */
+
+@media all and (max-device-width: 768px)
+{
+  
+  .container 
+  {
+    display:flex;
+    flex-direction: column-reverse;  /*RUBAN EST MIS EN BAS AVEC COLUMN-REVERSE*/
+    margin: 0px;
+    padding:0px;
+    width: auto;
+  }
+
+  /* REORGANISATION PARTIE BLEUE CONTENU */
+  .contenu
+  {
+    width:100%;
+  }
+  .entete
+  {
+    display:flex;
+    justify-content:center;
+  }
+  
+  /*DISPARITION DES ESPACES ET DES MARGES*/
+  .espace1
+  {
+    display:none
+  }
+
+  .espace2
+  {
+    display:none
+  }
+
+  .espace3
+  {
+    display:none
+  }
+
+  .espace-apropos
+  {
+    display:none;
+  }
+   
+   
+  /* REORGANISATION RUBAN GRIS */
+  #ruban
+  {
+    display:flex;
+    width:100%;
+    flex-direction: column;
+  }
+
+  /*DISPARITION DE PIC */
+  #ruban .pic
+  { 
+    display:none;
+  }
+     
+  .contenu .pic
+  {
+   display:block;
+   float:left;
+   padding:0px;
+  }
+    
+  /*REORGANISATION DU BLOC CONTACT DE RUBAN*/
+  .contact
+  {
+    display: flex;
+  }
+   
+  .space-contact
+  {
+    width:25px;
+  }
+  
+  .loisir
+  {
+    margin-bottom:15px;
+  }
+
+  .adresse
+  {
+    padding-left:5px;
+  }
+   
+  /* MODIFICATIONS TITRES | POLICE | SOUS-TITRE | ICONES | PUCES | MARGES*/
+
+  /*BAISSE DE LA TAILLE DE POLICE TITRES ET PARAGRAPHES*/
+  h1 
+  {
+    text-align: center;
+    font-size:30px;
+    padding-top:0px;
+  }
+   
+  .sous-titre
+  {
+    font-size:20px;
+  }
+   
+  h2
+  {
+    font-size:20px;
+    text-align:center;
+  }
+   
+  h3 
+  {
+    font-size:20px;
+    
+  }
+   
+  p
+  {
+    font-size: 15px;
+  }
+   
+  /*ICONES GRAPHIQUES*/
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+  }
+   
+  .icon2 h2::before
+  {
+   padding-right: 5px;
+  }
+   
+  .icon3 h2::before
+  {
+    padding-right: 5px;
+  }
+
+ /*STRUCTURE DES BLOCS DANS LES ARTICLES */
+  .date-actual,.date-past
+  {
+    width:100%;
+  }
+   
+  .intitule 
+  {
+   width: 100%;
+  }
+   
+  .recommandation
+  {
+    display: flex;
+  }
+  
+}
+ 
+
+/*ECRANS LAPTOP M ET L*/
+@media only screen and (min-width: 769px) 
+ 
+  {.container
+  { 
+    width:100%;
+    height:auto;
+  }
+ 
+  .ruban
+  {
+    width:30%;
+  }
+  .contenu
+  {
+    width:70%;
+  }
+   
+  .icon1 h2::before
+  {
+    padding-right: 5px;
+    margin-left: 10px;
+  }
+ 
+  .icon2 h2::before
+  {
+    padding-right: 5px;
+   
+  }
+ 
+  .icon3 h2::before
+  {
+    padding-right: 5px;
+   
+  }
+  .espace-apropos
+  {
+    height:400px;
+  }
+ .espace1,.espace2,.espace3
+ {
+  height:0px;
+ }
+
+} 
+
+ 
+ 

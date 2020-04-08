@@ -21,7 +21,6 @@ $delayOpacity: 1s;
     @include style-titre--animation($dureeTransitionSouligner,$delayOpacity)
 
 body, html
-    //height: 100%
     padding: 0px
     margin: 0px
     font-family: 'Zhi Mang Xing'
@@ -57,7 +56,7 @@ body, html
     padding: 50px
     box-shadow: 10px 10px 5px $menu-ombre
 
-//style-titre avec PSEUDO CLASSE => HR/H2
+//STYLE ET ANIMATION SOULIGNEMENT DES TITRES H2
 .style-titre
     display: flex
     justify-self: stretch
@@ -73,7 +72,7 @@ body, html
      margin: 0px
      cursor: pointer
      position: relative
-     &::after
+     &::after          //PSEUDO ELEMENT AFTER
          content: ""
          display: block
          position: absolute

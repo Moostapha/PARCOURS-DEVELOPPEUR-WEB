@@ -1,3 +1,5 @@
+@media screen and (max-width:479px)  
+{  
 body, html {
   font-size: 16px;
 }
@@ -184,5 +186,6 @@ ul {
 
 .btn h1 {
   font-size: 20px;
+}
 }
 /*# sourceMappingURL=responsive-smartphone-portrait.css.map */

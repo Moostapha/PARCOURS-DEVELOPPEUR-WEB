@@ -9,8 +9,12 @@
     <link rel="shortcut icon" type="image/png" href="favicon.jpg">
     
 	<!-- Seul style.css est gardé-->
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<!-- JS => Plus de script du tout car ne servant à rien et provoquant erreurs de scripts dans la console-->
+	<script src="./js/jquery-2.1.0.js" defer></script>
+	<script src="./js/bootstrap.js" defer></script>
+	<script src="./js/blocs.js" defer></script>
 	<title>Contact | Chouette agence</title>
    
  <!-- Analytics -->
@@ -22,7 +26,7 @@
 <!-- Principal conteneur -->
 <main class="page-container">
     
-<!-- bloc-0 => Attribut alt revu et corrigé | Balises li vides supprimées-->
+<!-- bloc-0 => Attribut alt revu et corrigé | Balises li vides supprimées |Restructuration du menu-->
 <div class="bloc bgc-white l-bloc " id="bloc-0">
 	<div class="container bloc-sm">
 		<nav class="navbar row">
@@ -37,7 +41,6 @@
 					<li>
 						<a href="accueil.html">Accueil</a>
 					</li>
-					
 					<li>
 						<a href="contact.html">Nous contacter</a>
 					</li>
@@ -66,32 +69,32 @@
 </div>
 <!-- bloc-6 END -->
 
-<!-- bloc-7 => Attributs du formulaire form1 success-msg et fail-msg non valides selon W3C validator donc supprimé-->
+<!-- bloc-7 => Mise en place de labels explicites label for id=""|inputs: correction id+ |Attributs du formulaire form1 success-msg et fail-msg non valides selon W3C validator donc supprimé-->
 <div class="bloc bgc-white l-bloc" id="bloc-7">
 	<div class="container bloc-lg">
 		<div class="row">
 			<div class="col-sm-6">
 				<form id="form_1">
 					<div class="form-group">
-						<label>
+						<label for="name">
 							Nom
 						</label>
 						<input id="name" class="form-control" required />
 					</div>
 					<div class="form-group">
-						<label>
+						<label for="email">
 							Adresse email
 						</label>
 						<input id="email" class="form-control" type="email" required />
 					</div>
 					<div class="form-group">
-						<label>
+						<label for="input_504">
 							Comment nous avez-vous connu ?
 						</label>
-						<input class="form-control" type="email" required id="input_504" />
+						<input id="input_504" class="form-control" type="text" required  />
 					</div>
 					<div class="form-group">
-						<label>
+						<label for="message">
 							Brief de votre projet (Ajoutez autant de détails que nécessaire)<br>
 						</label><textarea id="message" class="form-control" rows="4" cols="50" required></textarea>
 					</div> 

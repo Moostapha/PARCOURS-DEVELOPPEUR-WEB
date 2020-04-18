@@ -1,6 +1,6 @@
 # Moostapha.github.io
-Projet 5 Parcours Développeur Web sur OpenClassrooms
-CONSTRUIRE UN SITE E-COMMERCE
+Projet 5 Parcours Développeur Web Openclassrooms
+:CONSTRUIRE UN SITE E-COMMERCE
 
 Compétences:
 1) Gérer des événements JavaScript

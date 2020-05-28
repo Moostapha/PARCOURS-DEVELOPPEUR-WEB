@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="./images/logo.jpg">
   <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
-  <link rel="stylesheet" href="./css/style.css" type="text/css">
+  <link rel="stylesheet" href="./css/styles.css" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.css"
   integrity="sha256-PtBWX+v2TI0iuYI3rZrQft5kfd3ZkdPd8iVMZoE1rxE=" crossorigin="anonymous" />
-  <script src="./getcam.js"></script>
+  <script src="./produits.js" defer></script>
+  
   <title>Orinoco | Produits</title>
 </head>
 
@@ -23,16 +24,28 @@
         <h1>CAM'S</h1>
       </div>
       <ul>
-        <li><a href="produit-list.html">Accueil</a></li>
-        <li><a href="produits.html">Produits</a></li>
-        <li><a href="panier.html">Votre panier</a></li>
-        <li><a href="confirmation.html">Votre commande</a></li>
+        <li><a href="accueil.html">Accueil</a></li>
+        <li><a href="panier.html"><i class="fas fa-shopping-cart"></i></a><span id="span">0</span></li>
       </ul>
     </div>
   </header>
 
   <main id="main">
-    <h1>NOS PRODUITS</h1>
+    <!--ajout dynamique via JS en manipulant le DOM-->
+  </main>
+
+  <footer>
+    <i class="fab fa-facebook">Facebook</i>
+    <i class="fab fa-youtube">Youtube</i>
+    <i class="fab fa-instagram">Instagram</i>
+    <i class="fab fa-pinterest">Pinterest</i>
+ </footer>
+  
+</body>
+
+</html>
+
+<!--<h1>NOS PRODUITS</h1>
 
     <div class="produits">
       <div class="cam">
@@ -66,16 +79,4 @@
           <h3>AJOUTER AU PANIER</h3>
         </div>
       </div>
-    </div>
-  </main>
-
-  <footer>
-    <i class="fab fa-facebook">Facebook</i>
-    <i class="fab fa-youtube">Youtube</i>
-    <i class="fab fa-instagram">Instagram</i>
-    <i class="fab fa-pinterest">Pinterest</i>
- </footer>
-  
-</body>
-
-</html>
+    </div>-->

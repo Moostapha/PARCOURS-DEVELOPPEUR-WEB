@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./images/logo.jpg">
     <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
-    <link rel="stylesheet" href="./css/style.css" type="text/css">
+    <link rel="stylesheet" href="./css/styles.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.css"
     integrity="sha256-PtBWX+v2TI0iuYI3rZrQft5kfd3ZkdPd8iVMZoE1rxE=" crossorigin="anonymous" />
+    <script src="./panier.js" defer></script>
     <title>Orinoco|Votre panier</title>
 </head>
 
@@ -22,16 +23,61 @@
             </div>
             <ul>
                 <li><a href="accueil.html">Accueil</a></li>
-                <li><a href="produits.html">Produits</a></li>
-                <li><a href="panier.html">Votre panier</a></li>
-                <li><a href="confirmation.html">Votre commande</a></li>
+                <li><a href="panier.html"><i class="fas fa-shopping-cart"></i></a><span id="span">0</span></li>
             </ul>
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <h1>VOTRE PANIER</h1>
-        <div><button id="ajout" onclick="ajout()">CLIQUER</button></div>
+
+        <section class="panier">
+        <table id="tableau">
+            <caption>RESUME DE VOTRE COMMANDE</caption>
+            <thead>
+             <tr>
+                 <th>Nom</th>
+                 <th>Prix</th>
+                 <th>Quantité</th>
+                 <th>Total</th>
+             </tr>
+           </thead>
+        </table>
+       </section>
+        
+        <section class="form">
+        <form>
+            <h1>FORMULAIRE DE CONTACT</h1>
+            <div class='formline' >
+             <label for="nom">Nom:</label>
+             <input type="text" id="nom" name="nom" required>
+            </div>
+            <br>
+            <div class='formline'>
+             <label for="prenom" id="prenom" name="prenom">Prénom:</label>
+             <input type="text" id="prenom" name="prenom" required>
+            </div>
+            <br>
+            <div class='formline'>
+             <label for="adresse">Adresse:</label>
+             <input type="text" id="adresse" name="adresse" required>
+            </div>
+            <br>
+            <div class='formline'>
+                <label for="ville">Ville:</label>
+                <input type="text" id="ville" name="ville" required>
+            </div>
+            <br>
+            <div class='formline'>
+             <label for="mail">Mail:</label>
+             <input type="text" id="mail" name="mail" required>
+            </div>
+            <br>
+         </form>
+        <button type="submit" class='btn'><h2>Valider la commande</h2></button>
+        </section>
+        
+        
     </main>
 
     <footer>
@@ -40,7 +86,7 @@
      <i class="fab fa-instagram">Instagram</i>
      <i class="fab fa-pinterest">Pinterest</i>
     </footer>
-    <script src="./test.js"></script>
+    
 </body>
 
 </html>

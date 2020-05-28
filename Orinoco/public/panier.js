@@ -6,7 +6,6 @@ if (localStorage.getItem('compteur')) {
 if (!localStorage.getItem("panier")) {
  localStorage.setItem('panier', JSON.stringify([]));
  localStorage.setItem('compteur',JSON.stringify(0));
- 
 }
  
 //CONDITION SUR APPARITION DU TABLEAU DE RESUME DE COMMANDE

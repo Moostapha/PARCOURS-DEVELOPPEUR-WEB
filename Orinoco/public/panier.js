@@ -87,8 +87,13 @@ btnValider.addEventListener('click' , () => {
     console.log(products)
 
 
-    //ENVOIE DE LA METHODE ET HEADER INDIQUANT LE TYPE DU CONTENU DE LA REQUETE JSON
+   
     const request = new XMLHttpRequest();
+    //REPONSE REQUETE ICI AVEC onLoad
+    request.onload = () => {
+        console.log(request.responseText)
+       };
+     //ENVOIE DE LA METHODE ET HEADER INDIQUANT LE TYPE DU CONTENU DE LA REQUETE JSON   
     request.open('POST' , "http://localhost:3000/api/cameras/order");
     request.setRequestHeader('Content-Type', 'application/json');
     request.send(JSON.stringify({contact:contact,products:products}));

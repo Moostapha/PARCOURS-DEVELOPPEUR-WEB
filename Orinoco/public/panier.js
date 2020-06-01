@@ -68,7 +68,7 @@ products qui contiendra les id des produits à commander
 // GESTION EVENEMENT AU CLIQUE SUR LE BOUTON VALIDER DU FORMULAIRE
 const btnValider = document.getElementById("btn-valider")
 btnValider.addEventListener('click' , () => {
-    console.log("Bouton bien appuyé !!!")
+    //console.log("Bouton bien appuyé !!!")
     //OBJET DE CONTACT => REFERENCES AUX ELEMENTS HTML DU FORMULAIRE | CLES PRISES DANS CONTROLLER/CAMERA.JS
     const contact =  {
         firstName: document.getElementById("prenom").value,
@@ -87,9 +87,8 @@ btnValider.addEventListener('click' , () => {
     console.log(products)
 
 
-    //REQUETE XMLHttp ici
-    const request = new XMLHttpRequest();
     //ENVOIE DE LA METHODE ET HEADER INDIQUANT LE TYPE DU CONTENU DE LA REQUETE JSON
+    const request = new XMLHttpRequest();
     request.open('POST' , "http://localhost:3000/api/cameras/order");
     request.setRequestHeader('Content-Type', 'application/json');
     request.send(JSON.stringify({contact:contact,products:products}));

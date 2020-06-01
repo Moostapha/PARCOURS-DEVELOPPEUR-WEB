@@ -47,7 +47,8 @@ fetch("http://localhost:3000/api/cameras/"+ id)
   //divImgBtn ds div parent
   container.append(divImgBtn)
 
-  //ajout des éléments personnalisables lentilles | Affichage dynamique via boucle for | enrobage dans select (option)
+  //ajout des éléments personnalisables lentilles | Affichage dynamique via boucle for 
+  //enrobage dans select (option)
   const dropdown = document.createElement("select")
   dropdown.id = ("dropdown");
   
@@ -60,7 +61,7 @@ fetch("http://localhost:3000/api/cameras/"+ id)
     divImgBtn.append(dropdown)
   }
   
-  //Evenement sur le bouton personnaliser => Au click montrera les options possibles
+  //Evenement sur le bouton personnaliser => Au click montrera les options possibles sinon display: none
   dropdown.style.display ="none"
   btnPersonnalisation.addEventListener('click', () =>{
    if (dropdown.style.display == "none") 
@@ -102,9 +103,9 @@ fetch("http://localhost:3000/api/cameras/"+ id)
   btnAjouter.append(textebtnajouter)
   divnomInfosBtn.append(btnAjouter)
 
-  //EVENEMENT SUR BTN AJOUTER ET COMPTEUR DU NBRE DE ITEMS AJOUTES
+  //EVENEMENT SUR BTN AJOUTER ET COMPTEUR DU NBRE DE PRODUITS AJOUTES
   btnAjouter.addEventListener('click', () => 
-  {
+  { //recuperation du contenu de localStorage exploitable (conversion)
     const panier = JSON.parse(localStorage.getItem("panier"))
     console.log(product)
     //Boucle sur le panier pour ne pas repeter twice un produit ajouté
@@ -139,32 +140,3 @@ fetch("http://localhost:3000/api/cameras/"+ id)
 
 })
 
-/* ===========================TESTS===========================
-
-  //ajout lien a.href vers page panier
-  const lien = document.createElement("a")
-  lien.href = "./panier.html?id="+ product._id
-  lien.innerHTML = ("Ajouter au panier")
-  textebtnajouter.append(lien)
-*/ 
-
-
-/*
-btnPersonnalisation.addEventListener('click', () =>{
-  const ul = document.createElement("ul")
-  ul.innerHTML = ('choix de lentilles')
-  const li = document.createElement("li")
-  ul.append(li)
-  li.innerHTML = ("product.lenses")
-  btnPersonnalisation.append(ul)
-  
-})*/ 
-
-
-
-/*const dropdown = document.createElement("ul")
-  dropdown.classList.add = ("dropdown")
-  const lentilles = document.createElement("li")
-  lentilles.append(product.lenses[index])
-  dropdown.append(lentilles)
-  divImgBtn.append(dropdown)*/

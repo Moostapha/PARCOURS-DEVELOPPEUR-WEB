@@ -166,10 +166,11 @@ table, th, td {
 form {
   width: auto;
   background-color: #eadef0;
+  height: 400px;
 }
 
-form h1 {
-  padding-top: 15px;
+form h2 {
+  padding-top: 20px;
 }
 
 input {
@@ -178,28 +179,24 @@ input {
   height: 2.5em;
   -webkit-box-shadow: 1px 2px 3px;
           box-shadow: 1px 2px 3px;
-  border-radius: 1em;
   font-family: Bai Jamjuree;
   font: 1em;
 }
 
 input:focus {
-  border-color: #000;
-  background-color: skyblue;
+  background-color: #eadef0;
 }
 
 label {
-  font-size: 25px;
-  display: inline-block;
   width: 120px;
-  text-align: right;
+  text-align: left;
 }
 
 label:hover {
   font-weight: bold;
 }
 
-.formline {
-  dislay: inline-block;
+.space {
+  height: 30px;
 }
 /*# sourceMappingURL=styles.css.map */

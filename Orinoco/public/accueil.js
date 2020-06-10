@@ -53,7 +53,6 @@ camRequest.onreadystatechange = function () {
       //ajout bouton et classe btn
       const button = document.createElement("button")
       button.classList.add("btn")
-
       //ajout texte h2 dans bouton
       const h2btn = document.createElement("h2")
       //ajout du lien pour aller sur l'autre page et donner le produit

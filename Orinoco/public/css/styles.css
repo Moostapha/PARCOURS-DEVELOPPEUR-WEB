@@ -153,9 +153,13 @@ select {
 }
 
 #tableau {
-  width: 50%;
+  width: 60%;
   background-color: #eadef0;
   text-justify: center;
+}
+
+thead {
+  background-color: #c492c4;
 }
 
 table, th, td {

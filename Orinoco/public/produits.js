@@ -119,6 +119,7 @@ fetch("http://localhost:3000/api/cameras/"+ id)
         element.quantite = element.quantite + 1
       }
     });
+    
     if (produitAjoute) 
     {
       localStorage.setItem('panier', JSON.stringify(panier))

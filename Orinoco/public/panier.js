@@ -16,8 +16,8 @@ if (!localStorage.getItem("panier")) {
     
 }*/
 
-const panier = JSON.parse(localStorage.getItem("panier")) // recuperation contenu exploitable du panier
-const tableau = document.getElementById("tableau1")
+const panier = JSON.parse(localStorage.getItem("panier")) //recuperation contenu exploitable du panier
+const tableau = document.getElementById("contenu-tableau") //Corps tbody du tableau avec éléments produits ajoutes dynamiquement
 // initialisation total global des sous-totaux
 let total = 0
 panier.forEach(element => {
@@ -39,7 +39,7 @@ panier.forEach(element => {
     tableau.append(tr)
 });
 console.log(total)
-const table = document.getElementById("tableau")
+const table = document.getElementById("tableau") // Tableau pere avec les entetes,colonnes => Inclusion de tbody dedans
 const tr = document.createElement("tr")
 const tdTotalPanier = document.createElement("td").textContent = total + "€"
 const tdTotalPanier1 = document.createElement("td")
@@ -56,18 +56,12 @@ tr.append(tdTotalPanier)
 table.append(tr)
 
 
-
-/*Pour les routes POST, l'objet “contact” envoyé au serveur doit contenir les champs
-prénom, nom, adresse, ville et adresse électronique. Tous les champs sont
-obligatoires.
-Le tableau de produits envoyé au serveur doit être un tableau de strings intitulé
-products qui contiendra les id des produits à commander
-*/ 
-
+//ENCODAGE URL DES INFOS VALIDATION DE LA COMMANDE DANS UN LIEN RENVOYANT A LA PAGE CONFIRMATION
+const btnValider = document.getElementById("btn-valider")
 
 // GESTION EVENEMENT AU CLIQUE SUR LE BOUTON VALIDER DU FORMULAIRE
-const btnValider = document.getElementById("btn-valider")
-btnValider.addEventListener('click' , () => {
+btnValider.addEventListener('submit' , (event) => {
+    event.preventDefault()
     //console.log("Bouton bien appuyé !!!")
     //OBJET DE CONTACT => REFERENCES AUX ELEMENTS HTML DU FORMULAIRE | CLES PRISES DANS CONTROLLER/CAMERA.JS
     const contact =  {
@@ -85,20 +79,31 @@ btnValider.addEventListener('click' , () => {
        products.push(element._id)
     });
     console.log(products)
-
-
-   
-    const request = new XMLHttpRequest();
-    //REPONSE REQUETE ICI AVEC onLoad
-    request.onload = () => {
-        console.log(request.responseText)
-       };
-     //ENVOIE DE LA METHODE ET HEADER INDIQUANT LE TYPE DU CONTENU DE LA REQUETE JSON   
-    request.open('POST' , "http://localhost:3000/api/cameras/order");
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.send(JSON.stringify({contact:contact,products:products}));
+ 
+    // ENVOI USERINFO + TABLEAU PRODUITS AU SERVEUR
+    fetch("http://localhost:3000/api/cameras/order", {
+        method: 'POST',
+        headers: {
+            //accepter que du JSON
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        mode: 'cors', //restrictions securite au niveau des requetes
+        body: JSON.stringify({contact:contact,products:products})
+    })
+    .then(response => response.json())
+    .then(reponseCommande => {
+        window.location = 'confirmation.html?id=' + reponseCommande.orderId + " &total= " + total//orderId vient du serveur
+    })
+    .catch(error => console.log(error)) 
 });
 
+/*ENONCE => Pour les routes POST, l'objet “contact” envoyé au serveur doit contenir les champs
+prénom, nom, adresse, ville et adresse électronique. Tous les champs sont
+obligatoires.
+Le tableau de produits envoyé au serveur doit être un tableau de strings intitulé
+products qui contiendra les id des produits à commander
+*/ 
 
 
 

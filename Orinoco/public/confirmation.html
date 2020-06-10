@@ -3,13 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oronico Confirmation de commande</title>
+    <link rel="shortcut icon" href="./images/logo.jpg">
+    <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
+    <link rel="stylesheet" href="./css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.css"
+    integrity="sha256-PtBWX+v2TI0iuYI3rZrQft5kfd3ZkdPd8iVMZoE1rxE=" crossorigin="anonymous" />
+    <script src="./confirmation.js" defer></script>
+    <title>Oronico | Commande</title>
 </head>
 <body>
-    <header></header>
+    <header>
+        <div class="nav">
+            <div class="logo-produit">
+              <img src="../server/images/logo1.jpg" alt="">
+              <h1>CAMERAS</h1>
+            </div>
+            <ul>
+              <li><a href="accueil.html">Accueil</a></li>
+              <li><a href="panier.html"><i class="fas fa-shopping-cart"></i></a><span id="span">0</span></li>
+            </ul>
+        </div>
+    </header>
+
     <main id="confirmation">
         <!--AFFICHAGE DYNAMIQUE DU BILAN DE COMMANDE ICI-->
+        <h1>ORNINOCO VOUS REMERCIE DE VOTRE CONFIANCE ET DE VOTRE ACHAT</h1>
+        <p>Votre commande numéro: <span id="commande"></span></p>
+        <p>Le total de votre commande: <span id="total"></span></p>
     </main>
-    <footer></footer>
+
+    <footer>
+        <i class="fab fa-facebook">Facebook</i>
+        <i class="fab fa-youtube">Youtube</i>
+        <i class="fab fa-instagram">Instagram</i>
+        <i class="fab fa-pinterest">Pinterest</i>
+    </footer>
 </body>
 </html>

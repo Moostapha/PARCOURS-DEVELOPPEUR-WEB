@@ -9,13 +9,6 @@ if (!localStorage.getItem("panier")) {
  localStorage.setItem('compteur',JSON.stringify(0));
 }
 
-//CONDITION SUR APPARITION DU TABLEAU DE RESUME DE COMMANDE
-/*if (localStorage.getItem('compteur') = 0) {
-    document.getElementById("tableau").style.display="none"
-} else {
-    
-}*/
-
 const panier = JSON.parse(localStorage.getItem("panier")) //recuperation contenu exploitable du panier
 const tableau = document.getElementById("contenu-tableau") //Corps tbody du tableau avec éléments produits ajoutes dynamiquement
 // initialisation total global des sous-totaux

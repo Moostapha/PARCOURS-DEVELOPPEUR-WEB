@@ -1,10 +1,25 @@
+//MIXINS RESPONSIVE
+@mixin phone
+ @media only screen and (max-width: 480px)
+     @content
+
+@mixin tablet
+ @media only screen and (min-width: 480px) and (min-width: 768px)
+     @content
+
+@mixin LGdesktop
+ @media only screen and (max-width: 1920px)
+     @content
+
+
 //CSS DE BASE
 body,html
  margin: 0px
  padding: 0px
  width: auto
  font-family: Bai Jamjuree
- height: 100vh //definition d'une hauteur au body relatif au viewport
+ height: 100%
+ 
 
  
 footer 
@@ -64,7 +79,7 @@ main
     width: auto
     text-align: center
     padding: 30px 30px 0px 30px
-    height: 226% //relatif au body avec ses 100vh de height
+    height: auto
 .imgtexte
     display: flex
     justify-content: space-around
@@ -97,7 +112,7 @@ main
 //PAGE PRODUITS =>  style des éléments DOM rajoutes par produits.js
 .container
  display: flex
- height: 610px
+ //height: 610px
 
 //style options personnalisation des lentilles de cams
 select
@@ -146,3 +161,8 @@ label
    font-weight: bold
 .space
     height: 40px
+
+footer 
+    margin-top: 80px
+
+

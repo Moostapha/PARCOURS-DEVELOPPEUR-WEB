@@ -3,9 +3,11 @@ let id = params.get("id"); // on use meth get pour aller prendre l'id
 let total = params.get("total")
 if (id == null) {
     window.location.href = 'index.html';
-} else {
+} 
+else {
+ //AFFICHAGE DYNAMIQUE DANS ELEMENT PARENT HTML
+ //id de commande
  document.getElementById("commande").textContent = id
-    // ici il faut prendre dans ton html l'element parent et append numCommande, il faut aussi affiché ton total
+ //Total en euros 
  document.getElementById("total").textContent = total + " euros"
 };
-//commentaire ddddddvvvvgggg

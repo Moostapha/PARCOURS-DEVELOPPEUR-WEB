@@ -1,9 +1,10 @@
+//PANIER HEADER
 //compteur span panier indiquant nbre de produits ajoutes
 if (localStorage.getItem('compteur')) {
     document.getElementById("span").textContent = localStorage.getItem('compteur');
-    //document.getElementById("tableau").style.display="none"
-  }
-  
+}
+
+//Initialisation du compteur et du panier
 if (!localStorage.getItem("panier")) {
  localStorage.setItem('panier', JSON.stringify([]));
  localStorage.setItem('compteur',JSON.stringify(0));
@@ -82,7 +83,7 @@ btnValider.addEventListener('submit' , (event) => {
             'Content-Type': 'application/json'
         },
         mode: 'cors', //restrictions securite au niveau des requetes
-        body: JSON.stringify({contact:contact,products:products})
+        body: JSON.stringify({contact:contact,products:products}) //Corps de la requete  qui gere son corps + réponse 
     })
     .then(response => response.json())
     .then(reponseCommande => {
@@ -91,12 +92,7 @@ btnValider.addEventListener('submit' , (event) => {
     .catch(error => console.log(error)) 
 });
 
-/*ENONCE => Pour les routes POST, l'objet “contact” envoyé au serveur doit contenir les champs
-prénom, nom, adresse, ville et adresse électronique. Tous les champs sont
-obligatoires.
-Le tableau de produits envoyé au serveur doit être un tableau de strings intitulé
-products qui contiendra les id des produits à commander
-*/ 
+
 
 
 

@@ -1,25 +1,32 @@
-var camRequest = new XMLHttpRequest();
+//PANIER HEADER
 //compteur span panier indiquant nbre de produits ajoutes
 if (localStorage.getItem('compteur')) {
   document.getElementById("span").textContent = localStorage.getItem('compteur');
 }
 
+//Initialisation du compteur et du panier
 if (!localStorage.getItem("panier")) {
   localStorage.setItem('panier', JSON.stringify([]));
   localStorage.setItem('compteur',JSON.stringify(0));
 }
 
+//REQUETE GET AJAX VERS L'API CAMERA AVEC OBJET JS XMLHttpRequest
+var camRequest = new XMLHttpRequest();
 camRequest.onreadystatechange = function () {
   if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+    //DEFINITION VAR REPONSE ET MAIN
     var response = JSON.parse(this.responseText);
-
     var main = document.getElementById("main");
-
+     
+    //BOUCLE FOR SUR VAR ELEMENT QUI EST L'OBJET CAM PRODUIT PRIS DANS API
     for (let index = 0; index < response.length; index++) {
+      const element = response[index];
+
+      //CREATION DU CONTENU VIA JS PAR MANIPULATION DOM
       const divImg = document.createElement("div");
       //div.id = "photo";
       divImg.classList.add("photo");
-      const element = response[index];
+      
       console.log(element);
 
       //ajout des images
@@ -57,6 +64,7 @@ camRequest.onreadystatechange = function () {
       const h2btn = document.createElement("h2")
       //ajout du lien pour aller sur l'autre page et donner le produit
       const lien = document.createElement("a")
+      //ENCODAGE URL AVEC ID DU PRODUIT SELECTIONN2 POUR MENER VERS PAGE PRODUIT
       lien.href = "./produits.html?id="+ element._id
       lien.innerHTML = "voir ce produit"
       button.append(h2btn)

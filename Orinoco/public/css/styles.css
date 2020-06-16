@@ -3,7 +3,7 @@ body, html {
   padding: 0px;
   width: auto;
   font-family: Bai Jamjuree;
-  height: 100vh;
+  height: 100%;
 }
 
 footer {
@@ -90,7 +90,7 @@ main {
   width: auto;
   text-align: center;
   padding: 30px 30px 0px 30px;
-  height: 226%;
+  height: auto;
 }
 
 .imgtexte {
@@ -139,7 +139,6 @@ main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 610px;
 }
 
 select {
@@ -201,6 +200,10 @@ label:hover {
 }
 
 .space {
-  height: 30px;
+  height: 40px;
+}
+
+footer {
+  margin-top: 80px;
 }
 /*# sourceMappingURL=styles.css.map */

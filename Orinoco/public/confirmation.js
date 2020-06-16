@@ -8,3 +8,4 @@ if (id == null) {
     // ici il faut prendre dans ton html l'element parent et append numCommande, il faut aussi affiché ton total
  document.getElementById("total").textContent = total + " euros"
 };
+//commentaire ddddddvvvvgggg

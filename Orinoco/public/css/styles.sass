@@ -1,27 +1,12 @@
-//MIXINS RESPONSIVE
-@mixin phone
- @media only screen and (max-width: 480px)
-     @content
-
-@mixin tablet
- @media only screen and (min-width: 480px) and (min-width: 768px)
-     @content
-
-@mixin LGdesktop
- @media only screen and (max-width: 1920px)
-     @content
-
-
+// TABLETTE + DESKTOP
 //CSS DE BASE
 body,html
  margin: 0px
  padding: 0px
  width: auto
  font-family: Bai Jamjuree
- height: 100%
- 
+ height: fit-content
 
- 
 footer 
     display: flex
     justify-content: space-between
@@ -35,7 +20,6 @@ footer
     cursor: pointer
     transition: 1000ms
     color:#571a57 
-    
     &:hover
      color:  black
 
@@ -74,18 +58,23 @@ footer
          background-color: #e093e0af 
          color: white //deepskyblue
 
+ 
+
 //PAGE ACCUEIL => style des éléments DOM rajoutes par getcam.js
 main
     width: auto
     text-align: center
     padding: 30px 30px 0px 30px
     height: auto
+    
 .imgtexte
     display: flex
     justify-content: space-around
     border: 1px solid black
     background:#f2edf5
     margin-bottom: 20px
+    @include phone 
+     flex-direction: column
 .btn,.btn1
  margin-top: 10px
  padding: 6px 0px 6px 0px
@@ -112,7 +101,7 @@ main
 //PAGE PRODUITS =>  style des éléments DOM rajoutes par produits.js
 .container
  display: flex
- //height: 610px
+ 
 
 //style options personnalisation des lentilles de cams
 select

@@ -3,7 +3,9 @@ body, html {
   padding: 0px;
   width: auto;
   font-family: Bai Jamjuree;
-  height: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 footer {

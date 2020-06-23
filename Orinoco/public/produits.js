@@ -98,7 +98,7 @@ fetch("http://localhost:3000/api/cameras/"+ id)
       }
     });
     
-    if (produitAjoute) 
+    if (produitAjoute) // si existence donc si existe = vraie
     {
       localStorage.setItem('panier', JSON.stringify(panier))
       //console.log("test")

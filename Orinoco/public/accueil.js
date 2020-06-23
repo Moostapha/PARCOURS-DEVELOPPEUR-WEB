@@ -6,8 +6,8 @@ if (localStorage.getItem('compteur')) {
 
 //Initialisation du compteur et du panier
 if (!localStorage.getItem("panier")) {
-  localStorage.setItem('panier', JSON.stringify([]));
-  localStorage.setItem('compteur',JSON.stringify(0));
+  localStorage.setItem('panier', JSON.stringify([])); //panier vide
+  localStorage.setItem('compteur',JSON.stringify(0)); //compteur 0
 }
 
 //REQUETE GET AJAX VERS L'API CAMERA AVEC OBJET JS XMLHttpRequest

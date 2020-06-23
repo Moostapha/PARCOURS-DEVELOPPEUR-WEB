@@ -1,4 +1,5 @@
-Optimisation du site P4-chouette-agence avec travail sur:
+## Optimisation du site P4-chouette-agence avec travail sur:
+
 1) Référencement SEO par correction et optimisation du code et des ressources
 2) Travail sur l'accessibilité versions desktop et mobile
 3) Audit SEO effectué

@@ -81,30 +81,37 @@ fetch("http://localhost:3000/api/cameras/"+ id)
   divnomInfosBtn.append(btnAjouter)
 
   //EVENEMENT SUR BTN AJOUTER ET COMPTEUR DU NBRE DE PRODUITS AJOUTES + LOGIQUE COMPTEUR
-  btnAjouter.addEventListener('click', () => 
-  { //recuperation du contenu de localStorage exploitable (conversion) objet tableau
+  btnAjouter.addEventListener('click', () => {
+   
+    //recuperation du contenu de localStorage exploitable (conversion) objet tableau
     const panier = JSON.parse(localStorage.getItem("panier"))
     console.log(product)
 
     //Boucle sur le panier pour ne pas repeter twice un produit ajouté
-    let produitAjoute = false // on initialise qu'il n'y a rien
+
+    // on initialise qu'il n'y a rien
+    let produitAjoute = false 
+    
+    //CONDITION CAS OU PRODUIT PRESENT DANS LE PANIER
     panier.forEach(element =>
-    { //CONDITION CAS OU PRODUIT PRESENT DANS LE PANIER
-      if (element.name === product.name) 
-      {
+    { 
+      if (element.name === product.name) {
+      
         produitAjoute = true
         //console.log(typeof(element.quantite))
         element.quantite = element.quantite + 1
       }
     });
     
-    if (produitAjoute) // si existence donc si existe = vraie
-    {
+
+    // si existence donc si existe = vraie
+    if (produitAjoute) { 
+    
       localStorage.setItem('panier', JSON.stringify(panier))
       //console.log("test")
     } 
-    else 
-    {
+    else {
+    
       product.quantite = 1
       panier.push(product)
       localStorage.setItem('panier', JSON.stringify(panier)) 
@@ -125,7 +132,7 @@ fetch("http://localhost:3000/api/cameras/"+ id)
   
   var array = product.lenses; //def de la variable contenant key de ce sur quoi on veut boucler
   for (let index = 0; index < array.length; index++) {
-    const lenses = array[index];
+    //const lenses = array[index];
     const lentilles = document.createElement("option")
     lentilles.append(product.lenses[index])
     dropdown.append(lentilles)

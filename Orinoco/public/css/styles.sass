@@ -5,7 +5,7 @@ body,html
  padding: 0px
  width: auto
  font-family: Bai Jamjuree
- height: fit-content
+ height: 100vh //reglage de la hauteur à 100% du viewport
 
 footer 
     display: flex
@@ -65,7 +65,7 @@ main
     width: auto
     text-align: center
     padding: 30px 30px 0px 30px
-    height: auto
+    //height: fit-content
     
 .imgtexte
     display: flex
@@ -73,8 +73,9 @@ main
     border: 1px solid black
     background:#f2edf5
     margin-bottom: 20px
-    @include phone 
-     flex-direction: column
+#texte
+    p
+        font-size: 1.2em
 .btn,.btn1
  margin-top: 10px
  padding: 6px 0px 6px 0px
@@ -97,11 +98,21 @@ main
      a
        text-decoration: none
        color: black
+.btn1
+    margin-top: 85px //pour la page produit bouton en dessous de select
+
 
 //PAGE PRODUITS =>  style des éléments DOM rajoutes par produits.js
 .container
  display: flex
- 
+ height: auto
+
+#main-produit
+    height: auto //reglage de la hauteur du container main-produit
+    
+p 
+    font-size: 25px
+
 
 //style options personnalisation des lentilles de cams
 select
@@ -109,6 +120,7 @@ select
   margin-top: 1em
   font-family: Bai Jamjuree
   font-weight: bold
+  font-size: 20px
   width: 15em
   box-shadow: 1px 2px 3px 
 
@@ -153,5 +165,10 @@ label
 
 footer 
     margin-top: 80px
+
+/*PAGE DE CONFIRMATION*/
+
+#confirmation
+ height: 73vh
 
 

@@ -3,9 +3,7 @@ body, html {
   padding: 0px;
   width: auto;
   font-family: Bai Jamjuree;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  height: 100vh;
 }
 
 footer {
@@ -92,7 +90,6 @@ main {
   width: auto;
   text-align: center;
   padding: 30px 30px 0px 30px;
-  height: auto;
 }
 
 .imgtexte {
@@ -104,6 +101,10 @@ main {
   border: 1px solid black;
   background: #f2edf5;
   margin-bottom: 20px;
+}
+
+#texte p {
+  font-size: 1.2em;
 }
 
 .btn, .btn1 {
@@ -137,10 +138,23 @@ main {
   color: black;
 }
 
+.btn1 {
+  margin-top: 85px;
+}
+
 .container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  height: auto;
+}
+
+#main-produit {
+  height: auto;
+}
+
+p {
+  font-size: 25px;
 }
 
 select {
@@ -148,6 +162,7 @@ select {
   margin-top: 1em;
   font-family: Bai Jamjuree;
   font-weight: bold;
+  font-size: 20px;
   width: 15em;
   -webkit-box-shadow: 1px 2px 3px;
           box-shadow: 1px 2px 3px;
@@ -207,5 +222,10 @@ label:hover {
 
 footer {
   margin-top: 80px;
+}
+
+/*PAGE DE CONFIRMATION*/
+#confirmation {
+  height: 73vh;
 }
 /*# sourceMappingURL=styles.css.map */

@@ -53,7 +53,7 @@ camRequest.onreadystatechange = function () {
 
       //ajout tarifs
       const tarif = document.createElement("p")
-      tarif.textContent = "TARIF:" + " " + element.price + "€"
+      tarif.textContent = "TARIF:" + " " + element.price / 100 + "€"
       tarif.style.fontSize = '1.2em'
       divTexte.append(tarif)
 

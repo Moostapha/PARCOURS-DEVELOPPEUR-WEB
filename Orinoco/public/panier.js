@@ -29,8 +29,8 @@ function teteTableau() {
         tdNom.textContent = element.name
         tdPrix.textContent = element.price / 100 + "€"
         tdQuantite.textContent = element.quantite
-        tdTotal.textContent = element.quantite * element.price + "€"
-        total += element.quantite * element.price
+        tdTotal.textContent = element.quantite * element.price / 100 + "€"
+        total += element.quantite * element.price / 100
 
         tr.append(tdNom)
         tr.append(tdPrix)

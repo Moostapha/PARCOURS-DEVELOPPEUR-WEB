@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\..\\..\\Desktop\\go-fullstack-app-cours"
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501
+	}
+}

@@ -16,3 +16,7 @@ module.exports = (req, res, next) => {
     });
   }
 };
+
+/*middleware auth.js
+qui protégera les routes sélectionnées et vérifier 
+que l'utilisateur est authentifié avant d'autoriser l'envoi de ses requêtes. */

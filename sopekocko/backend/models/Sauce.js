@@ -13,8 +13,8 @@ const sauceSchema = mongoose.Schema(
    heat: { type: Number , required: true , default: 0},
    likes: { type: Number , default: 0},
    dislikes: { type: Number , default: 0},
-   usersLiked:  [{type: String, required: false, default: [] }],
-   usersDisliked: [{type: String, required: false, default: [] }],
+   usersLiked:  [{type: String, required: false, default: [] }], // tableau usersLiked
+   usersDisliked: [{type: String, required: false, default: [] }], // tableau usersDisliked
    }
 );
 

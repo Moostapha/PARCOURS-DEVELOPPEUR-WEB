@@ -2,12 +2,12 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
-    } else {
+    const token = req.headers.authorization.split(' ')[1];  // extraction du token du header requête
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');  // Décodage du token, si invalide => erreur
+    const userId = decodedToken.userId;  // extraction userID du token, si invalide => erreur
+    if (req.body.userId && req.body.userId !== userId) { // comparaison userId requête avec celui du token
+      throw 'Invalid user ID';  // si no match => erreur
+    } else { //sinon user identifié on passe au next middleware
       next();
     }
   } catch {

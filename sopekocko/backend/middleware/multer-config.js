@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 
 module.exports = multer({ storage: storage }).single('image');
 
-/*
+/*MULTER
 We need to now apply this middleware on POST routes in sauces controller in order to let users load their files
 
 on our app dynamically. Indeed now URL format is not the same when we join a file to it from the frontend

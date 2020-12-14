@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();      //Building of a Router with express
+const router = express.Router();      // Building of a Router with express
 
 // CONTROLLERS AND MIDDLEWARES IMPORT
 const sauceCtrl = require('../controllers/sauce');   // Import of our controllers controller

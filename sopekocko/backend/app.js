@@ -10,7 +10,7 @@ const path = require('path');
 // Package donnant les login et statuts des requêtes dans le terminal
 const morgan = require('morgan'); 
 // Plugin de sécurisation des headers (liés à la sécurité 11 points de sécurités assurés sur le header http)
-// clickjacking | XSS protection | MIME TYPE sniffing | DNS prefetching
+// OWASP clickjacking | XSS protection | MIME TYPE sniffing | DNS prefetching
 const helmet = require('helmet'); 
 // Données sensibles de connection à la BD dans fichier .env (variables d'environnement)
 require('dotenv').config();
@@ -42,7 +42,7 @@ mongoose.connect(
 app.use(helmet());
 
 
-// GESTIONS DES ERREURS CORS => AUTORSATIONS D'ACCES A L'API
+// GESTIONS DES ERREURS CORS (Cross Origin Ressource Sharing) => AUTORSATIONS D'ACCES A L'API
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); // Ajout des headers aux requêtes envoyées vers l'API

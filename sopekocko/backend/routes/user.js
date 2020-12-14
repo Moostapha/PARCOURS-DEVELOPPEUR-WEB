@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();  //Building a Router with express
-const bouncer = require ("express-bouncer")(500, 60000, 2) // Protection contre attaque brute-force => Blocage après 2 tentatives incorrectes
+const bouncer = require ("express-bouncer")(500, 60000, 2) // Protection contre attaque brute-force DDOS => Blocage après 2 tentatives incorrectes
 const userCtrl = require ('../controllers/user'); //Importing functions from usercontrollers
 
 //Routes given by frontend for signup and login

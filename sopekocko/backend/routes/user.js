@@ -5,6 +5,6 @@ const userCtrl = require ('../controllers/user'); //Importing functions from use
 
 //Routes given by frontend for signup and login
 router.post('/signup' , userCtrl.signup); 
-router.post('/login' , bouncer.block, userCtrl.login); //Route protégées contre les attaques de force brute
+router.post('/login' , bouncer.block, userCtrl.login); // Route protégées contre les attaques de force brute
 
 module.exports = router; // Exporting routes to app.js

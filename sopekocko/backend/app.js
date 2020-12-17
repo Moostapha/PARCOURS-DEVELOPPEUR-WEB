@@ -7,8 +7,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser'); 
 // Accés au chemin de notre systeme de fichier pour servir les images users
 const path = require('path'); 
-// Package donnant les login et statuts des requêtes dans le terminal
-const morgan = require('morgan'); 
 // Plugin de sécurisation des headers (liés à la sécurité 11 points de sécurités assurés sur le header http)
 // OWASP clickjacking | XSS protection | MIME TYPE sniffing | DNS prefetching
 const helmet = require('helmet'); 
@@ -55,11 +53,6 @@ app.use((req, res, next) => {
 // extract the entire body portion of an incoming request stream and exposes it on req.body.
 // Use of json function as a global middleware
 app.use(bodyParser.json()); 
-
-
-// MORGAN will show all requests logs in terminal (for dev purposes)
-app.use(morgan('dev'));
-
 
 // Requêtes envoyées au serveur
 

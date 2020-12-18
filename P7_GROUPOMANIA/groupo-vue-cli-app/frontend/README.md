@@ -1,7 +1,7 @@
 # groupo-vue-cli-app
 
 Application de réseau social interne pour l'entreprise GROUPOMANIA
-Technologies: Vue.js | mySQL
+Technologies: Vue.js | SQL
 
 ## Project setup
 ```

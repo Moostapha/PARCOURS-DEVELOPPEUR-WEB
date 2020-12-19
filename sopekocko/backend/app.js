@@ -11,6 +11,7 @@ const path = require('path');
 // OWASP clickjacking | XSS protection | MIME TYPE sniffing | DNS prefetching
 const helmet = require('helmet'); 
 // Données sensibles de connection à la BD dans fichier .env (variables d'environnement)
+const xss = require('xss-clean'); // plugin contre faille xss
 require('dotenv').config();
 
 
@@ -48,6 +49,8 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware Node.js de connection pour sécuriser les users inputs venant de POST, GET et des URL PARAMS
+app.use(xss()); 
 
 // Request body parser:  
 // extract the entire body portion of an incoming request stream and exposes it on req.body.

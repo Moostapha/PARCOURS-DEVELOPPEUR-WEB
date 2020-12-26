@@ -10,9 +10,10 @@ const path = require('path');
 // Plugin de sécurisation des headers (liés à la sécurité 11 points de sécurités assurés sur le header http)
 // OWASP clickjacking | XSS protection | MIME TYPE sniffing | DNS prefetching
 const helmet = require('helmet'); 
+// plugin contre faille xss
+const xss = require('xss-clean'); 
 // Données sensibles de connection à la BD dans fichier .env (variables d'environnement)
-const xss = require('xss-clean'); // plugin contre faille xss
-require('dotenv').config();
+require('dotenv').config(); // plugin dotenv permettant de placer les donnees sensibles dans fichier .env
 
 
 // IMPORT DES ROUTERS

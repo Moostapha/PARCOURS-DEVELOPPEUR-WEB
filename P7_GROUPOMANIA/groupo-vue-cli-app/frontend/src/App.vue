@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <div id="nav">
+      <!-- Lien URL avec son component associé -->
       <router-link to="/">Home</router-link> 
       <router-link to="/about">About</router-link>
     </div>
+    <!-- component de vue router: zone de page apparition du component de l'URL -->
     <router-view/>
   </div>
 </template>

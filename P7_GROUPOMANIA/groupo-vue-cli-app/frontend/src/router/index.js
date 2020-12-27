@@ -4,11 +4,15 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+/* ROUTES DE L'APPLICATION
+Tableau contenant des objets définissant chaque route
+*/
+
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/',       // URL correspondant au composant
+    name: 'Home',    // Nom de cette route
+    component: Home  // Composant affiché lorsque le path est trouvé
   },
   {
     path: '/about',

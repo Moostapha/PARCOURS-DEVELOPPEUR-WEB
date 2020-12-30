@@ -1,94 +1,57 @@
-//const {getAll, getOne, createPost, updatePost, deletePost} = require('../models/Post'); // import pour affectation dynamique sur une seul fonction getAll
-const dbMysqlCon = require('../mysqlConnection');
-const mysql = require('mysql');
-/*exports.getAllPosts = (req, res, next) => {
-    const posts = getAll();
-    res.status(200).json({posts: posts}) // renvoie les posts au niveau du front
-    
-};*/
-
-/* LOGIQUES METIERS DES POSTS
+//const mysqlConnection = require('../mysqlConnection');
+//const mysql = require('mysql');
+const postModel = require('../models/Post'); // Import des fonctions Models possédant nos requetes SQL
 
 
+/* LOGIQUES METIERS DES POSTS CRUD
+Notre app doit permettre aux users d'accéder:
+1) à tous les posts
+2) à un post en particulier (id)
+3) Opérations CUD (R read étant les 2 du haut).
 */
 
-// Fonction affichant tous les posts (page d'accueil)
-exports.getAllPosts = (req, res, next) => {
-    mysql.query('SELECT * FROM  POSTS',  (error, result , field) => {
-        if (error) throw error; // gestion erreur sur requete
-        console.log(results); // affiche resultat requete sql
-        console.log(fields); // affiche dans console les champs de la requete sql
-        return fields; 
-    })
-    res.status(200).json({posts: posts}); // renvoie all post sous forme json (front)
-    
+// Fonction créant un post
+exports.createPost = async(req, res, next) => {
+    const create = req.body; // on capture le corps de la requete dans une cste
+    // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
+    const createdPost = await postModel.createPost(create.post, create.userId, create.date_creation);
+    res.status(200).json({post: createdPost});
 };
+
+
+
+// Fonction affichant tous les posts (page d'accueil)
+exports.getAllPosts = async(req, res, next) => {
+    const posts = await postModel.getAll();  // model.nomFonctionModelPost
+    res.status(200).json({ post : posts }); // on gere et on capte la reponse avec un statut 200
+    //console.log(posts);
+};
+
 
 // Fonction affichant un seul post 
-exports.getOnePost = (req, res, next) => {
-
+exports.getOnePost = async(req, res, next) => {
+    const id = req.params.id;
+    const post = await postModel.getOne(id);
+    res.status(200).json({ post : post });
 };
 
-// Fonction créant un post
-exports.createPost = (req, res, next) => {
-
-};
 
 // Fonction modifiant un post
-exports.updatePost = (req, res, next) => {
-
+exports.updatePost = async(req, res, next) => {
+    const id = req.params.id;
+    const update = req.body; // on recupere le corps du nouveau post dans une constante
+    // on les met en paramètre dans la fonction Model post
+    const updatedPost = await postModel.updatePost(id, update.post, update.userId, update.date_creation );
+    res.status(200).json({ post: updatedPost });
 };
+
 
 // Fonction supprimant un post
-exports.deletePost = (req, res, next) => {
-
+exports.deletePost = async(req, res, next) => {
+    const id = req.params.id;
+    const deletedPost = await postModel.deletePost(id);
+    res.status(200).json({ post: deletedPost });
 };
 
 
-
-
-/*LOGIQUE METIER DES COMMENTAIRES*/
-
-// Fonction affichant tous les posts (page d'accueil)
-exports.getAllCommentsPosts =(req, res, next) => {
-
-};
-
-// Fonction affichant un seul commentaire
-exports.getOneCommentPost = (req, res, next) => {
-
-};
-
-
-// Fonction créant un commentaire sur un post
-exports.createCommentPost = (req, res, next) => {
-
-};
-
-// Fonction modifiant un commentaire sur un post
-exports.updateCommentPost = (req, res, next) => {
-
-};
-
-// Fonction supprimant un commentaire
-exports.deleteCommentPost = (req, res, next) => {
-
-};
-
-
-
-
-/*LOGIQUES METIERS DES LIKE ET DISLIKE SUR LES POSTS*/
-
-// Fonction like d'un post par user 
-exports.getAllLikePosts = (req, res, next) => {
-
-};
-
-
-// Fonction dislike d'un post par user
-exports.postLikePost = (req, res, next) => {
-
-};
-
-// Fonctions exportées vers /routes/post
+// Toutes nos fonctions exportées vers /routes/post

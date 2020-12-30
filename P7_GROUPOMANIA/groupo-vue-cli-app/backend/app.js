@@ -9,10 +9,11 @@ const xss = require('xss-clean');
 // package protection headers
 const helmet = require('helmet');
 
-// Import des routes user et post
+
+// Import des routes USER | POST | COMMENT
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
-
+const commentRoutes = require('./routes/comment');
 
 
 // PARTIE MIDDLEWARES de app.js
@@ -32,13 +33,11 @@ app.use(bodyParser.json());
 
 
 
-// test read get
-app.get('/getAll' , (req, res, next) => {
-    console.log('test');
-});
-//PARTIE DES ROUTES DE app.js
-app.use('/api/user', userRoutes);
-app.use('/api/post', postRoutes)
+
+//PARTIE DES ROUTES DE app.js => USER POST ET COMMENT
+app.use('/api/user', userRoutes); // Route user
+app.use('/api/post', postRoutes)  // Route post
+app.use('/api/comment', commentRoutes);  // Route commentaire
 
 // export vers le server.js
 module.exports= app;

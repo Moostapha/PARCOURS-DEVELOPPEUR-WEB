@@ -10,15 +10,6 @@ Notre app doit permettre aux users d'accéder:
 3) Opérations CUD (R read étant les 2 du haut).
 */
 
-// Fonction créant un post
-exports.createPost = async(req, res, next) => {
-    const create = req.body; // on capture le corps de la requete dans une cste
-    // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
-    const createdPost = await postModel.createPost(create.post, create.userId, create.date_creation);
-    res.status(200).json({post: createdPost});
-};
-
-
 
 // Fonction affichant tous les posts (page d'accueil)
 exports.getAllPosts = async(req, res, next) => {
@@ -34,6 +25,16 @@ exports.getOnePost = async(req, res, next) => {
     const post = await postModel.getOne(id);
     res.status(200).json({ post : post });
 };
+
+
+// Fonction créant un post
+exports.createPost = async(req, res, next) => {
+    const create = req.body; // on capture le corps de la requete dans une cste
+    // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
+    const createdPost = await postModel.createPost(create.post, create.userId, create.date_creation);
+    res.status(200).json({post: createdPost});
+};
+
 
 
 // Fonction modifiant un post

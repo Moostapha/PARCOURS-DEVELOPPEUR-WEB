@@ -1,18 +1,64 @@
-const connexion = require('../mysqlConnection');
-const mysqlBackbone = require('mysql-backbone'); // module pour l'écriture de models dans mysql db
+const dbmySql = require('../mysqlConnection'); // Import des paramètres de connexion à notre bd groupomania
 
-const Movie = mysqlBackbone.Model.extend({
-	connection: connexion,
-	tableName: "movies",
-});
 
-const Movies = mysqlBackbone.Collection.extend({
-	model: Movie,
-	connection: connexion,
-	tableName: "movies",
-});
+/*FONCTIONS ET REQUETES SQL LIEES A LA TABLE users | OPERATIONS CRUD SUR TABLE user
+Sur la table users, on doit pouvoir manipuler les données de la maniere suivante:
+create | update | delete => on doit avoir ici les requêtes sql permettant d'effectuer 
+ces opérations sur cette table
+*/
 
-const movies = new Movies();
+// FONCTIONS C
+// cryptage password
+exports.signUp = () => {
+
+};
+
+
+// Fonction de connexion sécurisée avec remise de tokens
+exports.login = () => {
+
+};
+
+
+// fonction affichant un user qui est mon compte
+exports.getOneUser = (id) => {
+    return new Promise((resolve, reject) =>{
+        const sql = 'SELECT FROM users WHERE id=?';
+        dbmySql.query( sql , [id], function(error, result, field){
+            if(error) reject (error);
+            resolve(result);
+            console.log(field);
+        })
+    })
+};
+
+// Fonction modifiant une ligne de la table users
+exports.updateUser = (id) => {
+    return new Promise((resolve, reject) =>{
+        const sql ='UPDATE FROM users WHERE id=?, SET email=?, SET password=?, SET date_creation=?';
+        dbmySql.query( sql, [id], function(error, result, field){
+            if(error) reject(error);
+            resolve(result);
+            console.log(field);
+        })
+    })
+};
+
+
+// Fonction requete sql effacant la ligne liée à l'id de la table user
+exports.deleteUser = (id) => {
+    return new Promise((resolve, reject) => {
+        const sql ='DELETE FROM users WHERE id=?';
+        dbmySql.query( sql, [id], function(error, result, field){
+            if(error) reject(error);
+            resolve(result);
+            console.log(field);
+        })
+    })
+};
+
+
+
 
 
 

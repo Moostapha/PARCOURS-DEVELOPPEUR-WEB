@@ -35,7 +35,7 @@ exports.deleteComment = async(req, res, next) => {
 
 
 
-// ELEMENTS NON NECESSAIRES AU CTLER COMMENT
+// ELEMENTS NON NECESSAIRES AU CTLER 'comment' ?
 // // Fonction affichant tous les posts (page d'accueil)
 // exports.getAllCommentsPosts =(req, res, next) => {
 

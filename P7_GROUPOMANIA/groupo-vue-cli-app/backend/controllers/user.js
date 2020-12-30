@@ -36,20 +36,27 @@ exports.login = (req, res, next) => {
 
 
 //Fonction pour lire mon compte user
-exports.getMyAccount = (req, res, next) => {
-
+exports.getMyAccount = async(req, res, next) => {
+    const id = req.params.id // id encodé dans l'URL
+    const myAccount = await User.getOneUser(id); // on reprend la fonction getOneUser du model
+    res.status(200).json({ account: myAccount});
 };
 
 
 // Fonction modif de mon compte user
-exports.updateMyAccount = (req, res, next) => {
-
+exports.updateMyAccount = async(req, res, next) => {
+    const id = req.params.id;
+    const modify = req.body;
+    const updated = await User.updateUser( id, modify.email, modify.password, modify.date_creation);
+    res.status(200).json({ account: updated});
 };
 
 
 // Fonction suppression de mon compte user
-exports.deleteMyAccount = (req, res, next) => {
-
+exports.deleteMyAccount = async(req, res, next) => {
+    const id = req.params.id;
+    const deletedaccount = await User.deleteUser(id);
+    res.staus().json({account : deletedaccount});
 };
 
 

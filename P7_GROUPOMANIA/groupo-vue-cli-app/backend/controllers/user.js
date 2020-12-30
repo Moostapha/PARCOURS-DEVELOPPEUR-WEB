@@ -1,15 +1,9 @@
-const mysqlConnection = require('../mysqlConnection');
-//const mysql = require('mysql');
+// Import du package de cryptage pour password
 const bcrypt = require('bcrypt');
+// Import du package de remise de TOKEN pour authentification
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // schema de donnees User de User/model
-
-
-// Creation de la table users
-/*exports.createuserstable = (req, res, next) => {
-    //query de création dans un const
-    let sql = 'CREATE DATABASE '
-};*/
+// schema de donnees User de User/model
+const User = require('../models/User'); 
 
 
 /* API LOGIQUES METIERS CRUD LIE AU USER qui doit pouvoir :
@@ -23,15 +17,34 @@ const User = require('../models/User'); // schema de donnees User de User/model
 */
 
 
-// Fonction signup création de compte user
-exports.signup = (req, res, next) => {
-
+/* Fonction signup création de compte user et cryptant le password
+Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter
+afin de stocker les passwods des users cryptés sur la BD SQL
+*/
+exports.signup = async(req, res, next) => {
+    const motDePasse = req.body.password;
+    bcrypt.hash(motDePasse , 20);
+    const inscription = await User.signUp(motDePasse);
+    res.status(200).json({ account: inscription });
 };
 
 
-// Fonction login connexion sécurisée et authentifiée du user
-exports.login = (req, res, next) => {
-
+/* Fonction login connexion sécurisée et authentifiée du user 
+Les tokens d'authentification permettent aux utilisateurs de ne se connecter 
+qu'une seule fois à leur compte. Au moment de se connecter, 
+ils recevront leur token et le renverront automatiquement à chaque requête par la suite. 
+Ceci permettra au back-end de vérifier que la requête est authentifiée.
+*/
+exports.login = async(req, res, next) => {
+    const inputLoginPassword = req.body.password;
+    const id = req.params.id;
+    if (bcrypt.compare(inputLoginPassword, id)){
+        const connexion = await User.login(id);
+        res.status(200).json({ account: connexion });
+    } else {
+        res.status(401).json({ message:'Mot de passe incorrect !!!'});
+    }
+    
 };
 
 
@@ -60,8 +73,11 @@ exports.deleteMyAccount = async(req, res, next) => {
 };
 
 
-// Chercher all users
-/*exports.findAll = (req, res, next) => {
+
+// PARTIE TESTS ET BROUILLONS 
+
+/* Chercher all users
+exports.findAll = (req, res, next) => {
     console.log(req.body);
     User.find('all', function(err, rows, fields) {
         if(!err) {
@@ -79,8 +95,8 @@ exports.deleteMyAccount = async(req, res, next) => {
 }*/  
 
 
-//query pour test de connection à la db groupamana-database créée via phpmyadmin
-/*db.connect(function(err) { // on voit l'etat de connection et on gere l'erreur
+/*query pour test de connection à la db groupamana-database créée via phpmyadmin
+db.connect(function(err) { // on voit l'etat de connection et on gere l'erreur
     if (err) throw err; // si erreur de connection on jette une erreur
     console.log("connecté à la base de donnée groupomania"); // Si tout va bien message ds la console
     db.query("SELECT * FROM users" , function (err , result){
@@ -88,3 +104,10 @@ exports.deleteMyAccount = async(req, res, next) => {
         console.log(result);
     })
 });*/
+
+
+/* Creation de la table users
+exports.createuserstable = (req, res, next) => {
+    //query de création dans un const
+    let sql = 'CREATE DATABASE '
+};*/

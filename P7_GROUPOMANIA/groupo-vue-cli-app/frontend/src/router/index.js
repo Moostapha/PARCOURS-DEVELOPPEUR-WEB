@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Inscription from '../views/Inscription.vue'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,16 @@ const routes = [
     name: 'Home',    // Nom de cette route
     component: Home  // Composant affiché lorsque le path est trouvé
   },
+
+  // Route pour la page inscription pour signup
+  // Route pour la view Inscription contenant component Signup
+  {
+    path: '/',
+    name: 'Inscription',
+    component: Inscription
+  },
+
+  
   {
     path: '/about',
     name: 'About',

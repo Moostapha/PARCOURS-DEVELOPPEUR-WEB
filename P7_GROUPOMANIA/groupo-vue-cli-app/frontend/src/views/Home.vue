@@ -9,6 +9,7 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 
+// export vers index.js + template du haut
 export default {
   name: 'Home',
   components: {

@@ -19,8 +19,7 @@ const User = require('../models/User');
 
 /* Fonction signup création de compte user et cryptant le password
 Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter
-afin de stocker les passwods des users cryptés sur la BD SQL
-*/
+afin de stocker les passwods des users cryptés sur la BD SQL*/
 exports.signup = async(req, res, next) => {
     const motDePasse = req.body.password;
     bcrypt.hash(motDePasse , 20);
@@ -34,18 +33,34 @@ Les tokens d'authentification permettent aux utilisateurs de ne se connecter
 qu'une seule fois à leur compte. Au moment de se connecter, 
 ils recevront leur token et le renverront automatiquement à chaque requête par la suite. 
 Ceci permettra au back-end de vérifier que la requête est authentifiée.
+Le Token est assigné à l'id clé primaire du user dans notre BD SQL. L'id clé primaire 
+nous servira aussi à identifier de manière unique un user qui se connecte à l'app.
 */
 exports.login = async(req, res, next) => {
-    const inputLoginPassword = req.body.password;
-    const id = req.params.id;
+    const inputLoginPassword = req.body.password; // password send avec requête
+    const id = req.params.id; // id clé primaire table users qui est notre objet filtre (car unique)
+
+    // cas ou on ne trouve pas l'id clé primaire dans la DB:
+    if(!id) {
+        return res.status(401).json({message:'Utilisateur non trouvé !!!'});
+    };
+
+    // comparaison ok des logins (stocké ds DB et entrée input) => comparaison input password avec hash gardé dans la BD
     if (bcrypt.compare(inputLoginPassword, id)){
-        const connexion = await User.login(id);
+        const token = jwt.sign(
+            {userId: id},
+            'RANDOM_TOKEN_SECRET',
+            { expiresIn: '24h'},
+        );
+        const connexion = await User.login(id, token);
         res.status(200).json({ account: connexion });
+        res.status(200).json({ message: 'Connexion à votre compte réussie !!!' });
     } else {
-        res.status(401).json({ message:'Mot de passe incorrect !!!'});
+        // cas ou comparaison entrée stockée invalide => input password ne match pas avec le hash de la BD
+        return res.status(401).json({ message:'Mot de passe incorrect !!!'});
     }
-    
 };
+
 
 
 //Fonction pour lire mon compte user

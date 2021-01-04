@@ -1,42 +1,44 @@
 <template>
-<div class="signup">
+    <div class="login">
     <h1>SOCIAL NETWORK GROUPOMANIA</h1>
     <h1>{{ msg }}</h1>
     <form>
         <div class="form-group">
-            <label for="InputEmail1">Adresse Email</label>
+            <label for="InputEmail">Adresse Email</label>
             <input
                 type="email"
                 class="form-control"
-                id="InputEmail1"
+                id="InputEmail"
                 aria-describedby="emailHelp"
             />
         </div>
         <div class="form-group">
-            <label for="InputPassword1">Mot de passe</label>
+            <label for="InputPassword">Mot de passe</label>
             <input
                 type="current-password"
                 class="form-control"
-                id="InputPassword1"
+                id="InputPassword"
             />
         </div>
-        <button type="submit" class="btn btn-primary">Inscription</button>
-        <small>Déja inscrit?  <a href="">cliquez ici pour vous identifier</a></small>
+        <div>
+            <button type="submit" class="btn btn-primary">Inscription</button>
+            <small>Vous possédez déjà un compte?  <a href="">cliquez ici pour vous connecter à votre compte</a></small>
+        </div>
+        
     </form>
 </div>
 </template>
 
 
 <script>
-    // export de ce component vers la view Inscription
+    // export de ce component Login vers le component /view/Connexion
     export default {
-        name: "Signup",
+        name: 'Login',
         props: {
-            msg: String,
-        }
-    };
+        msg: String,
+    }
+}
 </script>
-
 
 
 <style lang="sass" scoped>
@@ -44,4 +46,6 @@
         width: 500px
         padding: 0px 30px 30px 30px
         
+    
+    
 </style>

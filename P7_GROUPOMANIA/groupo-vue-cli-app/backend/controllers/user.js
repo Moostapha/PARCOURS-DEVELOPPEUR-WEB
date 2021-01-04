@@ -20,12 +20,18 @@ const User = require('../models/User');
 /* Fonction signup création de compte user et cryptant le password
 Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter
 afin de stocker les passwods des users cryptés sur la BD SQL*/
-exports.signup = async(req, res, next) => {
-    const motDePasse = req.body.password;
-    bcrypt.hash(motDePasse , 20);
-    const inscription = await User.signUp(motDePasse);
-    res.status(200).json({ account: inscription });
+exports.signup = (req, res, next) => {
+    const motDePasse = req.body.password; // récupération du password envoyée par le front
+    bcrypt.hash(motDePasse , 10) // cryptage de ce dernier
+    .then (
+        async(hash) => {
+            const inscription = await User.signUp(email, hash, date_creation); // params fonction ici dans le meme ordre que params fonction du Model
+            res.status(201).json({ account: inscription });
+        }
+    )
+    .catch( error => res.status(500).json({ message: error }) );
 };
+
 
 
 /* Fonction login connexion sécurisée et authentifiée du user 
@@ -37,54 +43,56 @@ Le Token est assigné à l'id clé primaire du user dans notre BD SQL. L'id clé
 nous servira aussi à identifier de manière unique un user qui se connecte à l'app.
 */
 exports.login = async(req, res, next) => {
-    const inputLoginPassword = req.body.password; // password send avec requête
-    const id = req.params.id; // id clé primaire table users qui est notre objet filtre (car unique)
-
-    // cas ou on ne trouve pas l'id clé primaire dans la DB:
-    if(!id) {
-        return res.status(401).json({message:'Utilisateur non trouvé !!!'});
+    // password et email send avec requête depuis le front
+    const inputLoginPassword = req.body.password; 
+    const email = req.body.email; 
+    // cas ou on ne trouve pas le mail dans la DB:
+    if(!email) {
+        return res.status(401).json({message:'Utilisateur inconnu !!!'});
     };
-
-    // comparaison ok des logins (stocké ds DB et entrée input) => comparaison input password avec hash gardé dans la BD
-    if (bcrypt.compare(inputLoginPassword, id)){
-        const token = jwt.sign(
-            {userId: id},
-            'RANDOM_TOKEN_SECRET',
-            { expiresIn: '24h'},
-        );
-        const connexion = await User.login(id, token);
-        res.status(200).json({ account: connexion });
-        res.status(200).json({ message: 'Connexion à votre compte réussie !!!' });
-    } else {
-        // cas ou comparaison entrée stockée invalide => input password ne match pas avec le hash de la BD
-        return res.status(401).json({ message:'Mot de passe incorrect !!!'});
-    }
+    const connexion = await User.login(email); // infos user à la connexion (inputs) ou le mail apparait (all champs)
+    // comparaison ok logins (stocké ds DB et entrée input) => comparaison input password avec hash gardé dans la BD
+    bcrypt.compare(inputLoginPassword, connexion.password)
+    .then( res => {
+        if (res === true) {
+            const token = jwt.sign(
+                {userId: connexion.id},
+                'RANDOM_TOKEN_SECRET',
+                { expiresIn: '24h'},
+            );
+            res.status(200).json({ account: token });
+            res.status(200).json({ message: 'Connexion à votre compte réussie !!!' });
+        } else {
+            res.status(401).json({error: 'Mot de passe ou email incorrect !!!'}) 
+        }
+    })
+    .catch( error => res.status(500).json({error}) );
 };
 
 
 
 //Fonction pour lire mon compte user
 exports.getMyAccount = async(req, res, next) => {
-    const id = req.params.id // id encodé dans l'URL
-    const myAccount = await User.getOneUser(id); // on reprend la fonction getOneUser du model
+    const primaryId = req.params.id // id encodé dans l'URL
+    const myAccount = await User.getOneUser(primaryId ); // on reprend la fonction getOneUser du model
     res.status(200).json({ account: myAccount});
 };
 
 
 // Fonction modif de mon compte user
 exports.updateMyAccount = async(req, res, next) => {
-    const id = req.params.id;
+    const primaryId  = req.params.id;
     const modify = req.body;
-    const updated = await User.updateUser( id, modify.email, modify.password, modify.date_creation);
-    res.status(200).json({ account: updated});
+    const updatedAccount = await User.updateUser( modify.email, modify.password, modify.date_creation, primaryId   );
+    res.status(200).json({ account: updatedAccount});
 };
 
 
 // Fonction suppression de mon compte user
 exports.deleteMyAccount = async(req, res, next) => {
-    const id = req.params.id;
-    const deletedaccount = await User.deleteUser(id);
-    res.staus().json({account : deletedaccount});
+    const primaryId  = req.params.id;
+    const deletedAccount = await User.deleteUser(primaryId );
+    res.status(200).json({ account : deletedAccount });
 };
 
 

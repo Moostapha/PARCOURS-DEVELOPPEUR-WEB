@@ -4,10 +4,10 @@ const dbmySql = require('../mysqlConnection');   // import configuration de conn
 // User doit pouvoir créer | modifier | effacer son commentaire
 
 
-exports.create = () => {
-    return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO comments VALUES (userId=?, postId=?, commentaire=?, date_creation=?,)'
-        dbmySql.query( sql, function(error, result, field) {
+exports.create = (userId, postId, commentaire, date_creation) => {
+    return new Promise((resolve, reject) => { // respecter ordre champs des tables
+        const sql = 'INSERT INTO comments VALUES (userId=?, postId=?, commentaire=?, date_creation=?)'
+        dbmySql.query( sql, [ userId, postId, commentaire, date_creation ], function(error, result, field) {
             if (error) reject (error);
             resolve (result);
             console.log(field);
@@ -17,10 +17,10 @@ exports.create = () => {
 
 
 
-exports.update = (id_primary) => {
+exports.update = (id_primary, userId, postId, commentaire, date_creation) => {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO comments values( userId=?, postId=?, commentaire=?, date_creation=? ) WHERE id=?'
-        dbmySql.query( sql , [id_primary] ,function(error, result, field) {
+        const sql = 'UPDATE posts SET userId=?, postId=?, commentaire=?, date_creation=? WHERE id=?'
+        dbmySql.query( sql , [userId, postId, commentaire, date_creation, id_primary] ,function(error, result, field) {
             if ( error ) reject( error );
             resolve(result);
             console.log(field)

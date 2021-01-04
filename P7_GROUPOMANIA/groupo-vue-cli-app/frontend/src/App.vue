@@ -2,6 +2,8 @@
   <div id="app">
     <div id="nav">
       <!-- Lien URL avec son component associé -->
+      <router-link to="/inscription">Inscription</router-link> 
+      <router-link to="/connexion">Connexion</router-link> 
       <router-link to="/">Home</router-link> 
       <router-link to="/about">About</router-link>
     </div>

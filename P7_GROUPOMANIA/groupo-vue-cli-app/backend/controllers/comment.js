@@ -10,14 +10,15 @@ Doit on pouvoir voir les commentaires des autres users?
 exports.createComment = async(req, res, next) => {
     const newComment = req.body;
     const createdComment = await commentModel.create( newComment.userId, newComment.postId, newComment.commentaire , newComment.date_creation);
-    res.status(200).json({ comment: createdComment });
+    res.status(201).json({ comment: createdComment });
 };
 
 
 // Fonction modifiant un commentaire sur un post
 exports.updateComment = async(req, res, next) => {
-     const id = req.params.id;  // capture de l'id du commentaire modifié
+    const id = req.params.id;  // capture de l'id du commentaire modifié
     const modify = req.body;
+    // Attention !!! Respecter ordre des paramètres de fonction
     const updatedComment = await commentModel.update( id, modify.userId , modify.postId , modify.commentaire , modify.date_creation );
     res.status(200).json({comment: updatedComment});
 };

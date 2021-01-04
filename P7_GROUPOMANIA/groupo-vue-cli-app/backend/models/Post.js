@@ -7,7 +7,7 @@ const dbmySql = require('../mysqlconnection');  // import configuration de conne
 // REQUETES CRUD SUR LA TABLE POSTS DE NOTRE DB MYSQL
 
 // Fonction requête sql pour affichage de tous les posts
-exports.getAll = () => {
+exports.getAllInTable = () => {
     return new Promise((resolve, reject) => { //gestion asynchrone
         const sql = 'SELECT * FROM posts';
         dbmySql.query( sql, function(error, results, fields) {
@@ -16,48 +16,44 @@ exports.getAll = () => {
             console.log(fields);
         });
     })
-    
 };
 
 
 // Fonction requête sql pour affichage d'un seul post
 // Requete query on selectionne toutes les colonnes correspondant à l'id_post en parametre
-exports.getOne = (id_post) => {
+exports.getOneInTable = (id_post) => { // id_post === primaryId
     return new Promise((resolve, reject) => { //gestion asynchrone
         const sql = 'SELECT * FROM posts WHERE id= ?';
         dbmySql.query( sql , [id_post] , function(error, results, fields) {
             if (error) reject(error);
             console.log(fields);
             resolve(results);
-            
         })
     })
-    
 };
 
 
+
 // Fonction requête sql pour CREATION d'un post
-exports.createPost = () => {
+exports.createInTable = (post, userId, date_creation) => {
     return new Promise((resolve, reject) => {
         // requete de création de ligne dans table posts
         const sql = 'INSERT INTO posts VALUES (post=?, userId=?, date_creation=?)';
-        dbmySql.query( sql, function (error, results, fields){
+        dbmySql.query( sql, [post, userId, date_creation], function (error, results, fields){
             if (error) reject (error);
             resolve(results);
             console.log(fields);
         })
-    // ALTER TABLE `posts` ADD `post` VARCHAR NOT NULL,
     })
-    
 };
 
 
 // Fonction requête sql pour MODIFIER un post
-exports.updatePost = (id_post) => {
+exports.updateInTable = (id_post, post, userId, date_creation) => {
     return new Promise((resolve,reject) => {
         //requete sql dans une const
-        const sql = 'UPDATE posts SET post=?, SET userId=?, SET date_creation=? WHERE id=?';
-        dbmySql.query( sql, [id_post], function (error, results, fields){
+        const sql = 'UPDATE posts SET post=?, userId=?, date_creation=? WHERE id=?';
+        dbmySql.query( sql, [post, userId, date_creation, id_post], function (error, results, fields){
             if (error) reject (error);
             resolve(results);
             console.log(fields);
@@ -69,7 +65,7 @@ exports.updatePost = (id_post) => {
 
 
 // Fonction requête sql pour SUPPRIMER un post
-exports.deletePost = (id_post) => { // ds ma db l'id du post est id et non id_post
+exports.deleteInTable = (id_post) => { // ds ma db l'id du post est id et non id_post
     return new Promise((resolve,reject) => {
         const sql = 'DELETE FROM posts WHERE id= ?';
         dbmySql.query( sql, [id_post], function (error, results, fields){

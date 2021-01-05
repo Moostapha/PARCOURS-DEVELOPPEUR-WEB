@@ -21,13 +21,13 @@
             />
         </div>
         <div>
-            <button type="submit" class="btn btn-primary">Inscription</button>
-            <small>Vous possédez déjà un compte?  <a href="">cliquez ici pour vous connecter à votre compte</a></small>
+            <button type="submit" class="btn btn-primary">Connexion</button>
         </div>
-        
     </form>
-</div>
+    </div>
 </template>
+
+
 
 
 <script>
@@ -42,9 +42,23 @@
 
 
 <style lang="sass" scoped>
+    .login
+        height: 100vh
+        margin-top: 5vh
+        background-image: url('../assets/icon-above-font.png')
+        background-repeat: no-repeat
+        background-position: center
+
+
+    h1
+        font-size: 1.5em
+        
+    
     form
+        //position: relative
         width: 500px
-        padding: 0px 30px 30px 30px
+        padding: 15px 30px 30px 30px
+        margin: auto
         
     
     

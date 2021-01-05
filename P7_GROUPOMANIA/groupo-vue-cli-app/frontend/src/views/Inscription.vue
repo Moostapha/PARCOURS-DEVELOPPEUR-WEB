@@ -1,6 +1,6 @@
 <template>
     <div class="inscriptionSignup">
-        <Signup msg="Bienvenue !!! Veuillez créer votre compte en remplissant ce formulaire"/>
+        <Signup msg=" Créer votre compte"/>
     </div>
 </template>
 

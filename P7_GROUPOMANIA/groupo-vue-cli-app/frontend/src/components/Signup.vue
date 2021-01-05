@@ -1,5 +1,6 @@
 <template>
 <div class="signup">
+    
     <h1>SOCIAL NETWORK GROUPOMANIA</h1>
     <h1>{{ msg }}</h1>
     <form>
@@ -21,10 +22,11 @@
             />
         </div>
         <button type="submit" class="btn btn-primary">Inscription</button>
-        <small>Déja inscrit?  <a href="">cliquez ici pour vous identifier</a></small>
+        
     </form>
 </div>
 </template>
+
 
 
 <script>
@@ -40,8 +42,23 @@
 
 
 <style lang="sass" scoped>
-    form
-        width: 500px
-        padding: 0px 30px 30px 30px
+    .signup
+        height: 100vh
+        margin-top: 5vh
+        background-image: url('../assets/icon-above-font.png')
+        background-repeat: no-repeat
+        background-position: center
         
+
+
+    h1
+        font-size: 1.5em
+        
+    
+    form
+        //position: relative
+        width: 500px
+        padding: 15px 30px 30px 30px
+        margin: auto
 </style>
+

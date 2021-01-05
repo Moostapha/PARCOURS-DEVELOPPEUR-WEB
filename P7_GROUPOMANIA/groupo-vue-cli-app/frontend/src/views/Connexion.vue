@@ -1,6 +1,6 @@
 <template>
     <div class="connexionLogin">
-        <Login msg="Bienvenue !!! Connectez vous à cotre compte"/>
+        <Login msg="Connectez vous à cotre compte"/>
     </div>
 </template>
 

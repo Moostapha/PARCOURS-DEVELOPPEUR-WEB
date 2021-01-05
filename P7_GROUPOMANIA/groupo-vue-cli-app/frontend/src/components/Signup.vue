@@ -42,23 +42,25 @@
 
 
 <style lang="sass" scoped>
-    .signup
-        height: 100vh
-        margin-top: 5vh
-        background-image: url('../assets/icon-above-font.png')
-        background-repeat: no-repeat
-        background-position: center
-        
-
-
-    h1
-        font-size: 1.5em
-        
+.signup
+    height: 100vh
+    margin-top: 5vh
+    background-image: url('../assets/icon-groupomania.png')
+    background-repeat: no-repeat
+    background-position: center
+    background-position-y: 75%
     
-    form
-        //position: relative
-        width: 500px
-        padding: 15px 30px 30px 30px
-        margin: auto
+h1
+    font-size: 1.5em
+    
+form
+    //position: relative
+    width: 100vh
+    padding: 15px 30px 30px 30px
+    margin: auto
 </style>
+
+
+
+
 

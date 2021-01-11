@@ -21,11 +21,14 @@ const User = require('../models/User');
 Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter
 afin de stocker les passwods des users cryptés sur la BD SQL*/
 exports.signup = (req, res, next) => {
+    
     const motDePasse = req.body.password; // récupération du password envoyée par le front
+    const username = req.body.username;
+    const email = req.body.email;
     bcrypt.hash(motDePasse , 10) // cryptage de ce dernier
     .then (
         async(hash) => {
-            const inscription = await User.signUp(email, hash, date_creation); // params fonction ici dans le meme ordre que params fonction du Model
+            const inscription = await User.signUp(username, email, hash); // params fonction ici dans le meme ordre que params fonction du Model
             res.status(201).json({ account: inscription });
         }
     )
@@ -73,25 +76,31 @@ exports.login = async(req, res, next) => {
 
 //Fonction pour lire mon compte user
 exports.getMyAccount = async(req, res, next) => {
-    const primaryId = req.params.id // id encodé dans l'URL
-    const myAccount = await User.getOneUser(primaryId ); // on reprend la fonction getOneUser du model
-    res.status(200).json({ account: myAccount});
+    const userId = req.params.id // id encodé dans l'URL
+    const myAccount = await User.getOneUser(userId); // on reprend la fonction getOneUser du model
+    res.status(200).json({ account: myAccount });
 };
 
 
 // Fonction modif de mon compte user
 exports.updateMyAccount = async(req, res, next) => {
-    const primaryId  = req.params.id;
+    const userId  = req.params.id;
     const modify = req.body;
-    const updatedAccount = await User.updateUser( modify.email, modify.password, modify.date_creation, primaryId   );
-    res.status(200).json({ account: updatedAccount});
+    const updatedAccount = await User.updateUser(  
+        modify.username, 
+        modify.email, 
+        modify.password, 
+        modify.date_creation, 
+        userId 
+    );
+    res.status(200).json({ account: updatedAccount });
 };
 
 
 // Fonction suppression de mon compte user
 exports.deleteMyAccount = async(req, res, next) => {
-    const primaryId  = req.params.id;
-    const deletedAccount = await User.deleteUser(primaryId );
+    const userId  = req.params.id;
+    const deletedAccount = await User.deleteUser(userId);
     res.status(200).json({ account : deletedAccount });
 };
 

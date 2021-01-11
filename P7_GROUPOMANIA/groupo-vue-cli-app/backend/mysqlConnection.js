@@ -13,7 +13,7 @@ const mysqlConnection = mysql.createConnection({
   database : process.env.DATABASENAME, //nom db créé en ligne 28 (si code l-28 absent commenter cette ligne)
   debug: true
 });
-console.log(mysqlConnection);
+//console.log(mysqlConnection);
 
 // etablissement de la connection avec le serveur mysql | état de la connection et gestion erreur
 mysqlConnection.connect( (err) => { // notation ES6 pour les fonctions

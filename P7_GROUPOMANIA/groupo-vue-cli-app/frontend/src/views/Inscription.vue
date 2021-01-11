@@ -11,11 +11,12 @@
     // export vers index.js + template du haut
     export default {
         name: 'Inscription',
-        components: {Signup},
+        components: { Signup },
     }
 </script>
 
 
+<!-- Style dans component d'origine SignUp -->
 <style>
     
 </style>

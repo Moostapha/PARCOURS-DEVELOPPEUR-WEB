@@ -2,7 +2,7 @@ const validation = require('mongoose-validator');
 
 /*VALIDATION DES CHAMPS DE FORMULAIRE POUR LES SAUCES
 regex pour éviter les symboles caractères alpha-numérique seulement
-longueur chaîne de caractère du champ => 'matches'
+longueur chaîne de caractère du champ => 'isLenght'
 Nous devons valider 4 champs:
 name | manufacturer | description | mainPepper
 On ira ensuite modifier le schéma Sauce avec ce middleware

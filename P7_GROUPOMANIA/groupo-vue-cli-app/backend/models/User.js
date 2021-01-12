@@ -19,8 +19,9 @@ exports.signUp = (username, email, password) => {
         // Attention dans VALUES, ne pas mettre champ=? mais juste des ? sinon le user est créé 
         // mais dans les champs de la db => 0 sera écrit à la place des infos attendues 
         const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ? )'; 
+        let dataNewUser = [username, email, password]
         // excécution requete SQL
-        dbmySql.query( sql, [username, email, password], function(error, result, field) {
+        dbmySql.query( sql, dataNewUser, function(error, result, field) {
             if(error) reject(error);
             resolve(result);
             console.log(field);

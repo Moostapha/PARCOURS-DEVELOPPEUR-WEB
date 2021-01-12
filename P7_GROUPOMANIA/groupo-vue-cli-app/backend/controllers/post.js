@@ -31,7 +31,7 @@ exports.getOnePost = async(req, res, next) => {
 exports.createPost = async(req, res, next) => {
     const create = req.body; // on capture le corps de la requete dans une cste
     // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
-    const createdPost = await postModel.createInTable(create.post, create.userId, create.date_creation);
+    const createdPost = await postModel.createInTable(create.post, create.userId);
     res.status(201).json({post: createdPost});
 };
 
@@ -39,10 +39,10 @@ exports.createPost = async(req, res, next) => {
 
 // Fonction modifiant un post
 exports.updatePost = async(req, res, next) => {
-    const id = req.params.id;
+    const idPost = req.params.id; // clé primaire du post dans db
     const update = req.body; // on recupere le corps du nouveau post dans une constante
     // on les met en paramètre dans la fonction Model post
-    const updatedPost = await postModel.updateInTable(id, update.post, update.userId, update.date_creation );
+    const updatedPost = await postModel.updateInTable( update.post, update.userId, idPost );
     res.status(201).json({ post: updatedPost });
 };
 

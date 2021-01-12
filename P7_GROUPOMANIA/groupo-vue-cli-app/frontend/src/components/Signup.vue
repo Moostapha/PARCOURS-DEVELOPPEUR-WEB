@@ -34,10 +34,10 @@
             <button v-on:click="submit" type="button" class="btn btn-primary">Inscription</button>
         </div>
         
-        
     </form>
 </div>
 </template>
+
 
 
 
@@ -89,14 +89,11 @@
                     console.log(response);
                     // redirection vers route login
                     this.$router.push('/login');
-                    //this.login = response.data.user;
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-
-                
-
+                    
             }
         },
         mounted(){
@@ -104,12 +101,6 @@
         }
     }
 </script>
-
-
-
-
-
-
 
 <style lang="sass" scoped>
 .signup
@@ -193,6 +184,15 @@ form
 // data: { user: 'name' }
 // }) **/
 </style>
+
+
+
+
+
+
+
+
+
 
 
 

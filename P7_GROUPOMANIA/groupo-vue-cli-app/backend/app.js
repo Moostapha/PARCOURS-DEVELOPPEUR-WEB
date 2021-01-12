@@ -34,7 +34,8 @@ app.use(xss());
 
 // Middleware pour bodyparser qui transforme le corps de la requête en objet JS utilisable
 app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({extended: true})); // encodage URL infos venant du front au format JS
+// encodage URL infos venant du front au format JS
+app.use(bodyParser.urlencoded({extended: true})); 
 
 
 //PARTIE DES ROUTES DE app.js => USER POST ET COMMENT

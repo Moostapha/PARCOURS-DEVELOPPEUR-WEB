@@ -62,17 +62,17 @@
                 }
 
                 const dataPosted = {
-                
                     email: this.email,
                     password: this.password
                 }
-                // pour requete post, axios prend 3 arguments
+
+                // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 axios.post('api/user/login',dataPosted, axiosCors)
                 .then(response => {
                     console.log(response);
                     //this.login = response.data.user;
                      // redirection vers route accueil
-                    this.$router.push('/accueil');
+                    //this.$router.push('/accueil');
                 })
                 .catch((error) => {
                     console.log(error);
@@ -84,6 +84,7 @@
         }
     }
 </script>
+
 
 <style lang="sass" scoped>
 .login

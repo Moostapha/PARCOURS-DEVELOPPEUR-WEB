@@ -82,14 +82,14 @@
                 }
                 
                 console.log(dataPosted);
-                // Ecriture avec params axios => axios.post('url', data, headerConfig)
+                // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 // adresse url refactoré avec axiosConfig.js
                 axios.post('api/user/signup', dataPosted, axiosCors ) // Ma route n'est pas reconnue => erreur 404 !!!
                 .then(response => {
                     console.log(response);
-                    //this.signup = response.data.user;
                     // redirection vers route login
                     this.$router.push('/login');
+                    //this.login = response.data.user;
                 })
                 .catch((error) => {
                     console.log(error);

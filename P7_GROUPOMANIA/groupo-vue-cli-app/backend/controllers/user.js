@@ -21,19 +21,23 @@ const User = require('../models/User');
 Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter
 afin de stocker les passwods des users cryptés sur la BD SQL*/
 exports.signup = (req, res, next) => {
+    // récupération infos envoyées par le front
+    // récupération corps requetes POST du frontend du nouvel utilisateur du réseau social
+    const newUser = req.body
     
-    const motDePasse = req.body.password; // récupération du password envoyée par le front
-    const username = req.body.username;
-    const email = req.body.email;
-    bcrypt.hash(motDePasse , 10) // cryptage de ce dernier
+    // hash du password
+    bcrypt.hash(newUser.password , 10) // cryptage de ce dernier
     .then (
         async(hash) => {
-            const inscription = await User.signUp(username, email, hash); // params fonction ici dans le meme ordre que params fonction du Model
+            const inscription = await User.signUp(newUser.username, newUser.email, hash); // params fonction ici dans le meme ordre que params fonction du Model
             res.status(201).json({ account: inscription });
+            console.log(inscription);
         }
     )
     .catch( error => res.status(500).json({ message: error }) );
 };
+
+
 
 
 
@@ -46,31 +50,40 @@ Le Token est assigné à l'id clé primaire du user dans notre BD SQL. L'id clé
 nous servira aussi à identifier de manière unique un user qui se connecte à l'app.
 */
 exports.login = async(req, res, next) => {
+
     // password et email send avec requête depuis le front
     const inputLoginPassword = req.body.password; 
     const email = req.body.email; 
+
     // cas ou on ne trouve pas le mail dans la DB:
     if(!email) {
         return res.status(401).json({message:'Utilisateur inconnu !!!'});
     };
-    const connexion = await User.login(email); // infos user à la connexion (inputs) ou le mail apparait (all champs)
-    // comparaison ok logins (stocké ds DB et entrée input) => comparaison input password avec hash gardé dans la BD
+
+    // infos user à la connexion (inputs) ou le mail apparait (all champs)
+    const connexion = await User.login(email); 
+
+    // cas ou on trouve le mail dans la DB: comparaison input password avec hash gardé dans la BD
     bcrypt.compare(inputLoginPassword, connexion.password)
     .then( res => {
+        // cas ou la comparaison est vraie
         if (res === true) {
+            // émission du token d'authentification du user
             const token = jwt.sign(
                 {userId: connexion.id},
                 'RANDOM_TOKEN_SECRET',
                 { expiresIn: '24h'},
             );
-            res.status(200).json({ account: token });
-            res.status(200).json({ message: 'Connexion à votre compte réussie !!!' });
+            res.status(200).json({ account: token }); // succés et assignation
+            res.status(200).json({ message: 'Connexion à votre compte réussie !!!' }); // message de succés
         } else {
+            // sinon on renvoie cette erreur
             res.status(401).json({error: 'Mot de passe ou email incorrect !!!'}) 
         }
     })
     .catch( error => res.status(500).json({error}) );
 };
+
 
 
 
@@ -106,40 +119,4 @@ exports.deleteMyAccount = async(req, res, next) => {
 
 
 
-// PARTIE TESTS ET BROUILLONS 
 
-/* Chercher all users
-exports.findAll = (req, res, next) => {
-    console.log(req.body);
-    User.find('all', function(err, rows, fields) {
-        if(!err) {
-            res.send(rows);
-        };
-        console.log(fields);
-        console.log('test');
-    }) 
-    dbmysql.query('SELECT * from users', function(err, rows) {
-        console.log(rows);
-    });
-    const value = {'email': 'emtee@walabok.com'};
-    User.save(value);
-
-}*/  
-
-
-/*query pour test de connection à la db groupamana-database créée via phpmyadmin
-db.connect(function(err) { // on voit l'etat de connection et on gere l'erreur
-    if (err) throw err; // si erreur de connection on jette une erreur
-    console.log("connecté à la base de donnée groupomania"); // Si tout va bien message ds la console
-    db.query("SELECT * FROM users" , function (err , result){
-        if (err) throw err;
-        console.log(result);
-    })
-});*/
-
-
-/* Creation de la table users
-exports.createuserstable = (req, res, next) => {
-    //query de création dans un const
-    let sql = 'CREATE DATABASE '
-};*/

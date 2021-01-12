@@ -15,13 +15,16 @@ ces opérations sur cette table => user: id (autoincrement) | username | email |
 */
 exports.signUp = (username, email, password) => {
     return new Promise((resolve, reject) => {
-        // préparation requete SQL
-        const sql = 'INSERT INTO users (username, email, password) values ( username=?, email=?, password=? )'; // modif car ajout de username
+        // préparation requete SQL modif car ajout de username
+        // Attention dans VALUES, ne pas mettre champ=? mais juste des ? sinon le user est créé 
+        // mais dans les champs de la db => 0 sera écrit à la place des infos attendues 
+        const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ? )'; 
         // excécution requete SQL
         dbmySql.query( sql, [username, email, password], function(error, result, field) {
             if(error) reject(error);
             resolve(result);
             console.log(field);
+            console.log(result);
         })
     })
 };
@@ -40,7 +43,7 @@ exports.login = (email) => {
         // excécution de la requête SQL
         dbmySql.query( sql, [email], function(error, result, field){
             if(error) reject(error);
-            
+            resolve(result);
             console.log(error);
         })
     })

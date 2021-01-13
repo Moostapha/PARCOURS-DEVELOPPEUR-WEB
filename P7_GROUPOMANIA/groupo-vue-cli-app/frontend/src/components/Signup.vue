@@ -5,38 +5,62 @@
 
     <!-- Formulaire avec 3 champs : username | email | password -->
 
-    <form @submit.prevent="submit">  <!-- Ajout de l'eventlistener(fonction submit ligne 60) avec .prevent pour empêcher comportement par défaut -->
+    <ValidationObserver v-slot="{ handleSubmit}">
+        <form @submit.prevent="handleSubmit(submit)">  <!-- Ajout de l'eventlistener(fonction submit ligne 60) avec .prevent pour empêcher comportement par défaut -->
         
-        <div class="form-group">
-            <label for="InputUsername">Username</label>
-            <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
-            <input v-model="username"  
-            type="text" required="required" class="form-control" id="InputUsername" aria-describedby="emailHelp" placeholder="Nom ou pseudo" method="post"/>
-        </div>
+            <div class="form-group">
+                <label for="InputUsername">Username</label>
+                <!-- Validation de champ avec vee-validate-->
+                <validationProvider name="Username" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
+                    <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
+                    <input v-model="username"  
+                        type="text" class="form-control" id="InputUsername" 
+                        aria-describedby="emailHelp" placeholder="Nom ou pseudo" method="post"
+                    />
+                    <span>{{ errors[0] }}</span>
+                </validationProvider>
+            </div>
 
-        <div class="form-group">
-            <label for="InputEmail">Adresse Email</label>
-            <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
-            <input v-model="email" 
-            type="email" required="required" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com" method="post"/>
-        </div>
 
-        <div class="form-group">
-            <label for="InputPassword">Mot de passe</label>
-            <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
-            <input v-model="password" 
-            type="current-password" required="required" class="form-control" id="InputPassword" placeholder="Chiffres et lettres uniquement, max 10 caractères" method="post"/>
-        </div>
+            <div class="form-group">
+                <label for="InputEmail">Adresse Email</label>
+                <!-- Validation de champ avec vee-validate-->
+                <validationProvider name="email" rules="email|required|alpha_num|max_value:10" v-slot="{ errors }">
+                    <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
+                    <input v-model="email" 
+                        type="email" required="required" class="form-control" id="InputEmail" 
+                        aria-describedby="emailHelp" placeholder="email@adresse.com" method="post"
+                    />
+                    <span>{{ errors[0] }}</span>
+                </validationProvider>
+            </div>
+
+
+            <div class="form-group">
+                <label for="InputPassword">Mot de passe</label>
+                <!-- Validation de champ avec vee-validate-->
+                <validationProvider name="password" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
+                    <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
+                    <input v-model="password" 
+                        type="current-password" required="required" class="form-control" id="InputPassword" 
+                        aria-describedby="emailHelp" placeholder="Chiffres et lettres uniquement, max 10 caractères" method="post"
+                    />
+                    <span>{{ errors[0] }}</span>
+                </validationProvider>
+            </div>
+
         
-        <!-- Bouton de soumission du formulaire -->
-        <div>
-            <!-- Mettre type="button" pour éviter "form not connected" -->
-            <button v-on:click="submit" type="button" class="btn btn-primary">Inscription</button>
-        </div>
-        
-    </form>
+            <!-- Bouton de soumission du formulaire -->
+            <div>
+                <!-- Mettre type="button" pour éviter "form not connected" -->
+                <button v-on:click="submit" type="button" class="btn btn-primary">Inscription</button>
+            </div>
+        </form>
+    </ValidationObserver>
 </div>
 </template>
+
+
 
 
 
@@ -84,7 +108,7 @@
                 console.log(dataPosted);
                 // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 // adresse url refactoré avec axiosConfig.js
-                axios.post('api/user/signup', dataPosted, axiosCors ) // Ma route n'est pas reconnue => erreur 404 !!!
+                axios.post('api/user/signup', dataPosted, axiosCors) // Ma route n'est pas reconnue => erreur 404 !!!
                 .then(response => {
                     console.log(response);
                     // redirection vers route login
@@ -123,6 +147,8 @@ form
     padding: 15px 30px 30px 30px
     margin: auto
     background-color: white
+    span 
+        color: red
     
 .btn btn-primary
     opacity: 0.6

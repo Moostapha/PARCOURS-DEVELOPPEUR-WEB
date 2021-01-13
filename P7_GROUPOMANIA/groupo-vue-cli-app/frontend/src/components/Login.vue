@@ -3,34 +3,47 @@
         <h1>SOCIAL NETWORK GROUPOMANIA</h1>
         <h2>{{ msg }}</h2>
 
-        <form @submit.prevent="submit"> <!-- Ajout de l'eventlistener (fonction submit ligne) avec .prevent-->
+        <ValidationObserver v-slot="{ handleSubmit}">
 
-            <div class="form-group">
-                <label for="InputEmail">Adresse Email</label>
-                <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
-                <input v-model="email"
-                    type="email" required="required" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com"
-                />
-            </div>
+            <form @submit.prevent="handleSubmit(submit)"> <!-- Ajout de l'eventlistener (fonction submit ligne) avec .prevent-->
 
+                <!-- CHAMP EMAIL -->
+                <div class="form-group">
+                    <label for="InputEmail">Adresse Email</label>
+                    <validationProvider name="email" rules="email|required|alpha_num|max_value:10" v-slot="{ errors }">
+                        <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
+                        <input v-model="email"
+                            type="email" required="required" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com"
+                        />
+                        <span>{{ errors[0] }}</span>
+                    </validationProvider>
+                </div>
 
-            <div class="form-group">
-                <label for="InputPassword">Mot de passe</label>
-                <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
-                <input v-model="password"
-                    type="current-password" required="required" class="form-control" id="InputPassword" placeholder="Chiffres et lettres uniquement, max 10 caractères"
-                />
-            </div>
+                <!-- CHAMP PASSWORD -->
+                <div class="form-group">
+                    <label for="InputPassword">Mot de passe</label>
+                    <validationProvider name="password" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
+                        <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
+                        <input v-model="password"
+                            type="current-password" required="required" class="form-control" id="InputPassword" 
+                            placeholder="Chiffres et lettres uniquement, max 10 caractères"
+                        />
+                        <span>{{ errors[0] }}</span>
+                    </validationProvider>
+                </div>
 
-
-            <div>
-                <!-- Mettre type="button" pour éviter "form not connected" -->
-                <button v-on:click="submit" type="button" class="btn btn-primary">Connexion</button>
-            </div>
+                <!-- BOUTON CONNEXION -->
+                <div>
+                    <!-- Mettre type="button" pour éviter "form not connected" -->
+                    <button v-on:click="submit" type="button" class="btn btn-primary">Connexion</button>
+                </div>
             
-        </form>
+            </form>
+        </ValidationObserver>
     </div>
 </template>
+
+
 
 
 
@@ -111,5 +124,9 @@ form
     padding: 15px 30px 30px 30px
     margin: auto
     background-color: white
+    span 
+        color: red
+
+// Interdiction caracteres spéciaux regex [^;|]+
 </style>
 

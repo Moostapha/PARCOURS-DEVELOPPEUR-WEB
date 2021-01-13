@@ -1,8 +1,26 @@
 import Vue from 'vue'
 import App from './App.vue'
-import "bootstrap/dist/css/bootstrap.css"; // Ajout de bootstrap by us
+
+// Ajout de bootstrap by us
+import "bootstrap/dist/css/bootstrap.css";
+
+// Plugin vue router 
 import router from './router/route'
-import  ('../axiosConfig');  // refactoring préfixe URL endpoints API import du folder ici
+
+// refactoring préfixe URL endpoints API import du folder ici
+import  ('../axiosConfig');  
+
+/* Plugin vee-validate pour customer inputs, installation globale
+les règles de validation ne sont pas mises par défaut, nous les avons toutes importées*/
+import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
+
+/* Plugin de vee-validate permettant de soumettre le formulaire qu'APRES validation des champs*/
+import { ValidationObserver } from 'vee-validate';
+
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
+
+
 Vue.config.productionTip = false
 
 new Vue({

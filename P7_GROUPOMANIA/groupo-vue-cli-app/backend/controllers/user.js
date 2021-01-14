@@ -90,12 +90,19 @@ exports.getMyAccount = async(req, res, next) => {
 // Fonction modif de mon compte user
 exports.updateMyAccount = async(req, res, next) => {
     const userId  = req.params.id;
-    const modify = req.body;
+    const modified = req.body;
     const updatedAccount = await User.updateUser(  
-        modify.username, 
-        modify.email, 
-        modify.password, // Doit on recrypter le password modifié? Apparemment oui
-        userId 
+        modified.username, 
+        modified.email, 
+        modified.password, // Doit on recrypter le password modifié? Apparemment oui
+        userId ,
+        // cryptage du modifiedPassword
+        // bcrypt.hash(modified.password, 10)
+        // .then(hash =>{
+
+        // })
+        // .catch()
+        console.log(updatedAccount)
     );
     res.status(200).json({ account: updatedAccount });
 };

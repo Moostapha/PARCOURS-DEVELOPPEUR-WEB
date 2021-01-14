@@ -40,12 +40,13 @@ Ceci permettra au back-end de vérifier que la requête est authentifiée. */
 exports.login = (email) => {
     return new Promise((resolve, reject) => {
         // requete SQL préparée qui renverra tous les champs de la ligne ou cet email apparait
-        const sql = 'SELECT * FROM users WHERE email=?';
+        const sql = 'SELECT * FROM users WHERE email=?'; 
         // excécution de la requête SQL
         dbmySql.query( sql, [email], function(error, result, field){
             if(error) reject(error);
             resolve(result);
             console.log(error);
+            console.log(result);
         })
     })
 };

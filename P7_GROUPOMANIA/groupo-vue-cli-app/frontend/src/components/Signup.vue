@@ -112,7 +112,7 @@
                 .then(response => {
                     console.log(response);
                     // redirection vers route login
-                    this.$router.push('/login');
+                    this.$router.push('/www.groupomania.fr/login');
                 })
                 .catch((error) => {
                     console.log(error);

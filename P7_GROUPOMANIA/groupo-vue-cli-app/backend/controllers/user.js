@@ -39,8 +39,6 @@ exports.signup = (req, res, next) => {
 
 
 
-
-
 /* Fonction login connexion sécurisée et authentifiée du user 
 Les tokens d'authentification permettent aux utilisateurs de ne se connecter 
 qu'une seule fois à leur compte. Au moment de se connecter, 
@@ -51,35 +49,29 @@ nous servira aussi à identifier de manière unique un user qui se connecte à l
 */
 exports.login = async(req, res, next) => {
 
-    // password et email send avec requête depuis le front
-    const inputLoginPassword = req.body.password; 
+    // Récupération password et email send avec requête depuis le front
+    const password = req.body.password;
+    console.log(" Password venant du front:  ",password); 
     const email = req.body.email; 
-
-    // cas ou on ne trouve pas le mail dans la DB:
-    if(!email) {
-        return res.status(401).json({message:'Utilisateur inconnu !!!'});
-    };
-
-    // infos user à la connexion (inputs) ou le mail apparait (all champs)
-    const connexion = await User.login(email); 
-
-    // cas ou on trouve le mail dans la DB: comparaison input password avec hash gardé dans la BD
-    bcrypt.compare(inputLoginPassword, connexion.password)
-    .then( res => {
+    // infos user à la connexion (inputs) ou le mail apparait (all champs) récupération promesse faite dans User.js
+    // On passe dans la constante la promise login avec paramètre l'email entré en input form => le password correspondant sera dans result
+    const result = await User.login(email); // on récupére le resultat de la promise ici
+    console.log("résultat de la promise", result[0]); // resultat de la promise affichée dans console toujours sur des var et des resultats attendus comme await
+    bcrypt.compare(password, result[0].password)  // comparaison password entré avec password stocké dans db
+    .then( valid => { 
         // cas ou la comparaison est vraie
-        if (res === true) {
-            // émission du token d'authentification du user
-            const token = jwt.sign(
-                {userId: connexion.id},
-                'RANDOM_TOKEN_SECRET',
-                { expiresIn: '24h'},
-            );
-            res.status(200).json({ account: token }); // succés et assignation
-            res.status(200).json({ message: 'Connexion à votre compte réussie !!!' }); // message de succés
-        } else {
-            // sinon on renvoie cette erreur
-            res.status(401).json({error: 'Mot de passe ou email incorrect !!!'}) 
+        if (!valid) {
+            return res.status(401).json({error: 'Mot de passe incorrect !!!'}); 
         }
+        // émission du token d'authentification du user
+        const token = jwt.sign(
+            {userId: result[0].id},
+            'RANDOM_TOKEN_SECRET',
+            { expiresIn: '24h'},
+        );
+        console.log(token);
+        res.status(200).json({ account: token }); // succés et assignation
+        res.status(200).json({ message: 'Connexion à votre compte réussie !!!' }); // message de succés
     })
     .catch( error => res.status(500).json({error}) );
 };
@@ -102,12 +94,12 @@ exports.updateMyAccount = async(req, res, next) => {
     const updatedAccount = await User.updateUser(  
         modify.username, 
         modify.email, 
-        modify.password, 
-        modify.date_creation, 
+        modify.password, // Doit on recrypter le password modifié? Apparemment oui
         userId 
     );
     res.status(200).json({ account: updatedAccount });
 };
+
 
 
 // Fonction suppression de mon compte user
@@ -116,6 +108,17 @@ exports.deleteMyAccount = async(req, res, next) => {
     const deletedAccount = await User.deleteUser(userId);
     res.status(200).json({ account : deletedAccount });
 };
+    
+
+
+
+
+
+
+
+
+
+
 
 
 

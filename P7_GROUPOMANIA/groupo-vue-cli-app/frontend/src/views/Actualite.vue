@@ -11,7 +11,7 @@ import Posts from '../components/Posts.vue'
 
 // export vers index.js + template du haut
 export default {
-  name: 'Accueil',
+  name: 'Actualite',
   components: { Posts },
 }
 </script>

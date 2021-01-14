@@ -11,7 +11,7 @@ const mysqlConnection = mysql.createConnection({
   user     : process.env.USER,     // MySQLonline username
   password : process.env.PASSWORD, // MySQLonline password
   database : process.env.DATABASENAME, //nom db créé en ligne 28 (si code l-28 absent commenter cette ligne)
-  debug: true
+  //debug: true
 });
 //console.log(mysqlConnection);
 

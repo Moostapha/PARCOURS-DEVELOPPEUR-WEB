@@ -10,7 +10,8 @@
                 <!-- CHAMP EMAIL -->
                 <div class="form-group">
                     <label for="InputEmail">Adresse Email</label>
-                    <validationProvider name="email" rules="email|required|alpha_num|max_value:10" v-slot="{ errors }">
+                    <!-- regex email à rajouter dans rules pour protection injections  -->
+                    <validationProvider name="email" rules="email|required" v-slot="{ errors }">  
                         <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
                         <input v-model="email"
                             type="email" required="required" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com"
@@ -22,7 +23,8 @@
                 <!-- CHAMP PASSWORD -->
                 <div class="form-group">
                     <label for="InputPassword">Mot de passe</label>
-                    <validationProvider name="password" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
+                    <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
+                    <validationProvider name="password" rules="required|alpha_num" v-slot="{ errors }">
                         <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
                         <input v-model="password"
                             type="current-password" required="required" class="form-control" id="InputPassword" 
@@ -42,16 +44,6 @@
         </ValidationObserver>
     </div>
 </template>
-
-
-
-
-
-
-
-
-
-
 
 
 <script>
@@ -90,8 +82,7 @@
                 .then(response => {
                     console.log(response);
                     // redirection vers route accueil
-                    this.$router.push('/accueil');
-                    
+                    //this.$router.push('/www.groupomania.fr/fil d'actualité');
                 })
                 .catch((error) => {
                     console.log(error);
@@ -100,10 +91,9 @@
         }
     }
 </script>
+                    
                 
                         
-
-
 <style lang="sass" scoped>
 .login
     height: 100vh
@@ -129,4 +119,16 @@ form
 
 // Interdiction caracteres spéciaux regex [^;|]+
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
 

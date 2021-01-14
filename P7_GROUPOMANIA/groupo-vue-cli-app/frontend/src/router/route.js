@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Inscription from '../views/Inscription.vue' // Component pour page inscription
-import Connexion from '../views/Connexion' // Component pour page connexion
-import Accueil from '../views/Accueil.vue'
+import AccueilConnexion from '../views/AccueilConnexion' // Import view pour page d'accueil connexion (component Login)
+import Inscription from '../views/Inscription.vue' //  Import view pour page inscription (component Signup)
+import Actualite from '../views/Actualite.vue' // Import view pour page fil d'actalité (component Posts)
+import Profil from '../views/Profil'
 
 Vue.use(VueRouter)
 
@@ -12,28 +13,37 @@ Tableau contenant des objets définissant chaque route
 
 const routes = [
 
-  // Route pour la page inscription pour signup
-  // Route pour la view Inscription contenant component Signup
+  // URL PAGE D' ACCUEIL
+  // component: Login => views: AccueilConnexion
   {
-    path: '/signup',
+    path: '/www.groupomania.fr/login',
+    name: 'Connexion',
+    component: AccueilConnexion // component venant de views importé en haut
+  },
+  
+  // URL PAGE D'INSCRIPTION
+  // component: Signup => views: Inscription
+  {
+    path: '/www.groupomania.fr/signup',
     name: 'Inscription',
     component: Inscription
   },
-  
 
-  // Route pour la page connexion pour login
-  // Route pour la view Connexion contenant component Login
+
+  // URL PAGE FIL D'ACTUALITE
+  // component: Posts => views: Actualite
   {
-    path: '/login',
-    name: 'Connexion',
-    component: Connexion // component venant de views importé en haut
+    path: '/www.groupomania.fr/posts',       // URL correspondant au composant
+    name: 'Fil d\'actualité',    // Nom de cette route pas obligatoire | champ non obligatoire
+    component: Actualite,  // Composant affiché lorsque le path est trouvé
   },
 
-
+    // URL PAGE FIL D'ACTUALITE
+  // component: Posts => views: Actualite
   {
-    path: '/posts',       // URL correspondant au composant
-    name: 'Accueil',    // Nom de cette route pas obligatoire | champ non obligatoire
-    component: Accueil,  // Composant affiché lorsque le path est trouvé
+    path: '/www.groupomania.fr/profil',       // URL correspondant au composant
+    name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
+    component: Profil,  // Composant affiché lorsque le path est trouvé
   },
 ]
 
@@ -44,5 +54,11 @@ const router = new VueRouter({
   mode:'history'
 })
 
-
+// export du router vers router-link => component Nav
 export default router
+
+
+
+
+
+

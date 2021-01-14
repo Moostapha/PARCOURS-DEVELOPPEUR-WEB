@@ -8,4 +8,4 @@ axios.defaults.baseURL = 'http://localhost:3000/';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 // Gestion CORS erreurs des requêtes venant du client vue.js
-axios.defaults.headers.post['content-Type'] = 'application/json';
+//axios.defaults.headers.post['content-Type'] = 'application/json';

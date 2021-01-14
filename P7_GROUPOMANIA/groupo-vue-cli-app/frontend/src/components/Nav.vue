@@ -1,9 +1,10 @@
 <template>
     <div id="nav">
     <!-- Lien URL avec son component associé -->
-    <router-link to="/signup">M'inscrire</router-link> 
-    <router-link to="/login">Me connecter</router-link> 
-    <router-link to="/posts">Accueil</router-link> 
+    <router-link to="/www.groupomania.fr/login">Accueil</router-link> 
+    <router-link to="/www.groupomania.fr/signup">S'inscrire</router-link> 
+    <router-link to="/www.groupomania.fr/posts">Fil d'actualité</router-link> 
+    <router-link to="/www.groupomania.fr/user ">Profil</router-link>
     </div>
 </template>
 

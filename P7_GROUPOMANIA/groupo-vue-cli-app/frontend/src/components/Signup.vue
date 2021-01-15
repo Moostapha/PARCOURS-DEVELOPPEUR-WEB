@@ -1,62 +1,64 @@
 <template>
 <div class="signup">
-    <h1>SOCIAL NETWORK GROUPOMANIA</h1>
-    <h1>{{ msg }}</h1>
+    <div class="container">
+        <h1>SOCIAL NETWORK GROUPOMANIA</h1>
+        <h1>{{ msg }}</h1>
 
-    <!-- Formulaire avec 3 champs : username | email | password -->
+        <!-- Formulaire avec 3 champs : username | email | password -->
 
-    <ValidationObserver v-slot="{ handleSubmit}">
-        <form @submit.prevent="handleSubmit(submit)">  <!-- Ajout de l'eventlistener(fonction submit ligne 60) avec .prevent pour empêcher comportement par défaut -->
-        
-            <div class="form-group">
-                <label for="InputUsername">Username</label>
-                <!-- Validation de champ avec vee-validate-->
-                <validationProvider name="Username" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
-                    <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
-                    <input v-model="username"  
-                        type="text" class="form-control" id="InputUsername" 
-                        aria-describedby="emailHelp" placeholder="Nom ou pseudo" method="post"
-                    />
-                    <span>{{ errors[0] }}</span>
-                </validationProvider>
-            </div>
-
-
-            <div class="form-group">
-                <label for="InputEmail">Adresse Email</label>
-                <!-- Validation de champ avec vee-validate-->
-                <validationProvider name="email" rules="email|required|alpha_num|max_value:10" v-slot="{ errors }">
-                    <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
-                    <input v-model="email" 
-                        type="email" required="required" class="form-control" id="InputEmail" 
-                        aria-describedby="emailHelp" placeholder="email@adresse.com" method="post"
-                    />
-                    <span>{{ errors[0] }}</span>
-                </validationProvider>
-            </div>
+        <ValidationObserver v-slot="{ handleSubmit}">
+            <form @submit.prevent="handleSubmit(submit)">  <!-- Ajout de l'eventlistener(fonction submit ligne 60) avec .prevent pour empêcher comportement par défaut -->
+            
+                <div class="form-group">
+                    <label for="InputUsername">Username</label>
+                    <!-- Validation de champ avec vee-validate-->
+                    <validationProvider name="Username" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
+                        <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
+                        <input v-model="username"  
+                            type="text" class="form-control" id="InputUsername" 
+                            aria-describedby="emailHelp" placeholder="Nom ou pseudo" method="post"
+                        />
+                        <span>{{ errors[0] }}</span>
+                    </validationProvider>
+                </div>
 
 
-            <div class="form-group">
-                <label for="InputPassword">Mot de passe</label>
-                <!-- Validation de champ avec vee-validate-->
-                <validationProvider name="password" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
-                    <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
-                    <input v-model="password" 
-                        type="current-password" required="required" class="form-control" id="InputPassword" 
-                        aria-describedby="emailHelp" placeholder="Chiffres et lettres uniquement, max 10 caractères" method="post"
-                    />
-                    <span>{{ errors[0] }}</span>
-                </validationProvider>
-            </div>
+                <div class="form-group">
+                    <label for="InputEmail">Adresse Email</label>
+                    <!-- Validation de champ avec vee-validate-->
+                    <validationProvider name="email" rules="email|required|alpha_num|max_value:10" v-slot="{ errors }">
+                        <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
+                        <input v-model="email" 
+                            type="email" required="required" class="form-control" id="InputEmail" 
+                            aria-describedby="emailHelp" placeholder="email@adresse.com" method="post"
+                        />
+                        <span>{{ errors[0] }}</span>
+                    </validationProvider>
+                </div>
 
-        
-            <!-- Bouton de soumission du formulaire -->
-            <div>
-                <!-- Mettre type="button" pour éviter "form not connected" -->
-                <button v-on:click="submit" type="button" class="btn btn-primary">Inscription</button>
-            </div>
-        </form>
-    </ValidationObserver>
+
+                <div class="form-group">
+                    <label for="InputPassword">Mot de passe</label>
+                    <!-- Validation de champ avec vee-validate-->
+                    <validationProvider name="password" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
+                        <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
+                        <input v-model="password" 
+                            type="current-password" required="required" class="form-control" id="InputPassword" 
+                            aria-describedby="emailHelp" placeholder="Chiffres et lettres uniquement, max 10 caractères" method="post"
+                        />
+                        <span>{{ errors[0] }}</span>
+                    </validationProvider>
+                </div>
+
+            
+                <!-- Bouton de soumission du formulaire -->
+                <div>
+                    <!-- Mettre type="button" pour éviter "form not connected" -->
+                    <button v-on:click="submit" type="button" class="btn btn-primary">Inscription</button>
+                </div>
+            </form>
+        </ValidationObserver>
+    </div>
 </div>
 </template>
 
@@ -130,10 +132,10 @@
 .signup
     height: 100vh
     padding-top: 5vh
-    background-image: url('../assets/groupomania-monochrome-white-zeke.png') // prendre en compte le responsive => display none
+    background-image: url('../assets/icon-left-font-monochrome-white.svg') 
     background-repeat: no-repeat
     background-position: center
-    background-position-y: 85%
+    background-position-y: 80%
     background-color: #42b7b9
     
 h1
@@ -143,7 +145,7 @@ h1
 
 form
     // position: relative
-    width: 100vh
+    max-width: 100vh
     padding: 15px 30px 30px 30px
     margin: auto
     background-color: white

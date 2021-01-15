@@ -41,7 +41,7 @@ const routes = [
     // URL PAGE FIL D'ACTUALITE
   // component: Posts => views: Actualite
   {
-    path: '/www.groupomania.fr/profil',       // URL correspondant au composant
+    path: '/www.groupomania.fr/user',       // URL correspondant au composant
     name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Profil,  // Composant affiché lorsque le path est trouvé
   },

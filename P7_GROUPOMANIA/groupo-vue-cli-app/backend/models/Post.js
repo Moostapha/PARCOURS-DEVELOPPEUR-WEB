@@ -8,7 +8,7 @@ Table post => id | post | userId | date_creation */
 
 // Fonction requête sql pour affichage de tous les posts
 exports.getAllInTable = () => {
-    return new Promise((resolve, reject) => { //gestion asynchrone
+    return new Promise((resolve, reject) => { 
         // Préparation requête SQL
         const sql = 'SELECT * FROM posts';
         // Exécution requête

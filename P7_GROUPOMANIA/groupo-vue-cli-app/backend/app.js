@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //PARTIE DES ROUTES DE app.js => USER POST ET COMMENT
 app.use('/api/user', userRoutes); // Route user
-app.use('/api/post', postRoutes)  // Route post
+app.use('/api/post', postRoutes);  // Route post
 app.use('/api/comment', commentRoutes);  // Route commentaire
 
 // export vers le server.js

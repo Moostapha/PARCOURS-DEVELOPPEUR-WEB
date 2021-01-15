@@ -23,8 +23,8 @@ mysqlConnection.connect( (err) => { // notation ES6 pour les fonctions
     }
     console.log('database'+ mysqlConnection.state);
     console.log('connecté à mysql avec l\'id ' + mysqlConnection.threadId);
-    console.log('Connecté à la base de données MySQL !!!')
 });
+
 
 // creation de la database nodemysql_groupomania, une fois connecté on va créer une database pour ce projet
 

@@ -1,11 +1,10 @@
 <template>
   <div class="filActualite">
-    <div class="container">
-      <h1>{{ msg }}</h1>
-      
+    <div class="container.fluid">
       <div class="postetcommentaires">
         <div class="jumbotron">
-          <h1 class="display-4">Groupomania</h1>
+          <h1 class="display-4">Groupomania </h1>
+          <h2>{{ msg }}</h2>
 
           <div class="posts">
             <p class="lead">POSTS</p>
@@ -24,16 +23,19 @@
             <label for="addPost">Ajouter un commentaire</label>
             <textarea name="addPost" class="container" id="addPost"  rows="10"></textarea>
           </div>
-          
-          <a class="btn btn-primary btn-lg" href="#" role="button">Valider</a>
+
+          <div>
+            <button type="button" class="btn btn-primary btn-lg">
+            Valider
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-        
-          
-
+    
+      
 
 
 
@@ -73,6 +75,9 @@
 
 
 <style scoped lang="sass">
+.jumbotron
+  background-color: #42b7b9
+
 .posts
   height: 100vh
   padding-top: 5vh
@@ -86,10 +91,14 @@
   width: 100vh
   padding: 15px 30px 30px 30px
   margin: auto
+  label
+    color: white
   textarea
     border: 0px
     max-width: 100vh
-
+h1, h2
+  color: white
+  font-weight: bold
 h3
   margin: 40px 0 0
 

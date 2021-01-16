@@ -1,10 +1,7 @@
 <template>
     <div class = "useraccount">
         <div class="container">
-            
-            
             <div class="sm md lg xl">
-                
                 <div class="card">
                     <div class="card-body">
                         <h1>PROFIL </h1>
@@ -64,7 +61,6 @@
 </template>
 
 
-
 <script>
     import axios from 'axios'
 
@@ -113,4 +109,4 @@
 .space
     height: 3vh 
 </style>
-    
+

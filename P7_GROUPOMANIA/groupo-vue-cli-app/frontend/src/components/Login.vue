@@ -39,15 +39,18 @@
                     <!-- BOUTON CONNEXION -->
                     <div>
                         <!-- Mettre type="button" pour éviter "form not connected" -->
-                        <button v-on:click="submit" type="button" class="btn btn-primary">Connexion</button>
+                        <button v-on:click="submit" type="button" class="btn btn-primary">
+                            Connexion
+                        </button>
                     </div>
-                
                 </form>
                 <!-- </div> -->
             </ValidationObserver>
         </div>
     </div>
 </template>
+
+
 
 
 <script>

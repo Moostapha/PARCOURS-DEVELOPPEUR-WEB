@@ -1,6 +1,6 @@
 <template>
 
-<div id="nav" class="" >
+<div id="nav">
 <!-- Lien URL avec son component associé  -->
     <router-link to="/www.groupomania.fr/login">Accueil</router-link> 
     <router-link to="/www.groupomania.fr/signup">S'inscrire</router-link> 
@@ -8,6 +8,20 @@
     <router-link to="/www.groupomania.fr/user ">Profil</router-link>
 </div>
 
+<!-- <ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Accueil</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">S'inscrire</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Fild'actualité</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+  </li>
+</ul> -->
 
 </template>
 

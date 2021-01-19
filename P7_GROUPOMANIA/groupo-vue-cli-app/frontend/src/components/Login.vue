@@ -50,57 +50,52 @@
     </div>
 </template>
 
-
-
-
 <script>
-    // Librairie pour requetes vers (POST) et venant (GET) de l'API
-    import axios from'axios'
+// Librairie pour requetes vers (POST) et venant (GET) de l'API
+import axios from'axios'
 
-    // export de ce component Login vers le component /view/Connexion
-    export default {
-        name: 'Login',
-        props: {msg: String,},
-
-        data () {
-            return {
-                email:"",
-                password:"",
+// export de ce component Login vers le component /view/Connexion
+export default {
+    name: 'Login',
+    props: {msg: String,},
+    
+    data () {
+        return {
+            email:"",
+            password:"",
+        }
+    },
+    
+    methods: {
+        
+        submit() {
+            
+            const dataPosted = {
+                email: this.email,
+                password: this.password
             }
-        },
-
-        methods: {
-            submit() {
-
-                // Gestion des erreurs CORS => Post venant du frontend bloqué sinon
-                const axiosCors = {
-                    headers: {
-                    'content-type': 'application/json'
-                    }
-                }
-
-                const dataPosted = {
-                    email: this.email,
-                    password: this.password
-                }
-
-                // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
-                axios.post('api/user/login', dataPosted, axiosCors)
-                .then(response => {
-                    console.log(response);
-                    // redirection vers route accueil
-                    //this.$router.push('/www.groupomania.fr/fil d'actualité');
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            }
+            
+            // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
+            axios.post('api/user/login', dataPosted)
+            .then(response => {
+                //on vérifie les éléments de la réponse
+                console.log(response);
+                
+                // On récupere et on enregistre le token donné par la fonction login du backend (ctler/user.js)
+                localStorage.setItem('token', response.data.AUTH_TOKEN);
+                
+                // redirection vers route fil d'actualité
+                this.$router.push('/www.groupomania.fr/posts');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         }
     }
+}
 </script>
-                    
-                
-                        
+
+
 <style lang="sass" scoped>
 .login
     height: 100vh 
@@ -125,6 +120,13 @@ form
 
 // Interdiction caracteres spéciaux regex [^;|]+
 </style>
+
+
+
+
+
+
+
 
 
 

@@ -18,14 +18,13 @@ const User = require('../models/User');
 
 
 /* Fonction signup création de compte user et cryptant le password
-Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter
-afin de stocker les passwods des users cryptés sur la BD SQL*/
+Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter => stockage BD
+*/
 exports.signup = (req, res, next) => {
     // récupération infos envoyées par le front
-    // récupération corps requetes POST du frontend du nouvel utilisateur du réseau social
     const newUser = req.body
-    
-    // hash du password
+    console.log(" Infos new register:  ",newUser); 
+    // Cryptage | hash du password
     bcrypt.hash(newUser.password , 10) // cryptage de ce dernier
     .then (
         async(hash) => {
@@ -38,7 +37,6 @@ exports.signup = (req, res, next) => {
 };
 
 
-
 /* Fonction login connexion sécurisée et authentifiée du user 
 Les tokens d'authentification permettent aux utilisateurs de ne se connecter 
 qu'une seule fois à leur compte. Au moment de se connecter, 
@@ -47,6 +45,7 @@ Ceci permettra au back-end de vérifier que la requête est authentifiée.
 Le Token est assigné à l'id clé primaire du user dans notre BD SQL. L'id clé primaire 
 nous servira aussi à identifier de manière unique un user qui se connecte à l'app.
 */
+
 exports.login = async(req, res, next) => {
 
     // Récupération password et email send avec requête depuis le front
@@ -57,26 +56,28 @@ exports.login = async(req, res, next) => {
     // On passe dans la constante la promise login avec paramètre l'email entré en input form => le password correspondant sera dans result
     const result = await User.login(email); // on récupére le resultat de la promise ici
     console.log("résultat de la promise", result[0]); // resultat de la promise affichée dans console toujours sur des var et des resultats attendus comme await
+    console.log()
     bcrypt.compare(password, result[0].password)  // comparaison password entré avec password stocké dans db
     .then( valid => { 
+
         // cas ou la comparaison est vraie
         if (!valid) {
             return res.status(401).json({error: 'Mot de passe incorrect !!!'}); 
         }
+
         // émission du token d'authentification du user
         const token = jwt.sign(
             {userId: result[0].id},
             'RANDOM_TOKEN_SECRET',
             { expiresIn: '24h'},
         );
+        // Check du token et statut succés
         console.log(token);
-        res.status(200).json({ account: token }); // succés et assignation
+        res.status(200).json({ AUTH_TOKEN: token }); // succés et assignation du TOKEN 
         res.status(200).json({ message: 'Connexion à votre compte réussie !!!' }); // message de succés
     })
     .catch( error => res.status(500).json({error}) );
 };
-
-
 
 
 //Fonction pour lire mon compte user
@@ -87,46 +88,54 @@ exports.getMyAccount = async(req, res, next) => {
 };
 
 
-// Fonction modif de mon compte user
+// Fonction modif de mon compte user => Choix laissé au user de changer leur username + password
 exports.updateMyAccount = async(req, res, next) => {
-    const userId  = req.params.id;
-    const modified = req.body;
-    const updatedAccount = await User.updateUser(  
-        modified.username, 
-        modified.email, 
-        modified.password, // Doit on recrypter le password modifié? Apparemment oui
-        userId ,
-        // cryptage du modifiedPassword
-        // bcrypt.hash(modified.password, 10)
-        // .then(hash =>{
-
-        // })
-        // .catch()
-        console.log(updatedAccount)
-    );
-    res.status(200).json({ account: updatedAccount });
-};
+    const userId = req.body.id;
+    const updated = req.body;
+    console.log(" Update venant du front:  ",updated); 
+    // Cas ou le user veut modifier soit son username soit son password
+    if ( updated.username || updated.password ) {
+        bcrypt.hash(updated.password, 10)
+        .then(async(hash)=>{
+            const updatedAccount = await User.updateUser( updated.username, hash, userId )
+            res.status(201).json({ updatedPassword: updatedAccount })
+            res.status(201).json({ updatedUsername: updatedAccount })
+            console.log(updatedAccount)
+        })
+        .catch( error => res.status(500).json({ message: error}))
+    // } else {
+    //     return
+    // }
+    };
+}
 
 
 
 // Fonction suppression de mon compte user
 exports.deleteMyAccount = async(req, res, next) => {
     const userId  = req.params.id;
+    console.log(" Utilisateur supprimé:  ",userId); 
     const deletedAccount = await User.deleteUser(userId);
     res.status(200).json({ account : deletedAccount });
 };
-    
 
 
+// Fonction modif de mon compte user (old version)
+// exports.updateMyAccount = async(req, res, next) => {
+//     const userId  = req.params.id;
+//     const modified = req.body;
+//     const updatedAccount = await User.updateUser(  
+//         modified.username, 
+//         modified.email, 
+//         modified.password, // Doit on recrypter le password modifié? Apparemment oui
+//         userId ,
+//         // cryptage du modifiedPassword
+//         // bcrypt.hash(modified.password, 10)
+//         // .then(hash =>{
 
-
-
-
-
-
-
-
-
-
-
-
+//         // })
+//         // .catch()
+//         console.log(updatedAccount)
+//     );
+//     res.status(200).json({ account: updatedAccount });
+// };

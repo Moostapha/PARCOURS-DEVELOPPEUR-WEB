@@ -7,8 +7,10 @@ const bodyParser = require('body-parser');
 const xss = require('xss-clean'); 
 // package protection headers
 const helmet = require('helmet');
-
-
+// package cors
+const cors = require('cors');
+// package file system gestion fichier image (multer)
+const path = require('path');
 
 // Import des routes USER | POST | COMMENT
 const userRoutes = require('./routes/user');
@@ -35,14 +37,22 @@ app.use(xss());
 // Middleware pour bodyparser qui transforme le corps de la requête en objet JS utilisable
 app.use(bodyParser.json()); 
 // encodage URL infos venant du front au format JS
-app.use(bodyParser.urlencoded({extended: true})); 
+// app.use(bodyParser.urlencoded({extended: true})); 
 
+
+// Middleware permettant de recevoir http de localhost 8080 frontend
+app.use(cors());
 
 //PARTIE DES ROUTES DE app.js => USER POST ET COMMENT
 app.use('/api/user', userRoutes); // Route user
 app.use('/api/post', postRoutes);  // Route post
 app.use('/api/comment', commentRoutes);  // Route commentaire
+app.use('/images', express.static(path.join(__dirname, 'images'))); // gestion des fichiers img statique uploads
 
 // export vers le server.js
 module.exports= app;
+
+
+
+
 

@@ -86,6 +86,7 @@ export default {
                 
                 // redirection vers route fil d'actualité
                 this.$router.push('/www.groupomania.fr/posts');
+                
             })
             .catch((error) => {
                 console.log(error);

@@ -64,7 +64,7 @@
 
 
 <script>
-// Plugin permettant de faire des requêtes http
+// Clien http
 import axios from "axios";
 
 export default {
@@ -75,18 +75,23 @@ export default {
   data() {
     return {
       user: null,
-      Posts: [], // tableau vide rempli par ligne 50
+      // Posts: [], 
     };
   },
   
-  //Récupération du user loggé et redirigera vers post/accueil
+  //Récupération du user loggé et redirigé vers post/accueil
   created() {
-      axios.get("http://localhost:3000/api/user", {
-            headers: { Authorization: "Bearer " + localStorage.getItem("AUTH_TOKEN") }
+      axios.get('api/user') 
+      .then(response => {
+        console.log(response)
+        this.user = response.data.user
       })
-      .then((response) => (this.user = response.data.user))
-      .catch((err) => console.log(err));
-  },
+      .catch((error) => {
+        console.log(error);
+      }) 
+      
+  }
+  
 
   
   // On ecrira ici le code dynamique pour récupérer dynamiquement les infos de la db

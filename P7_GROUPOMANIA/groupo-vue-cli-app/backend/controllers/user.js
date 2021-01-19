@@ -54,12 +54,12 @@ exports.login = async(req, res, next) => {
     const email = req.body.email; 
     // infos user à la connexion (inputs) ou le mail apparait (all champs) récupération promesse faite dans User.js
     // On passe dans la constante la promise login avec paramètre l'email entré en input form => le password correspondant sera dans result
-    const result = await User.login(email); // on récupére le resultat de la promise ici
+    // on récupére le resultat de la promise ici
+    const result = await User.login(email); 
     console.log("résultat de la promise", result[0]); // resultat de la promise affichée dans console toujours sur des var et des resultats attendus comme await
-    console.log()
-    bcrypt.compare(password, result[0].password)  // comparaison password entré avec password stocké dans db
+    // comparaison password entré avec password stocké dans db
+    bcrypt.compare(password, result[0].password)  
     .then( valid => { 
-
         // cas ou la comparaison est vraie
         if (!valid) {
             return res.status(401).json({error: 'Mot de passe incorrect !!!'}); 
@@ -73,19 +73,22 @@ exports.login = async(req, res, next) => {
         );
         // Check du token et statut succés
         console.log(token);
-        res.status(200).json({ AUTH_TOKEN: token }); // succés et assignation du TOKEN 
-        res.status(200).json({ message: 'Connexion à votre compte réussie !!!' }); // message de succés
+        // succés et assignation du TOKEN 
+        res.status(200).json({ AUTH_TOKEN: token }) 
+    
     })
-    .catch( error => res.status(500).json({error}) );
-};
+    .catch(error => res.status(500).json({ error }));
+}
+
+
 
 
 //Fonction pour lire mon compte user
 exports.getMyAccount = async(req, res, next) => {
     const userId = req.params.id // id encodé dans l'URL
     const myAccount = await User.getOneUser(userId); // on reprend la fonction getOneUser du model
-    res.status(200).json({ account: myAccount });
-};
+    res.status(200).json({ user: myAccount });
+}
 
 
 // Fonction modif de mon compte user => Choix laissé au user de changer leur username + password
@@ -102,14 +105,10 @@ exports.updateMyAccount = async(req, res, next) => {
             res.status(201).json({ updatedUsername: updatedAccount })
             console.log(updatedAccount)
         })
-        .catch( error => res.status(500).json({ message: error}))
-    // } else {
-    //     return
-    // }
-    };
+        .catch( error => res.status(500).json({ message: error}));
+    
+    }
 }
-
-
 
 // Fonction suppression de mon compte user
 exports.deleteMyAccount = async(req, res, next) => {
@@ -117,7 +116,9 @@ exports.deleteMyAccount = async(req, res, next) => {
     console.log(" Utilisateur supprimé:  ",userId); 
     const deletedAccount = await User.deleteUser(userId);
     res.status(200).json({ account : deletedAccount });
-};
+}
+
+
 
 
 // Fonction modif de mon compte user (old version)

@@ -12,6 +12,6 @@ router.post('/signup', userCtler.signup); // route création compte user
 router.post('/login', bouncer.block ,userCtler.login); // route pour se connecter
 router.delete('/:id', userCtler.deleteMyAccount); // route pour effacer un user
 router.put('/:id', userCtler.updateMyAccount); // route pour modifier un user (commentaire ou fichiers...)
-router.get('/:id', userCtler.getMyAccount);
+router.get('/', userCtler.getMyAccount);
 
 module.exports = router;

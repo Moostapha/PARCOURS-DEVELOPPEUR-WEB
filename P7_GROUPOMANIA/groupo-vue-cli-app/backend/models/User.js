@@ -55,7 +55,7 @@ exports.login = (email) => {
 // Fonction affichant un user qui est mon compte
 exports.getOneUser = (primaryId) => {
     return new Promise((resolve, reject) =>{
-        const sql = 'SELECT FROM users WHERE id=?'; // erreur envoyé apres requete .rest 50:12
+        const sql = 'SELECT * FROM users WHERE id=?'; // erreur envoyé apres requete .rest 50:12
         dbmySql.query( sql , [primaryId], function(error, result, field){
             if(error) reject (error);
             resolve(result);

@@ -37,7 +37,7 @@ app.use(xss());
 // Middleware pour bodyparser qui transforme le corps de la requête en objet JS utilisable
 app.use(bodyParser.json()); 
 // encodage URL infos venant du front au format JS
-// app.use(bodyParser.urlencoded({extended: true})); 
+app.use(bodyParser.urlencoded({extended: true})); 
 
 
 // Middleware permettant de recevoir http de localhost 8080 frontend

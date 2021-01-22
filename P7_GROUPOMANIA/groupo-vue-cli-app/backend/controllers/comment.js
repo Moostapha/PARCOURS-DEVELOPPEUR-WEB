@@ -5,8 +5,14 @@ Les commentaires doivent pouvoir etre crees , modifier ou effacer par un utilisa
 Doit on pouvoir voir les commentaires des autres users?
 */
 
+//Afficher commentaire
+exports.readComment = async(req, res, next) => {
+    const comments = await commentModel.read();
+    res.status(200).json({comments: comments})
+};
 
 // Fonction créant un commentaire sur un post
+//commun a user + admin
 exports.createComment = async(req, res, next) => {
     const newComment = req.body;
     const createdComment = await commentModel.create( newComment.userId, newComment.postId, newComment.commentaire );

@@ -19,6 +19,7 @@ const User = require('../models/User');
 
 /* Fonction signup création de compte user et cryptant le password
 Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter => stockage BD
+commun a user + admin
 */
 exports.signup = (req, res, next) => {
     // récupération infos envoyées par le front
@@ -44,6 +45,8 @@ ils recevront leur token et le renverront automatiquement à chaque requête par
 Ceci permettra au back-end de vérifier que la requête est authentifiée.
 Le Token est assigné à l'id clé primaire du user dans notre BD SQL. L'id clé primaire 
 nous servira aussi à identifier de manière unique un user qui se connecte à l'app.
+
+commun a user + admin
 */
 
 exports.login = async(req, res, next) => {
@@ -78,21 +81,22 @@ exports.login = async(req, res, next) => {
     
     })
     .catch(error => res.status(500).json({ error }));
-}
-
-
+};
 
 
 //Fonction pour lire mon compte user
-exports.getMyAccount = async(req, res, next) => {
+// commun a user + admin
+exports.getUser = async(req, res, next) => {
     const userId = req.params.id // id encodé dans l'URL
     const myAccount = await User.getOneUser(userId); // on reprend la fonction getOneUser du model
     res.status(200).json({ user: myAccount });
-}
+    
+};
 
 
 // Fonction modif de mon compte user => Choix laissé au user de changer leur username + password
-exports.updateMyAccount = async(req, res, next) => {
+// commun a user + admin
+exports.updateUser = async(req, res, next) => {
     const userId = req.body.id;
     const updated = req.body;
     console.log(" Update venant du front:  ",updated); 
@@ -108,35 +112,24 @@ exports.updateMyAccount = async(req, res, next) => {
         .catch( error => res.status(500).json({ message: error}));
     
     }
-}
+};
 
 // Fonction suppression de mon compte user
-exports.deleteMyAccount = async(req, res, next) => {
+// commun a user + admin
+exports.deleteUser= async(req, res, next) => {
     const userId  = req.params.id;
     console.log(" Utilisateur supprimé:  ",userId); 
     const deletedAccount = await User.deleteUser(userId);
     res.status(200).json({ account : deletedAccount });
-}
+};
+
+
+// Fonction pour voir les autres users
+exports.getAllUsers = async(req, res, next) => {
+    const allUsers = await postModel.getUsers();
+    res.status(200).json({ users: allUsers});
+};
 
 
 
 
-// Fonction modif de mon compte user (old version)
-// exports.updateMyAccount = async(req, res, next) => {
-//     const userId  = req.params.id;
-//     const modified = req.body;
-//     const updatedAccount = await User.updateUser(  
-//         modified.username, 
-//         modified.email, 
-//         modified.password, // Doit on recrypter le password modifié? Apparemment oui
-//         userId ,
-//         // cryptage du modifiedPassword
-//         // bcrypt.hash(modified.password, 10)
-//         // .then(hash =>{
-
-//         // })
-//         // .catch()
-//         console.log(updatedAccount)
-//     );
-//     res.status(200).json({ account: updatedAccount });
-// };

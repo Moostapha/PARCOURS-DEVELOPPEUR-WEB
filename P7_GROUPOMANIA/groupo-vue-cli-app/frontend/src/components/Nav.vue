@@ -1,29 +1,22 @@
 <template>
-
-<div id="nav">
-<!-- Lien URL avec son component associé  -->
-    <router-link to="/www.groupomania.fr/login">Accueil</router-link> 
-    <router-link to="/www.groupomania.fr/signup">S'inscrire</router-link> 
-    <router-link to="/www.groupomania.fr/posts">Fil d'actualité</router-link> 
-    <router-link to="/www.groupomania.fr/user ">Profil</router-link>
-</div>
-
-<!-- <ul class="nav justify-content-center">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Accueil</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">S'inscrire</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Fild'actualité</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul> -->
-
+  <div id="nav">
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <router-link to="/groupomania/login">Accueil</router-link> 
+      </li>
+      <li class="nav-item">
+        <router-link to="/groupomania/signup">S'inscrire</router-link> 
+      </li>
+      <li class="nav-item">
+        <router-link to="/groupomania/publications">Fil d'actualité</router-link> 
+      </li>
+      <li class="nav-item">
+        <router-link to="/groupomania/useraccount">Profil</router-link>
+      </li>
+    </ul>
+  </div>
 </template>
+
 
 <script>
 export default {
@@ -38,7 +31,7 @@ export default {
     a 
         font-weight: bold
         color: #2c3e50
-        padding: 15px
+        padding: 5px
         text-decoration: none
         border-radius: 20px
         cursor: pointer
@@ -47,10 +40,6 @@ export default {
             background-color: #42b7b9
         &.router-link-exact-active 
             color: #007bff
-            
-
-
-
 </style>
 
 

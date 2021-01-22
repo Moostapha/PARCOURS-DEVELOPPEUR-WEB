@@ -6,6 +6,7 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3000/';
 
 // Gestion des tokens par axios
-axios.defaults.headers.common['Authorization'] = 'Bearer '+ localStorage.getItem('token'); //token à la place de AUTH_TOKEN
+//token à la place de AUTH_TOKEN => clé: valeur | token: AUTH_TOKEN
+axios.defaults.headers.common['Authorization'] = 'Bearer '+ localStorage.getItem('token'); 
 
 

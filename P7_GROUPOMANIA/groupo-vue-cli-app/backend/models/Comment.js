@@ -4,14 +4,27 @@ const dbmySql = require('../mysqlConnection');   // import configuration de conn
 // User doit pouvoir créer | modifier | effacer son commentaire
 // Table Comments => id | commentaire | postId | userId | date_creation
 
+exports.read = () => {
+    return new Promise((resolve, reject) => {
+        dbmySql.query('SELECT * FROM comments', function(error, results, fields){
+            if (error) reject(error);
+            resolve(results);
+            // console.log(fields);
+        })
+    })
+};
+
+
+
 exports.create = ( commentaire, postId, userId ) => {
-    return new Promise((resolve, reject) => { // respecter ordre champs des tables
+    return new Promise((resolve, reject) => {
+        // respecter ordre champs des tables 
         const sql = 'INSERT INTO comments (commentaire, postId, userId) VALUES (?, ?, ?)'
         let dataInserted = [commentaire, postId, userId]
         dbmySql.query( sql, dataInserted , function(error, result, field) {
             if (error) reject (error);
             resolve (result);
-            console.log(field);
+            // console.log(field);
         })
     })
 };
@@ -25,7 +38,7 @@ exports.update = ( commentaire, postId, userId ) => {
         dbmySql.query( sql , dataUpdated ,function(error, result, field) {
             if ( error ) reject( error );
             resolve(result);
-            console.log(field)
+            // console.log(field)
         })
     })
 };
@@ -38,7 +51,7 @@ exports.delete = (id_primary) => {
         dbmySql.query( sql, dataDeleted ,function(error, result, field){
             if (error) reject(error);
             resolve(result);
-            console.log(field)
+            // console.log(field)
         })
     })
 };

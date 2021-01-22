@@ -16,7 +16,7 @@ const routes = [
   // URL PAGE D' ACCUEIL
   // component: Login => views: AccueilConnexion
   {
-    path: '/www.groupomania.fr/login',
+    path: '/groupomania/login',
     name: 'Connexion',
     component: AccueilConnexion // component venant de views importé en haut
   },
@@ -24,7 +24,7 @@ const routes = [
   // URL PAGE D'INSCRIPTION
   // component: Signup => views: Inscription
   {
-    path: '/www.groupomania.fr/signup',
+    path: '/groupomania/signup',
     name: 'Inscription',
     component: Inscription
   },
@@ -33,7 +33,7 @@ const routes = [
   // URL PAGE FIL D'ACTUALITE
   // component: Posts => views: Actualite
   {
-    path: '/www.groupomania.fr/posts',       // URL correspondant au composant
+    path: '/groupomania/publications',       // URL correspondant au composant
     name: 'Fil d\'actualité',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Actualite,  // Composant affiché lorsque le path est trouvé
   },
@@ -41,7 +41,7 @@ const routes = [
     // URL PAGE FIL D'ACTUALITE
   // component: Posts => views: Actualite
   {
-    path: '/www.groupomania.fr/user',       // URL correspondant au composant
+    path: '/groupomania/useraccount',       // URL correspondant au composant
     name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Profil,  // Composant affiché lorsque le path est trouvé
   },

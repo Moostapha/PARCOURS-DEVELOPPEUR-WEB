@@ -1,8 +1,8 @@
 <template>
 <div class="signup">
     <div class="container">
-        <h1>SOCIAL NETWORK GROUPOMANIA</h1>
-        <h1>{{ msg }}</h1>
+        <h1>SOCIAL NETWORK</h1>
+        <h2>{{ msg }}</h2>
 
         <!-- Formulaire avec 3 champs : username | email | password -->
 
@@ -51,10 +51,11 @@
                 </div>
 
             
-                <!-- Bouton de soumission du formulaire -->
+                <!-- Bouton de soumission du formulaire Mettre type="button" pour éviter "form not connected" -->
                 <div>
-                    <!-- Mettre type="button" pour éviter "form not connected" -->
-                    <button v-on:click="submit" type="button" class="btn btn-primary">Inscription</button>
+                    <button v-on:click="submit" 
+                        type="button" class="btn btn-primary">Inscription
+                    </button>
                 </div>
             </form>
         </ValidationObserver>
@@ -63,12 +64,7 @@
 </template>
 
 
-
-
-
-
 <script>
-
     // Librairie pour les API calls
     import axios from 'axios'
     
@@ -87,20 +83,8 @@
         },
         
         methods: {
-
-            
             // fonction eventListener submit sur le click => promise avec appel qui nécessite une attente (await)
             submit() {
-
-                // Gestion des erreurs CORS => Post venant du frontend bloqué sinon
-                const axiosCors = {
-                    headers: {
-                     // origine du soucis des endpoints qui ne marchait pas => config header de axios doit etre json et adresse du endpoint qui doit etre /user/signup
-                    'content-type': 'application/json'
-                    }
-                }
-            
-                
                 const dataPosted = {
                     username: this.username,
                     email: this.email,
@@ -110,7 +94,7 @@
                 console.log(dataPosted);
                 // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 // adresse url refactoré avec axiosConfig.js
-                axios.post('api/user/signup', dataPosted, axiosCors) // Ma route n'est pas reconnue => erreur 404 !!!
+                axios.post('api/user/signup', dataPosted) // Ma route n'est pas reconnue => erreur 404 !!!
                 .then(response => {
                     console.log(response);
                     // redirection vers route login
@@ -119,14 +103,12 @@
                 .catch((error) => {
                     console.log(error);
                 })
-                    
             }
         },
-        mounted(){
-
-        }
     }
 </script>
+
+
 
 <style lang="sass" scoped>
 .signup
@@ -135,83 +117,31 @@
     background-image: url('../assets/icon-left-font-monochrome-white.svg') 
     background-repeat: no-repeat
     background-position: center
-    background-position-y: 80%
+    background-position-y: 2vh
     background-color: #42b7b9
-    
-h1
-    font-size: 1.5em
-    color: white
+    .container
+        padding-top: 13vh
+    h1, h2
+        font-size: 1.5em
+        color: white
+    form
+        // position: relative
+        max-width: 100vh
+        padding: 15px 30px 30px 30px
+        margin: auto
+        background-color: white
+        span 
+            color: red
+    .btn btn-primary
+        opacity: 0.6
+        transition: 0.3s
+        &:hover
+            opacity: 1
 
 
-form
-    // position: relative
-    max-width: 100vh
-    padding: 15px 30px 30px 30px
-    margin: auto
-    background-color: white
-    span 
-        color: red
-    
-.btn btn-primary
-    opacity: 0.6
-    transition: 0.3s
-    &:hover
-        opacity: 1
-
-/** // $phone: 640px, 
-// $tablet: 768px, 
-// $desktop: 1024px !default
-
-
-
-//@media screen and (max-width: taillepx) 
-
-
-// @media screen and (">phone", "<tablet") {
-// }
-
-// @include media(">tablet", "<950px") {
-// } **/
-
-/** // mounted () {
-        
-//     axios retourne une promise
-//     requete vers le API endpoint /signup de notre router user  post les données entrées dans les formulaires
-//     axios.post('http://localhost:3000/api/signup') 
-//     .then(response => {
-//         console.log(response);
-//         this.User = response.data.user;
-//     })
-//     .catch((error) => {
-//         console.log(error);
-
-//     })
-// },
-
-// Researchs1
-// SignIn = () => {
-//     console.log('login clicked')
-//     let data = JSON.stringify({
-//         password: this.state.password,
-//         username: this.state.email
-//     })
-
-//     axios.post('url', data, {
-//         headers: {
-//             'Content-Type': 'application/json',
-//         }
-//     }
-//     )
-// }
-
-//research2
-// axios({ 
-//method: 'POST', 
-// url: 'you http api here', 
-// headers: {autorization: localStorage.token}, 
-// data: { user: 'name' }
-// }) **/
 </style>
+
+
 
 
 

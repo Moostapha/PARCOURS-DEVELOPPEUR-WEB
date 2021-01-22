@@ -24,11 +24,11 @@ exports.signUp = (username, email, password) => {
         dbmySql.query( sql, dataNewUser, function(error, result, field) {
             if(error) reject(error);
             resolve(result);
-            console.log(field);
             console.log(result);
         })
     })
 };
+
 
 
 /* Fonction de connexion sécurisée avec remise de tokens
@@ -59,7 +59,7 @@ exports.getOneUser = (primaryId) => {
         dbmySql.query( sql , [primaryId], function(error, result, field){
             if(error) reject (error);
             resolve(result);
-            console.log(field);
+            // console.log(field);
         })
     })
 };
@@ -75,7 +75,7 @@ exports.updateUser = (username,  password, primaryId) => {
         dbmySql.query( sql, dataUpdated, function(error, result, field){ // modif car ajout clé username dans table
             if(error) reject(error);
             resolve(result);
-            console.log(field);
+            // console.log(field);
         })
     })
 };
@@ -88,9 +88,21 @@ exports.deleteUser = (primaryId) => {
         dbmySql.query( sql, [primaryId], function(error, result, field){
             if(error) reject(error);
             resolve(result);
-            console.log(field);
+            // console.log(field);
         })
     })
+};
+
+// Fonction requête pour afficher tous les users
+exports.getUsers = () => {
+    return new Promise((resolve,reject) => {
+        const sql = 'SELECT * FROM users WHERE is_admin=0';
+        dbmySql.query(sql, function(error, results, fields) {
+            if (error) reject(error);
+            resolve(results);
+        })
+    })
+
 };
 
 

@@ -7,7 +7,7 @@
 
 <script>
 // @ is an alias to /src
-import Posts from '../components/Posts.vue'
+import Posts from '../components/PostsComments.vue'
 
 // export vers index.js + template du haut
 export default {

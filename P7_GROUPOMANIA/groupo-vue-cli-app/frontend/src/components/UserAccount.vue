@@ -24,7 +24,7 @@
                                     
                                 
                                 <div class="space"></div>
-                                  
+                                
 
                                 <div v-if="isDisplay">
                                     <!-- <form > -->

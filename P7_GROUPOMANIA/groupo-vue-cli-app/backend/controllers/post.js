@@ -11,7 +11,7 @@ Notre app doit permettre aux users d'accéder:
 */
 
 
-// Fonction affichant tous les posts (page d'accueil)
+// Fonction affichant tous les posts (page d'accueil) admin
 exports.getAllPosts = async(req, res, next) => {
     const posts = await postModel.getAllInTable();  // model.nomFonctionModelPost
     res.status(200).json({ post : posts }); // on gere et on capte la reponse avec un statut 200
@@ -31,8 +31,11 @@ exports.getOnePost = async(req, res, next) => {
 exports.createPost = async(req, res, next) => {
     const create = req.body; // on capture le corps de la requete dans une cste
     // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
+    const userId = req.params.id
+    console.log(" Infos new post:  ",create); 
     const createdPost = await postModel.createInTable(create.post, create.userId);
     res.status(201).json({post: createdPost});
+    res.status(500).json({ message: error });
 };
 
 

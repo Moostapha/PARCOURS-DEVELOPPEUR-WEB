@@ -7,11 +7,19 @@ const bouncer = require('express-bouncer')(500, 60000, 2) // a mettre sur route 
 const auth = require('../middlewares/authentification');
 
 
-// Routes du user CRUD + création | connexion le C de CRUD correspondra dans ce projet à la création du user dans la database SQL
-router.post('/signup', userCtler.signup); // route création compte user
-router.post('/login', bouncer.block ,userCtler.login); // route pour se connecter
-router.delete('/:id', userCtler.deleteMyAccount); // route pour effacer un user
-router.put('/:id', userCtler.updateMyAccount); // route pour modifier un user (commentaire ou fichiers...)
-router.get('/', userCtler.getMyAccount);
+// Routes du user CRUD 
+
+// route création compte user
+router.post('/signup', userCtler.signup); 
+// route connexion user
+router.post('/login', bouncer.block ,userCtler.login); 
+// route affichage profil user => component UserAccount.vue
+router.get('/', auth, userCtler.getUser);
+// ajout route pour voir all users (manquante) => component PostsComments.vue
+router.get('/allusers', auth, userCtler.getAllUsers); 
+// route pour effacer un user => UserAccount.vue
+router.delete('/deleteuser/:id', auth, userCtler.deleteUser); 
+// route pour update profil user  => UserAccount.vue
+router.put('/updateuser/:id', auth, userCtler.updateUser); 
 
 module.exports = router;

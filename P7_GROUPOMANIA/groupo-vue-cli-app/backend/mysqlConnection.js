@@ -16,7 +16,7 @@ const mysqlConnection = mysql.createConnection({
 //console.log(mysqlConnection);
 
 // etablissement de la connection avec le serveur mysql | état de la connection et gestion erreur
-mysqlConnection.connect( (err) => { // notation ES6 pour les fonctions
+mysqlConnection.connect( (err) => { 
     if (err) {
       console.error('erreur de connection: ' + err.stack);
       return;
@@ -26,7 +26,7 @@ mysqlConnection.connect( (err) => { // notation ES6 pour les fonctions
 });
 
 
-// creation de la database nodemysql_groupomania, une fois connecté on va créer une database pour ce projet
+
 
 
 module.exports = mysqlConnection; 

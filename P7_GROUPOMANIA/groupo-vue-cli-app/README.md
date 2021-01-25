@@ -48,6 +48,7 @@ HOST = votre HOST
 USER = votre user
 PASSWORD = votre mot de passe
 DATABASENAME = Nom
+- Lancez la commande nodemon server.js
 
 # 3) frontend:
 - Ouvrez un autre terminal tapez cd backend pour accéder à ce dossier

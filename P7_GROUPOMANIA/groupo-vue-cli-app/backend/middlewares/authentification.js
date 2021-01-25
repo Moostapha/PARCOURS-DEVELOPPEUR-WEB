@@ -14,14 +14,20 @@ module.exports = (req, res, next) => {
             }
             next();
         }
-    } catch (error) {
-        console.log(error);
-        console.log('requête non authentifiée !!!');
-    }
-    
-};
+    }  catch {
+        res.status(401).json({
+        error: new Error('Invalid request!')
+        });
+    };
+}
+
 // ancien code cf P6 etait ligne 17
 // catch {
 //     res.status(401).json({
 //         error: new Error('Invalid request!')
 //     });
+
+// catch (error) {
+//     console.log(error);
+//     console.log('requête non authentifiée !!!');
+// }

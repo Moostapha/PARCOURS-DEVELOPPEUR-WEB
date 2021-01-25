@@ -1,14 +1,13 @@
 <template>
     <div class="login">
         <div class="container">
-
+            
             <h1>SOCIAL NETWORK</h1>
             <h2>{{ msg }}</h2>
             
             <ValidationObserver v-slot="{ handleSubmit}">
                 
                 <form @submit.prevent="handleSubmit(submit)" class="sm md lg xl"> <!-- Ajout de l'eventlistener (fonction submit ligne) avec .prevent-->
-
                     <!-- CHAMP EMAIL -->
                     <div class="form-group">
                         <label for="InputEmail">Adresse Email</label>
@@ -16,7 +15,7 @@
                         <validationProvider name="email" rules="email|required" v-slot="{ errors }">  
                             <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
                             <input v-model="email"
-                                type="email" required="required" class="form-control " id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com"
+                                type="email" autocomplete="current-email" required="required" class="form-control " id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com"
                             />
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
@@ -29,7 +28,7 @@
                         <validationProvider name="password" rules="required|alpha_num" v-slot="{ errors }">
                             <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
                             <input v-model="password"
-                                type="current-password" required="required" class="form-control" id="InputPassword" 
+                                type="password" autocomplete="current-password" required="required" class="form-control" id="InputPassword" 
                                 placeholder="Chiffres et lettres uniquement, max 10 caractères"
                             />
                             <span>{{ errors[0] }}</span>
@@ -44,7 +43,7 @@
                         </button>
                     </div>
                 </form>
-            
+                
             </ValidationObserver>
         </div>
     </div>
@@ -52,55 +51,60 @@
 
 
 <script>
-// Librairie pour requetes vers (POST) et venant (GET) de l'API
-import axios from'axios'
-
-// export de ce component Login vers le component /view/Connexion
-export default {
-    name: 'Login',
-    props: {msg: String,},
+    // Librairie pour requetes vers (POST) et venant (GET) de l'API
+    import axios from'axios'
     
-    data () {
-        return {
-            email:"",
-            password:"",
-        }
-    },
-    
-    methods: {
+    // export de ce component Login vers le component /view/Connexion
+    export default {
+        name: 'Login',
+        props: {msg: String,},
         
-        submit() {
-            
-            const dataPosted = {
-                email: this.email,
-                password: this.password
+        data () {
+            return {
+                email:"",
+                password:"",
             }
+        },
+        
+        methods: {
             
-            // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
-            axios.post('api/user/login', dataPosted)
-            .then(response => {
-                //on vérifie les éléments de la réponse
-                console.log(response);
+            submit() {
+                // récupération des valeurs d'inputs (email | password)
+                const dataPosted = {
+                    email: this.email,
+                    password: this.password
+                }
                 
-                // On récupere et on enregistre le token donné par la fonction login du backend (ctler/user.js)
-                localStorage.setItem('token', response.data.AUTH_TOKEN);
-                
-                // redirection vers route fil d'actualité
-                this.$router.push('/groupomania/publications');
-                
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
+                // Nous postons ces datas vers le endpoint pertinent
+                axios.post('api/user/login', dataPosted)
+                .then(response => {
+
+                    //on vérifie les éléments de la réponse
+                    console.log(response);
+                    
+                    // On récupere et on enregistre le token donné par la fonction login du backend (ctler/user.js)
+                    localStorage.setItem('token', response.data.AUTH_TOKEN);
+
+                    //tentative de récupération des infos users côté client
+                    // localStorage.setItem('userId', response.data.id);
+                    // sessionStorage.setItem('userId', response.data.id);
+                    
+                    // redirection vers route fil d'actualité
+                    this.$router.push('/groupomania/publications');
+                    
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            }
         }
     }
-}
 </script>
 
 
 <style lang="sass" scoped>
 .login
-    
     height: 100vh 
     padding-top: 5vh
     background-image: url('../assets/icon-left-font-monochrome-white.svg')
@@ -120,11 +124,11 @@ export default {
         background-color: white
         span 
             color: red
-
-
-
 // Interdiction caracteres spéciaux regex [^;|]+
 </style>
+
+
+
 
 
 

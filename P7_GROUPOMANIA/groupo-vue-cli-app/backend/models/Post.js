@@ -15,7 +15,7 @@ exports.getAllInTable = () => {
         dbmySql.query( sql, function(error, results, fields) {
             if (error) reject(error);
             resolve(results);
-            // console.log(fields);
+            
         });
     })
 };
@@ -29,7 +29,7 @@ exports.getOneInTable = (id_primary) => { // idPost === primaryId
         dbmySql.query( sql , [id_primary] , function(error, results, fields) {
             if (error) reject(error);
             resolve(results);
-            // console.log(fields);
+            
         })
     })
 };
@@ -40,12 +40,12 @@ exports.createInTable = (post, userId) => { // userId est la clé primaire id de
     return new Promise((resolve, reject) => {
         //ERREUR 44-17 | 40-12 |
         const dataInserted = [post, userId]
-        const sql = 'INSERT INTO posts (post, userId)  VALUES (?, ?)';
+        const sql = 'INSERT INTO posts (post, userId) VALUES (?,?)';
         dbmySql.query(sql, dataInserted, function (error, results, fields){
             if (error) reject (error);
             resolve(results);
             console.log(results);
-            // console.log(fields);
+            
         })
     })
 };
@@ -60,7 +60,7 @@ exports.updateInTable = ( post, userId, idPost ) => {
         dbmySql.query( sql, dataUpdated , function (error, results, fields){
             if (error) reject (error);
             resolve(results);
-            // console.log(fields);
+            
         })
     
     })
@@ -75,7 +75,7 @@ exports.deleteInTable = (id_post) => { // ds ma db l'id du post est id et non id
         dbmySql.query( sql, [id_post], function (error, results, fields){
             if (error) reject (error);
             resolve(results);
-            // console.log(fields)
+            
         })
     })
 };

@@ -2,7 +2,7 @@
   <main class="filActualite">
     <div class="jumbotron">
       <div class="postcomment">
-
+        
         <h1 v-if="user"> Bonjour {{user.username}}</h1>
         <h1 v-if="!user"> Connection impossible !!!</h1>
         
@@ -11,10 +11,11 @@
           <div class="addPost">
             <label for="addPost">Que voulez vous dire?</label>
             <textarea 
-            v-model="post"
-            name="addPost" class="sm md lg xl"  rows="3" cols="4" placeholder="Editer vos posts ici"></textarea>
+              v-model="post"
+              name="addPost" class="sm md lg xl"  rows="3" cols="4" placeholder="Editer vos posts ici">
+            </textarea>
           </div>
-          <!-- Bouton de création de post avec fonction associée -->
+            <!-- Bouton de création de post avec fonction associée -->
           <div class="buttonPost">
             <button 
               @click="submitPost"
@@ -23,8 +24,8 @@
             </button>
           </div>
         </form>
-          
-          
+        
+        <!-- ============================================ interligne ========================================== -->
         <hr class="my-4">
         
         <!-- RENDU DYNAMIQUE DES POSTS ET DES COMMENTAIRES  -->
@@ -36,13 +37,13 @@
             <div class="postContent">
               <p>Post: {{post}}</p> 
             </div>
-            
           </div>
-          
-          
+            
           <!-- <p v-for="item in posts" :key="item.id"> {{item.post}} - {{item.date_creation}} </p> 
           <p v-for="item in commentaire" :key="item.id"> {{item.commentaire}} - {{item.date_creation}} >COMMENTS<p> -->
-          <p>POST 1: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta odit asperiores sequi vel doloremque recusandae</p>
+          <p>POST 1: Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+            Soluta odit asperiores sequi vel doloremque recusandae
+          </p>
           <ul>
             <li>
               <p>COMMENTS SUR UN POST1</p> 
@@ -53,7 +54,7 @@
           </ul>
         </div>
         
-        
+        <!-- ======================================== interligne ===============================================  -->
         <hr class="my-4">
         
         <!-- TEXTAREA ET BOUTON POUR AJOUT DE commentaire sur post (PUBLICATION) -->
@@ -61,10 +62,11 @@
           <div class="addComment">
             <label for="addComment">Ajouter un commentaire</label>
             <textarea 
-            v-model="comment"
-            name="addComment"  rows="3" cols="4" placeholder="commenter les posts ici..."></textarea>
+              v-model="comment"
+              name="addComment"  rows="3" cols="4" placeholder="commenter les posts ici...">
+            </textarea>
           </div>
-        <!-- Bouton de création de commentaire avec fonction associée -->
+          <!-- Bouton de création de commentaire avec fonction associée -->
           <div class="buttonComment">
             <button 
               @click="submitComment"
@@ -90,26 +92,33 @@ export default {
 
   data() {
     return {
-      user: "",
+      // infos à getter du backend
+      users: [],
       posts: [], 
       comments: [],
+      user: "", // infos user loggé authentifié et connecté avec AUTH_TOKEN
+      // infos à poster au backend
       post:"",
       comment:"",
-      userId:"",
+      userId: "",
     };
   },
   
   created() {
-    //Récupération du user loggé et redirigé vers post/accueil
-    // let data = JSON.parse(this.$localStorage.get('user'));
-      axios.get('api/user') .then(response => {
+    //Récupération du user loggé et redirigé vers fil d'actualité
+      axios.get('api/user').then(response => {
         console.log(response);
+        // tableau vide sans infos user loggé
+        console.log(response.data.user); 
         this.user = response.data.user;
+        //response.data.user
+        
       })
       .catch((error) => {
         console.log(error);
       }) 
-    //Affichage de tous les posts
+      
+    //Affichage de tous les posts => endpoint API 'http://localhost:3000/api/post/'
       axios.get('api/post').then(response => {
         console.log(response);
         this.posts = response.data.post;
@@ -117,7 +126,8 @@ export default {
       .catch((error) => {
         console.log(error);
       })
-    //Affichage de tous les comments
+      
+    //Affichage de tous les comments => endpoint API 'http://localhost:3000/api/comment/'
       axios.get('api/comment').then(response => {
         console.log(response);
         this.comments = response.data.comment
@@ -129,6 +139,7 @@ export default {
   
   // Méthodes allouées aux boutons créer post et comment
   methods: {
+
   // Fonction Bouton "Ajouter votre poste"
     submitPost(){
       const createPost = {
@@ -137,13 +148,15 @@ export default {
       }
       console.log(createPost);
       
-      axios.post('api/post', createPost).then(response => {
+      axios.post('api/post/create', createPost)
+      .then(response => {
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       })
     },
+
   // Fonction Bouton "Ajouter votre poste"
     submitComment(){
       const createComment = {

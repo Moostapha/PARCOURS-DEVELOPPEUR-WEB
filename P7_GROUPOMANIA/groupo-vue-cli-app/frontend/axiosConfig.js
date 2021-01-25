@@ -9,4 +9,4 @@ axios.defaults.baseURL = 'http://localhost:3000/';
 //token à la place de AUTH_TOKEN => clé: valeur | token: AUTH_TOKEN
 axios.defaults.headers.common['Authorization'] = 'Bearer '+ localStorage.getItem('token'); 
 
-
+// + localStorage.getItem('userId')

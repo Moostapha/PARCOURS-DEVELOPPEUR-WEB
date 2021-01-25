@@ -1,6 +1,9 @@
 # I) APPLICATION DE RESEAU SOCIAL POUR EMPLOYES DU GROUPE GROUPOMANIA
 Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil de communication des posts ou publications
+
+
 # TECHNOLOGIES POUR CE PROJET: 
+
 # => Frontend: Vue.js | Bootstrap | VueCLI
 - Vue.js: Framework JavaScript open-source utilisé pour construire des interfaces utilisateur et des applications web monopages (front-end).
 
@@ -42,20 +45,20 @@ Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil
 # 2) Backend:
 - Ouvrez un autre terminal tapez cd backend pour accéder à ce dossier
 - Exécutez npm install pour installer les dépendances du projet
+- Exécutez npm install -g nodemon
 - Ajouter un fichier .env à la racine du dossier fourni avec vos variables 
 d'environnement pour pouvoir vous connecter à la base de données MySQL
 HOST = votre HOST
 USER = votre user
 PASSWORD = votre mot de passe
 DATABASENAME = Nom
-- Lancez la commande nodemon server.js
+- Lancez la commande nodemon server.js dans le dossier backend pour vous connecter à la database
 
 # 3) frontend:
 - Ouvrez un autre terminal tapez cd backend pour accéder à ce dossier
+- Executez npm install pour installer toutes les dépendances du projet
 - Exécutez npm run serve pour lancer le frontend 
 - ouvrez votre navigateur à l'adresse indiquée pour y voir apparaitre le frontend dans le navigateur
-
-
 
 
 # AUTEUR

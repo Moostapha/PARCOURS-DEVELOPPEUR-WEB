@@ -63,7 +63,7 @@
             <label for="addComment">Ajouter un commentaire</label>
             <textarea 
               v-model="comment"
-              name="addComment"  rows="3" cols="4" placeholder="commenter les posts ici...">
+              name="addComment" rows="3" cols="4" placeholder="commenter les posts ici...">
             </textarea>
           </div>
           <!-- Bouton de création de commentaire avec fonction associée -->
@@ -96,7 +96,8 @@ export default {
       users: [],
       posts: [], 
       comments: [],
-      user: "", // infos user loggé authentifié et connecté avec AUTH_TOKEN
+      // infos user loggé authentifié et connecté avec AUTH_TOKEN
+      user: "", 
       // infos à poster au backend
       post:"",
       comment:"",

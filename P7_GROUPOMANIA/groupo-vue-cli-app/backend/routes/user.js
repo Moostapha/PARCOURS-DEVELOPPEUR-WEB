@@ -5,7 +5,8 @@ const userCtler = require('../controllers/user'); // Import du controller user.j
 const bouncer = require('express-bouncer')(500, 60000, 2) // a mettre sur route /login => sécurité
 // import du middleware d'authentification
 const auth = require('../middlewares/authentification');
-
+// Middleware gérant fichiers venant du front
+const multer = require('../middlewares/multer');
 
 // Routes du user CRUD 
 
@@ -16,10 +17,10 @@ router.post('/login', bouncer.block ,userCtler.login);
 // route affichage profil user => component UserAccount.vue
 router.get('/', auth, userCtler.getUser);
 // ajout route pour voir all users (manquante) => component PostsComments.vue
-router.get('/allusers', auth, userCtler.getAllUsers); 
+router.get('/users', auth, userCtler.getAllUsers); 
 // route pour effacer un user => UserAccount.vue
-router.delete('/deleteuser/:id', auth, userCtler.deleteUser); 
+router.delete('/deleteuser/:userId', auth, userCtler.deleteUser); 
 // route pour update profil user  => UserAccount.vue
-router.put('/updateuser/:id', auth, userCtler.updateUser); 
+router.put('/updateuser/:userId', auth, multer, userCtler.updateUser); 
 
 module.exports = router;

@@ -4,19 +4,20 @@
       <div class="postcomment">
         
         <h1 v-if="user"> Bonjour {{user.username}}</h1>
-        <h1 v-if="!user"> Connection impossible !!!</h1>
-        
+        <h1 v-if="!user"> Accés impossible !!! Identifiants incorrects</h1>
+
         <!-- TEXTAREA ET BOUTON POUR AJOUT DE POST (PUBLICATION) -->
-        <form @submit.prevent="handleSubmit(submitPost)">
-          <div class="addPost">
+        <form @submit.prevent="handleSubmit(submitPost)" enctype="multipart/form-data" method="post">
+          <div  v-if="user" class="addPost">
+            <!-- <h1 v-if="!user"> Vous n'avez pas accés !!!</h1> -->
             <label for="addPost">Que voulez vous dire?</label>
             <textarea 
-              v-model="post"
-              name="addPost" class="sm md lg xl"  rows="3" cols="4" placeholder="Editer vos posts ici">
+              v-model="publication.post"
+              name="addPost" class="sm md lg xl"  rows="2" cols="4" placeholder="Editer vos posts ici">
             </textarea>
           </div>
             <!-- Bouton de création de post avec fonction associée -->
-          <div class="buttonPost">
+          <div v-if="user" class="buttonPost">
             <button 
               @click="submitPost"
               type="button" class="sm md lg xl btn btn-primary btn-lg ">
@@ -24,57 +25,46 @@
             </button>
           </div>
         </form>
-        
+
+
         <!-- ============================================ interligne ========================================== -->
         <hr class="my-4">
-        
+
+
         <!-- RENDU DYNAMIQUE DES POSTS ET DES COMMENTAIRES  -->
         <div class="posts">
-          <h1>{{ msg }}</h1>
-          <div class="card" v-for="post in posts" :key="post.id">
-            <span>auteur: {{post.userId}} </span>
-            <span>Publié le: {{post.date_creation}} </span>
+          <h1 v-if="user">{{ msg }}</h1>
+          
+          <!-- vue warn duplicated key -->
+          <div class="card" v-for="(post, index) in posts" :key="index">   
             <div class="postContent">
-              <p>Post: {{post}}</p> 
+              <span>auteur: {{post.username}} - publié le: {{post.date_creation}}</span>
+              <p>Post: {{post.post}}</p> 
+              <!-- post.id === userId -->
+              <p>PostId: {{post.id}}</p> 
             </div>
-          </div>
             
-          <!-- <p v-for="item in posts" :key="item.id"> {{item.post}} - {{item.date_creation}} </p> 
-          <p v-for="item in commentaire" :key="item.id"> {{item.commentaire}} - {{item.date_creation}} >COMMENTS<p> -->
-          <p>POST 1: Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-            Soluta odit asperiores sequi vel doloremque recusandae
-          </p>
-          <ul>
-            <li>
-              <p>COMMENTS SUR UN POST1</p> 
-            </li>
-            <li>
-              <p>COMMENTS SUR UN POST1</p>
-            </li>
-          </ul>
+            <!-- TEXTAREA ET BOUTON POUR AJOUT DE commentaire sur post (PUBLICATION) -->
+            <form @submit.prevent="handleSubmit(submitCommentaire)" enctype="multipart/form-data" method="post">
+              <div class="addComment">
+                <label for="addComment"></label>
+                <textarea 
+                  v-model="commentaire.contenu"
+                  name="addComment" rows="2" cols="4" placeholder="Votre commentaire...">
+                </textarea>
+              </div>
+              <!-- Bouton de création de commentaire avec fonction associée -->
+              <div class="buttonComment">
+                <button 
+                  @click="submitCommentaire"
+                  type="button" class="sm md lg xl btn btn-primary btn-lg ">
+                  <i type="button"  class="far fa-comments"></i>
+                  Publiez
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        
-        <!-- ======================================== interligne ===============================================  -->
-        <hr class="my-4">
-        
-        <!-- TEXTAREA ET BOUTON POUR AJOUT DE commentaire sur post (PUBLICATION) -->
-        <form @submit.prevent="handleSubmit(submitComment)">
-          <div class="addComment">
-            <label for="addComment">Ajouter un commentaire</label>
-            <textarea 
-              v-model="comment"
-              name="addComment" rows="3" cols="4" placeholder="commenter les posts ici...">
-            </textarea>
-          </div>
-          <!-- Bouton de création de commentaire avec fonction associée -->
-          <div class="buttonComment">
-            <button 
-              @click="submitComment"
-              type="button" class="sm md lg xl btn btn-primary btn-lg ">
-              Ajouter votre commentaire
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   </main>
@@ -86,50 +76,75 @@
 import axios from "axios";
 
 export default {
-
+  
   name: "Posts",
   props: { msg: String },
-
+  
   data() {
     return {
-      // infos à getter du backend
+      
+      // infos user loggé authentifié et connecté avec AUTH_TOKEN
+      user: "", 
+      // user: {
+      //   username: ""
+      // },
+      
+      // infos à getter du backend, toutes les données des 3 tables
       users: [],
       posts: [], 
       comments: [],
-      // infos user loggé authentifié et connecté avec AUTH_TOKEN
-      user: "", 
+      
       // infos à poster au backend
-      post:"",
-      comment:"",
-      userId: "",
+      publication: {
+        post:"",
+        userId:"",
+        username:"",
+      },
+      
+      commentaire:{
+        contenu:"",
+        postId:"",
+        userId:"",
+        username:"",
+      },
     };
   },
   
-  created() {
+  mounted() {
     //Récupération du user loggé et redirigé vers fil d'actualité
-      axios.get('api/user').then(response => {
+      axios.get('api/user')
+      .then(response => {
         console.log(response);
-        // tableau vide sans infos user loggé
         console.log(response.data.user); 
         this.user = response.data.user;
-        //response.data.user
-        
       })
       .catch((error) => {
         console.log(error);
       }) 
-      
-    //Affichage de tous les posts => endpoint API 'http://localhost:3000/api/post/'
-      axios.get('api/post').then(response => {
+    
+    //Affichage de tous les users 
+      axios.get('api/user/users')
+      .then(response => {
+        console.log(response);
+        this.users = response.data.users;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    
+    //Affichage de tous les posts 
+      axios.get('api/post')
+      .then(response => {
         console.log(response);
         this.posts = response.data.post;
       })
       .catch((error) => {
         console.log(error);
       })
-      
-    //Affichage de tous les comments => endpoint API 'http://localhost:3000/api/comment/'
-      axios.get('api/comment').then(response => {
+    
+    //Affichage de tous les comments 
+      axios.get('api/comment')
+      .then(response => {
         console.log(response);
         this.comments = response.data.comment
       })
@@ -139,43 +154,84 @@ export default {
   },
   
   // Méthodes allouées aux boutons créer post et comment
-  methods: {
-
   // Fonction Bouton "Ajouter votre poste"
+  // Formatage des données de formulaire transmis via axios, il faut préciser, traduire les données transmises
+  // Comme données transmises on a un tableau avec +sieurs types de données différents à envoyer => string, int, images etc....
+  // Création objet FormData() sur lequel la méthode append() est appliquée pour ajouter name:
+  // FormDta => infos createdPost
+  
+  methods: {
+    
+    // Fonction Bouton "Ajouter votre poste"
     submitPost(){
-      const createPost = {
-        post: this.post,
-        userId: this.userId,
-      }
-      console.log(createPost);
       
-      axios.post('api/post/create', createPost)
+    // Récupération des userInputs (données postées) pour les poster au backend
+      const formData = new FormData();
+      formData.append("post" , this.publication.post);
+      formData.append("userId" , localStorage.getItem('userId'));
+      formData.append("username" , localStorage.getItem('username'));
+    
+    // Affichage de notre objet formData dans la console
+      console.log(Array.from(formData));
+      for(let obj of formData) {
+        console.log(obj);
+      }
+    
+    // envoie des données par requête
+      axios.post('api/post/createPost', formData, { 
+        headers: {
+        // mettre header pour que le front conigure les infos correctement pour le backend
+          'content-type': 'multipart/form-data',
+          'Authorization': 'Bearer '+ localStorage.getItem('token'),
+        }
+      })
+      .then(response => {
+        console.log(response);
+        
+        // récupération de l'id du post créé por la fonction submitCommentaire
+        localStorage.setItem('postId', response.data.post.insertId);
+        console.log(response.data.post.insertId);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    },
+    
+    // Fonction Bouton "Ajouter votre commentaire"
+    submitCommentaire(){
+    
+    // Récupération des userInputs (données postées) pour les poster au backend
+      const formData = new FormData();
+      formData.append('commentaire', this.commentaire.contenu);
+      formData.append('postId', localStorage.getItem('postId'));
+      formData.append('userId', localStorage.getItem('userId'));
+      formData.append('username', localStorage.getItem('username'));
+    
+    // Affichage de notre objet formData dans la console
+      console.log(Array.from(formData));
+      for(let obj of formData) {
+        console.log(obj);
+      }
+    
+    // envoie des données par requête
+      axios.post('api/comment/:postId/createCommentaire', formData, {
+        header: {
+          'content-type': 'multipart/form-data',
+          'Authorization': 'Bearer '+ localStorage.getItem('token'),
+        }
+      })
       .then(response => {
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       })
-    },
-
-  // Fonction Bouton "Ajouter votre poste"
-    submitComment(){
-      const createComment = {
-        comment: this.comment,
-        userId: this.userId,
-      }
-      console.log(createComment);
-      
-      axios.post('api/comment', createComment).then(response => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
     }
+    
   },
 }
 </script>
+
 
 <style scoped lang="sass">
   .filActualite
@@ -192,16 +248,20 @@ export default {
       .posts, .commentaire, li
         display: flex
         flex-direction: column
+      .postContent
+        background-color:#cbdce8
       .postcomment
         padding-top: 8vh
       .addPost,.addComment
         display: flex
         flex-direction: column
-        padding: 15px 30px 30px 30px
+        padding: 1px 30px 1px 30px
         margin: auto
-      .buttonComment,.buttonPost
+      .buttonPost
         margin-top: 2vh
-      h1, h2, p, label
+      .buttonComment
+        margin: 2vh
+      h1, h2
         color: white
         font-weight: bold
       ul
@@ -211,15 +271,3 @@ export default {
         display: inline-block
         margin: 0 10px
 </style>
-
-
-
-
-
-
-
-
-
-
-
-

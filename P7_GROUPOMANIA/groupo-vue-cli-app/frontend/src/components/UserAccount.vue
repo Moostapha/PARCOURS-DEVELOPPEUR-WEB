@@ -13,9 +13,6 @@
                                 <p class="text-secondary mb-1">Membre du Social network</p>
                                 <p class="text-muted font-size-sm">Changer votre photo</p>
                                 
-                                
-
-
                                 <!-- Bouton déroulant les options de modification du compte -->
                                 <!-- Mettre type="button" pour éviter "form not connected" -->
                                 <div>
@@ -58,7 +55,7 @@
                                             <validationProvider name="password" rules="required|alpha_num" v-slot="{ errors }">
                                                 <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
                                                 <input v-model="updatedPassword"
-                                                    type="current-password" required="required" class="form-control" id="InputPassword" 
+                                                    type="password" autocomplete="current-password" required="required" class="form-control" id="InputPassword" 
                                                     placeholder="Chiffres et lettres uniquement, max 10 caractères"
                                                 />
                                                 <span>{{ errors[0] }}</span>
@@ -98,14 +95,13 @@
 
 <script>
     import axios from 'axios'
-
+    
     export default {
     name: 'UserAccount',
     props: {msg: String},
-
-    data (){
+    
+    data () {
         return {
-            
             updatedUsername:"",
             updatedPassword:"",
             isDisplay: false,
@@ -113,8 +109,8 @@
     },
     
     methods: {
-
-        // 1) Fonction eventlistener du btn "modifier votre compte" dont la fonction est show
+        
+        // Fonction eventlistener du btn "modifier votre compte" dont la fonction est show
         show() {
             this.isDisplay = true
         },
@@ -122,24 +118,23 @@
         hide(){
             this.isDisplay = false
         },
-
-            
+        
+        // Fonction submit des updatedDatas
         submit() {
-            const dataPosted = {
-                updatedUsername: this.username,
-                updatedPassword: this.password
-            }
+            // Récupération des données à poster au backend
+            const dataPosted = new FormData();
+            dataPosted.append('newUsername', this.updatedUsername);
+            dataPosted.append('newPassword', this.updatedPassword);
             
-            axios.post('/api/user', dataPosted)
+            //Requête axios post
+            axios.post('/api/user/updateuser/:userId', dataPosted)
             .then(response => {
                 console.log(response);
             })
             .catch((error) => {
                 console.log(error)
             });
-
         },
-
     },   
 }
 </script>
@@ -167,6 +162,3 @@
 .space
     height: 3vh 
 </style>
-            
-
-

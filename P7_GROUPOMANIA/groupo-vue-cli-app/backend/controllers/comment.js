@@ -15,7 +15,9 @@ exports.readComment = async(req, res, next) => {
 //commun a user + admin
 exports.createComment = async(req, res, next) => {
     const newComment = req.body;
-    const createdComment = await commentModel.create( newComment.userId, newComment.postId, newComment.commentaire );
+    console.log(" Infos new commentaire:  ", newComment); 
+    const createdComment = await commentModel.create( newComment.commentaire , newComment.postId , newComment.userId );
+    console.log("résultat promise: ", createdComment)
     res.status(201).json({ comment: createdComment });
 };
 

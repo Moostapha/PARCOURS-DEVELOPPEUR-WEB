@@ -1,14 +1,16 @@
 <template>
     <div class="signup">
         <div class="container">
+
             <h1>SOCIAL NETWORK</h1>
             <h2>{{ msg }}</h2>
             
+
             <!-- Formulaire avec 3 champs : username | email | password -->
-            
             <ValidationObserver v-slot="{ handleSubmit}">
-                <form @submit.prevent="handleSubmit(submit)">  <!-- Ajout de l'eventlistener(fonction submit ligne 60) avec .prevent pour empêcher comportement par défaut -->
                 
+                <form @submit.prevent="handleSubmit(submit)">  <!-- Ajout de l'eventlistener(fonction submit ligne 60) avec .prevent pour empêcher comportement par défaut -->
+                <i class="far fa-user"></i>
                     <div class="form-group">
                         <label for="InputUsername">Username</label>
                         <!-- Validation de champ avec vee-validate-->
@@ -21,8 +23,7 @@
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
                     </div>
-                    
-                    
+
                     <div class="form-group">
                         <label for="InputEmail">Adresse Email</label>
                         <!-- Validation de champ avec vee-validate-->
@@ -35,8 +36,7 @@
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
                     </div>
-                    
-                    
+
                     <div class="form-group">
                         <label for="InputPassword">Mot de passe</label>
                         <!-- Validation de champ avec vee-validate-->
@@ -49,8 +49,7 @@
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
                     </div>
-                    
-                    
+
                     <!-- Bouton de soumission du formulaire Mettre type="button" pour éviter "form not connected" -->
                     <div>
                         <button v-on:click="submit" 
@@ -58,6 +57,7 @@
                         </button>
                     </div>
                 </form>
+                
             </ValidationObserver>
         </div>
     </div>
@@ -110,7 +110,7 @@
 
 <style lang="sass" scoped>
 .signup
-    height: 100vh
+    height: 110vh
     padding-top: 5vh
     background-image: url('../assets/icon-left-font-monochrome-white.svg') 
     background-repeat: no-repeat
@@ -119,6 +119,10 @@
     background-color: #42b7b9
     .container
         padding-top: 13vh
+    .fa-user
+        
+        font-size: 10vh
+        margin: 2vh
     h1, h2
         font-size: 1.5em
         color: white
@@ -130,35 +134,12 @@
         background-color: white
         span 
             color: red
+        label
+            color: #42b7b9
+            font-weight: bold
     .btn btn-primary
         opacity: 0.6
         transition: 0.3s
         &:hover
             opacity: 1
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

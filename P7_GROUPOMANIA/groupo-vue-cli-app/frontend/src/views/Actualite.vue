@@ -1,6 +1,6 @@
 <template>
   <div class="accueil-posts">
-    <Posts msg="Tous les posts et commentaires"/>
+    <Posts msg="PUBLICATIONS"/>
   </div>
 </template>
 

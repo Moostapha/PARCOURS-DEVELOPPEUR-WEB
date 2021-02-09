@@ -9,4 +9,7 @@ axios.defaults.baseURL = 'http://localhost:3000/';
 //token à la place de AUTH_TOKEN => clé: valeur | token: AUTH_TOKEN
 axios.defaults.headers.common['Authorization'] = 'Bearer '+ localStorage.getItem('token'); 
 
-// + localStorage.getItem('userId')
+// Global setting des headers POST 
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.headers.post['Authorization'] = 'Bearer '+ localStorage.getItem('token');
+// localStorage.setItem('postId')

@@ -11,6 +11,9 @@ const helmet = require('helmet');
 const cors = require('cors');
 // package file system gestion fichier image (multer)
 const path = require('path');
+// package multer
+
+
 
 // Import des routes USER | POST | COMMENT
 const userRoutes = require('./routes/user');
@@ -36,7 +39,7 @@ app.use(xss());
 
 // Middleware pour bodyparser qui transforme le corps de la requête en objet JS utilisable
 app.use(bodyParser.json()); 
-// encodage URL infos venant du front au format JS
+// encodage URL infos venant du front au format JSON
 app.use(bodyParser.urlencoded({extended: true})); 
 
 
@@ -51,8 +54,3 @@ app.use('/images', express.static(path.join(__dirname, 'images'))); // gestion d
 
 // export vers le server.js
 module.exports= app;
-
-
-
-
-

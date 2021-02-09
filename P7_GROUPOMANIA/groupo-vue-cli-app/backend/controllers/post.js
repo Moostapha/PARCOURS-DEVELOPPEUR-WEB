@@ -1,5 +1,3 @@
-//const mysqlConnection = require('../mysqlConnection');
-//const mysql = require('mysql');
 const postModel = require('../models/Post'); // Import des fonctions Models possédant nos requetes SQL
 
 
@@ -10,10 +8,9 @@ Notre app doit permettre aux users d'accéder:
 3) Opérations CUD (R read étant les 2 du haut).
 */
 
-
 // Fonction affichant tous les posts (page d'accueil) admin
 exports.getAllPosts = async(req, res, next) => {
-    const posts = await postModel.getAllInTable();  // model.nomFonctionModelPost
+    const posts = await postModel.getAll();  // model.nomFonctionModelPost
     res.status(200).json({ post : posts }); // on gere et on capte la reponse avec un statut 200
     //console.log(posts);
 };
@@ -22,30 +19,32 @@ exports.getAllPosts = async(req, res, next) => {
 // Fonction affichant un seul post 
 exports.getOnePost = async(req, res, next) => {
     const id = req.params.id; // clé primaire de la ligne de table posts
-    const post = await postModel.getOneInTable(id);
+    const post = await postModel.getOne(id);
     res.status(200).json({ post : post });
 };
 
 
 // Fonction créant un post
 exports.createPost = async(req, res, next) => {
-    const create = req.body; // on capture le corps de la requete dans une cste
+    
+    // on capture le corps de la requete dans une cste
+    const created = req.body;
+    
     // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
-    const userId = req.params.id
-    console.log(" Infos new post:  ",create); 
-    const createdPost = await postModel.createInTable(create.post, create.userId);
+    console.log(" Infos new post:  ", created); 
+    const createdPost = await postModel.create( created.post, created.userId, created.username );
+    console.log("résultat de la promise", createdPost); 
     res.status(201).json({post: createdPost});
-    res.status(500).json({ message: error });
+    
 };
 
 
-
-// Fonction modifiant un post
+// Fonction modifiant un post 
 exports.updatePost = async(req, res, next) => {
     const idPost = req.params.id; // clé primaire du post dans db
     const update = req.body; // on recupere le corps du nouveau post dans une constante
     // on les met en paramètre dans la fonction Model post
-    const updatedPost = await postModel.updateInTable( update.post, update.userId, idPost );
+    const updatedPost = await postModel.update( update.post, update.userId, idPost );
     res.status(201).json({ post: updatedPost });
 };
 
@@ -53,9 +52,7 @@ exports.updatePost = async(req, res, next) => {
 // Fonction supprimant un post
 exports.deletePost = async(req, res, next) => {
     const id = req.params.id;
-    const deletedPost = await postModel.deleteInTable(id);
+    const deletedPost = await postModel.delete(id);
     res.status(200).json({ post: deletedPost });
 };
-
-
 // Toutes nos fonctions exportées vers /routes/post

@@ -8,6 +8,7 @@
             <ValidationObserver v-slot="{ handleSubmit}">
                 
                 <form @submit.prevent="handleSubmit(submit)" class="sm md lg xl"> <!-- Ajout de l'eventlistener (fonction submit ligne) avec .prevent-->
+                <i class="far fa-user"></i>
                     <!-- CHAMP EMAIL -->
                     <div class="form-group">
                         <label for="InputEmail">Adresse Email</label>
@@ -15,7 +16,8 @@
                         <validationProvider name="email" rules="email|required" v-slot="{ errors }">  
                             <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
                             <input v-model="email"
-                                type="email" autocomplete="current-email" required="required" class="form-control " id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com"
+                                type="email" autocomplete="current-email" required="required" class="form-control " 
+                                id="InputEmail" aria-describedby="emailHelp" placeholder="email@adresse.com"
                             />
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
@@ -79,16 +81,20 @@
                 // Nous postons ces datas vers le endpoint pertinent
                 axios.post('api/user/login', dataPosted)
                 .then(response => {
-
+                    
                     //on vérifie les éléments de la réponse
                     console.log(response);
                     
                     // On récupere et on enregistre le token donné par la fonction login du backend (ctler/user.js)
                     localStorage.setItem('token', response.data.AUTH_TOKEN);
-
-                    //tentative de récupération des infos users côté client
-                    // localStorage.setItem('userId', response.data.id);
-                    // sessionStorage.setItem('userId', response.data.id);
+                    
+                    // récupération du userId côté client
+                    localStorage.setItem('userId', response.data.userId);
+                    console.log(response.data.userId);
+                    
+                    // récupération du username côté client
+                    localStorage.setItem('username', response.data.username);
+                    console.log(response.data.username);
                     
                     // redirection vers route fil d'actualité
                     this.$router.push('/groupomania/publications');
@@ -114,6 +120,10 @@
     background-color: #42b7b9
     .container
         padding-top: 13vh
+    .fa-user
+        font-weight: 1
+        font-size: 10vh
+        margin: 2vh
     h1,h2
         font-size: 1.5em
         color: white
@@ -122,6 +132,9 @@
         padding: 15px 30px 30px 30px
         margin: auto
         background-color: white
+        label
+            color: #42b7b9
+            font-weight: bold
         span 
             color: red
 // Interdiction caracteres spéciaux regex [^;|]+

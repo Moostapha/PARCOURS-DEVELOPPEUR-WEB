@@ -12,7 +12,7 @@ exports.getAll = () => {
         // Préparation requête SQL
         // const sql = 'SELECT * FROM posts' changement SQL avec jointure sur table users
         // faire des tests ici pour enlever le duplicated key id et userId the same
-        const sql = 'SELECT * FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date_creation DESC';
+        const sql = 'SELECT * FROM posts ORDER BY posts.date_creation DESC';
         // Exécution requête
         dbmySql.query( sql, function(error, results, fields) {
             if (error) reject(error);

@@ -39,9 +39,9 @@ Ceci permettra au back-end de vérifier que la requête est authentifiée. */
 
 exports.login = (email) => {
     return new Promise((resolve, reject) => {
-        // requete SQL préparée qui renverra tous les champs de la ligne ou cet email apparait
+        // requete SQL préparée qui renverra tous les champs de la ligne ou cet email apparait:
         const sql = 'SELECT * FROM users WHERE email=?'; 
-        // excécution de la requête SQL
+        // excécution de la requête SQL:
         dbmySql.query( sql, [email], function(error, result, field){
             if(error) reject(error);
             resolve(result);
@@ -52,14 +52,17 @@ exports.login = (email) => {
 };
 
 
-// Fonction affichant un user qui est mon compte
-exports.getOneUser = (primaryId) => {
+// Fonction affichant un user par son id
+exports.getOneUser = (id) => {
     return new Promise((resolve, reject) =>{
-        const sql = 'SELECT * FROM users WHERE id=?'; // erreur envoyé apres requete .rest 50:12
-        dbmySql.query( sql , [primaryId], function(error, result, field){
+
+        // Préparation requête:
+        const sql = 'SELECT * FROM users WHERE id=?'; 
+        // exécution requête:
+        dbmySql.query( sql, [id], function(error, result, field){
             if(error) reject (error);
             resolve(result);
-            // console.log(field);
+            console.log(result);
         })
     })
 };

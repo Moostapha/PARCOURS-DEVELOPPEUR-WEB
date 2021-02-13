@@ -1,4 +1,5 @@
 const postModel = require('../models/Post'); // Import des fonctions Models possédant nos requetes SQL
+const { post } = require('../routes/post');
 
 
 /* LOGIQUES METIERS DES POSTS CRUD
@@ -11,7 +12,7 @@ Notre app doit permettre aux users d'accéder:
 // Fonction affichant tous les posts (page d'accueil) admin
 exports.getAllPosts = async(req, res, next) => {
     const posts = await postModel.getAll();  // model.nomFonctionModelPost
-    res.status(200).json({ post : posts }); // on gere et on capte la reponse avec un statut 200
+    res.status(200).json({ posts : posts }); // on gere et on capte la reponse avec un statut 200
     //console.log(posts);
 };
 
@@ -34,7 +35,7 @@ exports.createPost = async(req, res, next) => {
     console.log(" Infos new post:  ", created); 
     const createdPost = await postModel.create( created.post, created.userId, created.username );
     console.log("résultat de la promise", createdPost); 
-    res.status(201).json({post: createdPost});
+    res.status(201).json({ post: createdPost });
     
 };
 

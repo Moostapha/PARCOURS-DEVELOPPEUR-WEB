@@ -87,9 +87,13 @@ exports.login = async(req, res, next) => {
 //Fonction pour lire mon compte user
 // commun a user + admin
 exports.getUser = async(req, res, next) => {
-    const userId = req.params.id // id encodé dans l'URL
-    const myAccount = await User.getOneUser(userId); // on reprend la fonction getOneUser du model
-    res.status(200).json({ user: myAccount });
+    // id encodé dans l'URL
+    const userById = req.params.userId;
+    console.log(userById);
+    // on reprend la fonction getOneUser du model
+    const result = await User.getOneUser(userById); 
+    console.log("résultat de la promise", result); 
+    res.status(200).json({ user: result });
     
 };
 

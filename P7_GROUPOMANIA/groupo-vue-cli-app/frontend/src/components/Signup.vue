@@ -93,7 +93,7 @@
                 console.log(dataPosted);
                 // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 // adresse url refactoré avec axiosConfig.js
-                axios.post('api/user/signup', dataPosted) // Ma route n'est pas reconnue => erreur 404 !!!
+                axios.post('api/users/signup', dataPosted) // Ma route n'est pas reconnue => erreur 404 !!!
                 .then(response => {
                     console.log(response);
                     // redirection vers route login
@@ -120,7 +120,7 @@
     .container
         padding-top: 13vh
     .fa-user
-        
+        color: #42b7b9
         font-size: 10vh
         margin: 2vh
     h1, h2

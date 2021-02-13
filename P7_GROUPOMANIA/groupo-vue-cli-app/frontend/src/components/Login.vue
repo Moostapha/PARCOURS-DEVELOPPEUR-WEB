@@ -79,7 +79,7 @@
                 
                 // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 // Nous postons ces datas vers le endpoint pertinent
-                axios.post('api/user/login', dataPosted)
+                axios.post('api/users/login', dataPosted)
                 .then(response => {
                     
                     //on vérifie les éléments de la réponse
@@ -124,6 +124,7 @@
         font-weight: 1
         font-size: 10vh
         margin: 2vh
+        color: #42b7b9
     h1,h2
         font-size: 1.5em
         color: white

@@ -47,9 +47,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 //PARTIE DES ROUTES DE app.js => USER POST ET COMMENT
-app.use('/api/user', userRoutes); // Route user
-app.use('/api/post', postRoutes);  // Route post
-app.use('/api/comment', commentRoutes);  // Route commentaire
+app.use('/api/users', userRoutes); // Route user
+app.use('/api/posts', postRoutes);  // Route post
+app.use('/api/comments', commentRoutes);  // Route commentaire
 app.use('/images', express.static(path.join(__dirname, 'images'))); // gestion des fichiers img statique uploads
 
 // export vers le server.js

@@ -1,6 +1,6 @@
 <template>
   <div class="accueil-posts">
-    <Posts msg="PUBLICATIONS"/>
+    <Posts msg="MUR DES PUBLICATIONS"/>
   </div>
 </template>
 

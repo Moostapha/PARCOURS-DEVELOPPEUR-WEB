@@ -13,14 +13,14 @@ exports.read = () => {
         })
     })
 };
+// 'SELECT comments.*, users.avatar FROM comments JOIN users ON comments.idAuteur = users.id AND comments.idPost="'+req.params.id+'" ORDER BY id DESC'
 
 
-
-exports.create = ( commentaire, postId, userId ) => {
+exports.create = ( commentaire, postId, userId, username ) => {
     return new Promise((resolve, reject) => {
         // respecter ordre champs des tables 
-        const sql = 'INSERT INTO comments (commentaire, postId, userId) VALUES (?, ?, ?)'
-        let dataInserted = [commentaire, postId, userId]
+        const sql = 'INSERT INTO comments (commentaire, postId, userId, username) VALUES (?, ?, ?, ?)'
+        let dataInserted = [commentaire, postId, userId, username]
         dbmySql.query( sql, dataInserted , function(error, result, field) {
             if (error) reject (error);
             resolve (result);

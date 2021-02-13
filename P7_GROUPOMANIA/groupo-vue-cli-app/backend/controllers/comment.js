@@ -16,7 +16,7 @@ exports.readComment = async(req, res, next) => {
 exports.createComment = async(req, res, next) => {
     const newComment = req.body;
     console.log(" Infos new commentaire:  ", newComment); 
-    const createdComment = await commentModel.create( newComment.commentaire , newComment.postId , newComment.userId );
+    const createdComment = await commentModel.create( newComment.commentaire , newComment.postId , newComment.userId, newComment.username );
     console.log("résultat promise: ", createdComment)
     res.status(201).json({ comment: createdComment });
 };

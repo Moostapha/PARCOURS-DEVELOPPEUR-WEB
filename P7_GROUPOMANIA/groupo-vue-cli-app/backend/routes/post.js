@@ -7,8 +7,8 @@ const auth = require('../middlewares/authentification');
 const multer = require('../middlewares/multer');
 
 // routes pour les posts CRUD | PGGPD
-Router.post('/createPost', auth, multer, postCtler.createPost); // '/create/postId'
-Router.get('/', auth, postCtler.getAllPosts); // route modifiée
+Router.post('/createPost/:postId', auth, multer, postCtler.createPost); // => Router.post('/', auth, multer, postCttler.createPost)
+Router.get('/', auth, postCtler.getAllPosts); 
 Router.get('/:postId', auth, postCtler.getOnePost);
 Router.put('/:postId', auth, postCtler.updatePost);
 Router.delete('/:postId', auth, postCtler.deletePost);

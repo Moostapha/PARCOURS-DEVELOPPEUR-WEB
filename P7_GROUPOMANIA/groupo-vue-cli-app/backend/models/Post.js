@@ -69,10 +69,12 @@ exports.update = ( post, userId, idPost ) => {
 exports.delete = (id_post) => { 
     return new Promise((resolve,reject) => {
         // const sql = 'DELETE FROM posts WHERE id= ?';
-        const sql = 'DELETE FROM posts WHERE id=? AND userId=?';
+        const sql = 'DELETE FROM posts WHERE id=?';
         dbmySql.query( sql, [id_post], function (error, results, fields){
             if (error) reject (error);
             resolve(results);
         })
     })
 };
+
+// DELETE FROM `posts` WHERE `posts`.`id` = 1;

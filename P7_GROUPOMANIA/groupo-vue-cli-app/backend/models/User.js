@@ -5,14 +5,14 @@ const dbmySql = require('../mysqlConnection');
 /*FONCTIONS ET REQUETES SQL LIEES A LA TABLE users | OPERATIONS CRUD SUR TABLE user
 Sur la table users, on doit pouvoir manipuler les données de la maniere suivante:
 create | update | delete => on doit avoir ici les requêtes sql permettant d'effectuer 
-ces opérations sur cette table => user: id (autoincrement) | username | email | password | date_creation
+ces opérations sur cette table => users: id (autoincrement) | username | email | password | date_creation
 */
 
 // exemple de requete sql donné apres ajout dans bd:
 // ALTER TABLE `users` ADD `test` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `date_creation`;
 
-/* Fonction de création de compte user sur l'application avec email et mot de passe
-*/
+// Fonction de création de compte user sur l'application avec email et mot de passe
+
 exports.signUp = (username, email, password) => {
     return new Promise((resolve, reject) => {
         // préparation requete SQL modif car ajout de username
@@ -30,13 +30,11 @@ exports.signUp = (username, email, password) => {
 };
 
 
-
 /* Fonction de connexion sécurisée avec remise de tokens
 Les tokens d'authentification permettent aux utilisateurs de ne se connecter 
 qu'une seule fois à leur compte. Au moment de se connecter, 
 ils recevront leur token et le renverront automatiquement à chaque requête par la suite. 
 Ceci permettra au back-end de vérifier que la requête est authentifiée. */
-
 exports.login = (email) => {
     return new Promise((resolve, reject) => {
         // requete SQL préparée qui renverra tous les champs de la ligne ou cet email apparait:
@@ -55,7 +53,6 @@ exports.login = (email) => {
 // Fonction affichant un user par son id
 exports.getOneUser = (id) => {
     return new Promise((resolve, reject) =>{
-
         // Préparation requête:
         const sql = 'SELECT * FROM users WHERE id=?'; 
         // exécution requête:
@@ -63,6 +60,7 @@ exports.getOneUser = (id) => {
             if(error) reject (error);
             resolve(result);
             console.log(result);
+            // console.log(field);
         })
     })
 };
@@ -96,6 +94,7 @@ exports.deleteUser = (primaryId) => {
     })
 };
 
+
 // Fonction requête pour afficher tous les users
 exports.getUsers = () => {
     return new Promise((resolve,reject) => {
@@ -107,49 +106,3 @@ exports.getUsers = () => {
     })
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*require('dotenv').config(); // plugin pour charger variable d'environement depuis .env
-
-// connection à la bd mysql
-const MyAppModel = mySqlModel.createConnection({
-    host     : process.env.HOST,
-    user     : process.env.NAME, 
-    password : process.env.PASS, 
-    database : process.env.DATABASENAME //  nom db créée (via phpmyadmin on a créé notre nomdb et tableau users)
-});
-
-//  Nom du tableau auquel le model User se réfère, ici users
-const User = MyAppModel.extend({
-    tableName: 'users',
-});
-
-// New instance
-const userModel = new MyAppModel({tableName: "user"});
-// ou de cette manière: const userModel = new User();
-
-module.exports = userModel; // export du schema de donnees vers le user/control
-
-*/
-

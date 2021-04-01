@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AccueilConnexion from '../views/AccueilConnexion' // Import view pour page d'accueil connexion (component Login)
-import Inscription from '../views/Inscription.vue' //  Import view pour page inscription (component Signup)
-import Actualite from '../views/Actualite.vue' // Import view pour page fil d'actalité (component Posts)
-import Profil from '../views/Profil'
+import Inscription from '../views/Inscription.vue' //  Import view pour page signup (component Signup)
+import Actualite from '../views/Actualite.vue' // Import view pour page publications (component Posts)
+import Profil from '../views/Profil'           // Import view pour page profil (component UserAccount)
 
 Vue.use(VueRouter)
 
@@ -13,7 +13,7 @@ Tableau contenant des objets définissant chaque route
 
 const routes = [
 
-  // URL PAGE D' ACCUEIL
+  // URL PAGE D'ACCUEIL navbar:Login
   // component: Login => views: AccueilConnexion
   {
     path: '/groupomania/login',
@@ -21,7 +21,7 @@ const routes = [
     component: AccueilConnexion // component venant de views importé en haut
   },
   
-  // URL PAGE D'INSCRIPTION
+  // URL PAGE D'INSCRIPTION navbar:signup
   // component: Signup => views: Inscription
   {
     path: '/groupomania/signup',
@@ -30,7 +30,7 @@ const routes = [
   },
 
 
-  // URL PAGE FIL D'ACTUALITE
+  // URL PAGE FIL D'ACTUALITE navbar : publications
   // component: Posts => views: Actualite
   {
     path: '/groupomania/publications',       // URL correspondant au composant
@@ -38,10 +38,10 @@ const routes = [
     component: Actualite,  // Composant affiché lorsque le path est trouvé
   },
 
-    // URL PAGE FIL D'ACTUALITE
-  // component: Posts => views: Actualite
+    // URL PAGE profil
+  // component: UserAccount=> views: profil
   {
-    path: '/groupomania/useraccount',       // URL correspondant au composant
+    path: '/groupomania/profil/:userId',       // URL correspondant au composant
     name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Profil,  // Composant affiché lorsque le path est trouvé
   },

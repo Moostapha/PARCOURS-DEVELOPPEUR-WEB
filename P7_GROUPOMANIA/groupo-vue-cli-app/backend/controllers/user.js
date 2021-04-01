@@ -16,12 +16,13 @@ const User = require('../models/User');
 7) Liker/disliker des commentaires => Fonctions likePost et dislikePost
 */
 
-
 /* Fonction signup création de compte user et cryptant le password
 Utilisation de la fonction de hachage de bcrypt sur le mot de passe afin de le crypter => stockage BD
 commun a user + admin
 */
 exports.signup = (req, res, next) => {
+    // Validation des inputs formulaire signup
+    
     // récupération infos envoyées par le front
     const newUser = req.body
     console.log(" Infos new register:  ", newUser); 
@@ -30,7 +31,7 @@ exports.signup = (req, res, next) => {
     .then (
         async(hash) => {
             const inscription = await User.signUp( newUser.username, newUser.email, hash ); // params fonction ici dans le meme ordre que params fonction du Model
-            res.status(201).json({ account: inscription });
+            res.status(201).json({ message:'Utilisateur créé avec succés' , account: inscription});
             console.log(inscription);
         }
     )
@@ -45,19 +46,18 @@ ils recevront leur token et le renverront automatiquement à chaque requête par
 Ceci permettra au back-end de vérifier que la requête est authentifiée.
 Le Token est assigné à l'id clé primaire du user dans notre BD SQL. L'id clé primaire 
 nous servira aussi à identifier de manière unique un user qui se connecte à l'app.
-
 commun a user + admin
 */
 
 exports.login = async(req, res, next) => {
-    
+    // Validation des inputs formulaire login
+
     // Récupération password et email send avec requête depuis le front
     const password = req.body.password;
     console.log(" Password venant du front:  ", password); 
     const email = req.body.email; 
-    // infos user à la connexion (inputs) ou le mail apparait (all champs) récupération promesse faite dans User.js
-    // On passe dans la constante la promise login avec paramètre l'email entré en input form => le password correspondant sera dans result
-    // on récupére le resultat de la promise ici
+    console.log(" email venant du front:  ", email); 
+    // email user dans la promise login/User.js => renverra les infos de la ligne ou email apparait dans la table users
     const result = await User.login(email); 
     // resultat de la promise affichée dans console toujours sur des var et des resultats attendus comme await
     console.log("résultat de la promise", result[0]); 
@@ -74,11 +74,10 @@ exports.login = async(req, res, next) => {
             'RANDOM_TOKEN_SECRET',
             { expiresIn: '24h'},
         );
-        // Check du token et statut succés
+        // Check du token 
         console.log(token);
         // succés et assignation du TOKEN + récupération du userId
-        res.status(200).json({ AUTH_TOKEN: token, userId: result[0].id, username: result[0].username }) 
-    
+        res.status(200).json({ message: 'Authentification user réussie', USER_AUTH_TOKEN: token, userId: result[0].id, username: result[0].username }) 
     })
     .catch(error => res.status(500).json({ error }));
 };
@@ -87,14 +86,15 @@ exports.login = async(req, res, next) => {
 //Fonction pour lire mon compte user
 // commun a user + admin
 exports.getUser = async(req, res, next) => {
-    // id encodé dans l'URL
+    // id encodé dans le token
+    // const tokenIdInfoUser = decodeToken(req);
+    // const userId = tokenIdInfoUser[0]
     const userById = req.params.userId;
-    console.log(userById);
+    console.log("userId de la request: ", userById);
     // on reprend la fonction getOneUser du model
     const result = await User.getOneUser(userById); 
     console.log("résultat de la promise", result); 
-    res.status(200).json({ user: result });
-    
+    res.status(200).json({ message:'user loggé et authentifié', user: result });
 };
 
 
@@ -103,33 +103,34 @@ exports.getUser = async(req, res, next) => {
 exports.updateUser = async(req, res, next) => {
     const userId = req.body.id;
     const updated = req.body;
+    // const userImage = JSON.parse(req.body.file);
+    // const imageUrl =  `${req.protocol}://${req.get('host')}/image/${req.file.filename}`; 
     console.log(" Update venant du front:  ", updated); 
     // Cas ou le user veut modifier soit son username soit son password
     if ( updated.username || updated.password ) {
         bcrypt.hash(updated.password, 10)
         .then(async(hash)=>{
-            const updatedAccount = await User.updateUser( updated.username, hash, userId )
-            res.status(201).json({ updatedPassword: updatedAccount })
-            res.status(201).json({ updatedUsername: updatedAccount })
+            const updatedAccount = await User.updateUser( updated.username, hash,  userId )
+            res.status(201).json({ message:'Modifications réussies', updatedPassword: updatedAccount, updatedUsername: updatedAccount })
             console.log(updatedAccount)
         })
-        .catch( error => res.status(500).json({ message: error}));
-    
+        .catch( error => res.status(500).json({ message: error }));
     }
 };
+
 
 // Fonction suppression de mon compte user
 // commun a user + admin
 exports.deleteUser = async(req, res, next) => {
-    const userId  = req.params.id;
-    console.log(" Utilisateur supprimé:  ",userId); 
-    const deletedAccount = await User.deleteUser(userId);
-    res.status(200).json({ account : deletedAccount });
+    const userById  = req.params.userId;
+    console.log("Utilisateur supprimé:  ", userById); 
+    const deletedAccount = await User.deleteUser(userById);
+    res.status(200).json({ message:'Utilisateur supprimé avec succés', userDeleted : deletedAccount, });
 };
 
 
-// Fonction pour voir les autres users
+// Fonction pour voir les autres users non administrateur
 exports.getAllUsers = async(req, res, next) => {
     const allUsers = await User.getUsers();
-    res.status(200).json({ users: allUsers});
+    res.status(200).json({ message:'Liste des users statut 0', users: allUsers });
 };

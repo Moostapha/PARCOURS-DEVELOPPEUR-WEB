@@ -17,6 +17,7 @@ import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
 /* Plugin de vee-validate permettant de soumettre le formulaire qu'APRES validation des champs*/
 import { ValidationObserver } from 'vee-validate';
 
+
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 

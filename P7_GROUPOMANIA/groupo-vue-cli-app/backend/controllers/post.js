@@ -1,5 +1,5 @@
 const postModel = require('../models/Post'); // Import des fonctions Models possédant nos requetes SQL
-const { post } = require('../routes/post');
+// const { post } = require('../routes/post');
 
 
 /* LOGIQUES METIERS DES POSTS CRUD
@@ -12,7 +12,7 @@ Notre app doit permettre aux users d'accéder:
 // Fonction affichant tous les posts (page d'accueil) admin
 exports.getAllPosts = async(req, res, next) => {
     const posts = await postModel.getAll();  // model.nomFonctionModelPost
-    res.status(200).json({ posts : posts }); // on gere et on capte la reponse avec un statut 200
+    res.status(200).json({ message:'Liste des posts', posts : posts }); // on gere et on capte la reponse avec un statut 200
     //console.log(posts);
 };
 
@@ -21,7 +21,7 @@ exports.getAllPosts = async(req, res, next) => {
 exports.getOnePost = async(req, res, next) => {
     const id = req.params.id; // clé primaire de la ligne de table posts
     const post = await postModel.getOne(id);
-    res.status(200).json({ post : post });
+    res.status(200).json({ message:'post sélectionné', post : post });
 };
 
 
@@ -35,7 +35,7 @@ exports.createPost = async(req, res, next) => {
     console.log(" Infos new post:  ", created); 
     const createdPost = await postModel.create( created.post, created.userId, created.username );
     console.log("résultat de la promise", createdPost); 
-    res.status(201).json({ post: createdPost });
+    res.status(201).json({ message:'post créé avec succés',  post: createdPost });
     
 };
 
@@ -46,7 +46,7 @@ exports.updatePost = async(req, res, next) => {
     const update = req.body; // on recupere le corps du nouveau post dans une constante
     // on les met en paramètre dans la fonction Model post
     const updatedPost = await postModel.update( update.post, update.userId, idPost );
-    res.status(201).json({ post: updatedPost });
+    res.status(201).json({ message:'post modifié avec succés', post: updatedPost });
 };
 
 
@@ -54,6 +54,7 @@ exports.updatePost = async(req, res, next) => {
 exports.deletePost = async(req, res, next) => {
     const id = req.params.id;
     const deletedPost = await postModel.delete(id);
-    res.status(200).json({ post: deletedPost });
+    console.log("résultat de la promise", deletedPost); 
+    res.status(200).json({ message:'post supprimé avec succés', post: deletedPost });
 };
 // Toutes nos fonctions exportées vers /routes/post

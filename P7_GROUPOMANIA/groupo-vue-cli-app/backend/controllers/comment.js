@@ -8,7 +8,7 @@ Doit on pouvoir voir les commentaires des autres users?
 //Afficher commentaire
 exports.readComment = async(req, res, next) => {
     const comments = await commentModel.read();
-    res.status(200).json({comments: comments})
+    res.status(200).json({ message:'Liste des commentaires', comments: comments })
 };
 
 // Fonction créant un commentaire sur un post
@@ -18,7 +18,7 @@ exports.createComment = async(req, res, next) => {
     console.log(" Infos new commentaire:  ", newComment); 
     const createdComment = await commentModel.create( newComment.commentaire , newComment.postId , newComment.userId, newComment.username );
     console.log("résultat promise: ", createdComment)
-    res.status(201).json({ comment: createdComment });
+    res.status(201).json({ message:'commentaire créé avec succés', comment: createdComment });
 };
 
 
@@ -28,7 +28,7 @@ exports.updateComment = async(req, res, next) => {
     const modify = req.body;
     // Attention !!! Respecter ordre des paramètres de fonction
     const updatedComment = await commentModel.update(  modify.userId , modify.postId , modify.commentaire , id );
-    res.status(200).json({comment: updatedComment});
+    res.status(200).json({ message:'commentaire modifié avec succés', comment: updatedComment});
 };
 
 
@@ -37,7 +37,7 @@ exports.updateComment = async(req, res, next) => {
 exports.deleteComment = async(req, res, next) => {
     const id = req.params.id;
     const deletedComment = await commentModel.delete(id);
-    res.status(200).json({comment: deletedComment});
+    res.status(200).json({ message:'commentaire supprimé avec succés', comment: deletedComment });
 
 };
 

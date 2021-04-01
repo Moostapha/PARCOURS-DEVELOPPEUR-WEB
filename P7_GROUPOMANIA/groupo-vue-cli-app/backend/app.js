@@ -1,8 +1,7 @@
-const express = require('express'); // PARTIE IMPORT DE app.js package express
+// PARTIE IMPORT DE app.js package express
+const express = require('express'); 
 // utilisation d'express
 const app = express(); 
-// package bodyparser
-const bodyParser = require('body-parser');
 // package contre injections xss
 const xss = require('xss-clean'); 
 // package protection headers
@@ -11,8 +10,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 // package file system gestion fichier image (multer)
 const path = require('path');
-// package multer
-
+// Morgan pour développement
+const morgan = require('morgan');
 
 
 // Import des routes USER | POST | COMMENT
@@ -26,6 +25,7 @@ const commentRoutes = require('./routes/comment');
 // Middleware de sécurite des headers
 app.use(helmet());
 
+
 // Middleware général pouvant gérer l'erreur CORS ou cross origin
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -37,14 +37,23 @@ app.use((req, res, next) => {
 // Middleware Node.js de connection pour sécuriser les users inputs venant de POST, GET et des URL PARAMS
 app.use(xss()); 
 
+
 // Middleware pour bodyparser qui transforme le corps de la requête en objet JS utilisable
-app.use(bodyParser.json()); 
+// avec version 4.16 d'ecpress, bodyParser devient express
+app.use(express.json()); 
+
+
 // encodage URL infos venant du front au format JSON
-app.use(bodyParser.urlencoded({extended: true})); 
+// avec version 4.16 d'ecpress, bodyParser devient express
+app.use(express.urlencoded({extended: true})); 
 
 
 // Middleware permettant de recevoir http de localhost 8080 frontend
 app.use(cors());
+
+// Middleware morgan
+app.use(morgan(':method - :url - :status - :res[content]- :response-time ms'));
+
 
 //PARTIE DES ROUTES DE app.js => USER POST ET COMMENT
 app.use('/api/users', userRoutes); // Route user

@@ -1,8 +1,6 @@
- // import driver js mysql pour Node => nodemysql
-const mysql = require('mysql');
+const mysql = require('mysql');  // import driver js mysql pour Node => nodemysql
 // plugin pour charger variable d'environnement depuis .env
 require('dotenv').config() ;
-
 
 
 // Params de la connection avec infos de la database créée et masquage des données sensibles
@@ -11,7 +9,7 @@ const mysqlConnection = mysql.createConnection({
   user     : process.env.USER,     // MySQLonline username
   password : process.env.PASSWORD, // MySQLonline password
   database : process.env.DATABASENAME, //nom db créé en ligne 28 (si code l-28 absent commenter cette ligne)
-  //debug: true
+  
 });
 //console.log(mysqlConnection);
 
@@ -24,9 +22,6 @@ mysqlConnection.connect( (err) => {
     console.log('database'+ mysqlConnection.state);
     console.log('connecté à mysql avec l\'id ' + mysqlConnection.threadId);
 });
-
-
-
 
 
 module.exports = mysqlConnection; 

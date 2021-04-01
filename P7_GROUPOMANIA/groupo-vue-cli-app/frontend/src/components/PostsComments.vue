@@ -1,22 +1,75 @@
 <template>
   <main class="filActualite">
     <div class="jumbotron">
+      
       <div class="postcomment">
         
-        <h1 v-if="user"> Bonjour {{username}}</h1>
-        <h1 v-if="!user"> Accés impossible !!! Identifiants incorrects</h1>
+        <!-- <p>userId est {{$route.params.userId}} </p> -->
+        <!-- <p>username est {{$route.params.username}} </p> -->
 
-        <!-- TEXTAREA ET BOUTON POUR AJOUT DE POST (PUBLICATION) -->
-        <form @submit.prevent="handleSubmit(submitPost)" enctype="multipart/form-data" method="post">
+        <!-- NOTICATION USER -->
+        <div v-if ="user" class="alert alert-success" role="alert">
+          <strong>Connexion réussie  !</strong>
+          <button 
+            @click="closeNotifConnexion"
+            type="button" 
+            class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- MESSAGE NOTIFICATION SUCCES POST-->
+        <!-- <div v-if="user" class="alert alert-success" role="alert">
+            <strong>Succés !!!</strong> Post publié
+            <button 
+                @click="closeNotifSuccess" 
+                type="button" 
+                class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div> -->
+
+        <!-- <div v-if="isDisplay"> -->
+        <!-- ERREUR VALIDATOR SUR CHAMP POST -->
+        <div v-if="error" class="alert alert-danger" role= "alert">
+          <strong>Erreur ! Vérifiez les informations saisies </strong> 
+          <button
+              @click="closeErrorValidationPost"
+              type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          <ul>
+              <!-- <strong>{{errorValidator.param}}:</strong> -->
+              <li v-for="(errorValidator, index) in error" :key="index">
+                  {{errorValidator.msg}}
+              </li>
+          </ul>
+        </div>
+        <!-- </div> -->
+
+
+        <h1 v-if="user"> Bonjour {{username}}</h1>
+        <h1 v-if="!user"> Accés impossible !!! Veuillez vous connecter</h1>
+
+        <!-- 1) TEXTAREA ET BOUTON POST -->
+        <form @submit.prevent="handleSubmit(submitPost)"  method="post">
+
+          <!-- a) CHAMP PUBLICATION (POST) -->
           <div  v-if="user" class="addPost">
-            <!-- <h1 v-if="!user"> Vous n'avez pas accés !!!</h1> -->
-            <label for="addPost">Que voulez vous dire?</label>
-            <textarea 
-              v-model="publication.post"
-              name="addPost" class="sm md lg xl"  rows="2" cols="4" placeholder="Editer vos posts ici">
-            </textarea>
+              <label for="addPost">Que voulez vous dire?</label>
+              
+              
+              
+              <textarea 
+                v-model="publication.post"
+                placeholder="Editer vos posts ici"
+                name="addPost" class="sm md lg xl"  
+                rows="2" cols="4"
+              > 
+              </textarea>
           </div>
-            <!-- Bouton de création de post avec fonction associée -->
+
+          <!-- b) BOUTON DE SOUMISSION DES PUBLICATIONS-->
           <div v-if="user" class="buttonPost">
             <button 
               @click="submitPost"
@@ -24,67 +77,106 @@
               Ajouter votre post
             </button>
           </div>
+          
         </form>
 
         <hr class="my-4">
-        <!-- ============================================ interligne ========================================== -->
+        <!-- =========================================================== interligne ====================================================== -->
+
         
+
+        <!-- MESSAGE NOTIFICATION ERREUR EXPRESS-VALIDATOR POST-->
+        <!-- <div v-if="user" class="alert alert-danger" role="alert">
+            <strong>Echec !!!</strong> Post non publié
+            <button
+                @click="closeNotifDanger" 
+                type="button" 
+                class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div> -->
+        
+        
+
         <h1 v-if="user">{{ msg }}</h1>
-        <!-- rendu dynamique des posts -->
+
+        <!-- 2) RENDU DYNAMIQUE DES POSTS ET DES COMMENTAIRES-->
+        
+        <!-- a) PUBLICATIONS DES USERS -->
+
         <div v-for="(post, index) in posts" :key="index" class="card mb-3">
           <div class="row">
+
             <div class="col-md-3">
               <img src="../assets/userAccount.jpg" class="card-img" alt="UserPicture">
             </div>
+
             <div class="col-md-8">
+              
               <div class="card-body">
+                
                 <div class="info">
-                    <h5 class="card-title">Publication de {{post.username}}</h5>
-                    <p class="card-text">{{post.post}}</p>
-                    <small class="text-muted">auteur: {{post.username}} - publié le: {{post.date_creation}} </small>
-                    <div class="btnModifSup">
-                      <button type="button" class="btn btn-success">Modifier</button>
-                      <button type="button" class="btn btn-danger">Supprimer</button>
+
+                  <h5 class="card-title">Publication de {{post.username}}</h5>
+
+                  <div class="card-text">
+
+                    <div class="publication">
+                      <p>{{post.post}}</p>
                     </div>
+
+                    <div v-show="user" class="btnModifSupPublication">
+                      <button @click="updatePost" type="button" class="btn btn-success"><i class="fas fa-pen"></i></button>
+                      <button @click="deletePost" type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                  </div>
+
+                  <small class="text-muted">auteur: {{post.username}} - publié le: {{dateFormat(post.date_creation)}} </small>
+
                 </div>
               </div>
-              
-              <hr class="my-4">
-              <!-- ============================================ interligne ========================================== -->
-              
-              <!-- rendu dynamique des commentaires -->
+
+              <!-- b) RENDU DYNAMIQUE DES COMMENTAIRES USERS-->
               <!-- <div  v-for="(commentaire, index) in comment" :key="index"> -->
                 <div class="commentaire">
                   <span><small>{{comment.commentaire}}</small></span>
                   <small class="text-muted">{{comment.username}} {{comment.date_creation}} </small>
                 </div>
               <!-- </div> -->
+
               
-              
-              <!-- TEXTAREA ET BOUTON POUR AJOUT DE commentaire sur post (PUBLICATION) -->
+              <!-- 3) TEXTAREA ET BOUTON POUR AJOUT DE commentaire sur post (PUBLICATION) -->
               <form @submit.prevent="handleSubmit(submitCommentaire)" class="commentAndButton" enctype="multipart/form-data" method="post">
+                
+                <!-- a) CHAMP COMMENTAIRE -->
                 <div class="addComment">
+
                   <label for="addComment"></label>
                   <textarea 
                     v-model="comment.commentaire"
                     class="sm md lg xl" 
-                    name="addComment" rows="1" cols="3" placeholder="Commenter ce post...">
+                    name="addComment" 
+                    rows="1" cols="3" 
+                    placeholder="Commenter ce post..."
+                  >
                   </textarea>
+                  
                 </div>
-                <!-- Bouton de création de commentaire avec fonction associée -->
+
+                <!-- b) BOUTON SOUMISSION DU COMMENTAIRE -->
                 <div class="buttonComment">
                   <button 
                     @click="submitCommentaire"
                     type="button" class="sm md lg xl btn btn-primary btn-lg ">
                     <i type="button"  class="far fa-comments"></i>
-                    Publier
+                    
                   </button>
                 </div>
+                
               </form>
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   </main>
@@ -92,22 +184,23 @@
 
 
 <script>
-// Client http
+// Client http axios
 import axios from "axios";
 
 export default {
   
   name: "Posts",
-  props: { msg: String },
-  
+  props: { msg: String},
+  // props: ['user'],
   data() {
     return {
       
       // infos user loggé authentifié et connecté avec AUTH_TOKEN
       user: "", 
       username: "", 
+      userId: "",
       
-      // infos à getter du backend, toutes les données des 3 tables
+      // Affichage de tous les users | posts | comments => infos à getter du backend, toutes les données des 3 tables
       users: [],
       posts: [], 
       comments: [],
@@ -126,29 +219,49 @@ export default {
         userId:"",
         username:"",
       },
-    };
+
+      // gestion des erreurs de saisie du formulaire + apparition notif user
+      error:'',
+
+      // isDisplay: true,
+    }
   },
   
   created() {
+    
     //Récupération du user loggé et redirigé vers fil d'actualité
+    // axios.get('/user', {
+    //   params: {
+    //     ID: 12345
+    //     userId: $route.params.userId
+    // }
+    // });
+
+    // loadData() {
+    //   axios.get('http://localhost:8080/route/'+ this.selectedRoute)
+    //   .then(response => (this.chosenRoute = response.data));
+    // }
+    
       axios.get('api/users/:userId')
       .then(response => {
         // réponse vide
-        console.log(response);
+        console.log(response.data);
+        this.user = response.data.user;
+        
         // récupération du username du user loggé pour affichage dynamique
         const username = localStorage.getItem("username");
-        console.log(username);
-        this.user = response.data.user;
+        const userId = localStorage.getItem('userId');
         this.username = username;
+        this.userId = userId;
       })
       .catch((error) => {
         console.log(error);
       }) 
     
-    //Affichage de tous les users renvoient une réponse vide
+    //Affichage de tous les users 
       axios.get('api/users')
       .then(response => {
-        console.log(response);
+        console.log(response.data);
         this.users = response.data.users;
       })
       .catch((error) => {
@@ -158,7 +271,7 @@ export default {
     //Affichage de tous les posts 
       axios.get('api/posts')
       .then(response => {
-        console.log(response);
+        console.log(response.data);
         this.posts = response.data.posts;
       })
       .catch((error) => {
@@ -168,7 +281,7 @@ export default {
     //Affichage de tous les comments 
       axios.get('api/comments')
       .then(response => {
-        console.log(response);
+        console.log(response.data);
         this.comments = response.data.comments
       })
       .catch((error) => {
@@ -179,11 +292,12 @@ export default {
   // Formatage des données de formulaire transmis via axios, il faut préciser, traduire les données transmises
   // on a un tableau avec +sieurs types de données différents à envoyer => string, int, images etc....
   // Création objet FormData() sur lequel la méthode append() est appliquée pour ajouter name:
-  // FormDta => infos createdPost
+  // FormData => infos createdPost
   
   methods: {
     
-    // Fonction Bouton "Ajouter votre poste"
+  ////////////////////////////////////////////////////////////////////////////////////////// PARTIE DES POSTS: /////////////////////////////////////////////////////////////////////////////////////
+    // I) FONCTION BOUTON "AJOUTER UN POST"
     submitPost(){
       
     // 1) Récupération des userInputs (données postées) pour les poster au backend
@@ -207,22 +321,48 @@ export default {
         }
       })
       .then(response => {
-        console.log(response);
-        
-        // 4) récupération de l'id du post créé por la fonction submitCommentaire
-        localStorage.setItem('postId', response.data.post.insertId);
-        console.log(response.data.post.insertId);
-        
+        console.log(response.data);
       })
       .catch((error) => {
+        this.error = error.response.data.errors;
         console.log(error);
+        // const errorValidator = error.response.data.errors
+        // alert(errorValidator);
       })
-      // 4) reset du form
+      // 4) reset du input post form
       this.publication = "";
     },
     
-    // Fonction Bouton "Ajouter votre commentaire"
+    // II) FONCTION BOUTON MODIFICATION DE POST
+    updatePost(){
+      console.log('clicked');
+    },
+    
+    // III) FONCTION BOUTON SUPPRESSION DE POST
+    deletePost(){
+      axios.delete('api/posts/:postId',{
+        headers: {
+        // mettre header pour que le front configure les infos correctement pour le backend
+          'content-type': 'multipart/form-data',
+          'Authorization': 'Bearer '+ localStorage.getItem('token'),
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+        console.log('clicked');
+      }) 
+      .catch((error) => {
+        console.log(error);
+        
+      })
+    },
+    
+
+
+  /////////////////////////////////////////////////////////////////////////////// PARTIE DES COMMENTAIRES: ///////////////////////////////////////////////////////////////////////////
+    // IV) FONCTION BOUTON "AJOUTER UN COMMENTAIRE"
     submitCommentaire(){
+    
     // 1) Récupération des userInputs (données postées) pour les poster au backend
       const formData = new FormData();
       formData.append('commentaire', this.comment.commentaire);
@@ -252,26 +392,70 @@ export default {
     
     // 4) reset du input commentaire
       this.comment = "";
-    }
-  },
+    },
+    
+  ///////////////////////////////////////////////////////////////////////////  AUTRES FONCTIONS  //////////////////////////////////////////////////////////////////////////////
+  // V) FONCTION DE FERMETURE DES DIFFERENTES NOTIFS
+    closeNotifConnexion(){  
+      console.log('clicked');
+      document.getElementsByClassName('alert')[0].style.display='none';
+    },
+    
+      closeErrorValidationPost(){
+        document.getElementsByClassName('alert')[1].style.display='none';
+      },
+    
+    // closeNotifSuccess(){
+    //   console.log('clicked');
+    //   document.getElementsByClassName('alert')[1].style.display='none';
+    // },
+
+    // closeNotifDanger(){
+    //   console.log('clicked');
+    //   document.getElementsByClassName('alert')[2].style.display ='none';
+    // },
+
+    
+
+  // VI) fonction qui transforme le format de la date reçu pour un meilleur affichage
+    dateFormat(date){                                                       
+      const event = new Date(date);
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      return event.toLocaleDateString('fr-FR', options);
+    },
+    
+    // show() {
+    //   this.isDisplay = true
+    // },
+    
+    // hide(){
+    //   this.isDisplay = false
+    // },
+  }
 }
 </script>
 
 
 <style scoped lang="sass">
   .filActualite
+    height: fit-content
     display: flex
     flex-direction: column
-    min-height: 80vh
+    // min-height: 100vh
     .jumbotron
       flex: 1
       padding-top: 9vh
       background-image: url('../assets/icon-left-font-monochrome-white.svg')
       background-repeat: no-repeat
       background-position: top
+      background-position-y: 3vh
       background-color: #42b7b9
+      margin-bottom: 0vh
       h1, h2, label
         color: white
+        font-weight: bold
+      h5
+        box-shadow: 2px 5px 5px #e0e3ea
         font-weight: bold
       ul
         list-style-type: none
@@ -279,15 +463,20 @@ export default {
       li
         display: inline-block
         margin: 0 10px
-      p 
-        background-color: #e0e3ea
+      textarea
+        border-radius: 20px
+        padding: 1vh
       .posts, .commentaire, li
         display: flex
         flex-direction: column
-
       // style du card
+      .card
+        border: solid, 1px
+        box-shadow: 0px 5px 5px 0px 
+        border-radius: 20px
       .row 
         justify-content: space-evenly
+        
       .card-body
         display: flex
         flex: 1
@@ -299,16 +488,37 @@ export default {
         margin: 4vh
       .info
         flex: 2
-      
-      .btnModifSup
+      .card-text
+        display: flex
+        justify-content: space-between
+        border: solid, 1px
+        box-shadow: 0px 5px 5px #e0e3ea
+        .publication 
+          // width: 80%
+          margin: 1vh
+          p 
+            margin: 0vh
+      .btnModifSupPublication
         margin-top: 0vh
+        width: 20%
         .btn
           margin: 1vh
-          font-size: 0.65rem
-          padding: 0.5rem 0.5rem
-      
+          font-size: 0.8rem
       .postcomment
         padding-top: 8vh
+      // animation disparition des alertes notifs
+      @keyframes fadeout: 
+        from
+          opacity: 1
+        to
+          opacity: 0
+      .alert
+        animation: fadeout 1s  
+        // @keyframes fadeout: 
+        //   from
+        //     opacity: 1
+        //   to
+        //     opacity: 0
       .addPost
         display: flex
         flex-direction: column
@@ -324,9 +534,12 @@ export default {
           display: flex
           flex: 2
           flex-direction: column
+          margin-top: 0.10vh
+          margin-bottom: 2.5vh
         .buttonComment
           margin: 1vh
           .btn-lg,
             font-size: 0.8rem
-            padding: 0.5rem 0.5rem
+            padding: 0.5rem 0.7rem
 </style>
+          

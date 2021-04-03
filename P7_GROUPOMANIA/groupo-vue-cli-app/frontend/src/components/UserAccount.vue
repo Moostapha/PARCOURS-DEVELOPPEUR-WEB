@@ -1,7 +1,7 @@
 <template>
     <main class = "useraccount">
         <div class="container" > 
-            
+        <div class="logo"></div>
             <div class="sm md lg xl">
 
                 <h1 class="noConnexion" v-if ="!user">Accés impossible !!! Veuillez vous connecter</h1>
@@ -286,18 +286,32 @@
 
 <style lang="sass" scoped>
 .useraccount
+    min-height: 70vh
     display: flex
     flex-direction: column
-    min-height: 110vh
+    padding-top: 2vh
+    // min-height: 110vh
+    // height: fit-content
     background-color: #42b7b9
-    .container
-        flex: 1
-        padding: 22vh 15vh 8vh 15vh 
+    padding-top: 0
+    background-image: url('../assets/myPics/useraccount.jpg')
+    background-size: 100%
+    .logo
         background-image: url('../assets/icon-left-font-monochrome-white.svg')
         background-repeat: no-repeat
-        background-position: center
-        background-position-y: 2vh
-        background-color: #42b7b9
+        background-position: top
+        height: 14vh
+        margin-top: 1vh
+    .container
+        flex: 1
+        padding: 4vh 15vh 10vh 15vh 
+        height: fit-content
+        // padding-top: 16vh
+        // background-image: url('../assets/icon-left-font-monochrome-white.svg')
+        // background-repeat: no-repeat
+        // background-position: center
+        // background-position-y: 2vh
+        // background-color: #42b7b9
         h1
             color: white
             font-weight: bold
@@ -308,6 +322,7 @@
             padding-top: 5vh
             box-shadow: 0px 15px 15px 0px 
             border-radius: 20px
+            background-color: #ffffffd4
             label
                 // color: #42b7b9
                 font-weight: bold

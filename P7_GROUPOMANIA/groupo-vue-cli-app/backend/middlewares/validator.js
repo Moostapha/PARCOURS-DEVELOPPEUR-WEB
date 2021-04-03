@@ -137,33 +137,15 @@ const validate = (req,res,next) => {
     // Check des éléments de la requête (inputs)
     const errors = validationResult(req);
     console.log(req.body);
-
+    
     // Si aucune erreur détectée, on passe au middleware next
     if(errors.isEmpty()) {
         return next()
     }
     const erreur = errors.array();
     console.log(erreur)
-    // Sinon on extrait les erreurs dans ce tableau vide
-    // const extractedErrors = []
-    // errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
-    // console.log(extractedErrors);
-    // on renvoie le tableau des erreurs sous forme json dans la réponse
+    
     return res.status(422).json({ message:"Array des erreurs d'express-validator", errors: errors.array() })
-
-    // S'il y a une erreur
-    // if(!errors.isEmpty()) {
-
-        // Stockage du tableau des erreurs possibles
-    //     const alert = errors.array();
-
-    //     // Rendu de ces erreurs dans les vues dans une alerte
-    //     res.render('AccueilConnexion', 'Inscription', 'UserAccount' , 'PostsComments',{
-    //         alert
-    //     })
-    // } else {
-    //     next()
-    // }
 };
 
 

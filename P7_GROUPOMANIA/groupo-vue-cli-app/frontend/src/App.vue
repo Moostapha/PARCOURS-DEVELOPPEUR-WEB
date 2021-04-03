@@ -47,10 +47,18 @@
 </script>
 
 <style lang="sass">
+  // body, html
+    
+  //   margin: 0
+  //   min-height: 100vh
+  //   display: grid
+  //   grid-template-rows: auto 1fr auto
+  //   border: 1px solid
+  //   border-color: black
   #app 
     font-family: Avenir, Helvetica, Arial, sans-serif
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
     text-align: center
-    // height: fit-content
+    height: 100%
 </style>

@@ -1,5 +1,6 @@
 <template>
     <div class="signup">
+        <div class="logo"></div>
         <div class="container">
             
             <!-- MESSAGES NOTIFICATION -->
@@ -171,16 +172,24 @@
 .signup
     // height: 125vh
     height: fit-content
-    padding-top: 15vh
-    background-image: url('../assets/icon-left-font-monochrome-white.svg') 
-    background-repeat: no-repeat
+    padding-top: 1vh
+    background-image: url('../assets/myPics/img1.jpg')
+    background-size: cover
+    // background-repeat: no-repeat
     background-position: center
-    background-position-y: 2vh
-    background-color: #42b7b9
+    // background-position-y: 2vh
+    // background-color: #42b7b9
     padding-bottom: 15vh
+    .logo
+        // padding-top: 1vh
+        background-image: url('../assets/icon-left-font-monochrome-white.svg') 
+        height: 13vh
+        background-repeat: no-repeat
+        background-position: center
     .container
-        padding-top: 13vh
-        background-image: url('../assets/myPics/social9.jpg')
+        // padding-top: 3vh
+        // background-image: url('../assets/myPics/img3.jpg')
+        // background-size: cover
         // background-repeat: no-repeat
     .fa-user
         // color: #42b7b9
@@ -200,7 +209,7 @@
         max-width: 100vh
         padding: 15px 30px 30px 30px
         margin: auto
-        background-color: white
+        background-color: #ffffffd4
         box-shadow: 0px 15px 15px 0px 
         border-radius: 20px
         span 

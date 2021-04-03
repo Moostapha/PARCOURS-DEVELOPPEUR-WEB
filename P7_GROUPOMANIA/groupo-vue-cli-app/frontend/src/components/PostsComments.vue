@@ -1,14 +1,29 @@
 <template>
   <main class="filActualite">
+
+    <!-- NOTICATION USER -->
+      <div v-if ="user" class="alert alert-success" role="alert">
+        <strong>Connexion réussie  !</strong>
+        <button 
+          @click="closeNotifConnexion"
+          type="button" 
+          class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
     <div class="jumbotron">
-      
+
+      <div class="logo"></div>
+
       <div class="postcomment">
+        
         
         <!-- <p>userId est {{$route.params.userId}} </p> -->
         <!-- <p>username est {{$route.params.username}} </p> -->
 
         <!-- NOTICATION USER -->
-        <div v-if ="user" class="alert alert-success" role="alert">
+        <!-- <div v-if ="user" class="alert alert-success" role="alert">
           <strong>Connexion réussie  !</strong>
           <button 
             @click="closeNotifConnexion"
@@ -16,7 +31,7 @@
             class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
+        </div> -->
 
         <!-- MESSAGE NOTIFICATION SUCCES POST-->
         <!-- <div v-if="user" class="alert alert-success" role="alert">
@@ -52,14 +67,11 @@
         <h1 v-if="!user"> Accés impossible !!! Veuillez vous connecter</h1>
 
         <!-- 1) TEXTAREA ET BOUTON POST -->
-        <form @submit.prevent="handleSubmit(submitPost)"  method="post">
+        <form class="formPost" @submit.prevent="handleSubmit(submitPost)"  method="post">
 
           <!-- a) CHAMP PUBLICATION (POST) -->
           <div  v-if="user" class="addPost">
               <label for="addPost">Que voulez vous dire?</label>
-              
-              
-              
               <textarea 
                 v-model="publication.post"
                 placeholder="Editer vos posts ici"
@@ -68,6 +80,7 @@
               > 
               </textarea>
           </div>
+
 
           <!-- b) BOUTON DE SOUMISSION DES PUBLICATIONS-->
           <div v-if="user" class="buttonPost">
@@ -83,7 +96,6 @@
         <hr class="my-4">
         <!-- =========================================================== interligne ====================================================== -->
 
-        
 
         <!-- MESSAGE NOTIFICATION ERREUR EXPRESS-VALIDATOR POST-->
         <!-- <div v-if="user" class="alert alert-danger" role="alert">
@@ -95,8 +107,6 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div> -->
-        
-        
 
         <h1 v-if="user">{{ msg }}</h1>
 
@@ -144,13 +154,12 @@
                 </div>
               <!-- </div> -->
 
-              
+
               <!-- 3) TEXTAREA ET BOUTON POUR AJOUT DE commentaire sur post (PUBLICATION) -->
               <form @submit.prevent="handleSubmit(submitCommentaire)" class="commentAndButton" enctype="multipart/form-data" method="post">
                 
                 <!-- a) CHAMP COMMENTAIRE -->
                 <div class="addComment">
-
                   <label for="addComment"></label>
                   <textarea 
                     v-model="comment.commentaire"
@@ -160,8 +169,8 @@
                     placeholder="Commenter ce post..."
                   >
                   </textarea>
-                  
                 </div>
+
 
                 <!-- b) BOUTON SOUMISSION DU COMMENTAIRE -->
                 <div class="buttonComment">
@@ -441,16 +450,26 @@ export default {
     height: fit-content
     display: flex
     flex-direction: column
-    // min-height: 100vh
-    .jumbotron
-      flex: 1
-      padding-top: 9vh
+    .logo
       background-image: url('../assets/icon-left-font-monochrome-white.svg')
       background-repeat: no-repeat
       background-position: top
-      background-position-y: 3vh
+      height: 14vh
+      padding-top: 6px
+    .jumbotron
+      padding-top: 6px
+      flex: 1
       background-color: #42b7b9
       margin-bottom: 0vh
+      background-image: url('../assets/myPics/imgPost1.jpg')
+      background-size: 100%
+      // height: 100vh
+      // padding-top: 9vh
+      // background-image: url('../assets/icon-left-font-monochrome-white.svg')
+      // background-repeat: no-repeat
+      // background-position: top
+      // background-position-y: 3vh
+      // background-size: cover
       h1, h2, label
         color: white
         font-weight: bold
@@ -505,25 +524,15 @@ export default {
           margin: 1vh
           font-size: 0.8rem
       .postcomment
-        padding-top: 8vh
-      // animation disparition des alertes notifs
-      @keyframes fadeout: 
-        from
-          opacity: 1
-        to
-          opacity: 0
-      .alert
-        animation: fadeout 1s  
-        // @keyframes fadeout: 
-        //   from
-        //     opacity: 1
-        //   to
-        //     opacity: 0
+        // padding-top: 5vh
+        .formPost
+          padding-top: 39vh // espace nécessaire pour la pic
       .addPost
         display: flex
         flex-direction: column
         padding: 1px 30px 1px 30px
         margin: auto
+        margin-top: 4vh
       .buttonPost
         margin-top: 2vh
       .commentAndButton
@@ -542,4 +551,3 @@ export default {
             font-size: 0.8rem
             padding: 0.5rem 0.7rem
 </style>
-          

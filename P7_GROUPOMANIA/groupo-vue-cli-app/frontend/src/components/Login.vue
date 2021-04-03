@@ -1,5 +1,8 @@
 <template>
     <div class="login">
+        <!-- <h1>SOCIAL NETWORK</h1>
+            <h2>{{ msg }}</h2> -->
+            <div class="logo"></div>
         <div class="container">
             
             <!-- MESSAGES USER -->
@@ -156,8 +159,8 @@
                     // redirection vers route fil d'actualité
                     this.$router.push('/groupomania/publications');
                     
-                    //
-                    alert('Connexion réussie !!!!')
+                    
+                    // alert('Connexion réussie !!!!')
                     
                 })
                 .catch((error) => {
@@ -178,21 +181,28 @@
 
 
 <style lang="sass" scoped>
-
 .login
     // height: 120vh 
     height: fit-content
-    padding-top: 15vh
-    background-image: url('../assets/icon-left-font-monochrome-white.svg')
+    padding-top: 4vh
+    // background-image: url('../assets/icon-left-font-monochrome-white.svg') 
+    background-image: url('../assets/myPics/socialNetwork.jpg')
+    background-size: cover // ou taille en %
     // background-image: url('../assets/myPics/social10.jpg')
-    background-repeat: no-repeat
+    // background-repeat: no-repeat // si je veux allscreen enlever this
     background-position: center
-    background-position-y: 2vh 
-    background-color: #42b7b9
+    // background-position-y: 2vh 
+    // background-color: #42b7b9
     padding-bottom: 15vh
+    .logo
+        padding-top: 1vh
+        background-image: url('../assets/icon-left-font-monochrome-white.svg') 
+        height: 13vh
+        background-repeat: no-repeat
+        background-position: center
     .container
-        padding-top: 13vh
-        background-image: url('../assets/myPics/social1.jpg')
+        padding-top: 1vh
+        // background-image: url('../assets/myPics/social1.jpg')
         
     .fa-user
         font-weight: 1
@@ -202,8 +212,9 @@
         color: royalblue
     h1,h2
         font-size: 2em
-        color: white
+        color: #fcfcfc
         font-weight: 800
+        // background-color: royalblue
     ul
         margin-top: 1rem
         margin-bottom: 1rem
@@ -213,7 +224,7 @@
         max-width: 100vh 
         padding: 15px 30px 30px 30px
         margin: auto
-        background-color: white
+        background-color: #ffffffd4
         box-shadow: 0px 15px 15px 0px 
         border-radius: 20px
         label

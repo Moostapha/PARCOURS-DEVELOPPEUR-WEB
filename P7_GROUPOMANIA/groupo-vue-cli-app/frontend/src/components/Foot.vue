@@ -33,6 +33,7 @@ export default {
             transition: 1000ms
             text-decoration: none
             &:hover
-                color: #42b7b9
+                // color: #42b7b9
+                color: royalblue
         
 </style>

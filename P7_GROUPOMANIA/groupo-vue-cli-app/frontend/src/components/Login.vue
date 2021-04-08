@@ -1,8 +1,8 @@
 <template>
     <div class="login">
-        <!-- <h1>SOCIAL NETWORK</h1>
-            <h2>{{ msg }}</h2> -->
-            <div class="logo"></div>
+        
+        <!-- <div class="logo"></div> -->
+
         <div class="container">
             
             <!-- MESSAGES USER -->
@@ -132,13 +132,24 @@
             // Fonction de soumission du formulaire
             submit() {
                 
+            
+                // SOUMISSION FROM AVEC FormData => Ne pas oublier les params header avec axios content-type
+                // const formData = new FormData();
+                // formData.append("email", this.email);
+                // formData.append("password", this.password);
+                
+                // 2) Affichage de notre objet formData dans la console
+                // console.log(Array.from(formData));
+                // for(let obj of formData) {
+                    //     console.log(obj);
+                // }
+            
                 // récupération des valeurs d'inputs (email | password)
                 const dataPosted = {
                     email: this.email,
                     password: this.password,
-                    
                 }
-                
+            
                 // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 // Nous postons ces datas vers le endpoint pertinent
                 axios.post('api/users/login', dataPosted)
@@ -182,39 +193,45 @@
 
 <style lang="sass" scoped>
 .login
-    // height: 120vh 
-    height: fit-content
-    padding-top: 4vh
-    // background-image: url('../assets/icon-left-font-monochrome-white.svg') 
+    padding-top: 14vh
     background-image: url('../assets/myPics/socialNetwork.jpg')
     background-size: cover // ou taille en %
-    // background-image: url('../assets/myPics/social10.jpg')
-    // background-repeat: no-repeat // si je veux allscreen enlever this
     background-position: center
-    // background-position-y: 2vh 
-    // background-color: #42b7b9
     padding-bottom: 15vh
-    .logo
-        padding-top: 1vh
-        background-image: url('../assets/icon-left-font-monochrome-white.svg') 
-        height: 13vh
-        background-repeat: no-repeat
-        background-position: center
+    // background-color: #42b7b9
+    // height: fit-content
+    @media screen and (max-width: 1024px) 
+        margin-top: 0vh
+        padding-top: 0vh
+    
+    // .logo
+    //     background-image: url('../assets/icon-left-font-monochrome-white.svg') 
+    //     height: 20vh
+    //     background-repeat: no-repeat
+    //     background-position: center
+    //     background-position-y: 4vh 
+    //     @media screen and (max-width: 508px) 
+    //         display: none
+    
     .container
-        padding-top: 1vh
+        padding-top: 6vh
         // background-image: url('../assets/myPics/social1.jpg')
+        @media screen and (max-width: 1024px) 
+            padding-top: 20vh
         
     .fa-user
         font-weight: 1
         font-size: 11vh
         margin: 2vh
-        // color: #42b7b9
         color: royalblue
+        // color: #42b7b9
     h1,h2
         font-size: 2em
-        color: #fcfcfc
+        color: #fafafa //royalblue//#fcfcfc
         font-weight: 800
         // background-color: royalblue
+        @media screen and (max-width: 576px)
+            font-size: 1.5rem
     ul
         margin-top: 1rem
         margin-bottom: 1rem
@@ -223,15 +240,16 @@
     form
         max-width: 100vh 
         padding: 15px 30px 30px 30px
-        margin: auto
-        background-color: #ffffffd4
+        margin: auto 
+        margin-top: 3vh
+        background-color: #ffffffd4 //#007bff
         box-shadow: 0px 15px 15px 0px 
         border-radius: 20px
         label
-            // color: #42b7b9
             font-weight: bold
             color: royalblue
             font-size: x-large
+            // color: #42b7b9
         span 
             color: red
 </style>

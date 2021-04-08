@@ -9,7 +9,6 @@
     import Foot from "../components/Foot"
     export default {
         component: {Foot}
-
     }
 </script>
 

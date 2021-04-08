@@ -28,6 +28,7 @@
                                 </div>
 
                                 <div class="space"></div>
+
                                     DIV NOTIF USER HERE
                                 <div v-if="isDisplay">
                                     
@@ -37,20 +38,38 @@
                                         <div v-if="message" :class="`message ${error ? 'is-danger' : 'is-success'}`" >
                                             <div class="message-body"> {{message}} </div>
                                         </div>
-                                        
                                         <label for="formFileLg" class="form-label">
                                             Sélectionnez une image
                                         </label>
                                         <input class="form-control form-control-lg" id="formFileLg" type="file" enctype="multipart/form-data" method="put" />
-                                        <!-- fonction sendImage to server -->
+                                        fonction sendImage to server
                                         <button @click="uploadFile" 
                                         class="btn btn-primary form-control-file" type = "button"><i class="fa fa-download"></i> 
                                             Télécharger
                                         </button>
-                                    </form>
+                                    </form> 
                                     
-                                    <div class="space"></div>  
+
+                                    <div class="space"></div> 
+
                                     DIV NOTIF USER HERE
+                                    <!-- MESSAGE ERREUR CHAMPS INVALIDES (EXPRESS-VALIDATOR) -->
+                                    
+                                    <div v-if="error" class="alert alert-danger" role= "alert">
+                                        <strong>Erreur ! Vérifiez les informations saisies </strong> 
+                                        <button 
+                                            @click="closeNotification"
+                                            type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul>
+                                            <!-- <strong>{{errorValidator.param}}:</strong> -->
+                                            <li v-for="(errorValidator, index) in error" :key="index">
+                                                {{errorValidator.msg}}
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
 
                                     <!-- CHAMPS UPDATE USERNAME ET PASSWORD -->
                                     <ValidationObserver v-slot="{ handleSubmit}">
@@ -142,9 +161,9 @@
             updatedPassword:"",
             file:"",
             
-            // Gestion message d'erreurs
-            message:"",
-            error: false,
+            // Gestion message d'erreurs des champs de saisie miidleware express-validator
+            error:"",
+            // error: false,
             
             // état du bouton "modifier votre compte"
             isDisplay: false,
@@ -234,6 +253,7 @@
                 console.log(response.data);
             })
             .catch((error) => {
+                this.error = error.response.data.errors; 
                 console.log(error);
             })
             
@@ -286,35 +306,38 @@
 
 <style lang="sass" scoped>
 .useraccount
-    min-height: 70vh
+    padding-top: 16vh
+    padding-bottom: 3vh
+    min-height: 97vh
     display: flex
     flex-direction: column
-    padding-top: 2vh
-    // min-height: 110vh
-    // height: fit-content
-    background-color: #42b7b9
-    padding-top: 0
     background-image: url('../assets/myPics/useraccount.jpg')
-    background-size: 100%
+    background-size: cover
+    @media screen and (max-width: 1040px) 
+        min-height: 95vh
+    // background-color: #42b7b9
     .logo
         background-image: url('../assets/icon-left-font-monochrome-white.svg')
         background-repeat: no-repeat
         background-position: top
         height: 14vh
-        margin-top: 1vh
+        margin-top: 3vh
+        @media screen and (max-width: 508px) 
+            display: none
+        @media screen and (max-width: 768px) 
+            height: 20vh
     .container
         flex: 1
-        padding: 4vh 15vh 10vh 15vh 
+        padding-top: 4vh
+        padding-bottom: 4vh
         height: fit-content
-        // padding-top: 16vh
-        // background-image: url('../assets/icon-left-font-monochrome-white.svg')
-        // background-repeat: no-repeat
-        // background-position: center
-        // background-position-y: 2vh
-        // background-color: #42b7b9
         h1
             color: white
             font-weight: bold
+        .noConnexion
+            color: white
+            @media screen and (max-width: 576px)
+                font-size: 2rem
         h2
             font-weight: 800
             color: royalblue
@@ -324,9 +347,9 @@
             border-radius: 20px
             background-color: #ffffffd4
             label
-                // color: #42b7b9
                 font-weight: bold
                 color: royalblue
+                // color: #42b7b9
             span
                 color: red
             .space

@@ -2,11 +2,22 @@
     <footer>
         <!-- cette classe rend responsive via bootstrap -->
         <div class="container">
-            <a href=""><i class="fab fa-linkedin-in">Linkedin</i></a>
-            <a href=""><i class="fab fa-twitter">Twitter</i></a>
-            <a href=""><i class="fab fa-facebook">Facebook</i></a>
-            <a href=""><i class="fab fa-instagram-square">Instagram</i></a>
-            <a href=""><i class="fas fa-envelope">contact@gmail.com</i></a>
+            <div class="social">
+                <a href=""><i class="fab fa-linkedin-in"></i>Linkedin</a>
+            </div>
+            
+            <div class="social">
+                <a href=""><i class="fab fa-twitter"></i>Twitter</a>
+            </div>
+            <div class="social">
+                <a href=""><i class="fab fa-facebook"></i>Facebook</a>
+            </div>
+            <div class="social">
+                <a href=""><i class="fab fa-instagram-square"></i>Instagram</a>
+            </div>
+            <div class="social">
+                <a href=""><i class="fas fa-envelope"></i>groupo@contact</a>
+            </div>
             <!-- <a href=""><i class="fas fa-at">groupomania@gmail.com</i></a> -->
         </div>
     </footer>
@@ -22,18 +33,27 @@ export default {
 
 <style lang="sass" scoped>
     footer
-        display: flex
-        justify-content: space-between
-        .fab,.fas
-            font-size: xx-large
-            font-weight: 400
-            margin: 2vh 
-            padding: 2vh
-            color: black
-            transition: 1000ms
-            text-decoration: none
-            &:hover
-                // color: #42b7b9
-                color: royalblue
         
+        padding: 5vh
+        background-color: white //#42b7b945//#4280b945
+        .container
+            display: flex
+            justify-content: space-between
+            @media screen and (max-width: 768px) 
+                flex-direction: column
+            a 
+                font-weight: bold
+                font-size: x-large
+                color: #2c3e50
+                padding: 1.5vh
+                text-decoration: none
+                cursor: pointer
+                transition: 1000ms
+                &:hover
+                    color: royalblue
+            .social
+                padding: 0.5rem
+            
 </style>
+
+

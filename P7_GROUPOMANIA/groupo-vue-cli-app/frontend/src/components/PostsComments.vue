@@ -1,9 +1,9 @@
 <template>
   <main class="filActualite">
 
-    <!-- NOTICATION USER -->
+    <!-- NOTICATION USER DE CONNEXION-->
       <div v-if ="user" class="alert alert-success" role="alert">
-        <strong>Connexion réussie  !</strong>
+        <strong>Connexion réussie ! Bienvenue sur votre réseau GROUPOMANIA.</strong>
         <button 
           @click="closeNotifConnexion"
           type="button" 
@@ -65,6 +65,8 @@
 
         <h1 v-if="user"> Bonjour {{username}}</h1>
         <h1 v-if="!user"> Accés impossible !!! Veuillez vous connecter</h1>
+        
+        <div class="espacement"></div>
 
         <!-- 1) TEXTAREA ET BOUTON POST -->
         <form class="formPost" @submit.prevent="handleSubmit(submitPost)"  method="post">
@@ -447,32 +449,39 @@ export default {
 
 <style scoped lang="sass">
   .filActualite
+    padding-top: 13vh
     height: fit-content
     display: flex
     flex-direction: column
-    .logo
-      background-image: url('../assets/icon-left-font-monochrome-white.svg')
-      background-repeat: no-repeat
-      background-position: top
-      height: 14vh
-      padding-top: 6px
+    // @media screen and (max-width: 508px) 
+    //     min-height: 50vh
     .jumbotron
-      padding-top: 6px
+      // background-color: #42b7b9
+      padding-top: 6vh
       flex: 1
-      background-color: #42b7b9
       margin-bottom: 0vh
       background-image: url('../assets/myPics/imgPost1.jpg')
       background-size: 100%
-      // height: 100vh
-      // padding-top: 9vh
-      // background-image: url('../assets/icon-left-font-monochrome-white.svg')
-      // background-repeat: no-repeat
-      // background-position: top
-      // background-position-y: 3vh
-      // background-size: cover
+      @media screen and (max-width: 508px) 
+          min-height: 58vh
+      @media screen and (max-width: 1040px) 
+        padding-top: 36px
+      .logo
+        margin-top: 10px
+        background-image: url('../assets/icon-left-font-monochrome-white.svg')
+        background-repeat: no-repeat
+        background-position: top
+        height: 14vh
+        @media screen and (max-width: 536px) 
+          display: none
+        @media screen and (max-width: 768px) 
+          height: 20vh
       h1, h2, label
         color: white
         font-weight: bold
+      h1
+        @media screen and (max-width: 576px)
+          font-size: 2rem
       h5
         box-shadow: 2px 5px 5px #e0e3ea
         font-weight: bold
@@ -488,6 +497,7 @@ export default {
       .posts, .commentaire, li
         display: flex
         flex-direction: column
+      
       // style du card
       .card
         border: solid, 1px
@@ -525,8 +535,10 @@ export default {
           font-size: 0.8rem
       .postcomment
         // padding-top: 5vh
-        .formPost
-          padding-top: 39vh // espace nécessaire pour la pic
+        .espacement
+          height: 39vh // espace nécessaire pour la pic
+          @media screen and (max-width: 768px)
+            height: 6vh
       .addPost
         display: flex
         flex-direction: column
@@ -551,3 +563,5 @@ export default {
             font-size: 0.8rem
             padding: 0.5rem 0.7rem
 </style>
+
+

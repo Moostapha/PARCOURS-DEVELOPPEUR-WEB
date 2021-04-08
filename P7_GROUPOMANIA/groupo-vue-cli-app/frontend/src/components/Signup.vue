@@ -1,6 +1,7 @@
 <template>
     <div class="signup">
-        <div class="logo"></div>
+
+        <!-- <div class="logo"></div> -->
         <div class="container">
             
             <!-- MESSAGES NOTIFICATION -->
@@ -22,20 +23,15 @@
                 </ul>
             </div>
             
-
-
             <!-- ALERT SUCCES -->
             <!-- <div v-else  class="alert alert-success" role="alert">
                 <strong>Inscription réussie  !</strong> Bienvenue dans votre social network 
                 <button 
-                    
                     type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     
                 </button>
             </div> -->
-            
-            
             
             <!-- MESSAGE INFO -->
             <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -136,6 +132,19 @@
         
         // fonction eventListener submit sur le click => promise avec appel qui nécessite une attente (await)
             submit() {
+                
+                // SOUMISSION FROM AVEC FormData => Ne pas oublier les params header avec axios content-type
+                // const formData = new FormData();
+                // formData.append("email", this.email);
+                // formData.append("password", this.password);
+                
+                // 2) Affichage de notre objet formData dans la console
+                // console.log(Array.from(formData));
+                // for(let obj of formData) {
+                //         console.log(obj);
+                // }
+                
+                
                 const dataPosted = {
                     username: this.username,
                     email: this.email,
@@ -170,23 +179,26 @@
 
 <style lang="sass" scoped>
 .signup
-    // height: 125vh
     height: fit-content
-    padding-top: 1vh
     background-image: url('../assets/myPics/img1.jpg')
     background-size: cover
-    // background-repeat: no-repeat
     background-position: center
-    // background-position-y: 2vh
-    // background-color: #42b7b9
     padding-bottom: 15vh
-    .logo
-        // padding-top: 1vh
-        background-image: url('../assets/icon-left-font-monochrome-white.svg') 
-        height: 13vh
-        background-repeat: no-repeat
-        background-position: center
+    // padding-top: 2vh
+    // background-color: #42b7b9
+    
+    // .logo
+    //     // padding-top: 1vh
+    //     background-image: url('../assets/icon-left-font-monochrome-white.svg') 
+    //     height: 13vh
+    //     background-repeat: no-repeat
+    //     background-position: center
+    //     @media screen and (max-width: 508px) 
+    //         display: none
+    
     .container
+        padding-top: 20vh
+        // CODE ALTERNATIF
         // padding-top: 3vh
         // background-image: url('../assets/myPics/img3.jpg')
         // background-size: cover
@@ -198,8 +210,10 @@
         color: royalblue
     h1, h2
         font-size: 2em
-        color: white
+        color: white //#007bff
         font-weight: 800
+        @media screen and (max-width: 576px)
+            font-size: 1.5rem
     ul
         margin-top: 1rem
         margin-bottom: 1rem
@@ -209,6 +223,7 @@
         max-width: 100vh
         padding: 15px 30px 30px 30px
         margin: auto
+        margin-top: 3vh
         background-color: #ffffffd4
         box-shadow: 0px 15px 15px 0px 
         border-radius: 20px

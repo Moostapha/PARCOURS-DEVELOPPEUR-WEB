@@ -89,6 +89,7 @@ exports.getUser = async(req, res, next) => {
     // id encodé dans le token
     // const tokenIdInfoUser = decodeToken(req);
     // const userId = tokenIdInfoUser[0]
+    
     const userById = req.params.userId;
     console.log("userId de la request: ", userById);
     // on reprend la fonction getOneUser du model

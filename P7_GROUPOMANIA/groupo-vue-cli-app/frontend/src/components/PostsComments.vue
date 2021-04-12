@@ -240,19 +240,18 @@ export default {
   
   created() {
     
-    //Récupération du user loggé et redirigé vers fil d'actualité
-    // axios.get('/user', {
-    //   params: {
-    //     ID: 12345
-    //     userId: $route.params.userId
-    // }
-    // });
+      //Récupération du user loggé et redirigé vers fil d'actualité
+      // axios.get('/user', {
+      //   params: {
+      //     ID: 12345
+      //     userId: $route.params.userId
+      // }
+      // });
 
-    // loadData() {
-    //   axios.get('http://localhost:8080/route/'+ this.selectedRoute)
-    //   .then(response => (this.chosenRoute = response.data));
-    // }
-    
+      // loadData() {
+      //   axios.get('http://localhost:8080/route/'+ this.selectedRoute)
+      //   .then(response => (this.chosenRoute = response.data));
+      // }
       axios.get('api/users/:userId')
       .then(response => {
         // réponse vide
@@ -268,6 +267,7 @@ export default {
       .catch((error) => {
         console.log(error);
       }) 
+    
     
     //Affichage de tous les users 
       axios.get('api/users')

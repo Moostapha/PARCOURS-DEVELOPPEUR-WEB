@@ -171,6 +171,11 @@
     },
     
     created () {
+        
+        // Get userById
+        // axios.get(`api/users/${id}`)
+        // axios.get(`api/users/${this.$route.params.id}`)
+
         // route dynamique avec id du user loggé en paramètre
         axios.get('api/users/' + this.userId)
         .then(response => {
@@ -202,7 +207,9 @@
                 console.log(obj);
             }
             
-            axios.put('api/users/updateuser/:userId', fileUploaded, {
+            // axios.get(`api/users/${id}`)
+            // axios.get(`api/users/${this.$route.params.id}`)
+            axios.post('api/users/updateuser/:userId', fileUploaded, {
                 headers: {
                     // mettre header pour que le front configure les infos correctement pour le backend
                     'content-type': 'multipart/form-data',
@@ -228,6 +235,7 @@
         
         // Fonction submitUpdated des updatedDatas
         submitUpdated() {
+            
             // 1) Récupération des données à poster au backend
             const dataPosted = new FormData();
             dataPosted.append('newUsername', this.updatedUsername);
@@ -238,11 +246,16 @@
             for(let obj of dataPosted) {
                 console.log(obj);
             }
+            
             // image du user
             // avatar:`${req.protocol}://${req.get('host')}/image/${req.file.filename}`
             
             // 3) Requête axios post vers endpoint express.js
-            axios.post('api/users/updateuser/:userId', dataPosted, {
+            // updateUserById
+            // axios.put(`api/users/${id}`)
+            // axios.put(`api/users/${this.$route.params.id}`)
+            
+            axios.put('api/users/updateuser/:userId', dataPosted, {
                 headers: {
                     // mettre header pour que le front configure les infos correctement pour le backend
                     'content-type': 'multipart/form-data',
@@ -266,6 +279,10 @@
         // Fonction qui supprime le compte user
         deleteAccount() {
             // 2) Requête axios delete vers endpoint express.js
+            
+            // deleteUserById
+            // axios.delete(`api/users/${id}`)
+            // axios.delete(`api/users/${this.$route.params.id}`)
             axios.delete('api/users/deleteuser/:userId', {
                 headers: {
                     // mettre header pour que le front configure les infos correctement pour le backend

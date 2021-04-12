@@ -79,12 +79,17 @@ export default {
   ul
     display: flex
     justify-content: center
-    @media screen and (max-width: 768px) 
+    @media screen and (max-width: 991px) 
       flex-direction: column
+      background-color: #d5e4f4
   li 
     padding: 0.5rem
     display: flex
     margin: 0vh
+    @media screen and (max-width: 991px) 
+      padding: 0rem
+      &:hover
+        background-color: #42b7b985
   a 
     font-weight: bold
     color: #2c3e50
@@ -98,4 +103,8 @@ export default {
       background-color: #42b7b985
     &.router-link-exact-active 
       color: #007bff
+    @media screen and (max-width: 991px) 
+      margin: 1px
+      &:hover
+        background-color: transparent
 </style>

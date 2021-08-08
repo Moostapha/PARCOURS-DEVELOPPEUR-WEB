@@ -9,7 +9,7 @@ const mysqlConnection = mysql.createConnection({
   user     : process.env.USER,     // MySQLonline username
   password : process.env.PASSWORD, // MySQLonline password
   database : process.env.DATABASENAME, //nom db créé en ligne 28 (si code l-28 absent commenter cette ligne)
-  
+  port: 3307  // port de MySql en local (port de pma)
 });
 //console.log(mysqlConnection);
 
@@ -19,7 +19,7 @@ mysqlConnection.connect( (err) => {
       console.error('erreur de connection: ' + err.stack);
       return;
     }
-    console.log('database'+ mysqlConnection.state);
+    console.log('database '+ mysqlConnection.state);
     console.log('connecté à mysql avec l\'id ' + mysqlConnection.threadId);
 });
 
@@ -27,5 +27,3 @@ mysqlConnection.connect( (err) => {
 module.exports = mysqlConnection; 
 
 /*MODULE DE CONNECTION AVEC SERVER MYSQL*/
-
-

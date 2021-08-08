@@ -5,50 +5,16 @@
 
         <div class="container">
             
-            <!-- MESSAGES USER -->
-
-            <!-- ALERT SUCCES -->
-            <!-- <div v-if="user" class="alert alert-success" role="alert">
-                <strong>Connexion réussie  !</strong> Bienvenue dans votre social network 
-                <button 
-                    type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div> -->
-            
-            <!-- MESSAGE ECHEC -->
-            <!-- <div class="alert alert-danger" role="alert">
-                <strong>Echec de la connexion !</strong> Une erreur est survenue.
-                <button 
-                    type="button" 
-                    class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div> -->
-            
             <transition></transition>
-            <!-- MESSAGE ERREUR CHAMPS INVALIDES (EXPRESS-VALIDATOR) -->
-            
-            <div v-if="error" class="alert alert-danger" role= "alert">
-                <strong>Erreur ! Vérifiez les informations saisies </strong> 
-                <button 
-                    @click="closeNotification"
-                    type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <ul>
-                    <!-- <strong>{{errorValidator.param}}:</strong> -->
-                    <li v-for="(errorValidator, index) in error" :key="index">
-                        {{errorValidator.msg}}
-                    </li>
-                    
-                </ul>
-            </div>
-            
             
             <h1>SOCIAL NETWORK</h1>
             <h2>{{ msg }}</h2>
-            
+            <AlertNotifValidator v-if="error" 
+                alertType= "alert-danger"
+                alertMsg= 'Erreur ! Vérifiez les informations saisies:'
+                :error="error"
+            />
+
             <ValidationObserver v-slot="{ handleSubmit}">
 
                 <form @submit.prevent="handleSubmit(submit)" class="sm md lg xl"> <!-- Ajout de l'eventlistener (fonction submit ligne) avec .prevent-->
@@ -109,12 +75,16 @@
 
     // Librairie pour requetes vers (POST) et venant (GET) de l'API
     import axios from'axios'
-
+    import AlertNotifValidator from './AlertNotifValidator.vue'
     // export de ce component Login vers le component /view/Connexion
     export default {
         name: 'Login',
         props: {msg: String,},
-
+        
+        components: {
+        AlertNotifValidator
+        },
+        
         data () {
             return {
                 // Inputs form login
@@ -132,18 +102,6 @@
             // Fonction de soumission du formulaire
             submit() {
                 
-            
-                // SOUMISSION FROM AVEC FormData => Ne pas oublier les params header avec axios content-type
-                // const formData = new FormData();
-                // formData.append("email", this.email);
-                // formData.append("password", this.password);
-                
-                // 2) Affichage de notre objet formData dans la console
-                // console.log(Array.from(formData));
-                // for(let obj of formData) {
-                    //     console.log(obj);
-                // }
-            
                 // récupération des valeurs d'inputs (email | password)
                 const dataPosted = {
                     email: this.email,
@@ -161,15 +119,14 @@
                     // On récupere et on enregistre le token donné par la fonction login du backend (ctler/user.js)
                     localStorage.setItem('token', response.data.USER_AUTH_TOKEN);
                     
-                    // récupération du userId côté client
-                    localStorage.setItem('userId', response.data.userId);
+                    // récupération du userID côté client qui est un String qu'il faut transformer en int
+                    localStorage.setItem('userID', response.data.userID );
                     
                     // récupération du username côté client
                     localStorage.setItem('username', response.data.username);
                     
                     // redirection vers route fil d'actualité
                     this.$router.push('/groupomania/publications');
-                    
                     
                     // alert('Connexion réussie !!!!')
                     
@@ -191,34 +148,23 @@
 </script>
 
 
+
 <style lang="sass" scoped>
 .login
     padding-top: 14vh
-    background-image: url('../assets/myPics/socialNetwork.jpg')
+    background-image: url('../assets/socialNetwork.jpg')
     background-size: cover // ou taille en %
     background-position: center
     padding-bottom: 15vh
-    // background-color: #42b7b9
-    // height: fit-content
+    
     @media screen and (max-width: 1024px) 
         margin-top: 0vh
         padding-top: 0vh
-    
-    // .logo
-    //     background-image: url('../assets/icon-left-font-monochrome-white.svg') 
-    //     height: 20vh
-    //     background-repeat: no-repeat
-    //     background-position: center
-    //     background-position-y: 4vh 
-    //     @media screen and (max-width: 508px) 
-    //         display: none
-    
     .container
         padding-top: 6vh
-        // background-image: url('../assets/myPics/social1.jpg')
+        // background-image: url('../assets/social1.jpg')
         @media screen and (max-width: 1024px) 
             padding-top: 20vh
-        
     .fa-user
         font-weight: 1
         font-size: 11vh
@@ -253,3 +199,4 @@
         span 
             color: red
 </style>
+

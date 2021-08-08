@@ -9,6 +9,7 @@ import UserAccount from '../components/UserAccount'
 export default {
     name: 'Profil',
     components: {UserAccount},
+    props: ['userID']
 }
 </script>
 

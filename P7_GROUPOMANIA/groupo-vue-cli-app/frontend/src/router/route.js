@@ -4,6 +4,8 @@ import AccueilConnexion from '../views/AccueilConnexion' // Import view pour pag
 import Inscription from '../views/Inscription.vue' //  Import view pour page signup (component Signup)
 import Actualite from '../views/Actualite.vue' // Import view pour page publications (component Posts)
 import Profil from '../views/Profil'           // Import view pour page profil (component UserAccount)
+import ModifPost from '../views/ModifPost'
+import NewComment from '../views/NewComment'
 
 Vue.use(VueRouter)
 
@@ -12,7 +14,7 @@ Tableau contenant des objets définissant chaque route
 */
 
 const routes = [
-
+  
   // URL PAGE D'ACCUEIL navbar:Login
   // component: Login => views: AccueilConnexion
   {
@@ -28,8 +30,7 @@ const routes = [
     name: 'Inscription',
     component: Inscription
   },
-
-
+  
   // URL PAGE FIL D'ACTUALITE navbar : publications
   // component: Posts => views: Actualite
   {
@@ -37,12 +38,27 @@ const routes = [
     name: 'Fil d\'actualité',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Actualite,  // Composant affiché lorsque le path est trouvé
   },
-
-    // URL PAGE profil
+  
+  // URL Page de modification des posts
+  {
+    path: '/groupomania/publications/:postID/update_post',
+    name: 'ModifPost',
+    component: ModifPost
+  },
+  
+  // URL Page de modification des posts
+  {
+    path: '/groupomania/publications/:postID/creer_commentaire',
+    name: 'NewComment',
+    component: NewComment
+  },
+  
+  // URL PAGE profil
   // component: UserAccount=> views: profil
   {
-    path: '/groupomania/profil/:userId',       // URL correspondant au composant
+    path: '/groupomania/profil/:userID',       // URL correspondant au composant
     name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
+    props: true,      // cette route accepte une props qui sera le userID dynamique de l'URL
     component: Profil,  // Composant affiché lorsque le path est trouvé
   },
 ]

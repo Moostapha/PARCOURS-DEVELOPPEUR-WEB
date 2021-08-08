@@ -37,15 +37,15 @@ router.get('/', auth, userCtler.getAllUsers);
 
 
 // route affichage profil user => component UserAccount.vue
-router.get('/:userId', auth, userCtler.getUser); 
+router.get('/:userID', auth, userCtler.getUser); 
 
 
 // route pour effacer un user => UserAccount.vue
-router.delete('/deleteuser/:userId', auth, userCtler.deleteUser); 
+router.delete('/deleteuser/:userID', auth, userCtler.deleteUser); 
 
 
 // route pour update password et username profil user  => UserAccount.vue
-router.put('/updateuser/:userId', auth,  multer, rules.userAccountInput(), rules.validate, userCtler.updateUser); 
+router.put('/updateuser/:userID', auth,  multer, rules.userAccountInput(), rules.validate, userCtler.updateUser); 
 
 
 

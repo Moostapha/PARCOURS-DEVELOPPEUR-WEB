@@ -2,15 +2,6 @@
 const dbmySql = require('../mysqlConnection'); 
 
 
-/*FONCTIONS ET REQUETES SQL LIEES A LA TABLE users | OPERATIONS CRUD SUR TABLE user
-Sur la table users, on doit pouvoir manipuler les données de la maniere suivante:
-create | update | delete => on doit avoir ici les requêtes sql permettant d'effectuer 
-ces opérations sur cette table => users: id (autoincrement) | username | email | password | date_creation
-*/
-
-// exemple de requete sql donné apres ajout dans bd:
-// ALTER TABLE `users` ADD `test` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `date_creation`;
-
 // Fonction de création de compte user sur l'application avec email et mot de passe
 
 exports.signUp = (username, email, password) => {
@@ -30,15 +21,13 @@ exports.signUp = (username, email, password) => {
 };
 
 
-/* Fonction de connexion sécurisée avec remise de tokens
-Les tokens d'authentification permettent aux utilisateurs de ne se connecter 
-qu'une seule fois à leur compte. Au moment de se connecter, 
-ils recevront leur token et le renverront automatiquement à chaque requête par la suite. 
-Ceci permettra au back-end de vérifier que la requête est authentifiée. */
+
+// Fonction de connexion à l'application
+
 exports.login = (email) => {
     return new Promise((resolve, reject) => {
         // requete SQL préparée qui renverra tous les champs de la ligne ou cet email apparait:
-        const sql = 'SELECT * FROM users WHERE email=?'; 
+        const sql = 'SELECT * FROM users WHERE email=?' //'SELECT userID, password FROM users WHERE email=?'; 
         // excécution de la requête SQL:
         dbmySql.query( sql, [email], function(error, result, field){
             if(error) reject(error);
@@ -50,13 +39,15 @@ exports.login = (email) => {
 };
 
 
+
 // Fonction affichant un user par son id
-exports.getOneUser = (id) => {
+
+exports.getOneUser = (userID) => {
     return new Promise((resolve, reject) =>{
         // Préparation requête:
-        const sql = 'SELECT * FROM users WHERE id=?'; 
+        const sql = 'SELECT * FROM users WHERE userID=?'; 
         // exécution requête:
-        dbmySql.query( sql, [id], function(error, result, field){
+        dbmySql.query( sql, [userID], function(error, result, field){
             if(error) reject (error);
             resolve(result);
             console.log(result);
@@ -66,7 +57,9 @@ exports.getOneUser = (id) => {
 };
 
 
+
 // Fonction modifiant une ligne de la table users
+
 exports.updateUser = (username,  password, primaryId) => {
     return new Promise((resolve, reject) =>{
         // prepared request
@@ -82,11 +75,13 @@ exports.updateUser = (username,  password, primaryId) => {
 };
 
 
+
 // Fonction requete sql effacant la ligne liée à l'id de la table user
-exports.deleteUser = (primaryId) => {
+
+exports.deleteUser = (userID) => {
     return new Promise((resolve, reject) => {
         const sql ='DELETE FROM users WHERE id=?';
-        dbmySql.query( sql, [primaryId], function(error, result, field){
+        dbmySql.query( sql, [userID], function(error, result, field){
             if(error) reject(error);
             resolve(result);
             // console.log(field);
@@ -95,7 +90,9 @@ exports.deleteUser = (primaryId) => {
 };
 
 
+
 // Fonction requête pour afficher tous les users
+
 exports.getUsers = () => {
     return new Promise((resolve,reject) => {
         const sql = 'SELECT * FROM users WHERE is_admin=0';

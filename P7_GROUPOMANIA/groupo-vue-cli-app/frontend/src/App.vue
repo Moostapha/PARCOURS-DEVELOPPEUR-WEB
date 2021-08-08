@@ -1,48 +1,22 @@
 <template>
   
     <div id="app">
-      <Nav/>
+      <NavHeader/>
       <router-view />
-      <Foot/>
+      <AppFooter/>
     </div>
   
 </template>
 
 <script>
-  //:user="user"
-  // Client http axios
-  // import axios from "axios";
-  import Nav from './components/Nav'
-  import Foot from './components/Foot'
+  import NavHeader from './components/NavHeader'
+  import AppFooter from './components/AppFooter'
   export default {
     name:'App',
     components: {
-      Nav,
-      Foot
+      NavHeader,
+      AppFooter
     },
-    
-    // data() {
-    //   return {
-    //   user: "", 
-    //   username: "", 
-    //   userId: "",
-    //   }
-    // },
-    
-    // created() {
-    //   axios.get('api/users/:userId')
-    //   .then(response => {
-    //     console.log(response.data);
-    //     this.user = response.data.user;
-    //     const username = localStorage.getItem("username");
-    //     const userId = localStorage.getItem('userId');
-    //     this.username = username;
-    //     this.userId = userId;
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   }) 
-    // }
   }
 </script>
 
@@ -55,5 +29,6 @@
     height: 100%
     width: 100%
 </style>
+
 
 

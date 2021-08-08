@@ -2,7 +2,7 @@ const dbmySql = require('../mysqlconnection');  // import configuration de conne
 
 /* FICHIER MODEL POST AVEC TOUTES LES REQUETES SQL CRUD concernant le tableau 'posts' de notre DB mysql
 Requetes sql de l'API pour les 'posts'
-Table post => id | post | userId | username |  date_creation */
+Table post => postID | idUserAuteur | username | contentPost | date_creation */
 
 // REQUETES CRUD SUR LA TABLE POSTS DE NOTRE DB MYSQL
 
@@ -38,10 +38,11 @@ exports.getOne = (id_primary) => { // idPost === primaryId
 
 // Fonction requête sql pour CREATION d'une ligne dans la table post
 // userId est la clé primaire id de user
-exports.create = (post, userId, username) => { 
+exports.create = ( userID, username, contentPost ) => { 
     return new Promise((resolve, reject) => {
-        const dataInserted = [post, userId, username]
-        const sql = 'INSERT INTO posts ( post, userId, username) VALUES (?,?,?)';
+        // colonnes de la table posts à remplir
+        const sql = 'INSERT INTO posts ( id_user_auteur_post, username, contentPost ) VALUES (?,?,?)';
+        let dataInserted = [userID, username, contentPost]
         dbmySql.query(sql, dataInserted, function (error, results, fields){
             if (error) reject (error);
             resolve(results);
@@ -50,13 +51,12 @@ exports.create = (post, userId, username) => {
     })
 };
 
-
-// Fonction requête sql pour MODIFIER un post
-exports.update = ( post, userId, idPost ) => {
+// Fonction requête sql pour MODIFIER un post after
+exports.update = ( postContent, postID ) => {
     return new Promise((resolve,reject) => {
         //requete sql dans une const
-        const sql = 'UPDATE posts SET post=? WHERE id=? AND userId=? ';
-        let dataUpdated = [post, userId, idPost]
+        const sql = 'UPDATE posts SET postContent=? WHERE postID=?';
+        let dataUpdated = [postContent, postID]
         dbmySql.query( sql, dataUpdated , function (error, results, fields){
             if (error) reject (error);
             resolve(results);
@@ -64,12 +64,25 @@ exports.update = ( post, userId, idPost ) => {
     })
 };
 
+// Fonction requête sql pour MODIFIER un post before
+// exports.update = ( post, userId, idPost ) => {
+//     return new Promise((resolve,reject) => {
+//         //requete sql dans une const
+//         const sql = 'UPDATE posts SET postContent=? WHERE postID=?';
+//         let dataUpdated = [post, userId, idPost]
+//         dbmySql.query( sql, dataUpdated , function (error, results, fields){
+//             if (error) reject (error);
+//             resolve(results);
+//         })
+//     })
+// };
+
 
 // Fonction requête sql pour SUPPRIMER un post
 exports.delete = (id_post) => { 
     return new Promise((resolve,reject) => {
         // const sql = 'DELETE FROM posts WHERE id= ?';
-        const sql = 'DELETE FROM posts WHERE id=?';
+        const sql = 'DELETE FROM posts WHERE postID=?';
         dbmySql.query( sql, [id_post], function (error, results, fields){
             if (error) reject (error);
             resolve(results);

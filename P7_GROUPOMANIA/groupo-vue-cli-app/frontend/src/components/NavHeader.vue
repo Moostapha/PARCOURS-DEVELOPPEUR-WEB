@@ -43,15 +43,14 @@
 <script>
 
 export default {
-  name:'Nav',
+  name:'NavHeader',
   
   methods: {
     // fonction de suppression de session user (items du localStorage)
     logout() {
+      
       // remove user session
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
-      localStorage.removeItem('userId');
+      localStorage.clear();
       console.log('Deconnexion réussie');
       
       // redirection vers accueil/login

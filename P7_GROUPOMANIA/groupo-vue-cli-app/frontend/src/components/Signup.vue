@@ -1,52 +1,20 @@
 <template>
     <div class="signup">
 
-        <!-- <div class="logo"></div> -->
+        
         <div class="container">
+            
+            <h1>SOCIAL NETWORK</h1>
+            <h2>{{ msg }}</h2>
             
             <!-- MESSAGES NOTIFICATION -->
             
             <!-- MESSAGE ECHEC -->
-            <div v-if="error" class="alert alert-danger" role="alert">
-                <strong>Echec de l'inscription !</strong> Une erreur est survenue, veuillez réessayer.
-                <button 
-                    @click="closeNotification"
-                    type="button" 
-                    class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <ul>
-                    <li v-for="(element, index) in error" :key="index"> 
-                        {{element.msg}}
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <!-- ALERT SUCCES -->
-            <!-- <div v-else  class="alert alert-success" role="alert">
-                <strong>Inscription réussie  !</strong> Bienvenue dans votre social network 
-                <button 
-                    type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    
-                </button>
-            </div> -->
-            
-            <!-- MESSAGE INFO -->
-            <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>Champs requis !</strong> Veuillez remplir les informations ci-dessous.
-                <button 
-                    type="button" 
-                    class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div> -->
-
-
-            <h1>SOCIAL NETWORK</h1>
-            <h2>{{ msg }}</h2>
-
+            <AlertNotifValidator v-if="error" 
+                alertType= "alert-danger"
+                alertMsg= 'Erreur ! Vérifiez les informations saisies:'
+                :error="error"
+            />
 
             <!-- Formulaire avec 3 champs : username | email | password -->
             <ValidationObserver v-slot="{ handleSubmit}">
@@ -59,8 +27,14 @@
                         <validationProvider name="Username" rules="required|alpha_num|max_value:10" v-slot="{ errors }">
                             <!-- 2 way binding avec v-model qui remplira data (objet signup ligne 55) avec input -->
                             <input v-model="username"  
-                                type="text" autocomplete="current-password"  class="form-control" id="InputUsername" 
-                                aria-describedby="emailHelp" placeholder="Nom ou pseudo" method="post"
+                                type="text"
+                                id="InputUsername" 
+                                method="post"
+                                class="form-control" 
+                                placeholder="Nom ou pseudo" 
+                                autocomplete="current-password"
+                                aria-describedby="emailHelp"
+                                required="required"
                             />
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
@@ -110,11 +84,16 @@
 
     // Librairie pour les API calls
     import axios from 'axios'
-
+    // Validation champs formulaire
+    import AlertNotifValidator from './AlertNotifValidator.vue'
     // export de ce component vers la view Inscription
     export default {
         name: "Signup",
         props: { msg: String, },
+        
+        components: {
+        AlertNotifValidator
+        },
 
         data () {
             return {
@@ -133,25 +112,14 @@
         // fonction eventListener submit sur le click => promise avec appel qui nécessite une attente (await)
             submit() {
                 
-                // SOUMISSION FROM AVEC FormData => Ne pas oublier les params header avec axios content-type
-                // const formData = new FormData();
-                // formData.append("email", this.email);
-                // formData.append("password", this.password);
-                
-                // 2) Affichage de notre objet formData dans la console
-                // console.log(Array.from(formData));
-                // for(let obj of formData) {
-                //         console.log(obj);
-                // }
-                
-                
                 const dataPosted = {
                     username: this.username,
                     email: this.email,
                     password: this.password
                 }
-                
+                // Affichage données sent ds console
                 console.log(dataPosted);
+                
                 // pour requete post, axios prend 3 arguments => axios.post('URL endpoint', data, axiosConfig ou headers)
                 // adresse url refactoré avec axiosConfig.js
                 axios.post('api/users/signup', dataPosted) // Ma route n'est pas reconnue => erreur 404 !!!
@@ -167,11 +135,6 @@
                     console.log('Premier élément errorArray:',errorArray[0].errors[0].msg) //Champs Username requis
                 })
             },
-            
-        // Fonction close alert
-            closeNotification(){
-                document.getElementsByClassName('alert')[0].style.display='none';
-            }
         },
     }
 </script>
@@ -180,29 +143,13 @@
 <style lang="sass" scoped>
 .signup
     height: fit-content
-    background-image: url('../assets/myPics/img1.jpg')
+    background-image: url('../assets/img1.jpg')
     background-size: cover
     background-position: center
     padding-bottom: 15vh
-    // padding-top: 2vh
-    // background-color: #42b7b9
-    
-    // .logo
-    //     // padding-top: 1vh
-    //     background-image: url('../assets/icon-left-font-monochrome-white.svg') 
-    //     height: 13vh
-    //     background-repeat: no-repeat
-    //     background-position: center
-    //     @media screen and (max-width: 508px) 
-    //         display: none
-    
     .container
         padding-top: 20vh
-        // CODE ALTERNATIF
-        // padding-top: 3vh
-        // background-image: url('../assets/myPics/img3.jpg')
-        // background-size: cover
-        // background-repeat: no-repeat
+        
     .fa-user
         // color: #42b7b9
         font-size: 11vh

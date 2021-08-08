@@ -11,14 +11,25 @@ exports.readComment = async(req, res, next) => {
     res.status(200).json({ message:'Liste des commentaires', comments: comments })
 };
 
+
 // Fonction créant un commentaire sur un post
 //commun a user + admin
 exports.createComment = async(req, res, next) => {
+    //Stockage datas envoyés par front
     const newComment = req.body;
-    console.log(" Infos new commentaire:  ", newComment); 
-    const createdComment = await commentModel.create( newComment.commentaire , newComment.postId , newComment.userId, newComment.username );
-    console.log("résultat promise: ", createdComment)
-    res.status(201).json({ message:'commentaire créé avec succés', comment: createdComment });
+    console.log(" Infos new commentaire:  ", newComment);
+    
+    const createdComment = await commentModel.create( 
+        newComment.id_post_commented , 
+        newComment.id_user_auteur_comment, 
+        newComment.username,
+        newComment.contentComment, 
+    );
+    console.log("résultat promise: ", createdComment);
+    res.status(201).json({ 
+        message:'commentaire créé avec succés', 
+        comment: createdComment 
+    });
 };
 
 
@@ -32,7 +43,6 @@ exports.updateComment = async(req, res, next) => {
 };
 
 
-
 // Fonction supprimant un commentaire
 exports.deleteComment = async(req, res, next) => {
     const id = req.params.id;
@@ -40,5 +50,3 @@ exports.deleteComment = async(req, res, next) => {
     res.status(200).json({ message:'commentaire supprimé avec succés', comment: deletedComment });
 
 };
-
-

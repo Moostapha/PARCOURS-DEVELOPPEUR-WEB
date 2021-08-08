@@ -39,13 +39,13 @@ app.use(xss());
 
 
 // Middleware pour bodyparser qui transforme le corps de la requête en objet JS utilisable
-// avec version 4.16 d'ecpress, bodyParser devient express
+// avec version 4.16 d'express, bodyParser devient express
 app.use(express.json()); 
 
 
 // encodage URL infos venant du front au format JSON
-// avec version 4.16 d'ecpress, bodyParser devient express
-app.use(express.urlencoded({extended: true})); 
+// avec version 4.16 d'express, bodyParser devient express
+app.use(express.urlencoded({ extended: true })); 
 
 
 // Middleware permettant de recevoir http de localhost 8080 frontend

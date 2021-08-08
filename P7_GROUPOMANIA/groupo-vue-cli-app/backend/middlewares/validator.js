@@ -20,7 +20,7 @@ const userLoginInput = () => {
         // email: .not(specialCharsMail).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';&$ non acceptés.")
         // .isAlphanumeric().withMessage('Votre mail ne doit contenir que des caractères alphanumériques')
         // password: .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
-
+        
         body('email')
             .not().isEmpty().withMessage('Champs "Email" requis')
             .isEmail().normalizeEmail().withMessage('Format email non valide')
@@ -48,7 +48,7 @@ const userSignupInput = () => {
         
         body('username')
             .not().isEmpty().withMessage('Champs "Username" requis')
-            .isAlphanumeric().withMessage('Caractères alphanumériques')
+            .isAlphanumeric().withMessage('Champs "Username": Caractères alphanumériques')
             .isLength({min:3, max:10}).withMessage('Le username doit avoir minimum 3 caractères, maximum 10')
             .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
             .trim()
@@ -64,7 +64,7 @@ const userSignupInput = () => {
         
         body('password')
             .not().isEmpty().withMessage('Champs "Mot de passe" requis')
-            .isAlphanumeric().withMessage('Caractères alphanumériques')
+            .isAlphanumeric().withMessage('Champs "Mot de passe": Caractères alphanumériques')
             .isLength({min:3, max:10}).withMessage('Longueur minimum 3 caractères, maximum 10')
             .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
             .trim()
@@ -96,39 +96,31 @@ const userAccountInput = () => {
             .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
             .trim()
             .escape(),
-            
-    ]
-};
+        
+        body('newPassword')
+            .not().isEmpty().withMessage('Champs "Nouveau mot de passe" requis')
+            .isAlphanumeric().withMessage('Caractères alphanumériques')
+            .isLength({min:3, max:10}).withMessage('Longueur minimum 3 caractères, maximum 10')
+            .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
+            .trim()
+            .escape(),
+        ]
+    };
 
 
-// FORMULAIRE POST
-const userPostInput = () => {
+// FORMULAIRES POST + COMMENTAIRE
+const validForm = () => {
 
     return [
-    
-    // input's rules du form post
-        body('post')
+        // input's rules du form post
+        body('inputpost')
             .not().isEmpty().withMessage('Champs requis')
             .isAlphanumeric().withMessage('Veuillez n\'écrire que des caractères alphanumériques')
             .trim()
             .escape(),
     ]
-};
+    };
 
-
-// FORMULAIRE COMMENTAIRE
-const userCommentInput = () => {
-
-    return [
-        // input's rules du form comment 
-        body('comment')
-            .not().isEmpty().withMessage('Champs requis')
-            .isAlphanumeric().withMessage('Veuillez n\'écrire que des caractères alphanumériques')
-            .trim()
-            .escape(),
-    ]
-
-};
 
 
 // VALIDATION DES REGLES DES FORMULAIRES
@@ -154,8 +146,8 @@ module.exports = {
     userSignupInput,
     userLoginInput,
     userAccountInput,
-    userPostInput,
-    userCommentInput,
+    validForm,
     validate,
 };
+    
 

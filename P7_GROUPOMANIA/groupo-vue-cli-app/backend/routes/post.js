@@ -20,21 +20,29 @@ const multer = require('../middlewares/multer');
 
 // ROUTES POST ENDPOINTS CRUD | PGGPD
 
-Router.post('/createPost/:postId', auth, rules.userPostInput(), rules.validate, multer, postCtler.createPost); // => Router.post('/', auth, multer, postCttler.createPost)
+Router.get('/readAll', auth, postCtler.getAllPosts); 
 
 
-Router.get('/', auth, postCtler.getAllPosts); 
+Router.post('/create', auth, rules.validForm(), rules.validate, postCtler.createPost);//Router.post('/create', auth, multer, postCtler.createPost); // => avec middleware validator Router.post('/create', auth, rules.validForm(), rules.validate, postCtler.createPost);
 
 
-Router.get('/:postId', auth, postCtler.getOnePost);
+Router.post('reaction/:postID')
 
 
-Router.put('/:postId', auth, rules.userPostInput(), rules.validate, postCtler.updatePost);
+// Router.get('/read/:postID', auth, postCtler.getOnePost);
 
 
-Router.delete('/:postId', auth, postCtler.deletePost);
+Router.put('update/:postID', auth, rules.validForm(), rules.validate, postCtler.updatePost);
 
 
+Router.delete('delete/:postID', auth, postCtler.deletePost);
+
+// router.get("/", auth, postCtrl.getAllPosts);
+// router.get("/:id", auth, postCtrl.getOnePost);
+// router.post("/", auth, multer, postCtrl.createPost);
+// router.delete("/:id", auth, postCtrl.deletePost);
+// router.post("/:id/comment", auth, postCtrl.createComment);
+// router.post("/:id/reaction", auth, postCtrl.reactPost);
 
 // EXPORT DU ROUTER VERS app.js
 // export pour réutilisation dans app.js

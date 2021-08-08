@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "caniuse-lite": "^1.0.30001247",
     "core-js": "^3.6.5",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",

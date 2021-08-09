@@ -37,12 +37,13 @@ exports.getOne = (id_primary) => { // idPost === primaryId
 
 
 // Fonction requête sql pour CREATION d'une ligne dans la table post
-// userId est la clé primaire id de user
+// userID est la clé primaire id de user
 exports.create = ( userID, username, contentPost ) => { 
     return new Promise((resolve, reject) => {
-        // colonnes de la table posts à remplir
+        // colonnes de la table posts à remplir Mysql request
         const sql = 'INSERT INTO posts ( id_user_auteur_post, username, contentPost ) VALUES (?,?,?)';
-        let dataInserted = [userID, username, contentPost]
+        // data postée venant du front
+        let dataInserted = [ userID, username, contentPost ]
         dbmySql.query(sql, dataInserted, function (error, results, fields){
             if (error) reject (error);
             resolve(results);
@@ -50,6 +51,7 @@ exports.create = ( userID, username, contentPost ) => {
         })
     })
 };
+
 
 // Fonction requête sql pour MODIFIER un post after
 exports.update = ( postContent, postID ) => {

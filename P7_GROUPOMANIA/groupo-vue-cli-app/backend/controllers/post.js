@@ -28,26 +28,26 @@ exports.getOnePost = async(req, res, next) => {
 
 // Fonction créant un post
 exports.createPost = async(req, res, next) => {
-    
     // on capture le corps de la requete dans une cste
     const created = req.body;
-    // On check la validité du contenu du post
-    const content = req.body.contentPost;
-    
+    console.log('corps requête POST by axios: ',created);
+
     // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
     console.log(" Infos new post:  ", created); 
     const createdPost = await postModel.create( 
-        created.id_user_auteur_post, 
+        created.userID,    // inputs du front
         created.username, 
-        created.contentPost 
+        created.contentPost,
+        
     );
-    console.log("résultat de la promise", createdPost); 
+    console.log("résultat de la promise", createdPost)
     res.status(201).json({ 
         message:'post créé avec succés',  
         post: createdPost,
-        postID: createdPost.postID // pour récupération via localStorage côté front
+        postID: createdPost.insertId // pour récupération via localStorage côté front
     });
 };
+
 
 // Fonction modifiant un post after
 exports.updatePost = async(req, res, next) => {

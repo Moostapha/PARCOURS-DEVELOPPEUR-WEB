@@ -56,6 +56,8 @@
     .commentaire
         background-color: #f2f4f6
         box-shadow: 0px 5px 5px #e0e3ea
+        margin: 2vh 1vh 0vh 1vh
+        border-radius: 4vh
     .commentAndButton
         flex: 1
         display: flex

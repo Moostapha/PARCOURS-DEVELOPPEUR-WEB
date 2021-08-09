@@ -23,10 +23,10 @@ const multer = require('../middlewares/multer');
 Router.get('/readAll', auth, postCtler.getAllPosts); 
 
 
-Router.post('/create', auth, rules.validForm(), rules.validate, postCtler.createPost);//Router.post('/create', auth, multer, postCtler.createPost); // => avec middleware validator Router.post('/create', auth, rules.validForm(), rules.validate, postCtler.createPost);
+Router.post('/create', auth, multer, postCtler.createPost); //Router.post('/create', auth, multer, postCtler.createPost); // => avec middleware validator Router.post('/create', auth, rules.validForm(), rules.validate, postCtler.createPost);
 
 
-Router.post('reaction/:postID')
+Router.post('reaction/:postID');
 
 
 // Router.get('/read/:postID', auth, postCtler.getOnePost);

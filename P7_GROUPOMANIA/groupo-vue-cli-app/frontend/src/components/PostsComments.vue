@@ -52,20 +52,20 @@
         
         <div v-if="user">
           <!-- INPUTPOST ET BOUTON POST -->
-            <form class="formPost" @submit.prevent="handleSubmit(createPost)"  method="post">
-              <!--  CHAMP PUBLICATION (POST) -->
-                <label for="inputpost">Que voulez vous dire?</label>
+            <form  @submit.prevent="handleSubmit(createPost)" class="formPost" enctype="multipart/form-data" method="post">
+              <!--  CHAMP PUBLICATION (POST) => Seuls les champs de formulaires valides sont inclus dans un objet FormData, c'est-à-dire ceux qui portent un nom (attribut name) -->
+                <label for="content">Que voulez vous dire?</label>
                 <div class="addPost">
                   <validationProvider name="publication" rules="required|alpha_num" v-slot="{ errors }">
-                    <textarea v-model="publication.contentPost"
+                    <input v-model="publication.contentPost"
+                      name="content"   
                       type="text"
                       id="inputpost"
                       method="post"
                       class="form-control sm md lg xl"
                       placeholder="Editer vos posts ici"
-                      name="addPost"   
                       rows="2" cols="4"> 
-                    </textarea>
+                    <!-- </textarea> -->
                     <span>{{ errors[0] }}</span>
                   </validationProvider>
                 </div>
@@ -75,6 +75,7 @@
                   <button 
                     @click="createPost"
                     type="button" 
+                    method="post"
                     class="btn btn-primary sm md lg xl">
                     <i class="far fa-paper-plane"></i>
                     Publier votre post
@@ -187,6 +188,7 @@
 
                       <!-- AFFICHAGE COMMENTAIRE SUR CE POST -->
                         <div class="commentaire">
+                          <h6>Commentaires sur ce post</h6>
                           <span>
                             <small>
                               {{ commentaire.contentComment }}
@@ -288,14 +290,14 @@ export default {
       
       // infos à envoyer au backend dans la table posts
       publication: {
-        userID:"", // id_user_auteur_post
+        userID:"", // id_user_auteur_post 
         username:"",
         contentPost:"",
       },
       
       // infos à envoyer au backend dans la table comments
       commentaire:{
-        postID:"", // id_post_commented
+        id_post_commented:"", // postID
         userID:"", // id_user_auteur_comment
         username:"",
         contentComment:"",
@@ -381,9 +383,9 @@ export default {
     createPost(){
      // 1) Récupération des userInputs (données postées) pour les poster au backend
       const formData = new FormData();
-      formData.append("userID" , localStorage.getItem('userID'));
-      formData.append("username" , localStorage.getItem('username'));
-      formData.append("contentPost" , this.publication.contentPost);
+      formData.append("userID" , this.userID);
+      formData.append("username" , this.username);
+      formData.append("contentPost" , this.publication.contentPost );
       
       // 2) Affichage de notre objet formData dans la console
       console.log(Array.from(formData));
@@ -397,19 +399,19 @@ export default {
         // mettre header pour que le front configure les infos correctement pour le backend
           'content-type': 'multipart/form-data',
           'Authorization': 'Bearer '+ localStorage.getItem('token'),
-        }
+          }
       })
       .then(response => {
         console.log(response.data);
-        // Stockage du postID created
-        // const postID = response.data.postID;
-        // console.log('postID:', postID)
+        // Test: Stockage du postID created insertId est l'id clé primaire du new post
+        const postID = response.data.insertId;
+        console.log('postID:', postID)
         
-        localStorage.setItem('postID', response.data.postID);
-        // localStorage.setItem('id_post_commented', response.data.id_post_commented);
+        // localStorage.setItem('postID', response.data.postID);
+        localStorage.setItem('id_post_commented', postID);
         
-        // window.location.assign('http://localhost:8080/groupomania/publications')
-        this.$router.push('/groupomania/publications')
+        window.location.assign('http://localhost:8080/groupomania/publications')
+        // this.$router.push('/groupomania/publications')
       })
       .catch((error) => {
         // this.error = error.response.data.errors;
@@ -433,10 +435,10 @@ export default {
       
       // 1) Récupération des userInputs (données postées) pour les poster au backend
       const formData = new FormData();
-      formData.append('postID', localStorage.getItem('postID'));  // renvoie null
-      formData.append('userID', localStorage.getItem('userID'));
-      formData.append('username', localStorage.getItem('username'));
-      formData.append('contentComment', this.commentaire.contentComment);
+      formData.append('id_post_commented', localStorage.getItem('postID'));  // renvoie null? this.postID
+      formData.append('userID', localStorage.getItem('userID')); //this.userID
+      formData.append('username', localStorage.getItem('username')); //this.username
+      formData.append('content', this.commentaire.contentComment);
     
     // 2) Affichage de notre objet formData dans la console
       console.log(Array.from(formData));
@@ -607,6 +609,8 @@ export default {
         flex: 2
       .card-title
         padding: 2vh
+        @media screen and (max-width: 768px)
+            margin: 0vh 1vh 0vh 1vh
       .card-text
         margin: 4vh 1vh 1vh 1vh
         display: flex
@@ -655,6 +659,11 @@ export default {
           font-size: large
       //FIN style card
       // style partie commentaire
+      .commentaire
+        background-color: #f2f4f6
+        box-shadow: 0px 5px 5px #e0e3ea
+        margin: 2vh 1vh 0vh 1vh
+        border-radius: 4vh
       .commentAndButton
         flex: 1
         display: flex

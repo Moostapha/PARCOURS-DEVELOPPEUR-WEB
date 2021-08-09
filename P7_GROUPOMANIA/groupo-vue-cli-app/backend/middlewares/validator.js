@@ -113,7 +113,7 @@ const validForm = () => {
 
     return [
         // input's rules du form post
-        body('inputpost')
+        body('content')
             .not().isEmpty().withMessage('Champs requis')
             .isAlphanumeric().withMessage('Veuillez n\'écrire que des caractères alphanumériques')
             .trim()

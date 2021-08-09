@@ -143,6 +143,8 @@ export default {
         flex: 2
     .card-title
         padding: 2vh
+        @media screen and (max-width: 768px)
+            margin: 0vh 1vh 0vh 1vh
     .card-text
         margin: 4vh 1vh 1vh 1vh
         display: flex

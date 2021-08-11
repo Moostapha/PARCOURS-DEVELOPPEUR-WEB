@@ -128,7 +128,7 @@ exports.getUser = async(req, res, next) => {
 
 // commun a user + admin
 exports.updateUser = async(req, res, next) => {
-    const userId = req.body.id;
+    const userID = req.body.userID;
     const updated = req.body;
     // const userImage = JSON.parse(req.body.file);
     // const imageUrl =  `${req.protocol}://${req.get('host')}/image/${req.file.filename}`; 
@@ -137,7 +137,7 @@ exports.updateUser = async(req, res, next) => {
     if ( updated.username || updated.password ) {
         bcrypt.hash(updated.password, 10)
         .then(async(hash)=>{
-            const updatedAccount = await User.updateUser( updated.username, hash,  userId )
+            const updatedAccount = await User.updateUser( updated.username, hash,  userID )
             res.status(201).json({ 
                 message:'Modifications réussies',
                 updatedPassword: updatedAccount,

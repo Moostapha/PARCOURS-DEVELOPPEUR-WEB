@@ -25,10 +25,12 @@
                     class="sm md lg btn btn-outline-success">
                     Publier
                 </button>
-                <button @click="cancel"
-                    type="button" class="btn btn-outline-danger">
-                    Annuler
-                </button>
+                <router-link :to="{name:'Fil d\'actualité'}">
+                    <button 
+                        type="button" class="btn btn-outline-danger">
+                        Annuler
+                    </button>
+                </router-link>
             </div>
         </form>
     </div>
@@ -50,9 +52,10 @@ export default {
     
     data(){
         return {
-            // postID: +localStorage.getItem(postID),
+            
+            postID: this.$route.params,
             ContentPost:"",
-            error:[]
+            error:"",
         }
     },
     
@@ -62,13 +65,15 @@ export default {
         updatePost(){
             
             let dataUpdated = {
-                ContentPost: this.ContentPost 
+                ContentPost: this.ContentPost,
+                postID: this.$route.params 
             }
-            // `api/posts/updateOne/${this.$route.params.postID}`
+            // `api/posts/update/${this.$route.params.postID}`
             // 'api/posts/updateOne/'+ this.postID
+            // 'api/posts/updateOne/'+ this.$route.params.postID + '/update'
             //API ROUTE
-            // 
-            axios.put('api/posts/update/:postID', dataUpdated,{
+            
+            axios.put(`api/posts/${this.$route.params.postID}/update`, dataUpdated,{
                 headers: {
                     'content-type': 'multipart/form-data',
                     'Authorization': 'Bearer '+ localStorage.getItem('token'),
@@ -76,6 +81,7 @@ export default {
             })
             .then(response =>{
                 console.log(response);
+                window.location.assign('http://localhost:8080/groupomania/publications')
             })
             .catch((error) =>{
                 console.log(error);
@@ -87,10 +93,6 @@ export default {
             // this.$router.push('/groupomania/publications')
         },
         
-        // Fonction annulation et retour vers page publications
-        cancel(){
-            this.$router.push('/groupomania/publications')
-        }
     }
 }
 </script>
@@ -102,7 +104,7 @@ export default {
     .form
         display: flex
         justify-content: center
-        padding: 30vh 15vh 20vh
+        padding: 30vh 0vh 15vh 0vh
         background-image: url('../assets/img2.jpg')
         background-size: cover
         // margin: auto
@@ -111,14 +113,16 @@ export default {
         #updatePostInputForm
             height: 30vh
             width: 100vh
+            @media screen and (max-width: 440px) 
+                width: 80vh
+                height: 20vh
+            @media screen and (max-width: 348px) 
+                width: 60vh
+                height: 20vh
             padding-top: 2vh
             border-radius: 25px
             margin-top: 2vh
             padding-left: 2vh
-            @media screen and (max-width: 440px) 
-                width: 80vh
-            @media screen and (max-width: 348px) 
-                width: 60vh
         .dispoBtn
             display: flex
             .btn

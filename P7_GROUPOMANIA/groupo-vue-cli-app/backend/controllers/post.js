@@ -31,14 +31,13 @@ exports.createPost = async(req, res, next) => {
     // on capture le corps de la requete dans une cste
     const created = req.body;
     console.log('corps requête POST by axios: ',created);
-
+    
     // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
-    console.log(" Infos new post:  ", created); 
     const createdPost = await postModel.create( 
-        created.userID,    // inputs du front
+        // inputs du front:
+        created.userID,    
         created.username, 
         created.contentPost,
-        
     );
     console.log("résultat de la promise", createdPost)
     res.status(201).json({ 
@@ -49,10 +48,18 @@ exports.createPost = async(req, res, next) => {
 };
 
 
-// Fonction modifiant un post after
+// Fonction modifiant un post (after) => axios.put dans Post.vue
 exports.updatePost = async(req, res, next) => {
-    const postID = req.params.postID; // clé primaire du post dans db
-    const update = req.body; // on recupere le corps du nouveau post dans une constante
+    const postID = req.params.postID;  // clé primaire du post dans db
+    const update = req.body;   // on recupere le corps du nouveau post dans une constante
+    // sanitize input form
+    // if (check('update')
+    //         .not().isEmpty() .isAlphanumeric().withMessage('Champs requis: Veuillez n\'écrire que des caractères alphanumériques')
+    // ) {
+        
+    // } else {
+        
+    // }
     // on les met en paramètre dans la fonction Model post
     const updatedPost = await postModel.update( update.postContent, postID );
     res.status(201).json({ 
@@ -62,24 +69,34 @@ exports.updatePost = async(req, res, next) => {
 };
 
 
-// Fonction modifiant un post before
-// exports.updatePost = async(req, res, next) => {
-//     const idPost = req.params.id; // clé primaire du post dans db
-//     const update = req.body; // on recupere le corps du nouveau post dans une constante
-    // on les met en paramètre dans la fonction Model post
-//     const updatedPost = await postModel.update( update.post, update.userId, idPost );
-//     res.status(201).json({ 
-//         message:'post modifié avec succés', 
-//         post: updatedPost 
-//     });
-// };
+/*//Fonction modifiant un post before
+exports.updatePost = async(req, res, next) => {
+    const idPost = req.params.id; // clé primaire du post dans db
+    const update = req.body; // on recupere le corps du nouveau post dans une constante
+on les met en paramètre dans la fonction Model post
+    const updatedPost = await postModel.update( update.post, update.userId, idPost );
+    res.status(201).json({ 
+        message:'post modifié avec succés', 
+        post: updatedPost 
+    });
+};*/
 
 
 // Fonction supprimant un post
 exports.deletePost = async(req, res, next) => {
-    const id = req.params.id;
-    const deletedPost = await postModel.delete(id);
+    const postID = req.params.postID;
+    const deletedPost = await postModel.delete(postID);
     console.log("résultat de la promise", deletedPost); 
     res.status(200).json({ message:'post supprimé avec succés', post: deletedPost });
+};
+
+// Fonction likant un post
+exports.likePost = async(req, res, next) => {
+
+};
+
+
+exports.dislikePost = async(req, res, next) => {
+
 };
 // Toutes nos fonctions exportées vers /routes/post

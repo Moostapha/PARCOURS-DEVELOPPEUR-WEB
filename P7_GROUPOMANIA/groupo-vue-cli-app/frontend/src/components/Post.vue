@@ -22,15 +22,16 @@
                                     <div class="space"></div>
                                     <!-- BOUTONS COMMENTER + THUMB + HEART + COMPTEUR LIKES -->
                                         <div class="likeThumbsCommenter">
-                                            <button
-                                                @click="commenter"
-                                                id="btnCommenter"
-                                                type="button"
-                                                class="sm md lg  btn btn-primary">
-                                                <i type="button"  
-                                                class="far fa-comments"></i>
-                                                Commenter
-                                            </button>
+                                            <router-link :to="{name:'CreateComment', params: {postID: post.postID}}">
+                                                <button
+                                                    id="btnCommenter"
+                                                    type="button"
+                                                    class="sm md lg  btn btn-primary">
+                                                    <i type="button"  
+                                                    class="far fa-comments"></i>
+                                                    Commenter
+                                                </button>
+                                            </router-link>
                                             <button 
                                                 @click="counterlike"
                                                 type="button"
@@ -51,13 +52,14 @@
                                 </div>
                                 <!-- BOUTONS UPDATE + DELETE POST -->
                                     <!-- RENDU CONDITIONNEL L'ADMIN A ACCES A TOUTE ACTION  -->
-                                    <div v-if="user.is_admin === 1" 
-                                        class="btnModifSupPublication">
-                                        <button @click="updatePost" 
-                                            type="button" 
-                                            class="btn btn-success">
-                                            <i class="fas fa-pen"></i>
-                                        </button>
+                                    <div v-if="user.is_admin === 1" class="btnModifSupPublication">
+                                        <router-link :to="{name:'UpdatePost', params: {postID: post.postID}}">
+                                            <button  
+                                                type="button" 
+                                                class="btn btn-success">
+                                                <i class="fas fa-pen"></i>
+                                            </button>
+                                        </router-link>
                                         <button @click="deletePost" 
                                             type="button" 
                                             class="btn btn-danger">
@@ -67,11 +69,13 @@
                                     <!-- RENDU CONDITIONNEL: SSI LE USER EST AUTEUR DU POST -->
                                     <div v-else-if="userID === post.id_user_auteur_post" 
                                         class="btnModifSupPublication">
-                                        <button @click="updatePost" 
-                                            type="button" 
-                                            class="btn btn-success">
-                                            <i class="fas fa-pen"></i>
-                                        </button>
+                                        <router-link :to="{name:'ModifPost', params: {postID: post.postID}}">
+                                            <button  
+                                                type="button" 
+                                                class="btn btn-success">
+                                                <i class="fas fa-pen"></i>
+                                            </button>
+                                        </router-link>
                                         <button @click="deletePost" 
                                             type="button" 
                                             class="btn btn-danger">
@@ -101,10 +105,6 @@ export default {
     name: 'Publications',
     
     methods: {
-        commenter(){
-            this.$router.push('/groupomania/publications/:postID/update')
-        },
-        
         counterlike(){
             let countLike = 0;
             countLike++;

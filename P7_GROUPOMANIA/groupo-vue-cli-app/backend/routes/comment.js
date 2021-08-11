@@ -25,10 +25,10 @@ Router.get('/readAll', auth, commentCtler.readComment);
 
 
 // un commentaire se fait sur un post qui a une ID
-Router.post('/create/:postID', auth, rules.validForm, rules.validate, multer, commentCtler.createComment);
+Router.post('/create/:postID', auth, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
 
 
-Router.put('updateOne/:commentID', auth, rules.validForm, rules.validate, commentCtler.updateComment);
+Router.put('updateOne/:commentID', auth, rules.validFormComment, rules.validate, commentCtler.updateComment);
 
 
 Router.delete('deleteOne/:commentID', auth, commentCtler.deleteComment);

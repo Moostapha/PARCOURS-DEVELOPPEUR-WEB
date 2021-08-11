@@ -9,151 +9,156 @@
             <!-- FIN -->
             <div class="logo"></div>
             <div class="sm md lg xl">
-                
-                
-                <h1 class="noConnexion" v-if ="!user">Accés impossible !!! Veuillez vous connecter</h1>
-                
-                <div v-if="user" class="card">
-                    <div class="card-body">
-                        <h2>Profif de {{user.username}} </h2>
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <!-- :src="require(`@/assets/${user.image}`)"  :alt="user.name"-->
-                            <img src="../assets/user_icon.png" alt="userPic" class="rounded-circle" width="150">
-                            <div class="mt-3">
-                                <!-- INFOS DU PROFIL -->
-                                    <!-- <h3>Membre du Social Network Groupomania</h3> -->
-                                    <!-- <h4> {{user.username}} </h4> -->
-                                    <h4 >Infos de votre compte:</h4>
-                                    <p class="text-secondary mb-1">
-                                        Email: {{user.email}}
-                                    </p>
-                                    <p class="text-secondary mb-1">
-                                        Date de création du compte: {{ dateFormat(user.date_creation) }}
-                                    </p>
-                                <!-- FIN -->
-                                <div class="space"></div>
-                                <!-- BOUTON DEROULANT les options de modification du compte Mettre type="button" pour éviter "form not connected" -->
-                                    <div>
-                                        <button id='btnShow' v-on:click="show = !show" 
-                                                type="button" class="btn btn-primary sm md lg xl">
-                                                <!-- <i class="fas fa-pen"></i>  -->
-                                            Afficher
-                                        </button> 
-                                    </div>
-                                <!-- FIN -->
-                                <div class="space"></div>
-                                
-                                    DIV NOTIF USER HERE
-                                <div v-if="show">
-                                    
-                                    <!-- TELECHARGEMENT FICHIER IMAGE DU USER -->
-                                        <form >
-                                            <!-- RENDU DYNAMIQUE DE L'ETAT DE L'UPLOAD -->
-                                                <div v-if="message" :class="`message ${error ? 'is-danger' : 'is-success'}`" >
-                                                    <div class="message-body"> 
-                                                        {{message}} 
-                                                    </div>
-                                                </div>
-                                            <!-- FIN -->
-                                            <label for="formFileLg" class="form-label">
-                                                Sélectionner fichier
-                                            </label><br>
-                                            <!-- POSITION INPUT FILE UPLOAD ET BOUTON UPLOAD -->
-                                                <div id="uploadInputBtn">
-                                                    <input class="form-control form-control-lg" id="formFileLg" type="file" 
-                                                        enctype="multipart/form-data" method="post" 
-                                                    />
-                                                    
-                                                    <button id="btnUpload" 
-                                                        @click="uploadFile" 
-                                                        class="sm md lg xl btn btn-outline-success form-control-file" type = "button">
-                                                        <i class="fa fa-download"></i>
-                                                    </button>
-                                                </div>
-                                            <!-- FIN -->
-                                        </form> 
-                                    <!-- FIN -->
-                                    
-                                    <div class="space"></div> 
-                                    
-                                    <!-- MESSAGE ERREUR CHAMPS INVALIDES (EXPRESS-VALIDATOR) -->
-                                        <AlertNotifValidator v-if="error"
-                                            alertType= 'alert-danger'
-                                            alertMsg= 'Erreur ! Vérifiez les informations saisies:'
-                                            :error="error"
-                                        />
-                                    <!-- FIN -->
-                                    
-                                    <!-- CHAMPS UPDATE USERNAME ET PASSWORD -->
-                                        <ValidationObserver v-slot="{ handleSubmit}">
-                                            <form @submit.prevent="handleSubmit(submit)">
-                                                <!-- CHAMP UPDATE USERNAME -->
-                                                    <div class="form-group">
-                                                        <label for="InputUsername">Nouveau username</label>
-                                                        <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
-                                                        <validationProvider name="username" rules="required|alpha_num" v-slot="{ errors }">
-                                                            <!-- 2 way binding grâce à v-model qui remplira data avec userinput -->
-                                                            <input v-model="updatedUsername"
-                                                                autocomplete="username"
-                                                                type="text"  required="required" 
-                                                                class="form-control" id="InputUsername" 
-                                                                placeholder="Chiffres et lettres uniquement, max 10 caractères"
-                                                            />
-                                                            <span>{{ errors[0] }}</span>
-                                                        </validationProvider>
-                                                    </div>
-                                                <!-- FIN -->
-                                                <!-- CHAMP OLD PASSWORD -->
-                                                    <div class="form-group">
-                                                        <label for="InputPassword">Ancien mot de passe</label>
-                                                        <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
-                                                        <validationProvider name="password" rules="required|alpha_num" v-slot="{ errors }">
-                                                            <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
-                                                            <input v-model="password"
-                                                                type="password" autocomplete="current-password" required="required" class="form-control" id="InputOldPassword" 
-                                                                placeholder="Chiffres et lettres uniquement, max 10 caractères"
-                                                            />
-                                                            <span>{{ errors[0] }}</span>
-                                                        </validationProvider>
-                                                    </div>
-                                                <!-- FIN -->
-                                                <!-- CHAMP UPDATED PASSWORD -->
-                                                    <div class="form-group">
-                                                        <label for="InputPassword">Nouveau mot de passe</label>
-                                                        <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
-                                                        <validationProvider name="password" rules="required|alpha_num" v-slot="{ errors }">
-                                                            <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
-                                                            <input v-model="updatedPassword"
-                                                                type="password" autocomplete="current-password" required="required" class="form-control" id="InputNewPassword" 
-                                                                placeholder="Chiffres et lettres uniquement, max 10 caractères"
-                                                            />
-                                                            <span>{{ errors[0] }}</span>
-                                                        </validationProvider>
-                                                    </div>
-                                                <!-- FIN -->
-                                                <!-- POSITION BOUTONS UPDATE ET DELETE -->
-                                                    <div class='btnUpdateDelete'>
-                                                        <!-- Bouton de validation Mettre type="button" pour éviter "form not connected" -->
-                                                            <button @click="submitUpdated"
-                                                                id="btnModif" 
-                                                                type="button" class="sm md lg xl btn btn-outline-success">
-                                                                <i class="fas fa-pen"></i> 
-                                                            </button>
-                                                        <!-- FIN -->
-                                                        <div class="space"></div>
-                                                        <!-- BOUTON SUPPRESSION DE COMPTE mettre en dehors de validationObserver en dessous-->
-                                                        <!-- Bouton de validation Mettre type="button" pour éviter "form not connected" -->
-                                                            <button @click="deleteAccount" id="btnDelete" type="button" class="sm md lg xl btn btn-outline-danger">
-                                                                <i class="fas fa-trash-alt"></i> 
-                                                            </button>
-                                                        <!-- FIN -->
-                                                    </div>
-                                                <!-- FIN -->
-                                            </form>
-                                        </ValidationObserver>
+                <!-- RENDU CONDITIONNEL SI USER NON CONNECTE -->
+                    <div v-if="!user">
+                        <h1 class="noConnexion">
+                            Accés impossible !!! Veuillez vous connecter
+                        </h1>
+                    </div>
+                <!-- FIN -->
+                <!-- RENDU SI USER CONNECTE: -->
+                <div v-else>
+                    <div class="card">
+                        <div class="card-body">
+                            <h2>
+                                Profif de {{user.username}}
+                            </h2>
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <!-- :src="require(`@/assets/${user.image}`)"  :alt="user.name"-->
+                                <img src="../assets/user_icon.png" alt="userPic" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <!-- INFOS DU PROFIL -->
+                                        <h4 >Infos de votre compte:</h4>
+                                        <p class="text-secondary mb-1">
+                                            Email: {{user.email}}
+                                        </p>
+                                        <p class="text-secondary mb-1">
+                                            Date de création du compte: {{ dateFormat(user.date_creation) }}
+                                        </p>
                                     <!-- FIN -->
                                     <div class="space"></div>
-                                    <!-- <button v-on:click="hide" type="button" class="btn btn-primary">Masquer</button> -->
+                                    <!-- BOUTON DEROULANT les options de modification du compte Mettre type="button" pour éviter "form not connected" -->
+                                        <div>
+                                            <button  v-on:click="show = !show" 
+                                                id='btnShow'
+                                                type="button" class="btn btn-primary sm md lg xl">
+                                                Afficher
+                                            </button> 
+                                        </div>
+                                    <!-- FIN -->
+                                    <div class="space"></div>
+                                    
+                                        DIV NOTIF USER HERE
+                                    <!-- OPTIONS DE MODIFICATION DU COMPTE -->
+                                    <div v-if="show">
+                                        <!-- TELECHARGEMENT FICHIER IMAGE DU USER -->
+                                            <form >
+                                                <!-- RENDU DYNAMIQUE DE L'ETAT DE L'UPLOAD -->
+                                                    <div v-if="message" :class="`message ${error ? 'is-danger' : 'is-success'}`" >
+                                                        <div class="message-body"> 
+                                                            {{message}} 
+                                                        </div>
+                                                    </div>
+                                                <!-- FIN -->
+                                                <label for="formFileLg" class="form-label">
+                                                    Sélectionner fichier
+                                                </label><br>
+                                                <!-- POSITION INPUT FILE UPLOAD ET BOUTON UPLOAD -->
+                                                    <div id="uploadInputBtn">
+                                                        <input 
+                                                            enctype="multipart/form-data" method="post" 
+                                                            class="form-control form-control-lg" id="formFileLg" type="file" 
+                                                        />
+                                                        <button @click="uploadFile"
+                                                            id="btnUpload"  
+                                                            class="sm md lg xl btn btn-outline-success form-control-file" type = "button">
+                                                            <i class="fa fa-download"></i>
+                                                        </button>
+                                                    </div>
+                                                <!-- FIN -->
+                                            </form> 
+                                        <!-- FIN -->
+                                        
+                                        <div class="space"></div> 
+                                        
+                                        <!-- MESSAGE ERREUR CHAMPS INVALIDES (EXPRESS-VALIDATOR) -->
+                                            <AlertNotifValidator v-if="error"
+                                                alertType= 'alert-danger'
+                                                alertMsg= 'Erreur ! Vérifiez les informations saisies:'
+                                                :error="error"
+                                            />
+                                        <!-- FIN -->
+                                        
+                                        <!-- CHAMPS UPDATE USERNAME ET PASSWORD -->
+                                            <ValidationObserver v-slot="{ handleSubmit}">
+                                                <form @submit.prevent="handleSubmit(submit)">
+                                                    <!-- CHAMP UPDATE USERNAME -->
+                                                        <div class="form-group">
+                                                            <label for="InputUsername">Nouveau username</label>
+                                                            <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
+                                                            <validationProvider name="username" rules="required|alpha_num" v-slot="{ errors }">
+                                                                <!-- 2 way binding grâce à v-model qui remplira data avec userinput -->
+                                                                <input v-model="updatedUsername"
+                                                                    autocomplete="username"
+                                                                    type="text"  required="required" 
+                                                                    class="form-control" id="InputUsername" 
+                                                                    placeholder="Chiffres et lettres uniquement, max 10 caractères"
+                                                                />
+                                                                <span>{{ errors[0] }}</span>
+                                                            </validationProvider>
+                                                        </div>
+                                                    <!-- FIN -->
+                                                    <!-- CHAMP OLD PASSWORD -->
+                                                        <div class="form-group">
+                                                            <label for="InputPassword">Ancien mot de passe</label>
+                                                            <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
+                                                            <validationProvider name="password" rules="required|alpha_num" v-slot="{ errors }">
+                                                                <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
+                                                                <input v-model="password"
+                                                                    type="password" autocomplete="current-password" required="required" class="form-control" id="InputOldPassword" 
+                                                                    placeholder="Chiffres et lettres uniquement, max 10 caractères"
+                                                                />
+                                                                <span>{{ errors[0] }}</span>
+                                                            </validationProvider>
+                                                        </div>
+                                                    <!-- FIN -->
+                                                    <!-- CHAMP UPDATED PASSWORD -->
+                                                        <div class="form-group">
+                                                            <label for="InputPassword">Nouveau mot de passe</label>
+                                                            <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
+                                                            <validationProvider name="password" rules="required|alpha_num" v-slot="{ errors }">
+                                                                <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
+                                                                <input v-model="updatedPassword"
+                                                                    type="password" autocomplete="current-password" required="required" class="form-control" id="InputNewPassword" 
+                                                                    placeholder="Chiffres et lettres uniquement, max 10 caractères"
+                                                                />
+                                                                <span>{{ errors[0] }}</span>
+                                                            </validationProvider>
+                                                        </div>
+                                                    <!-- FIN -->
+                                                    <!-- POSITION BOUTONS UPDATE ET DELETE -->
+                                                        <div class='btnUpdateDelete'>
+                                                            <!-- Bouton de validation Mettre type="button" pour éviter "form not connected" -->
+                                                                <button @click="submitUpdated"
+                                                                    id="btnModif" 
+                                                                    type="button" class="sm md lg xl btn btn-outline-success">
+                                                                    <i class="fas fa-pen"></i> 
+                                                                </button>
+                                                            <!-- FIN -->
+                                                            <div class="space"></div>
+                                                            <!-- BOUTON SUPPRESSION DE COMPTE mettre en dehors de validationObserver en dessous-->
+                                                            <!-- Bouton de validation Mettre type="button" pour éviter "form not connected" -->
+                                                                <button @click="deleteAccount" id="btnDelete" type="button" class="sm md lg xl btn btn-outline-danger">
+                                                                    <i class="fas fa-trash-alt"></i> 
+                                                                </button>
+                                                            <!-- FIN -->
+                                                        </div>
+                                                    <!-- FIN -->
+                                                </form>
+                                            </ValidationObserver>
+                                        <!-- FIN -->
+                                        <div class="space"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -187,8 +192,9 @@
         data () {
         return {
             
+            user: "",
             // infos user loggé
-            user : [],
+            // user : [],
             // récupération dans localStorage et conversion en int avec +
             userID: +localStorage.getItem("userID"), 
             

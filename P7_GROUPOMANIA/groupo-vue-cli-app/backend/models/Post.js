@@ -81,11 +81,11 @@ exports.update = ( postContent, postID ) => {
 
 
 // Fonction requête sql pour SUPPRIMER un post
-exports.delete = (id_post) => { 
+exports.delete = (postID) => { 
     return new Promise((resolve,reject) => {
         // const sql = 'DELETE FROM posts WHERE id= ?';
         const sql = 'DELETE FROM posts WHERE postID=?';
-        dbmySql.query( sql, [id_post], function (error, results, fields){
+        dbmySql.query( sql, [postID], function (error, results, fields){
             if (error) reject (error);
             resolve(results);
         })

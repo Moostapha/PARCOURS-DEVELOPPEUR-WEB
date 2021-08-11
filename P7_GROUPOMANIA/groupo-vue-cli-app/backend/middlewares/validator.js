@@ -109,11 +109,11 @@ const userAccountInput = () => {
 
 
 // FORMULAIRES POST + COMMENTAIRE
-const validForm = () => {
+const validFormPost = () => {
 
     return [
         // input's rules du form post
-        body('content')
+        body('contentPost')
             .not().isEmpty().withMessage('Champs requis')
             .isAlphanumeric().withMessage('Veuillez n\'écrire que des caractères alphanumériques')
             .trim()
@@ -121,6 +121,17 @@ const validForm = () => {
     ]
     };
 
+const validFormComment = () => {
+
+    return [
+        // input's rules du form post
+        body('contentComment')
+            .not().isEmpty().withMessage('Champs requis')
+            .isAlphanumeric().withMessage('Veuillez n\'écrire que des caractères alphanumériques')
+            .trim()
+            .escape(),
+    ]
+};
 
 
 // VALIDATION DES REGLES DES FORMULAIRES
@@ -146,7 +157,8 @@ module.exports = {
     userSignupInput,
     userLoginInput,
     userAccountInput,
-    validForm,
+    validFormPost,
+    validFormComment,
     validate,
 };
     

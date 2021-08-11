@@ -10,7 +10,8 @@ import NewComment from '../views/NewComment'
 Vue.use(VueRouter)
 
 /* ROUTES DE L'APPLICATION
-Tableau contenant des objets définissant chaque route
+Tableau contenant des objets définissant chaque route.
+Match entre les URL et le view correspondant
 */
 
 const routes = [
@@ -23,38 +24,41 @@ const routes = [
     component: AccueilConnexion // component venant de views importé en haut
   },
   
-  // URL PAGE D'INSCRIPTION navbar:signup
-  // component: Signup => views: Inscription
+
+  // URL PAGE D'INSCRIPTION navbar: signup | component: Signup => views: Inscription
   {
     path: '/groupomania/signup',
     name: 'Inscription',
     component: Inscription
   },
   
-  // URL PAGE FIL D'ACTUALITE navbar : publications
-  // component: Posts => views: Actualite
+
+  // URL PAGE FIL D'ACTUALITE navbar: publications | component: Posts => views: Actualite
   {
     path: '/groupomania/publications',       // URL correspondant au composant
     name: 'Fil d\'actualité',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Actualite,  // Composant affiché lorsque le path est trouvé
   },
   
-  // URL Page de modification des posts
+
+  // URL Page de modification des posts => UpdatePost.vue dans view ModifPost.vue
   {
-    path: '/groupomania/publications/:postID/update_post',
+    path: '/groupomania/publications/:postID/modifier',
     name: 'ModifPost',
     component: ModifPost
   },
   
-  // URL Page de modification des posts
+
+  // URL Page d'édition des commentaires => CreatePost.vue dans view NewComment.vue
   {
-    path: '/groupomania/publications/:postID/creer_commentaire',
+    path: '/groupomania/publications/:postID/commenter',
     name: 'NewComment',
     component: NewComment
   },
   
+
   // URL PAGE profil
-  // component: UserAccount=> views: profil
+  // component: UserAccount => views: profil
   {
     path: '/groupomania/profil/:userID',       // URL correspondant au composant
     name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire

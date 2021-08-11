@@ -110,19 +110,19 @@
                         <div class="card-text">
                           <div class="publication">
                             <p>{{ post.contentPost }}</p>
-                            
                             <div class="space"></div>
                             <!-- BOUTON THUMB + HEART + COMPTEUR LIKES -->
                               <div class="likeThumbsCommenter">
-                                <button 
-                                    @click="commenter"
-                                    id="btnCommenter"
-                                    type="button"
-                                    class="sm md lg btn btn-outline-primary">
-                                    <i type="button"  
-                                    class="far fa-comments"></i>
-                                    Commenter
-                                </button>
+                                <router-link :to="{ name: 'NewComment' , params: {postID: post.postID} }">
+                                  <button 
+                                      id="btnCommenter"
+                                      type="button"
+                                      class="sm md lg btn btn-outline-primary">
+                                      <i type="button"  
+                                      class="far fa-comments"></i>
+                                      Commenter
+                                  </button>
+                                </router-link>
                                 <button 
                                   @click="counterlike"
                                   method="post"
@@ -149,30 +149,39 @@
                           <!-- BOUTONS UPDATE + DELETE POST -->
                             <!-- RENDU CONDITIONNEL L'ADMIN A ACCES A TOUTE ACTION SUR TOUS LES POSTS -->
                             <div v-if="user.is_admin === 1" class="btnModifSupPublication">
-                                <button @click="updatePost" 
+                              <!-- BOUTON MODIFPOST -->
+                                <router-link :to="{ name: 'ModifPost', params: {postID: post.postID} }">
+                                  <button 
                                     type="button" 
                                     class="btn btn-outline-success">
                                     <i class="fas fa-pen"></i>
-                                </button>
+                                  </button>
+                                </router-link>
+                              <!-- FIN -->
+                              <!-- BOUTON DELETEPOST -->
                                 <button @click="deletePost" 
-                                    type="button" 
-                                    class="btn btn-outline-danger">
-                                    <i class="fas fa-trash-alt"></i>
+                                  type="button" 
+                                  class="btn btn-outline-danger">
+                                  <i class="fas fa-trash-alt"></i>
                                 </button>
+                              <!-- FIN -->
                             </div>
                             <!-- RENDU CONDITIONNEL DES BOUTONS DELETE ET UPDATE: SSI LE USER EST AUTEUR DU POST -->
-                            <div v-else-if="userID === post.id_user_auteur_post" 
-                              class="btnModifSupPublication">
-                              <button @click="updatePost" 
-                                type="button" 
-                                class="btn btn-success">
-                                <i class="fas fa-pen"></i>
-                              </button>
-                              <button @click="deletePost" 
-                                type="button" 
-                                class="btn btn-danger">
-                                <i class="fas fa-trash-alt"></i>
-                              </button>
+                            <div v-else-if="userID === post.id_user_auteur_post" class="btnModifSupPublication">
+                              <!-- BOUTON MODIFPOST -->
+                                <router-link :to="{ name: 'ModifPost', params: {postID: post.postID}}">
+                                  <button type="button" class="btn btn-success">
+                                    <i class="fas fa-pen"></i>
+                                  </button>
+                                </router-link>
+                              <!-- FIN -->
+                              <!-- BOUTON DELETEPOST -->
+                                <button @click="deletePost" 
+                                  type="button" 
+                                  class="btn btn-danger">
+                                  <i class="fas fa-trash-alt"></i>
+                                </button>
+                              <!-- FIN -->
                             </div>
                           <!-- FIN -->
                         </div>
@@ -233,6 +242,7 @@
                     <!-- FIN -->
                     <!-- BOUTON SOUMISSION DU COMMENTAIRE -->
                       <div class="buttonComment">
+                        
                         <button 
                           @click="createComment"
                           id="btnSend"
@@ -297,7 +307,7 @@ export default {
       
       // infos à envoyer au backend dans la table comments
       commentaire:{
-        id_post_commented:"", // postID
+        postID :"", // id_post_commented
         userID:"", // id_user_auteur_comment
         username:"",
         contentComment:"",
@@ -403,18 +413,10 @@ export default {
       })
       .then(response => {
         console.log(response.data);
-        // Test: Stockage du postID created insertId est l'id clé primaire du new post
-        const postID = response.data.insertId;
-        console.log('postID:', postID)
-        
-        // localStorage.setItem('postID', response.data.postID);
-        localStorage.setItem('id_post_commented', postID);
-        
         window.location.assign('http://localhost:8080/groupomania/publications')
         // this.$router.push('/groupomania/publications')
       })
       .catch((error) => {
-        // this.error = error.response.data.errors;
         console.log(error);
         // Erreurs de validation champ formulaire 
         this.error = error.response.data.errors;
@@ -427,20 +429,14 @@ export default {
     
     // IV) FONCTION BOUTON "AJOUTER UN COMMENTAIRE"
     createComment(){
-      
-      //Stockage d'un objet plus compliqué
-      // localStorage.setItem('monObjet', JSON.stringify(monObjet));
-      //Récupération de l'objet
-      // monObjet = JSON.parse(localStorage.getItem('monObjet'));
-      
       // 1) Récupération des userInputs (données postées) pour les poster au backend
       const formData = new FormData();
       formData.append('id_post_commented', localStorage.getItem('postID'));  // renvoie null? this.postID
       formData.append('userID', localStorage.getItem('userID')); //this.userID
       formData.append('username', localStorage.getItem('username')); //this.username
       formData.append('content', this.commentaire.contentComment);
-    
-    // 2) Affichage de notre objet formData dans la console
+      
+      // 2) Affichage de notre objet formData dans la console
       console.log(Array.from(formData));
       for(let obj of formData) {
         console.log(obj);
@@ -463,7 +459,7 @@ export default {
       .catch((error) => {
         console.log(error);
         // erreur validator validation champ formulaire 
-        // this.error = error.response.data.errors;
+        this.error = error.response.data.errors;
       })
     
     // 4) reset du input commentaire
@@ -472,11 +468,7 @@ export default {
 
     
     // II) FONCTION BOUTON MODIFICATION DE POST
-    updatePost(){
-      // axios.put('api/posts/updateOne/:postId')
-      console.log('clicked');
-      this.$router.push('/groupomania/publications/:postID/update_post');
-    },
+    
     
     // III) FONCTION BOUTON SUPPRESSION DE POST
     deletePost(){

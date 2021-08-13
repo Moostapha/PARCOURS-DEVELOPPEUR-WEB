@@ -54,11 +54,11 @@ exports.create = ( userID, username, contentPost ) => {
 
 
 // Fonction requête sql pour MODIFIER un post after
-exports.update = ( postContent, postID ) => {
+exports.update = ( contentPost, postID ) => {
     return new Promise((resolve,reject) => {
         //requete sql dans une const
-        const sql = 'UPDATE posts SET postContent=? WHERE postID=?';
-        let dataUpdated = [postContent, postID]
+        const sql = "UPDATE posts SET contentPost=? WHERE postID=?";
+        let dataUpdated = [contentPost, postID]
         dbmySql.query( sql, dataUpdated , function (error, results, fields){
             if (error) reject (error);
             resolve(results);

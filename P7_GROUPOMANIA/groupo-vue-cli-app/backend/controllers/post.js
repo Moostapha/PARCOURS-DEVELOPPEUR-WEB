@@ -52,6 +52,8 @@ exports.createPost = async(req, res, next) => {
 exports.updatePost = async(req, res, next) => {
     const postID = req.params.postID;  // clé primaire du post dans db
     const update = req.body;   // on recupere le corps du nouveau post dans une constante
+    console.log('postId post modifié: ', postID)
+    console.log('corps de la requête: ', update);
     // sanitize input form
     // if (check('update')
     //         .not().isEmpty() .isAlphanumeric().withMessage('Champs requis: Veuillez n\'écrire que des caractères alphanumériques')
@@ -61,7 +63,8 @@ exports.updatePost = async(req, res, next) => {
         
     // }
     // on les met en paramètre dans la fonction Model post
-    const updatedPost = await postModel.update( update.postContent, postID );
+    const updatedPost = await postModel.update( update.contentPost, postID );
+    console.log("résultat de la promise: ", updatedPost)
     res.status(201).json({ 
         message:'post modifié avec succés', 
         post: updatedPost 

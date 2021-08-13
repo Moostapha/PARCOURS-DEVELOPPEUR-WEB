@@ -43,7 +43,7 @@ const routes = [
 
   // URL Page de modification des posts => UpdatePost.vue dans view ModifPost.vue
   {
-    path: '/groupomania/publications/:postID/modifier',
+    path: '/groupomania/publications/:postID/editer',
     name: 'ModifPost',
     component: ModifPost
   },

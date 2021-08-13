@@ -23,17 +23,17 @@ const multer = require('../middlewares/multer');
 Router.get('/readAll', auth, postCtler.getAllPosts); 
 
 //=> avec middleware validator faire attention à multer !!!
-//Router.post('/create', auth, multer, rules.validForm(), rules.validate, postCtler.createPost);
-//Router.post('/create', auth, multer, postCtler.createPost);
+//Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, postCtler.createPost);
 
-Router.post('/create', auth, multer, postCtler.createPost); 
+
+Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, postCtler.createPost); 
 
 // Router.get('/read/:postID', auth, postCtler.getOnePost);
 
 // Router.put('update/:postID', auth, rules.validFormPost(), rules.validate, postCtler.updatePost);
-Router.put(':postID/update', auth, postCtler.updatePost);
+Router.put('/:postID/update', auth, rules.validFormPost(), rules.validate, postCtler.updatePost);
 
-Router.delete(':postID/delete', auth, postCtler.deletePost);
+Router.delete('/:postID/delete', auth, postCtler.deletePost);
 
 Router.post(':postID/reaction');
 

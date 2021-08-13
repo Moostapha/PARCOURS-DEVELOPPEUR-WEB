@@ -24,9 +24,8 @@ const multer = require('../middlewares/multer');
 Router.get('/readAll', auth, commentCtler.readComment);
 
 
-// un commentaire se fait sur un post qui a une ID
-Router.post('/create/:postID', auth, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
-
+Router.post('/create', auth, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
+// Router.post('/:postID/createComment', auth, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
 
 Router.put('updateOne/:commentID', auth, rules.validFormComment, rules.validate, commentCtler.updateComment);
 

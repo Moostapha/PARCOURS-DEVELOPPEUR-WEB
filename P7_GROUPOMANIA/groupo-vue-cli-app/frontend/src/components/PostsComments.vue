@@ -123,26 +123,26 @@
                                       Commenter
                                   </button>
                                 </router-link>
-                                <button 
-                                  @click="counterlike"
-                                  method="post"
-                                  id='btnThumb' 
-                                  type="button"
-                                  class="sm md lg btn btn-outline-primary"> 
-                                  <i class="far fa-thumbs-up"></i>
-                                  <span id="like">0</span>
-                                </button>
-                                
-                                <button 
-                                  @click="counterdislike"
-                                  method="post"
-                                  id='btnThumb' 
-                                  type="button"
-                                  class="sm md lg btn btn-outline-danger"> 
-                                  <i class="far fa-thumbs-down"></i>
-                                  <span id="dislike">0</span>
-                                </button>
-                                
+                                <!-- BOUTONS LIKE + DISLIKE -->
+                                  <button 
+                                    @click="counterlike"
+                                    method="post"
+                                    id='btnThumb' 
+                                    type="button"
+                                    class="sm md lg btn btn-outline-primary"> 
+                                    <i class="far fa-thumbs-up"></i>
+                                    <span id="like">0</span>
+                                  </button>
+                                  <button 
+                                    @click="counterdislike"
+                                    method="post"
+                                    id='btnThumb' 
+                                    type="button"
+                                    class="sm md lg btn btn-outline-danger"> 
+                                    <i class="far fa-thumbs-down"></i>
+                                    <span id="dislike">0</span>
+                                  </button>
+                                <!-- FIN -->
                               </div>
                             <!-- FIN -->
                           </div>
@@ -195,7 +195,7 @@
 
 
 
-                      <!-- AFFICHAGE COMMENTAIRE SUR CE POST -->
+                      <!-- AFFICHAGE COMMENTAIRE SUR CE POST SSI COMMENTAIRE EXISTE-->
                         <div class="commentaire">
                           <h6>Commentaires sur ce post</h6>
                           <span>
@@ -279,9 +279,10 @@ export default {
     AlertNotifValidator 
   },
   
+  // sera exporté vers views/Actualites.vue
   name: "Posts",
   props: { msg: String},
-  // props: ['user'],
+  
   data() {
     return {
       
@@ -382,10 +383,6 @@ export default {
           countDislike++;
           document.getElementById('dislike').innerHTML= countDislike;
         console.log('clicked')
-      },
-
-      commenter(){
-        this.$router.push('/groupomania/publications/:postID/creer_commentaire')
       },
     
   ////////////////////////////////////////////////////////////////////////////////////////// PARTIE DES POSTS: /////////////////////////////////////////////////////////////////////////////////////

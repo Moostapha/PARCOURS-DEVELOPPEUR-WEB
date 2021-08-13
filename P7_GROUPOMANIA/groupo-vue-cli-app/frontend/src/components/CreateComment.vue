@@ -1,5 +1,5 @@
 <template>
-<div class="createComment">
+<!-- <div class="createComment"> -->
     
     <div class="form">
         <form method="post" type="submit" enctype="multipart/form-data">
@@ -11,8 +11,10 @@
                     :error="error"
                 />
             <!-- FIN -->
+            <label for="comment" >Commentaire:</label>
             <textarea v-model="contentComment"
-                name=""
+                type="text"
+                name="comment"
                 id="commentInputForm"
                 require="required"
                 class="sm md lg " 
@@ -20,11 +22,11 @@
             >
             <!-- <label for="floatingTextarea">Modifier...</label>  -->
             </textarea>
+            <!-- <input type="hidden" name="commentID" :value="article.id"> -->
             <!-- BOUTONS -->
                 <div class="dispoBtn">
                     <button @click="createComment"
-                        method="post"
-                        type="button" 
+                        type="submit" 
                         class="sm md lg btn btn-outline-success">
                         Publier
                     </button>
@@ -39,13 +41,14 @@
             <!-- FIN -->
         </form>
     </div>
-</div>
+<!-- </div> -->
 </template>
 
 
 <script>
 import axios from 'axios';
 import AlertNotifValidator from '../components/AlertNotifValidator.vue';
+
 export default {
     
     components: {
@@ -59,7 +62,7 @@ export default {
         return {
             
             // Infos à poster au back (dans l'ordre des colonnes de ma table comments)
-            id_post_commented : this.$route.params, 
+            id_post_commented : +this.$route.params.postID, 
             id_user_auteur_comment: +localStorage.getItem('userID'), 
             username: localStorage.getItem('username'),
             contentComment:"",
@@ -72,6 +75,7 @@ export default {
     methods: {
         
         createComment(){
+            // Préparation des datas envoyés depuis le front dans FormData()
             const formdata = new FormData();
                 formdata.append('id_post_commented', this.id_post_commented);
                 formdata.append('id_user_auteur_comment', this.id_user_auteur_comment );
@@ -88,8 +92,11 @@ export default {
                 //     console.log(typeof objStockedFormdata); // type objet
                 // }
             
-            // axios.post('/create/'+ this.postID)
-            axios.post('api/comments/create/'+ this.id_post_commented, formdata, {
+            // Je n'ai pas besoin de préciser postID dans le post axios car j'ai déja tout dans mon formdata
+            // Vu que la table comments est séparée et à part de posts
+            // Cela aurait été vrai si dans posts j'avais une colonne comment
+            // Ici je vais juste remplir les colonnes de comments avec les infos venant du formdata sent par le front
+            axios.post('api/comments/create'+ this.id_post_commented, formdata, {
                 header: {
                     'content-type': 'multipart/form-data',
                     'Authorization': 'Bearer '+ localStorage.getItem('token'),
@@ -97,7 +104,8 @@ export default {
             })
             .then(response => {
                 console.log(response);
-                window.location.assign('http://localhost:8080/groupomania/publications')
+                // window.location.assign('http://localhost:8080/groupomania/publications')
+                this.$route.push('/groupomania/publications')
             })
             .catch((error) => {
                 console.log(error);

@@ -161,5 +161,3 @@ module.exports = {
     validFormComment,
     validate,
 };
-    
-

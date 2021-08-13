@@ -1,15 +1,18 @@
 <template>
 <div class="updatePost">
+    
     <div class="form">
         
         <form action="" method="post" type="submit">
             <h2>{{msg}}</h2>
+            
             <AlertNotifValidator v-if="error" 
                 alertType= "alert-danger"
                 alertMsg= 'Erreur ! Vérifiez les informations saisies:'
                 :error="error"
             />
-            <textarea v-model="ContentPost"
+            
+            <textarea v-model="contentPost"
                 name="" 
                 id="updatePostInputForm"
                 class="sm md lg" 
@@ -53,8 +56,8 @@ export default {
     data(){
         return {
             
-            postID: this.$route.params,
-            ContentPost:"",
+            postID: +this.$route.params.postID,
+            contentPost:"",
             error:"",
         }
     },
@@ -64,16 +67,15 @@ export default {
         // Fonction update post
         updatePost(){
             
-            let dataUpdated = {
-                ContentPost: this.ContentPost,
-                postID: this.$route.params 
-            }
-            // `api/posts/update/${this.$route.params.postID}`
-            // 'api/posts/updateOne/'+ this.postID
-            // 'api/posts/updateOne/'+ this.$route.params.postID + '/update'
-            //API ROUTE
+            // let dataUpdated = {
+            //     contentPost: this.contentPost,
+            //     postID: this.postID
+            // }
+            let postUpdated = new FormData();
+            postUpdated.append('contentPost', this.contentPost);
+            postUpdated.append('postID', this.postID );
             
-            axios.put(`api/posts/${this.$route.params.postID}/update`, dataUpdated,{
+            axios.put(`api/posts/${this.$route.params.postID}/update`, postUpdated,{
                 headers: {
                     'content-type': 'multipart/form-data',
                     'Authorization': 'Bearer '+ localStorage.getItem('token'),
@@ -81,7 +83,8 @@ export default {
             })
             .then(response =>{
                 console.log(response);
-                window.location.assign('http://localhost:8080/groupomania/publications')
+                // window.location.assign('http://localhost:8080/groupomania/publications')
+                this.$route.push('/groupomania/publications')
             })
             .catch((error) =>{
                 console.log(error);
@@ -89,7 +92,7 @@ export default {
             })
             console.log('clicked')
             
-            this.ContentPost=""
+            this.contentPost=""
             // this.$router.push('/groupomania/publications')
         },
         

@@ -2,6 +2,7 @@
 <!-- <div class="createComment"> -->
     
     <div class="form">
+        
         <form method="post" type="submit" enctype="multipart/form-data">
             <h2>{{msg}}</h2>
             <!-- NOTIF USER SANITIZER CHAMPS FROM -->
@@ -11,14 +12,14 @@
                     :error="error"
                 />
             <!-- FIN -->
-            <label for="comment" >Commentaire:</label>
+            <label for="commentInputForm"></label>
             <textarea v-model="contentComment"
-                type="text"
-                name="comment"
                 id="commentInputForm"
+                type="text"
+                name="contentComment"
+                class="form-control sm md lg " 
+                placeholder="Votre commentaire..."
                 require="required"
-                class="sm md lg " 
-                placeholder="Votre commentaire..." 
             >
             <!-- <label for="floatingTextarea">Modifier...</label>  -->
             </textarea>
@@ -56,7 +57,11 @@ export default {
     },
     
     name: 'CreateComment',
-    props: {msg: String},
+    props: {
+        msg: String,
+        newComment: String
+    
+    },
     
     data () {
         return {
@@ -84,19 +89,13 @@ export default {
                 
                 console.log('elements du formdata: ', Array.from(formdata));
                 
-                // for(let obj of formdata) {
-                //     console.log(obj);
-                //     localStorage.setItem('objetFormdata', JSON.stringify(obj));
-                //     const objStockedFormdata = JSON.parse(localStorage.getItem('objetFormdata'));
-                //     console.log('éléments Formdata: ', objStockedFormdata);
-                //     console.log(typeof objStockedFormdata); // type objet
-                // }
+                
             
             // Je n'ai pas besoin de préciser postID dans le post axios car j'ai déja tout dans mon formdata
             // Vu que la table comments est séparée et à part de posts
             // Cela aurait été vrai si dans posts j'avais une colonne comment
             // Ici je vais juste remplir les colonnes de comments avec les infos venant du formdata sent par le front
-            axios.post('api/comments/create'+ this.id_post_commented, formdata, {
+            axios.post('api/comments/create' , formdata, {
                 header: {
                     'content-type': 'multipart/form-data',
                     'Authorization': 'Bearer '+ localStorage.getItem('token'),
@@ -105,7 +104,7 @@ export default {
             .then(response => {
                 console.log(response);
                 // window.location.assign('http://localhost:8080/groupomania/publications')
-                this.$route.push('/groupomania/publications')
+                this.$router.push('/groupomania/publications')
             })
             .catch((error) => {
                 console.log(error);

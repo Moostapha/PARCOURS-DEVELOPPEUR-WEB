@@ -10,5 +10,5 @@ axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.headers.common['Authorization'] = 'Bearer '+ localStorage.getItem('token'); 
 
 // Global setting des headers POST 
-// axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 

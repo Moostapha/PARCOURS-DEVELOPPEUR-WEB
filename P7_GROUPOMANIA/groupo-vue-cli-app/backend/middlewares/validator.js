@@ -112,12 +112,13 @@ const userAccountInput = () => {
 const validFormPost = () => {
 
     return [
-        // input's rules du form post
-        body('contentPost')
-            .not().isEmpty().withMessage('Champs requis')
-            .isAlphanumeric().withMessage('Veuillez n\'écrire que des caractères alphanumériques')
+        
+        //.matches(/^[a-z0-9 ]+$/i); => 
+        check('contentPost')
             .trim()
-            .escape(),
+            .escape()
+            .not().isEmpty().withMessage('Champs requis')
+            .matches(/^[a-z0-9 ]+$/i).withMessage('Veuillez n\'écrire que des caractères alphanumériques'),
     ]
     };
 
@@ -127,7 +128,7 @@ const validFormComment = () => {
         // input's rules du form post
         body('contentComment')
             .not().isEmpty().withMessage('Champs requis')
-            .isAlphanumeric().withMessage('Veuillez n\'écrire que des caractères alphanumériques')
+            .matches(/^[a-z0-9 ]+$/i).withMessage('Veuillez n\'écrire que des caractères alphanumériques')
             .trim()
             .escape(),
     ]

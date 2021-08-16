@@ -39,7 +39,7 @@
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="InputEmail">Adresse Email</label>
                         <!-- Validation de champ avec vee-validate-->
@@ -52,7 +52,7 @@
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="InputPassword">Mot de passe</label>
                         <!-- Validation de champ avec vee-validate-->
@@ -65,11 +65,12 @@
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
                     </div>
-
+                    
                     <!-- Bouton de soumission du formulaire Mettre type="button" pour éviter "form not connected" -->
                     <div>
                         <button v-on:click="submit" 
-                            type="button" class="btn btn-primary">Inscription
+                            type="button" class="btn btn-primary">
+                            Inscription
                         </button>
                     </div>
                 </form>

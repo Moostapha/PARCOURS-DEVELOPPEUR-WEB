@@ -1,14 +1,5 @@
 <template>
   <main class="filActualite">
-    <!-- ajout de div v-if ici -->
-    
-    <!-- Si (if) l'utilisateur a les autorisations par défaut, afficher ce qui suit -->
-    <!-- <section v-if="userPermission === 'default'">...</section> -->
-    <!-- Sinon et si l'utilisateur a les autorisations administrateur, afficher ce qui suit -->
-    <!-- <section v-else-if="userPermission === 'admin'">...</section> -->
-    <!-- Si l'utilisateur n'a aucune autorisation afficher ce qui suit -->
-    <!-- <section v-else>...</section> -->
-    
     
     <!-- NOTICATION USER DE CONNEXION REUSSIE -->
     <Alert v-if="user" 
@@ -52,13 +43,16 @@
         
         <div v-if="user">
           <!-- INPUTPOST ET BOUTON POST -->
-            <form  @submit.prevent="handleSubmit(createPost)" class="formPost" enctype="multipart/form-data" method="post">
+          <ValidationObserver v-slot="{ handleSubmit}">
+            <form @submit.prevent="handleSubmit(createPost)" class="formPost" method="post">
               <!--  CHAMP PUBLICATION (POST) => Seuls les champs de formulaires valides sont inclus dans un objet FormData, c'est-à-dire ceux qui portent un nom (attribut name) -->
-                <label for="content">Que voulez vous dire?</label>
+                <label for="inputpost">Que voulez vous dire?</label>
                 <div class="addPost">
+                  
                   <validationProvider name="publication" rules="required|alpha_num" v-slot="{ errors }">
+                    
                     <input v-model="publication.contentPost"
-                      name="content"   
+                      name="contentPost"  
                       type="text"
                       id="inputpost"
                       method="post"
@@ -66,23 +60,39 @@
                       placeholder="Editer vos posts ici"
                       rows="2" cols="4"> 
                     <!-- </textarea> -->
+                    
                     <span>{{ errors[0] }}</span>
                   </validationProvider>
                 </div>
+                
               <!-- FIN -->
               <!-- BOUTON DE SOUMISSION DES PUBLICATIONS -->
                 <div class="buttonPost">
                   <button 
                     @click="createPost"
-                    type="button" 
+                    id="btnPost"
                     method="post"
-                    class="btn btn-primary sm md lg xl">
+                    class="sm md lg xl btn btn-primary">
                     <i class="far fa-paper-plane"></i>
-                    Publier votre post
+                    Publier
                   </button>
+                  <!-- <div class="uploadInputBtn"> -->
+                    <input 
+                        enctype="multipart/form-data" method="post" 
+                        class="form-control" id="formFileLg" type="file" 
+                    />
+                    <button 
+                        id="btnPost"  
+                        class="sm md lg xl btn btn-primary form-control-file" type = "button">
+                        <i class="fa fa-download"></i>
+                        Télécharger
+                    </button>
+                    <!-- </div> -->
                 </div>
+                
               <!-- FIN -->
             </form>
+          </ValidationObserver>
             <hr class="my-4">
             <h1> {{msg}} </h1>
           <!-- FIN -->
@@ -214,7 +224,7 @@
                   <div  v-for="(comment, index) in comments" :key="index">
                     <div class="commentaire">
                       <span>
-                        <small>
+                        <small style="white-space: pre-line;">
                           {{ commentaire.contentComment }}
                         </small>
                       </span>
@@ -228,7 +238,7 @@
                   <form @submit.prevent="handleSubmit(createComment)" class="commentAndButton" enctype="multipart/form-data" method="post">
                     <!--  CHAMP COMMENTAIRE -->
                       <div class="addComment">
-                        <label for="addComment"></label>
+                        <label for="addComment"></label> 
                         <textarea 
                           v-model="commentaire.contentComment"
                           class="sm md lg xl" 
@@ -240,6 +250,7 @@
                         </textarea>
                       </div>
                     <!-- FIN -->
+                    <input type="hidden" name="postID" :value="post.postID">
                     <!-- BOUTON SOUMISSION DU COMMENTAIRE -->
                       <div class="buttonComment">
                         
@@ -398,8 +409,13 @@ export default {
       console.log(Array.from(formData));
       for(let obj of formData) {
         console.log(obj);
+        console.log('type valeur: ', typeof obj[1])
       }
       
+      // const dataSent = JSON.parse(JSON.stringify(formData));
+      // console.log(dataSent);
+      // console.log('Type: ', typeof dataSent)
+
       // 3) envoie des données par requête
       axios.post('api/posts/create', formData, { 
         headers: {
@@ -410,8 +426,8 @@ export default {
       })
       .then(response => {
         console.log(response.data);
-        window.location.assign('http://localhost:8080/groupomania/publications')
-        // this.$router.push('/groupomania/publications')
+        // window.location.assign('http://localhost:8080/groupomania/publications')
+        this.$router.push('/groupomania/publications')
       })
       .catch((error) => {
         console.log(error);
@@ -428,9 +444,9 @@ export default {
     createComment(){
       // 1) Récupération des userInputs (données postées) pour les poster au backend
       const formData = new FormData();
-      formData.append('id_post_commented', localStorage.getItem('postID'));  // renvoie null? this.postID
-      formData.append('userID', localStorage.getItem('userID')); //this.userID
-      formData.append('username', localStorage.getItem('username')); //this.username
+      formData.append('id_post_commented', this.postID);  // renvoie null? this.postID
+      formData.append('userID', this.userID ); 
+      formData.append('username', this.username ); 
       formData.append('content', this.commentaire.contentComment);
       
       // 2) Affichage de notre objet formData dans la console
@@ -444,7 +460,7 @@ export default {
       }
     
     // 3) envoie des données par requête
-      axios.post('api/comments/create/'+ this.postID, formData, {
+      axios.post('api/comments/create/', formData, {
         header: {
           'content-type': 'multipart/form-data',
           'Authorization': 'Bearer '+ localStorage.getItem('token'),
@@ -469,7 +485,7 @@ export default {
     
     // III) FONCTION BOUTON SUPPRESSION DE POST
     deletePost(){
-      axios.delete('api/posts/deleteOne/:postId',{
+      axios.delete('api/posts/deleteOne/' + this.postID,{
         headers: {
         // mettre header pour que le front configure les infos correctement pour le backend
           'content-type': 'multipart/form-data',
@@ -539,6 +555,8 @@ export default {
         h1
         @media screen and (max-width: 576px)
           font-size: 2rem
+      
+        
       label
         font-size: xx-large
         @media screen and (max-width: 768px)
@@ -559,25 +577,50 @@ export default {
       .posts, .commentaire, li
         display: flex
         flex-direction: column
-      .postcomment
-        // padding-top: 5vh
-        .espacement
-          height: 39vh // espace nécessaire pour la pic
-          @media screen and (max-width: 768px)
-            height: 6vh
-      .addPost
-        display: flex
-        flex-direction: column
-        padding: 1px 30px 1px 30px
-        // margin-top: 4vh
-      .buttonPost
+      
+      // espace nécessaire pour la pic de ce doux visage 
+      .espacement
+        height: 39vh 
+        @media screen and (max-width: 768px)
+          height: 6vh
+      // Partie formulaire de publication de post + upload
+      .formPost
+        background-color: #b8b8b81c
+        padding-bottom: 4vh
+        border-radius: 8vh
         margin-top: 2vh
-        .btn
-          @media screen and (max-width: 425px)
-            font-size: x-small
-        .fa-paper-plane
-          font-size: larger
-          margin-right: 1vh 
+      // div Champs poster publication
+      .addPost
+        padding: 1px 30px 1px 30px
+        margin-top: 4vh
+        @media screen and (max-width: 768px)
+          margin-top: 0vh
+        span
+          color: red
+      // Boutons publier + télécharger 
+      .buttonPost
+        display: inline-flex
+        justify-content: space-around
+        align-items: center
+        // padding: 2vh
+        @media screen and (max-width: 768px)
+          display: flex
+          flex-direction: column
+          margin-top: 0vh
+          padding: 0vh 4vh 0vh 4vh
+        #btnPost
+          width: 45%
+          margin: 1vh
+          @media screen and (max-width: 768px)
+            width: 20%
+            font-size: small
+            @media screen and (max-width: 500px)
+              font-size: x-small
+            padding: 1vh
+            margin: 2vh
+          .fa-paper-plane
+            font-size: larger
+      
       // style du card
       .card
         border: solid, 1px

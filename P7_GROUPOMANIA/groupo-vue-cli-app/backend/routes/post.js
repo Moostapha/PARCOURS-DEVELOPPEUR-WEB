@@ -31,7 +31,8 @@ Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, post
 // Router.get('/read/:postID', auth, postCtler.getOnePost);
 
 // Router.put('update/:postID', auth, rules.validFormPost(), rules.validate, postCtler.updatePost);
-Router.put('/:postID/update', auth, rules.validFormPost(), rules.validate, postCtler.updatePost);
+// Nécessité de multer lorsque le content-type posté est du multipart form data
+Router.put('/:postID/update', auth, multer, rules.validFormPost(), rules.validate, postCtler.updatePost);
 
 Router.delete('/:postID/delete', auth, postCtler.deletePost);
 

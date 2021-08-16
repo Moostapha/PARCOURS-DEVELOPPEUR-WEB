@@ -327,7 +327,7 @@
             
             // deleteUserById
             // axios.delete(`api/users/${id}`)
-            // axios.delete(`api/users/${this.$route.params.userId}`)
+            // axios.delete(`api/users/${this.$route.params.userID}`)
             axios.delete('api/users/deleteuser/:userId', {
                 headers: {
                     // mettre header pour que le front configure les infos correctement pour le backend

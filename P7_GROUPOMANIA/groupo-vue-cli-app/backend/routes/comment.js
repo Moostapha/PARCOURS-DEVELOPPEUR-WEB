@@ -24,13 +24,13 @@ const multer = require('../middlewares/multer');
 Router.get('/readAll', auth, commentCtler.readComment);
 
 
-Router.post('/create', auth, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
+Router.post('/create', auth, multer, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
 // Router.post('/:postID/createComment', auth, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
 
 Router.put('updateOne/:commentID', auth, rules.validFormComment, rules.validate, commentCtler.updateComment);
 
 
-Router.delete('deleteOne/:commentID', auth, commentCtler.deleteComment);
+Router.delete('deleteOne/:commentID', auth, multer, commentCtler.deleteComment);
 
 // router.post("/:id/comment", auth, postCtrl.createComment);
 // router.post("/:id/reaction", auth, postCtrl.reactPost);

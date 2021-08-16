@@ -55,41 +55,31 @@ exports.create = ( userID, username, contentPost ) => {
 
 // Fonction requête sql pour MODIFIER un post after
 exports.update = ( contentPost, postID ) => {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve,result,reject) => {
         //requete sql dans une const
-        const sql = "UPDATE posts SET contentPost=? WHERE postID=?";
+        //'UPDATE posts SET contentPost=? WHERE postID =?'   
+        // UPDATE `posts` SET `contentPost` = 'test' WHERE `posts`.`postID` = 11
+        const sql = 'UPDATE `posts` SET `contentPost`= ? WHERE `posts`.`postID` = ?' ;
         let dataUpdated = [contentPost, postID]
         dbmySql.query( sql, dataUpdated , function (error, results, fields){
-            if (error) reject (error);
+            if(error) reject(error);
             resolve(results);
+            console.log(results.affectedRows + " record(s) updated");
         })
     })
 };
-
-// Fonction requête sql pour MODIFIER un post before
-// exports.update = ( post, userId, idPost ) => {
-//     return new Promise((resolve,reject) => {
-//         //requete sql dans une const
-//         const sql = 'UPDATE posts SET postContent=? WHERE postID=?';
-//         let dataUpdated = [post, userId, idPost]
-//         dbmySql.query( sql, dataUpdated , function (error, results, fields){
-//             if (error) reject (error);
-//             resolve(results);
-//         })
-//     })
-// };
 
 
 // Fonction requête sql pour SUPPRIMER un post
-exports.delete = (postID) => { 
+exports.delete = (userID,postID) => { 
     return new Promise((resolve,reject) => {
         // const sql = 'DELETE FROM posts WHERE id= ?';
-        const sql = 'DELETE FROM posts WHERE postID=?';
-        dbmySql.query( sql, [postID], function (error, results, fields){
+        // DELETE FROM `posts` WHERE `posts`.`id` = 1;
+        const sql = 'DELETE FROM posts WHERE userID=? AND postID=?';
+        dbmySql.query( sql, [userID,postID], function (error, results, fields){
             if (error) reject (error);
             resolve(results);
         })
     })
 };
 
-// DELETE FROM `posts` WHERE `posts`.`id` = 1;

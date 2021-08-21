@@ -42,84 +42,87 @@
         <!-- FIN -->
         
         <div v-if="user">
-          <!-- INPUTPOST ET BOUTON POST -->
-          <ValidationObserver v-slot="{ handleSubmit}">
-            <form @submit.prevent="handleSubmit(createPost)" class="formPost" method="post">
-              <!--  CHAMP PUBLICATION (POST) => Seuls les champs de formulaires valides sont inclus dans un objet FormData, c'est-à-dire ceux qui portent un nom (attribut name) -->
-                <label for="inputpost">Que voulez vous dire?</label>
-                <div class="addPost">
-                  
-                  <validationProvider name="publication" rules="required|alpha_num" v-slot="{ errors }">
-                    
-                    <input v-model="publication.contentPost"
-                      name="contentPost"  
-                      type="text"
-                      id="inputpost"
-                      method="post"
-                      class="form-control sm md lg xl"
-                      placeholder="Editer vos posts ici"
-                      rows="2" cols="4"> 
-                    <!-- </textarea> -->
-                    
-                    <span>{{ errors[0] }}</span>
-                  </validationProvider>
-                </div>
+          <!-- TEXTAREA + BTN PUBLIER + BTN TELECHARGER FICHIER -->
+            <ValidationObserver v-slot="{ handleSubmit}">
+              <form @submit.prevent="handleSubmit(createPost)" class="formPost" method="post">
+              
+                <!--  CHAMP PUBLICATION (POST) => Seuls les champs de formulaires valides sont inclus dans un objet FormData, c'est-à-dire ceux qui portent un nom (attribut name) -->
+                  <label for="inputpost">Que voulez vous dire?</label>
+                  <div class="addPost">
+                    <validationProvider name="publication" rules="required|alpha_num" v-slot="{ errors }">
+                      <textarea v-model="publication.contentPost"
+                        enctype="multipart/form-data"
+                        name="contentPost"  
+                        type="text"
+                        id="inputpost"
+                        class="form-control sm md lg xl"
+                        placeholder="Editer vos posts ici"
+                        rows="2" cols="4"> 
+                      </textarea>
+                      <span>{{ errors[0] }}</span>
+                    </validationProvider>
+                  </div>
+                <!-- FIN -->
                 
-              <!-- FIN -->
-              <!-- BOUTON DE SOUMISSION DES PUBLICATIONS -->
-                <div class="buttonPost">
-                  <button 
-                    @click="createPost"
-                    id="btnPost"
-                    method="post"
-                    class="sm md lg xl btn btn-primary">
-                    <i class="far fa-paper-plane"></i>
-                    Publier
-                  </button>
-                  <!-- <div class="uploadInputBtn"> -->
-                    <input 
-                        enctype="multipart/form-data" method="post" 
-                        class="form-control" id="formFileLg" type="file" 
-                    />
-                    <button 
+                <!-- BOUTONS DE SOUMISSION DES PUBLICATIONS + TELECHARGEMENT DE FICHIER-->
+                  <div class="buttonPost">
+                    <!-- BTN PUBLIER -->
+                      <button @click="createPost"
+                        id="btnPost"
+                        method="post"
+                        class="sm md lg xl btn btn-primary">
+                        <i class="far fa-paper-plane"></i>
+                        Publier
+                      </button>
+                    <!-- FIN -->
+                    <!-- CHOISIR UN FICHIER -->
+                      <input 
+                        enctype="multipart/form-data"
+                        method="post" 
+                        class="form-control-file sm md lg xl btn btn-primary" 
+                        id="btnPost" 
+                        type="file"
+                      />
+                    <!-- FIN -->
+                    <!-- BTN TELECHARGER -->
+                      <button
                         id="btnPost"  
-                        class="sm md lg xl btn btn-primary form-control-file" type = "button">
-                        <i class="fa fa-download"></i>
+                        class="sm md lg xl btn btn-primary form-control-file" 
+                        type = "button"
+                        method="post"><i class="fa fa-download"></i>
                         Télécharger
-                    </button>
-                    <!-- </div> -->
-                </div>
-                
-              <!-- FIN -->
-            </form>
-          </ValidationObserver>
+                      </button>
+                      <!-- FIN -->
+                  </div>
+                <!-- FIN -->
+              </form>
+            </ValidationObserver>
             <hr class="my-4">
             <h1> {{msg}} </h1>
           <!-- FIN -->
         </div>
         
         <!-- RENDU DYNAMIQUE DES POSTS ET DES COMMENTAIRES-->
-          <div v-for="(post, index) in posts" :key="index" 
-            class="card mb-3"
-          >
+          <div v-for="(post, index) in posts" :key="index" class="card mb-3">
             <div class="row">
-              <!-- USER AVATAR -->
-                <div class="col-md-3">
-                  <img src="../assets/user_icon.png" class="card-img" alt="UserPicture">
-                </div>
-              <!-- FIN -->
+              
               <div class="col-md-8">
                 <div class="card-body">
                   <div class="info">
+                      <img src="../assets/user_icon.png" class="card-img" alt="UserPicture">
                       <!-- AFFICHANGE DYNAMIQUE AUTEUR CONTENU DU POST -->
                         <h5 class="card-title">
-                          Publication de {{ post.username }}
+                          {{ post.username }}
                         </h5>
                       <!-- FIN -->
-                      <!-- AFFICHAGE CONTENU DU POST + BOUTON DELETE ET MODIF -->
+                      <!-- AFFICHAGE CONTENU DU POST + BOUTONS -->
                         <div class="card-text">
                           <div class="publication">
                             <p>{{ post.contentPost }}</p>
+                            <small class="text-muted">
+                              auteur: {{ post.username }} - publié le: {{dateFormat(post.date_creation)}} 
+                            </small>
+                            <!-- <p>{{ post.contentPost }}</p> -->
                             <div class="space"></div>
                             <!-- BOUTON THUMB + HEART + COMPTEUR LIKES -->
                               <div class="likeThumbsCommenter">
@@ -134,8 +137,7 @@
                                   </button>
                                 </router-link>
                                 <!-- BOUTONS LIKE + DISLIKE -->
-                                  <button 
-                                    @click="counterlike"
+                                  <button @click="counterlike"
                                     method="post"
                                     id='btnThumb' 
                                     type="button"
@@ -143,8 +145,7 @@
                                     <i class="far fa-thumbs-up"></i>
                                     <span id="like">0</span>
                                   </button>
-                                  <button 
-                                    @click="counterdislike"
+                                  <button @click="counterdislike"
                                     method="post"
                                     id='btnThumb' 
                                     type="button"
@@ -169,7 +170,7 @@
                                 </router-link>
                               <!-- FIN -->
                               <!-- BOUTON DELETEPOST -->
-                                <button @click="deletePost" 
+                                <button @click="deletePost(post.postID)" 
                                   type="button" 
                                   class="btn btn-outline-danger">
                                   <i class="fas fa-trash-alt"></i>
@@ -196,73 +197,33 @@
                           <!-- FIN -->
                         </div>
                       <!-- FIN -->
-                      <!-- AFFICHAGE AUTEUR | DATE CREATION DU POST -->
-                        <small class="text-muted">
-                          auteur: {{ post.username }} - 
-                          publié le: {{dateFormat(post.date_creation)}} 
-                        </small>
-                      <!-- FIN -->
-
-
-
-                      <!-- AFFICHAGE COMMENTAIRE SUR CE POST SSI COMMENTAIRE EXISTE-->
-                        <div class="commentaire">
-                          <h6>Commentaires sur ce post</h6>
-                          <span>
-                            <small>
-                              {{ commentaire.contentComment }}
-                            </small>
-                          </span>
-                          <small class="text-muted">
-                            {{ commentaire.username }} {{ commentaire.date_creation }} 
-                          </small>
-                        </div>
-                      <!-- FIN -->
-                  </div>
+                      
+                      <hr class="my-0.5">
+                    </div>
+                  <!-- FIN -->
                 </div>
                 <!-- RENDU DYNAMIQUE DES COMMENTAIRES USERS-->
                   <div  v-for="(comment, index) in comments" :key="index">
-                    <div class="commentaire">
-                      <span>
-                        <small style="white-space: pre-line;">
-                          {{ commentaire.contentComment }}
-                        </small>
-                      </span>
-                      <small class="text-muted">
-                        {{ commentaire.username }} {{ commentaire.date_creation }} 
-                      </small>
-                    </div>
+                    <!-- RENDU COMMENT SSI Il EST FAIT SUR CE POST -->
+                      <div v-if="comment.id_post_commented === post.postID">
+                        <h6 class="card-title">Commentaires sur ce post</h6>
+                        <div class="commentaire">
+                          <div class="comment-info">
+                            <small class="text-muted">
+                              {{ comment.username }}, le {{ dateFormat(comment.date_creation) }}, a commenté:
+                            </small>
+                            <p>{{ comment.contentComment }}</p>
+                          </div>
+                          <!-- ACCES BOUTON DELETE COMMENT SSI C'EST L'AUTEUR -->
+                            <button @click="deleteComment(comment.commentID)" v-if="comment.id_user_auteur_comment === userID"
+                              type="button" class="close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          <!-- FIN -->
+                        </div> 
+                      </div>
+                    <!-- FIN -->
                   </div>
-                <!-- FIN -->
-                <!-- TEXTAREA ET BOUTON POUR AJOUT DE commentaire sur post (PUBLICATION) -->
-                  <form @submit.prevent="handleSubmit(createComment)" class="commentAndButton" enctype="multipart/form-data" method="post">
-                    <!--  CHAMP COMMENTAIRE -->
-                      <div class="addComment">
-                        <label for="addComment"></label> 
-                        <textarea 
-                          v-model="commentaire.contentComment"
-                          class="sm md lg xl" 
-                          name="addComment" 
-                          rows="1" cols="3" 
-                          placeholder="Commenter ce post..."
-                          method="post"
-                        >
-                        </textarea>
-                      </div>
-                    <!-- FIN -->
-                    <input type="hidden" name="postID" :value="post.postID">
-                    <!-- BOUTON SOUMISSION DU COMMENTAIRE -->
-                      <div class="buttonComment">
-                        
-                        <button 
-                          @click="createComment"
-                          id="btnSend"
-                          type="button" class="sm md lg xl btn btn-outline-primary btn-lg ">
-                          <i type="button" class="far fa-paper-plane"></i>
-                        </button>
-                      </div>
-                    <!-- FIN -->
-                  </form>
                 <!-- FIN -->
               </div>
             </div>
@@ -319,15 +280,14 @@ export default {
       
       // infos à envoyer au backend dans la table comments
       commentaire:{
-        postID :"", // id_post_commented
-        userID:"", // id_user_auteur_comment
+        id_post_commented:"", // postID
+        id_user_auteur_comment:"", // userID
         username:"",
         contentComment:"",
       },
       
       // gestion des erreurs de saisie du formulaire + apparition notif user
       error:'',
-      // isDisplay: true,
     }
   },
   
@@ -382,23 +342,9 @@ export default {
   
     methods: {
       
-      counterlike(){
-            let countLike = 0;
-            countLike++;
-            document.getElementById('like').innerHTML= countLike;
-            console.log('clicked');
-        },
+      // FONCTION BOUTON "AJOUTER UN POST"
+      createPost(){
       
-      counterdislike(){
-        let countDislike = 0;
-          countDislike++;
-          document.getElementById('dislike').innerHTML= countDislike;
-        console.log('clicked')
-      },
-    
-  ////////////////////////////////////////////////////////////////////////////////////////// PARTIE DES POSTS: /////////////////////////////////////////////////////////////////////////////////////
-    // I) FONCTION BOUTON "AJOUTER UN POST"
-    createPost(){
      // 1) Récupération des userInputs (données postées) pour les poster au backend
       const formData = new FormData();
       formData.append("userID" , this.userID);
@@ -407,26 +353,11 @@ export default {
       
       // 2) Affichage de notre objet formData dans la console
       console.log(Array.from(formData));
-      for(let obj of formData) {
-        console.log(obj);
-        console.log('type valeur: ', typeof obj[1])
-      }
       
-      // const dataSent = JSON.parse(JSON.stringify(formData));
-      // console.log(dataSent);
-      // console.log('Type: ', typeof dataSent)
-
-      // 3) envoie des données par requête
-      axios.post('api/posts/create', formData, { 
-        headers: {
-        // mettre header pour que le front configure les infos correctement pour le backend
-          'content-type': 'multipart/form-data',
-          'Authorization': 'Bearer '+ localStorage.getItem('token'),
-          }
-      })
+      // 3) envoie des données par requête axios => headers configuré en global dans axiosConfig.js
+      axios.post('api/posts/create', formData)
       .then(response => {
         console.log(response.data);
-        // window.location.assign('http://localhost:8080/groupomania/publications')
         this.$router.push('/groupomania/publications')
       })
       .catch((error) => {
@@ -434,79 +365,51 @@ export default {
         // Erreurs de validation champ formulaire 
         this.error = error.response.data.errors;
       })
+      
       // 4) reset du input post form
       this.publication = "";
     },
     
     
-    
-    // IV) FONCTION BOUTON "AJOUTER UN COMMENTAIRE"
-    createComment(){
-      // 1) Récupération des userInputs (données postées) pour les poster au backend
-      const formData = new FormData();
-      formData.append('id_post_commented', this.postID);  // renvoie null? this.postID
-      formData.append('userID', this.userID ); 
-      formData.append('username', this.username ); 
-      formData.append('content', this.commentaire.contentComment);
-      
-      // 2) Affichage de notre objet formData dans la console
-      console.log(Array.from(formData));
-      for(let obj of formData) {
-        console.log(obj);
-        localStorage.setItem('objetFormdata', JSON.stringify(obj));
-        const objStockedFormdata = JSON.parse(localStorage.getItem('objetFormdata'));
-        console.log('éléments Formdata: ', objStockedFormdata);
-        console.log(typeof objStockedFormdata); // type objet
-      }
-    
-    // 3) envoie des données par requête
-      axios.post('api/comments/create/', formData, {
-        header: {
-          'content-type': 'multipart/form-data',
-          'Authorization': 'Bearer '+ localStorage.getItem('token'),
-        }
-      })
+    // FONCTION BOUTON SUPPRESSION DE POST PAR SON AUTEUR + ADMIN
+    deletePost(postID){
+      axios.delete( `api/posts/${postID}/delete`)
       .then(response => {
-        console.log(response);
-      })
+        console.log(response.data);
+        // this.$router.push('/groupomania/publications')
+      }) 
       .catch((error) => {
         console.log(error);
-        // erreur validator validation champ formulaire 
-        this.error = error.response.data.errors;
       })
-    
-    // 4) reset du input commentaire
-      this.comment = "";
     },
-
     
-    // II) FONCTION BOUTON MODIFICATION DE POST
-    
-    
-    // III) FONCTION BOUTON SUPPRESSION DE POST
-    deletePost(){
-      axios.delete('api/posts/deleteOne/' + this.postID,{
-        headers: {
-        // mettre header pour que le front configure les infos correctement pour le backend
-          'content-type': 'multipart/form-data',
-          'Authorization': 'Bearer '+ localStorage.getItem('token'),
-        }
-      })
+    deleteComment(commentID){
+      axios.delete( `api/comments/${commentID}/delete`)
       .then(response => {
         console.log(response.data);
         console.log('clicked');
       }) 
       .catch((error) => {
         console.log(error);
-        
       })
     },
     
-  /////////////////////////////////////////////////////////////////////////////// PARTIE DES COMMENTAIRES: ///////////////////////////////////////////////////////////////////////////
+    // FONCTION BOUTON SUPPRESSION DE COMMENTAIRE PAR SON AUTEUR + ADMIN 
+    counterlike(){
+      let countLike = 0;
+      countLike++;
+      document.getElementById('like').innerHTML= countLike;
+      console.log('clicked');
+    },
     
+    counterdislike(){
+      let countDislike = 0;
+      countDislike++;
+      document.getElementById('dislike').innerHTML= countDislike;
+      console.log('clicked')
+    },
     
-  ///////////////////////////////////////////////////////////////////////////  AUTRES FONCTIONS  //////////////////////////////////////////////////////////////////////////////
-  // VI) fonction qui transforme le format de la date reçu pour un meilleur affichage
+    //fonction qui transforme le format de la date reçu pour un meilleur affichage
     dateFormat(date){                                                       
       const event = new Date(date);
       const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -526,10 +429,7 @@ export default {
     height: fit-content
     display: flex
     flex-direction: column
-    // @media screen and (max-width: 508px) 
-    //     min-height: 50vh
     .jumbotron
-      // background-color: #42b7b9
       padding-top: 6vh
       flex: 1
       margin-bottom: 0vh
@@ -555,15 +455,15 @@ export default {
         h1
         @media screen and (max-width: 576px)
           font-size: 2rem
-      
-        
       label
         font-size: xx-large
         @media screen and (max-width: 768px)
           font-size: larger 
-      h5
+      h5, h6
         box-shadow: 2px 5px 5px #e0e3ea
         font-weight: bold
+      h6 
+        padding: 0.6rem
       ul
         list-style-type: none
         padding: 0
@@ -577,13 +477,13 @@ export default {
       .posts, .commentaire, li
         display: flex
         flex-direction: column
-      
       // espace nécessaire pour la pic de ce doux visage 
       .espacement
         height: 39vh 
         @media screen and (max-width: 768px)
           height: 6vh
-      // Partie formulaire de publication de post + upload
+      
+      // Partie formulaire de publication + post + upload
       .formPost
         background-color: #b8b8b81c
         padding-bottom: 4vh
@@ -602,7 +502,6 @@ export default {
         display: inline-flex
         justify-content: space-around
         align-items: center
-        // padding: 2vh
         @media screen and (max-width: 768px)
           display: flex
           flex-direction: column
@@ -618,7 +517,7 @@ export default {
               font-size: x-small
             padding: 1vh
             margin: 2vh
-          .fa-paper-plane
+          .fa-paper-plane, .fa-download
             font-size: larger
       
       // style du card
@@ -626,6 +525,7 @@ export default {
         border: solid, 1px
         box-shadow: 0px 5px 5px 0px 
         border-radius: 20px
+        padding-bottom: 4vh
       .row 
         justify-content: space-evenly
       .card-body
@@ -635,7 +535,7 @@ export default {
         padding: 0px
       .card-img
         flex-shrink: 0
-        width: 50%
+        width: 20% //50%
         margin: 4vh
       .info
         flex: 2
@@ -644,21 +544,24 @@ export default {
         @media screen and (max-width: 768px)
             margin: 0vh 1vh 0vh 1vh
       .card-text
-        margin: 4vh 1vh 1vh 1vh
+        margin: 3vh 1vh 3vh 1vh
         display: flex
         justify-content: space-between
         border: solid, 1px
         box-shadow: 0px 5px 5px #e0e3ea
         background-color: #f2f4f6
+        align-items: flex-end
         .publication 
-          // width: 80%
+          width: 95%
           margin: 1vh
           display: flex
           flex-direction: column
           align-items: flex-start
           margin-bottom: 4vh
           p 
-            margin: 0vh
+            margin: 1vh
+          small
+            align-self: center
           .space
             height: 6vh
           .likeThumbsCommenter
@@ -670,7 +573,6 @@ export default {
             font-size: x-large
           #like, #dislike
             font-size: large
-            // margin-left: 0.5vh
           #btnThumb
             padding: 0.5vh
             margin-left: 1vh
@@ -685,35 +587,22 @@ export default {
       .btnModifSupPublication
         // display: flex
         margin-top: 0vh
+        margin-bottom: 3vh
         width: 24%
         .btn
           margin: 1vh
           font-size: large
       //FIN style card
+      
       // style partie commentaire
       .commentaire
         background-color: #f2f4f6
         box-shadow: 0px 5px 5px #e0e3ea
         margin: 2vh 1vh 0vh 1vh
         border-radius: 4vh
-      .commentAndButton
-        flex: 1
         display: flex
-        justify-content: space-around
-        .addComment
-          display: flex
-          flex: 2
-          flex-direction: column
-          margin-top: 0.10vh
-          margin-bottom: 2.5vh
-        .buttonComment
-          margin: 1vh
-          .btn-lg,
-            font-size: 0.8rem
-            // padding: 0.5rem 0.7rem
-        .fa-paper-plane
-          font-size: large
-          margin-right: 1vh 
-        #btnSend
-          padding: 1vh 2vh
+        flex-direction: row
+        width: 60%
+        .comment-info
+          width: 90%
 </style>

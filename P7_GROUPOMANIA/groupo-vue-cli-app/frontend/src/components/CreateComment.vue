@@ -2,45 +2,48 @@
 <!-- <div class="createComment"> -->
     
     <div class="form">
-        
-        <form method="post" type="submit" enctype="multipart/form-data">
-            <h2>{{msg}}</h2>
-            <!-- NOTIF USER SANITIZER CHAMPS FROM -->
-                <AlertNotifValidator v-if="error" 
-                    alertType= "alert-danger"
-                    alertMsg= 'Erreur ! Vérifiez les informations saisies:'
-                    :error="error"
-                />
-            <!-- FIN -->
-            <label for="commentInputForm"></label>
-            <textarea v-model="contentComment"
-                id="commentInputForm"
-                type="text"
-                name="contentComment"
-                class="form-control sm md lg " 
-                placeholder="Votre commentaire..."
-                require="required"
-            >
-            <!-- <label for="floatingTextarea">Modifier...</label>  -->
-            </textarea>
-            <!-- <input type="hidden" name="commentID" :value="article.id"> -->
-            <!-- BOUTONS -->
-                <div class="dispoBtn">
-                    <button @click="createComment"
-                        type="submit" 
-                        class="sm md lg btn btn-outline-success">
-                        Publier
-                    </button>
-                    <!-- BOUTON ANNULER RETOUR SUR PUBLICATIONS -->
-                        <router-link :to="{name:'Fil d\'actualité'}">
-                            <button type="button" class="btn btn-outline-danger">
-                                Annuler
-                            </button>
-                        </router-link>
-                    <!-- FIN -->
-                </div>
-            <!-- FIN -->
-        </form>
+        <ValidationObserver v-slot="{ handleSubmit}">
+            <form @submit.prevent="handleSubmit(createComment)" method="post" type="submit" enctype="multipart/form-data">
+                <h2>{{msg}}</h2>
+
+                <!-- NOTIF USER VALIDATION CHAMPS FROM -->
+                    <AlertNotifValidator v-if="error" 
+                        alertType= "alert-danger"
+                        alertMsg= 'Erreur ! Vérifiez les informations saisies:'
+                        :error="error"
+                    />
+                <!-- FIN -->
+                <label for="commentInputForm"></label>
+                <validationProvider name="comment" rules="required|alpha_num" v-slot="{ errors }">
+                    <textarea v-model="contentComment"
+                        id="commentInputForm"
+                        type="text"
+                        name="contentComment"
+                        class="form-control sm md lg " 
+                        placeholder="Votre commentaire..."
+                        require="required">
+                    </textarea>
+                <span>{{ errors[0] }}</span>
+                </validationProvider>
+                <!-- <input type="hidden" name="commentID" :value="article.id"> -->
+                <!-- BOUTONS -->
+                    <div class="dispoBtn">
+                        <button @click="createComment"
+                            type="submit" 
+                            class="sm md lg btn btn-outline-success">
+                            Publier
+                        </button>
+                        <!-- BOUTON ANNULER RETOUR SUR PUBLICATIONS -->
+                            <router-link :to="{name:'Fil d\'actualité'}">
+                                <button type="button" class="btn btn-outline-danger">
+                                    Annuler
+                                </button>
+                            </router-link>
+                        <!-- FIN -->
+                    </div>
+                <!-- FIN -->
+            </form>
+        </ValidationObserver>
     </div>
 <!-- </div> -->
 </template>
@@ -88,30 +91,21 @@ export default {
                 formdata.append('contentComment', this.contentComment );
                 
                 console.log('elements du formdata: ', Array.from(formdata));
-                
-                
             
             // Je n'ai pas besoin de préciser postID dans le post axios car j'ai déja tout dans mon formdata
             // Vu que la table comments est séparée et à part de posts
             // Cela aurait été vrai si dans posts j'avais une colonne comment
             // Ici je vais juste remplir les colonnes de comments avec les infos venant du formdata sent par le front
-            axios.post('api/comments/create' , formdata, {
-                header: {
-                    'content-type': 'multipart/form-data',
-                    'Authorization': 'Bearer '+ localStorage.getItem('token'),
-                }
-            })
+            axios.post('api/comments/create' , formdata)
             .then(response => {
                 console.log(response);
-                // window.location.assign('http://localhost:8080/groupomania/publications')
                 this.$router.push('/groupomania/publications')
             })
             .catch((error) => {
                 console.log(error);
                 this.error = error.response.data.errors
             })
-            // requete axios vers route update post/comment
-            console.log('clicked')
+            
             this.contentComment = "";
         },
     }
@@ -141,6 +135,8 @@ export default {
             @media screen and (max-width: 348px) 
                 width: 60vh
                 height: 20vh
+        span
+            color: red
         .dispoBtn
             display: flex
             .btn

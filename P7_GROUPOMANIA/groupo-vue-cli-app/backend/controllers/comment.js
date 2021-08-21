@@ -45,8 +45,17 @@ exports.updateComment = async(req, res, next) => {
 
 // Fonction supprimant un commentaire
 exports.deleteComment = async(req, res, next) => {
-    const id = req.params.id;
-    const deletedComment = await commentModel.delete(id);
-    res.status(200).json({ message:'commentaire supprimé avec succés', comment: deletedComment });
-
+    //Récupération clé primaire depuis req venant du frobt
+    const commentID = req.params.commentID;
+    console.log('commentID à supprimer: ', commentID);
+    
+    //On la met en paramètre dans la fonction Model deleteComment de Comment.js
+    const deletedComment = await commentModel.delete(commentID);
+    console.log('Résultat de la promise: ', deletedComment);
+    
+    //Renvoie de la réponse au front
+    res.status(200).json({ 
+        message:'commentaire supprimé avec succés', 
+        comment: deletedComment 
+    });
 };

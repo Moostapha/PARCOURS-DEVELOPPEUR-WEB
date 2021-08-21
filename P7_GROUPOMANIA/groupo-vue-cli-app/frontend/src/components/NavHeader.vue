@@ -19,8 +19,10 @@
         <li class="nav-item">
           <router-link to="/groupomania/publications"><i class="fas fa-comments"></i> Publications</router-link> 
         </li>
+        
+        <!-- RENDU DYNAMIQUE DU SEGMENT DYNAMIQUE :userID  -->
         <li class="nav-item">
-          <router-link to="/groupomania/profil/:userId"><i class="fas fa-user-circle"></i>Profil</router-link>
+          <router-link :to="{ name : 'Profil', params: { userID: userID }}"><i class="fas fa-user-circle"></i>Profil</router-link>
         </li>
         
         <!-- lien de déconnexion du compte-->
@@ -45,7 +47,15 @@
 export default {
   name:'NavHeader',
   
+  data(){
+    return{
+      // Pour récupérer dynamiquement :userID du user connecté pour concordance dynamique de route
+      userID: +localStorage.getItem("userID"), 
+    }
+  },
+  
   methods: {
+    
     // fonction de suppression de session user (items du localStorage)
     logout() {
       

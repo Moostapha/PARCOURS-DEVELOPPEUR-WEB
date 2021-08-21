@@ -17,23 +17,19 @@ const rules= require('../middlewares/validator');
 const multer = require('../middlewares/multer');
 
 
-
 // ROUTES COMMENT ENDPOINTS CRUD Pour 'commment', un user doit pouvoir créer | modifier (update) | supprimer son commentaire
-
 
 Router.get('/readAll', auth, commentCtler.readComment);
 
+Router.post('/create', auth, multer, rules.validFormComment(), rules.validate, commentCtler.createComment);
 
-Router.post('/create', auth, multer, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
-// Router.post('/:postID/createComment', auth, rules.validFormComment, rules.validate, multer, commentCtler.createComment);
+Router.delete('/:commentID/delete', auth, multer, commentCtler.deleteComment);
 
-Router.put('updateOne/:commentID', auth, rules.validFormComment, rules.validate, commentCtler.updateComment);
+// Router.put('/:commentID/update', auth, rules.validFormComment, rules.validate, commentCtler.updateComment);
 
 
-Router.delete('deleteOne/:commentID', auth, multer, commentCtler.deleteComment);
 
-// router.post("/:id/comment", auth, postCtrl.createComment);
-// router.post("/:id/reaction", auth, postCtrl.reactPost);
+
 
 // Exportation
 module.exports = Router

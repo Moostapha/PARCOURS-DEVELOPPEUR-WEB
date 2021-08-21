@@ -51,7 +51,7 @@ const routes = [
 
   // URL Page d'édition des commentaires => CreatePost.vue dans view NewComment.vue
   {
-    path: '/groupomania/publications/:postID/commenter',
+    path: '/groupomania/publications/:postID/commentaire',
     name: 'NewComment',
     component: NewComment
   },

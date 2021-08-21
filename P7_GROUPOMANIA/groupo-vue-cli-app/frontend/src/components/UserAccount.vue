@@ -227,18 +227,15 @@
         .then(response => {
             console.log(response.data)
             this.user = response.data.user;
-            // const username = localStorage.getItem('username');
-            // console.log( 'Profil de:', username);
-            // this.username = username;
-            // this.userId = response.data.userId;
-            // this.userID = this.$route.params.userID
         })
         .catch((error) => {
             console.log(error);
         })
     },
     
+    
     methods: {
+        
         // FONCTION DE CHARGEMENT DE FICHIER USER
         uploadFile() {
             
@@ -347,26 +344,17 @@
             // this.$router.push('/groupomania/signup');
         },
         
-        // Fonction Boutons déroulants
-        // show() {
-        //     this.isDisplay = true
-        // },
         
         hide(){
             this.isDisplay = false
         },
-
+        
         // fonction qui transforme le format de la date reçu pour un meilleur affichage
         dateFormat(date){                                                       
             const event = new Date(date);
             // const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
             const options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric' };
             return event.toLocaleDateString('fr-FR', options);
-        },
-
-        // Fonction closeNotification 
-        closeNotification(){
-
         },
     },   
 }

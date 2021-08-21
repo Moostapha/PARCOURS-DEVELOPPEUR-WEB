@@ -22,30 +22,33 @@ const multer = require('../middlewares/multer');
 
 Router.get('/readAll', auth, postCtler.getAllPosts); 
 
-//=> avec middleware validator faire attention à multer !!!
-//Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, postCtler.createPost);
 
-
+// avec middleware validator + content-type: multipart-form-data faire attention à multer !!!
 Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, postCtler.createPost); 
 
-// Router.get('/read/:postID', auth, postCtler.getOnePost);
 
-// Router.put('update/:postID', auth, rules.validFormPost(), rules.validate, postCtler.updatePost);
 // Nécessité de multer lorsque le content-type posté est du multipart form data
 Router.put('/:postID/update', auth, multer, rules.validFormPost(), rules.validate, postCtler.updatePost);
 
+
 Router.delete('/:postID/delete', auth, postCtler.deletePost);
 
-Router.post(':postID/reaction');
+// router.post("/:id/comment", auth, postCtrl.createComment);
+// router.post("/:id/reaction", auth, postCtrl.reactPost);
+// Router.post(':postID/reaction', auth, postCtler.deletePost);
+Router.post('/:postID/like');
 
+Router.post('/:postID/dislike');
 
+// TESTS
+// Router.get('/read/:postID', auth, postCtler.getOnePost);
 // router.get("/", auth, postCtrl.getAllPosts);
 // router.get("/:id", auth, postCtrl.getOnePost);
 // router.post("/", auth, multer, postCtrl.createPost);
 // router.delete("/:id", auth, postCtrl.deletePost);
 // router.post("/:id/comment", auth, postCtrl.createComment);
 // router.post("/:id/reaction", auth, postCtrl.reactPost);
-
 // EXPORT DU ROUTER VERS app.js
 // export pour réutilisation dans app.js
+
 module.exports = Router; 

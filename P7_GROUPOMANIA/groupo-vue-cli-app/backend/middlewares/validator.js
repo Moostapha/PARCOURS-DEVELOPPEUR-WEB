@@ -5,7 +5,6 @@ const { body, check, validationResult} = require('express-validator');
 
 
 // MES REGEXS CARACTERES SPECIAUX
-const specialCharsMail = "/^[^*|\":<>[\]{}`\\()';&$]+$";
 const specialChars = "/^[^*|\":<>[\]{}`\\()';@&$]+$";
 
 
@@ -108,27 +107,28 @@ const userAccountInput = () => {
     };
 
 
-// FORMULAIRES POST + COMMENTAIRE
+// FORMULAIRES POST + COMMENTAIRE => espace permis dans la saisie car express-validator ne prend pas en compte les spaces comme un caractère alpha
 const validFormPost = () => {
-
+    
     return [
-        
-        //.matches(/^[a-z0-9 ]+$/i); => 
-        check('contentPost')
-            .trim()
-            .escape()
+        //todo: bannir certains caractères spéciaux
+        body('contentPost')
             .not().isEmpty().withMessage('Champs requis')
-            .matches(/^[a-z0-9 ]+$/i).withMessage('Veuillez n\'écrire que des caractères alphanumériques'),
+            .matches(/[a-zA-Z0-9 ]+$/i).withMessage('Veuillez n\'écrire que des caractères alphanumériques')
+            .trim()
+            .escape(),
     ]
-    };
+};
+
 
 const validFormComment = () => {
 
     return [
+        //todo: bannir certains caractères spéciaux
         // input's rules du form post
         body('contentComment')
             .not().isEmpty().withMessage('Champs requis')
-            .matches(/^[a-z0-9 ]+$/i).withMessage('Veuillez n\'écrire que des caractères alphanumériques')
+            .matches(/[a-zA-Z0-9 ]+$/i).withMessage('Veuillez n\'écrire que des caractères alphanumériques')
             .trim()
             .escape(),
     ]

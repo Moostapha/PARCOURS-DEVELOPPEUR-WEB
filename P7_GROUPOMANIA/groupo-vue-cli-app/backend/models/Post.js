@@ -69,17 +69,28 @@ exports.update = ( contentPost, postID ) => {
     })
 };
 
-
-// Fonction requête sql pour SUPPRIMER un post
-exports.delete = (userID,postID) => { 
+// Fonction requête sql pour SUPPRIMER un post (after)
+exports.delete = (postID) => { 
     return new Promise((resolve,reject) => {
-        // const sql = 'DELETE FROM posts WHERE id= ?';
-        // DELETE FROM `posts` WHERE `posts`.`id` = 1;
-        const sql = 'DELETE FROM posts WHERE userID=? AND postID=?';
-        dbmySql.query( sql, [userID,postID], function (error, results, fields){
+        const sql = 'DELETE FROM `posts` WHERE `posts`.`postID` = ?';
+        dbmySql.query( sql, [postID], function (error, results, fields){
             if (error) reject (error);
             resolve(results);
         })
     })
 };
+
+
+// Fonction requête sql pour SUPPRIMER un post (before)
+// exports.delete = (userID,postID) => { 
+//     return new Promise((resolve,reject) => {
+//         // const sql = 'DELETE FROM posts WHERE id= ?';
+//         // DELETE FROM `posts` WHERE `posts`.`id` = 1;
+//         const sql = 'DELETE FROM posts WHERE userID=? AND postID=?';
+//         dbmySql.query( sql, [userID,postID], function (error, results, fields){
+//             if (error) reject (error);
+//             resolve(results);
+//         })
+//     })
+// };
 

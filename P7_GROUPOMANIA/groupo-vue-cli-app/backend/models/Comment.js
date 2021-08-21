@@ -44,14 +44,13 @@ exports.update = ( commentaire, postId, userId ) => {
 };
 
 
-exports.delete = (id_primary) => {
+exports.delete = (commentID) => {
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM comments WHERE id=?'
-        let dataDeleted = [id_primary]
+        const sql = 'DELETE FROM `comments` WHERE `comments`.`commentID` = ?'
+        let dataDeleted = [commentID]
         dbmySql.query( sql, dataDeleted ,function(error, result, field){
             if (error) reject(error);
             resolve(result);
-            // console.log(field)
         })
     })
 };

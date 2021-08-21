@@ -17,6 +17,8 @@ import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
 /* Plugin de vee-validate permettant de soumettre le formulaire qu'APRES validation des champs*/
 import { ValidationObserver } from 'vee-validate';
 
+//Dictionnaire de traduction en francais des messages lors de saisie user
+
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);

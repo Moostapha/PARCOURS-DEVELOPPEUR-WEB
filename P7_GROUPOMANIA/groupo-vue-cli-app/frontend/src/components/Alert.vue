@@ -17,7 +17,7 @@ SUPPRESSION POSTS COMMENTS
 <script>
 export default {
     name: 'Alert',
-    // props: ['alertType', 'alertMsg'],
+    
     props: {
         alertType: String,
         alertMsg: String

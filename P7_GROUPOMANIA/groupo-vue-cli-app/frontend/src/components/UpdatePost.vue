@@ -4,6 +4,7 @@
     <div class="form">
         
         <form action="" method="post" type="submit">
+
             <h2>{{msg}}</h2>
             
             <AlertNotifValidator v-if="error" 
@@ -19,8 +20,7 @@
                 type="text"
                 class="form-control sm md lg" 
                 placeholder="Modifier votre post ici..." 
-                require="required"
-            >
+                require="required">
             </textarea>
             <!-- <label for="floatingTextarea">Modifier...</label> -->
             <div class="dispoBtn">
@@ -60,7 +60,6 @@ export default {
     
     data(){
         return {
-            
             postID: +this.$route.params.postID,
             contentPost:"",
             error:"",
@@ -69,9 +68,8 @@ export default {
     
     methods: {
         
-        // Fonction update post
         updatePost(){
-            
+            // Données à transmettre au back
             let postUpdated = new FormData();
             postUpdated.append('contentPost', this.contentPost);
             postUpdated.append('postID', this.postID );
@@ -91,16 +89,13 @@ export default {
             console.log('clicked')
             
             this.contentPost=""
-            
         },
-        
     }
 }
 </script>
 
 
 <style lang="sass" scoped>
-    // .updatePost
         
     .form
         display: flex

@@ -52,7 +52,6 @@ exports.create = ( userID, username, contentPost ) => {
     })
 };
 
-
 // Fonction requête sql pour MODIFIER un post after
 exports.update = ( contentPost, postID ) => {
     return new Promise((resolve,result,reject) => {
@@ -75,22 +74,38 @@ exports.delete = (postID) => {
         const sql = 'DELETE FROM `posts` WHERE `posts`.`postID` = ?';
         dbmySql.query( sql, [postID], function (error, results, fields){
             if (error) reject (error);
+            console.log(results);
             resolve(results);
         })
     })
 };
 
 
-// Fonction requête sql pour SUPPRIMER un post (before)
-// exports.delete = (userID,postID) => { 
-//     return new Promise((resolve,reject) => {
-//         // const sql = 'DELETE FROM posts WHERE id= ?';
-//         // DELETE FROM `posts` WHERE `posts`.`id` = 1;
-//         const sql = 'DELETE FROM posts WHERE userID=? AND postID=?';
-//         dbmySql.query( sql, [userID,postID], function (error, results, fields){
-//             if (error) reject (error);
-//             resolve(results);
-//         })
-//     })
-// };
+// Fonction upload image du post
+exports.upload = (userID, username, imagePost) => {
+    return new Promise((resolve, reject) =>{
+        // 'INSERT INTO `posts` ( imagePost ) VALUES (?) WHERE `posts`.`postID` = ?'
+        // 'INSERT INTO posts ( id_user_auteur_post, username, imagePost ) VALUES (?,?,?)'
+        const sql ='INSERT INTO posts (id_user_auteur_post, username, imagePost) VALUES (?,?,?)';
+        let data = [userID, username, imagePost]
+        dbmySql.query(sql, data, function(error, results, fields){
+            if(error) reject(error);
+            resolve(results)
+        })
+    })
+};
 
+
+// Fonction update upload image du post
+exports.updateUpload = (imagePost, postID) => {
+    return new Promise(() => {
+        const sql = "UPDATE `posts` SET `imagePost` = ? WHERE `posts`.`postID` = ?";
+        let data = [imagePost, postID]
+        dbmySql.query(sql, data, function(error, results, fields){
+            if(error) reject(error);
+            resolve(results);
+            console.log(results)
+        })
+        
+    })
+};

@@ -23,23 +23,34 @@ const multer = require('../middlewares/multer');
 Router.get('/readAll', auth, postCtler.getAllPosts); 
 
 
-// avec middleware validator + content-type: multipart-form-data faire attention à multer !!!
+// Route création post (text) => avec middleware validator + content-type: multipart-form-data faire attention à multer !!!
 Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, postCtler.createPost); 
 
 
-// Nécessité de multer lorsque le content-type posté est du multipart form data
+// Route Modification d'un post par son auteur => Nécessité de multer lorsque le content-type posté est du multipart form data
 Router.put('/:postID/update', auth, multer, rules.validFormPost(), rules.validate, postCtler.updatePost);
 
 
+// Route de création fichier multimédia pour un post
+Router.post('/uploadImg', auth, multer, postCtler.uploadImagePost); 
+
+
+// Route de modif fichier multimédia pour un post => Nécessité de multer lorsque le content-type posté est du multipart form data
+Router.put('/:postID/updateImg', auth, multer, postCtler.updateImagePost);
+
+
+// Route suppression post par auteur + admin
 Router.delete('/:postID/delete', auth, postCtler.deletePost);
+
+
+Router.post('/:postID/like');
+
+
+Router.post('/:postID/dislike');
 
 // router.post("/:id/comment", auth, postCtrl.createComment);
 // router.post("/:id/reaction", auth, postCtrl.reactPost);
 // Router.post(':postID/reaction', auth, postCtler.deletePost);
-Router.post('/:postID/like');
-
-Router.post('/:postID/dislike');
-
 // TESTS
 // Router.get('/read/:postID', auth, postCtler.getOnePost);
 // router.get("/", auth, postCtrl.getAllPosts);

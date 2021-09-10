@@ -1,5 +1,5 @@
 <template>
-<!-- <div class="createComment"> -->
+<div class="createComment">
     
     <div class="form">
         <ValidationObserver v-slot="{ handleSubmit}">
@@ -28,7 +28,7 @@
                 <!-- <input type="hidden" name="commentID" :value="article.id"> -->
                 <!-- BOUTONS -->
                     <div class="dispoBtn">
-                        <button @click="createComment"
+                        <button @click="createComment()"
                             type="submit" 
                             class="sm md lg btn btn-outline-success">
                             Publier
@@ -44,8 +44,12 @@
                 <!-- FIN -->
             </form>
         </ValidationObserver>
+        
     </div>
-<!-- </div> -->
+    <!-- USER NOTIFS -->
+        <FlashMessage></FlashMessage>
+    <!-- FIN -->
+</div>
 </template>
 
 
@@ -99,11 +103,26 @@ export default {
             axios.post('api/comments/create' , formdata)
             .then(response => {
                 console.log(response);
-                this.$router.push('/groupomania/publications')
+                this.$router.push('/groupomania/publications');
+                // flashmessage ('Modif réussie !!!!')
+                this.flashMessage.show({
+                    status: 'success',
+                    icon: '../assets/success.png',
+                    title: 'SUCCES !!!',
+                    message: 'Modification du commentaire réussie'
+                })
+
             })
             .catch((error) => {
                 console.log(error);
-                this.error = error.response.data.errors
+                this.error = error.response.data.errors;
+                // notif erreur avec flashmessage
+                this.flashMessage.show({
+                    status: 'error',
+                    icon: 'success',
+                    title: 'ERREUR !!!',
+                    message: 'Une erreur est survenue'
+                })
             })
             
             this.contentComment = "";

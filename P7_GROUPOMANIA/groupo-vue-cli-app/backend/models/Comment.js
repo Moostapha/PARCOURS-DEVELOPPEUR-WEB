@@ -9,7 +9,7 @@ exports.read = () => {
         dbmySql.query('SELECT * FROM comments', function(error, results, fields){
             if (error) reject(error);
             resolve(results);
-            // console.log(fields);
+            
         })
     })
 };
@@ -25,7 +25,7 @@ exports.create = ( postID, userID, username, contentComment ) => {
         dbmySql.query( sql, dataInserted , function(error, result, field) {
             if (error) reject (error);
             resolve (result);
-            // console.log(field);
+            
         })
     })
 };

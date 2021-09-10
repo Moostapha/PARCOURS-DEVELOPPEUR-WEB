@@ -1,7 +1,4 @@
 const postModel = require('../models/Post'); // Import des fonctions Models possédant nos requetes SQL
-// const { post } = require('../routes/post');
-//Validation inputs commentaire et post
-const { check, validationResult } = require('express-validator');
 
 /* LOGIQUES METIERS DES POSTS CRUD
 Notre app doit permettre aux users d'accéder:
@@ -13,8 +10,10 @@ Notre app doit permettre aux users d'accéder:
 // Fonction affichant tous les posts (page d'accueil) admin
 exports.getAllPosts = async(req, res, next) => {
     const posts = await postModel.getAll();  // model.nomFonctionModelPost
-    res.status(200).json({ message:'Liste des posts', posts : posts }); // on gere et on capte la reponse avec un statut 200
-    //console.log(posts);
+    res.status(200).json({
+        message:'Liste des posts', 
+        posts : posts 
+    });
 };
 
 
@@ -22,18 +21,19 @@ exports.getAllPosts = async(req, res, next) => {
 exports.getOnePost = async(req, res, next) => {
     const id = req.params.id; // clé primaire de la ligne de table posts
     const post = await postModel.getOne(id);
-    res.status(200).json({ message:'post sélectionné', post : post });
+    res.status(200).json({ 
+        message:'post sélectionné', 
+        post : post 
+    });
 };
 
 
 // Fonction créant un post
 exports.createPost = async(req, res, next) => {
     // on capture le corps de la requete dans une cst
-    // const avatar = `${req.protocol}://${req.get('host')}/posts/${req.file.filename}`
     const created = JSON.parse(JSON.stringify(req.body));
     // const created = req.body;
     console.log('corps requête POST by axios: ', created);
-    
     // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
     const createdPost = await postModel.create( 
         // inputs du front:
@@ -72,7 +72,8 @@ exports.updatePost = async(req, res, next) => {
     });
 };
 
-// Fonction supprimant un post (after)
+
+// Fonction supprimant un post (after) à modifier pour supprimer file 
 exports.deletePost = async(req, res, next) => {
     //Récup. clé primaire à supp
     const postID = req.params.postID;
@@ -90,14 +91,62 @@ exports.deletePost = async(req, res, next) => {
 };
 
 
-// Fonction supprimant un post (before)
-// exports.deletePost = async(req, res, next) => {
-//     const postID = req.params.postID;
-//     const userID = req.params.userID;
-//     const deletedPost = await postModel.delete(userID,postID);
-//     console.log("résultat de la promise", deletedPost); 
-//     res.status(200).json({ message:'post supprimé avec succés', post: deletedPost });
-// };
+// Fonction uploadFile qui permet aux users de télécharger une image pour la publier
+exports.uploadImagePost = async(req, res, next) => {
+    
+    // Récupération corps post request chaine de caractère transformée en objet JS
+    // const createdData = JSON.parse(req.body);
+    const createdData = req.body;
+    console.log('corps requête upload d\'axios: ', createdData);
+    
+    // Fichier téléchargé et envoyé depuis le front
+    const file = req.file;
+    console.log('Média: ', file)
+    
+    // URL image pour lecture GET au niveau frontend + configuration URL dynamique des fichiers images
+    // cet URL sera dans la colonne imagePost de notre database
+    const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+    console.log('URL fichier image: ', imageURL);
+    console.log('Nom du fichier téléchargé: ', req.file.filename,);
+    
+    // Insertion ligne dans database
+    const uploadedFilePost = await postModel.upload(
+        //inputs venant du front (axios)
+        createdData.userID,
+        createdData.username,
+        imageURL, 
+    );
+    console.log('Résultat de la promise: ', uploadedFilePost);
+    res.status(200).json({
+        message:'Fichier téléchargé avec succés',
+        fileUploaded: uploadedFilePost
+    })
+};
 
+
+// Fonction de modification fichier image
+exports.updateImagePost = async(req, res, next) => {
+    // postID dont on modifie l'image
+    const updatedData = req.body;
+    console.log("Corps de la requête axios: ", updatedData);
+    
+    // Nouveau fichier image
+    const file = req.file;
+    console.log("Nouveau fichier: ", file);
+    
+    // URL dynamique du fichier à stocker dans la db
+    const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+    
+    // Enregistrement dans la db via le Model updateUpload
+    const updatedFilePost = await postModel.updateUpload(
+        updatedData.postID,
+        imageURL
+    );
+    console.log('Résultat de la promise: ', updatedFilePost);
+    res.status(200).json({
+        message:'Fichier mis à jour avec succés',
+        fileUpdated: updatedFilePost
+    })
+}
 
 // Toutes nos fonctions exportées vers /routes/post

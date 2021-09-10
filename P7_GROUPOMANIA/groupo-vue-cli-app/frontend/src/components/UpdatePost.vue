@@ -1,10 +1,10 @@
 <template>
 <div class="updatePost">
     
-    <div class="form">
+    <div class="formAndBtns">
         
-        <form action="" method="post" type="submit">
-
+        <form @submit.prevent action="" method="post" type="submit" enctype="multipart/form-data">
+            
             <h2>{{msg}}</h2>
             
             <AlertNotifValidator v-if="error" 
@@ -23,13 +23,39 @@
                 require="required">
             </textarea>
             <!-- <label for="floatingTextarea">Modifier...</label> -->
-            <div class="dispoBtn">
-                <button @click="updatePost"
+           
+        </form>
+         <div class="dispoBtn">
+                <button @click="updatePost()"
                     method="post"
                     type="button" 
                     class="sm md lg btn btn-outline-success">
                     Publier
                 </button>
+                <!-- CHOISIR UN FICHIER -->
+                    <input @change="handleFileSelected"
+                        type="file"
+                        method="post" 
+                        style="display: none"
+                        ref="fileSelectedInput"
+                        class="btnPost form-control-file sm md lg xl btn btn-primary"
+                    />
+                    <button @click="$refs.fileSelectedInput.click()"  
+                    class="sm md lg xl btn btn-outline-primary" >
+                    Modifier image
+                    </button>
+                <!-- FIN -->  
+                <!-- BTN TELECHARGER -->
+                    <button @click="updateFile()"
+                    name="imagePost"
+                    
+                    type = "button"
+                    method="post"
+                    class="sm md lg xl btn btn-outline-primary">
+                    <i class="fa fa-download"></i>
+                    Télécharger
+                    </button>
+                <!-- FIN -->
                 <router-link :to="{name:'Fil d\'actualité'}">
                     <button 
                         type="button" class="btn btn-outline-danger">
@@ -37,8 +63,10 @@
                     </button>
                 </router-link>
             </div>
-        </form>
     </div>
+    <!-- USER NOTIFS -->
+        <FlashMessage></FlashMessage>
+    <!-- FIN -->
 </div>
 </template>
 
@@ -62,50 +90,111 @@ export default {
         return {
             postID: +this.$route.params.postID,
             contentPost:"",
+            newFileSelected: null,
             error:"",
         }
     },
     
     methods: {
-        
+        // Modif post texte
         updatePost(){
             // Données à transmettre au back
             let postUpdated = new FormData();
             postUpdated.append('contentPost', this.contentPost);
             postUpdated.append('postID', this.postID );
-            
+            console.log(Array.from(postUpdated));
             //headers d'axios configuré en global dans axiosConfig.js => Token + content-type
             axios.put(`api/posts/${this.$route.params.postID}/update`, postUpdated)
-            .then(response =>
-                {
-                    console.log(response);
-                    this.$router.push('/groupomania/publications')
-                }
-            )
+            .then(response => {
+                console.log(response);
+                this.$router.push('/groupomania/publications');
+                // flashmessage ('Modif réussie !!!!')
+                this.flashMessage.show({
+                    status: 'success',
+                    icon: '../assets/success.png',
+                    title: 'SUCCES !!!',
+                    message: 'Modification de la publication réussie'
+                })
+            })
             .catch((error) =>{
                 console.log(error);
                 this.error =  error.response.data.errors;
+                // notif erreur avec flashmessage
+                this.flashMessage.show({
+                    status: 'error',
+                    icon: 'success',
+                    title: 'ERREUR !!!',
+                    message: 'Une erreur est survenue'
+                })
             })
             console.log('clicked')
             
             this.contentPost=""
         },
+        
+        // Stockage fichier img de l'input
+        handleFileSelected(event){
+            this.newFileSelected = event.target.files[0];
+            console.log(event);
+        },
+        
+        //Modif post image
+        updateFile(){
+            // Préparation du formdata à envoyer au back
+            let imgUpdated = new FormData();
+            imgUpdated.append('imagePost', this.newFileSelected);
+            imgUpdated.append('postID', this.postID);
+            
+            console.log(Array.from(imgUpdated));
+            
+            // Requête axios au back => envoie des données modifiées
+            axios.put(`api/posts/${this.$route.params.postID}/updateImg`, imgUpdated)
+            .then(response =>{
+                console.log(response);
+                // redirection vers page publication
+                this.$router.push('/groupomania/publications');
+                
+                // flashmessage ('Modif réussie !!!!')
+                this.flashMessage.show({
+                    status: 'success',
+                    icon: '../assets/success.png',
+                    title: 'SUCCES !!!',
+                    message: 'Modification de l\'image réussie'
+                })
+            })
+            .catch((error) =>{
+                console.log(error);
+                // notif erreur avec flashmessage
+                this.flashMessage.show({
+                    status: 'error',
+                    icon: 'success',
+                    title: 'ERREUR !!!',
+                    message: 'Une erreur est survenue'
+                })
+            })
+        }
     }
 }
 </script>
 
 
 <style lang="sass" scoped>
-        
-    .form
-        display: flex
-        justify-content: center
-        padding: 30vh 0vh 15vh 0vh
+    .updatePost
+        display: flex    
+        flex-direction: column
+        align-items: center
         background-image: url('../assets/img2.jpg')
         background-size: cover
-        // margin: auto
+        .formAndBtns
+            padding: 30vh 25vh 15vh 25vh
+            // display: flex
+            // justify-content: center
+            // flex-direction: column
+            // background-image: url('../assets/img2.jpg')
+            // background-size: cover
         h2
             color: white
+            margin: 0vh
         #updatePostInputForm
             height: 30vh
             width: 100vh
@@ -121,8 +210,7 @@ export default {
             padding-left: 2vh
         .dispoBtn
             display: flex
+            margin-top: 1vh
             .btn
                 margin: 1vh
 </style>
-
-

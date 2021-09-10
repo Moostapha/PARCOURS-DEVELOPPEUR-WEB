@@ -60,13 +60,14 @@ exports.getOneUser = (userID) => {
 
 // Fonction modifiant une ligne de la table users
 
-exports.updateUser = (username,  password, primaryId) => {
+exports.updateUser = (username, email,  password, userID) => {
     return new Promise((resolve, reject) =>{
-        // prepared request
-        const sql ='UPDATE FROM users SET username=?, password=? WHERE id=?'; // est ce que la requête correspond à update Username || password?
-        let dataUpdated = [username, password, primaryId]
+        // prepared request UPDATE FROM users SET username=?, password=? WHERE id=?
+        // ;
+        const sql ='UPDATE `users` SET `username`=? , `password`=? WHERE `users`.`userID` = ?'; // est ce que la requête correspond à update Username || password?
+        let dataUpdated = [username, email, password, userID]
         //executed request
-        dbmySql.query( sql, dataUpdated, function(error, result, field){ // modif car ajout clé username dans table
+        dbmySql.query( sql, dataUpdated, function(error, result, field){ 
             if(error) reject(error);
             resolve(result);
             // console.log(field);
@@ -80,7 +81,7 @@ exports.updateUser = (username,  password, primaryId) => {
 
 exports.deleteUser = (userID) => {
     return new Promise((resolve, reject) => {
-        const sql ='DELETE FROM users WHERE id=?';
+        const sql = 'DELETE FROM `users` WHERE `users`.`userID` = ?';
         dbmySql.query( sql, [userID], function(error, result, field){
             if(error) reject(error);
             resolve(result);
@@ -95,7 +96,8 @@ exports.deleteUser = (userID) => {
 
 exports.getUsers = () => {
     return new Promise((resolve,reject) => {
-        const sql = 'SELECT * FROM users WHERE is_admin=0';
+        // 'SELECT * FROM users WHERE is_admin=0'
+        const sql = 'SELECT * FROM users';
         dbmySql.query(sql, function(error, results, fields) {
             if (error) reject(error);
             resolve(results);

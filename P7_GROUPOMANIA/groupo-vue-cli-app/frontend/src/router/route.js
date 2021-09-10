@@ -38,6 +38,9 @@ const routes = [
     path: '/groupomania/publications',       // URL correspondant au composant
     name: 'Fil d\'actualité',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Actualite,  // Composant affiché lorsque le path est trouvé
+    // meta: {
+    //   reload:true
+    // }
   },
   
 
@@ -62,7 +65,6 @@ const routes = [
   {
     path: '/groupomania/profil/:userID',       // URL correspondant au composant
     name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
-    props: true,      // cette route accepte une props qui sera le userID dynamique de l'URL
     component: Profil,  // Composant affiché lorsque le path est trouvé
   },
 ]

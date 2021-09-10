@@ -41,11 +41,11 @@ router.get('/:userID', auth, userCtler.getUser);
 
 
 // route pour effacer un user => UserAccount.vue
-router.delete('/deleteuser/:userID', auth, userCtler.deleteUser); 
+router.delete('/:userID/delete', auth, userCtler.deleteUser); 
 
 
 // route pour update password et username profil user  => UserAccount.vue
-router.put('/updateuser/:userID', auth,  multer, rules.userAccountInput(), rules.validate, userCtler.updateUser); 
+router.put('/:userID/update', auth,  multer, rules.userAccountInput(), rules.validate, userCtler.updateUser); 
 
 
 

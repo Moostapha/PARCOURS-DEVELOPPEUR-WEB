@@ -55,11 +55,15 @@ app.use(cors());
 app.use(morgan(':method - :url - :status - :res[content]- :response-time ms'));
 
 
+// Gestionnaire des images avatar et publications
+app.use('/images', express.static(path.join(__dirname, 'images'))); // gestion des fichiers img statique uploads
+
+
 //PARTIE DES ROUTES DE app.js => USER POST ET COMMENT
 app.use('/api/users', userRoutes); // Route user
 app.use('/api/posts', postRoutes);  // Route post
 app.use('/api/comments', commentRoutes);  // Route commentaire
-app.use('/images', express.static(path.join(__dirname, 'images'))); // gestion des fichiers img statique uploads
+
 
 // export vers le server.js
 module.exports= app;

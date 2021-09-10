@@ -134,14 +134,16 @@ exports.updateUser = async(req, res, next) => {
     // const imageUrl =  `${req.protocol}://${req.get('host')}/image/${req.file.filename}`; 
     console.log(" Update venant du front:  ", updated); 
     // Cas ou le user veut modifier soit son username soit son password
-    if ( updated.username || updated.password ) {
+    if ( updated.username || updated.email || updated.password ) {
         bcrypt.hash(updated.password, 10)
-        .then(async(hash)=>{
-            const updatedAccount = await User.updateUser( updated.username, hash,  userID )
+        .then(async(hash)=>
+        {
+            const updatedAccount = await User.updateUser( updated.username, hash, userID )
             res.status(201).json({ 
                 message:'Modifications réussies',
-                updatedPassword: updatedAccount,
-                updatedUsername: updatedAccount
+                updatedUser: updatedAccount,
+                // updatedPassword: updatedAccount,
+                // updatedUsername: updatedAccount
             })
             console.log(updatedAccount)
         })
@@ -155,7 +157,7 @@ exports.updateUser = async(req, res, next) => {
 
 // commun a user + admin
 exports.deleteUser = async(req, res, next) => {
-    const userById  = req.params.userId;
+    const userById  = req.params.userID;
     console.log("Utilisateur supprimé:  ", userById); 
     const deletedAccount = await User.deleteUser(userById);
     res.status(200).json({ 
@@ -167,5 +169,15 @@ exports.deleteUser = async(req, res, next) => {
 // Fonction pour voir les autres users non administrateur
 exports.getAllUsers = async(req, res, next) => {
     const allUsers = await User.getUsers();
-    res.status(200).json({ message:'Liste des users statut 0', users: allUsers });
+    res.status(200).json({ 
+        message:'Liste des users statut 0 et statut 1', 
+        users: allUsers 
+    });
 };
+
+// UPDATE `users` SET `avatar` = 'http://localhost:3000/images/avatar/user_avatar_default.png' WHERE `users`.`userID` = 1; 
+// UPDATE `users` SET `avatar` = 'http://localhost:3000/images/avatar/moos.png' WHERE `users`.`userID` = 2; 
+// UPDATE `users` SET `avatar` = 'http://localhost:3000/images/avatar/user_avatar_default.png' WHERE `users`.`userID` = 3; 
+// UPDATE `users` SET `avatar` = 'http://localhost:3000/images/avatar/user_avatar_default.png' WHERE `users`.`userID` = 4; 
+// UPDATE `users` SET `avatar` = 'http://localhost:3000/images/avatar/brian.png' WHERE `users`.`userID` = 5; 
+// UPDATE `users` SET `avatar` = 'http://localhost:3000/images/avatar/user_avatar_default.png' WHERE `users`.`userID` = 6;

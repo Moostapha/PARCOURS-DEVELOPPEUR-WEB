@@ -76,6 +76,7 @@
                 </form>
                 
             </ValidationObserver>
+            <FlashMessage></FlashMessage>
         </div>
     </div>
 </template>
@@ -128,12 +129,27 @@
                     console.log(response);
                     // redirection vers route login
                     this.$router.push('/groupomania/login');
+                    
+                    // flashmessage ('Création compte réussie !!!!')
+                    this.flashMessage.show({
+                        status: 'success',
+                        icon: '../assets/success.png',
+                        title: 'SUCCES !!!',
+                        message: 'Création compte réussie'
+                    })
                 })
                 .catch((error) => {
                     console.log(error);
                     this.error = error.response.data.errors;
                     const errorArray = new Array(error.response.data);
                     console.log('Premier élément errorArray:',errorArray[0].errors[0].msg) //Champs Username requis
+                    // notif user avec flashmessage
+                    this.flashMessage.show({
+                    status: 'error',
+                    icon: 'success',
+                    title: 'ERREUR !!!',
+                    message: 'Une erreur est survenue'
+                    })
                 })
             },
         },

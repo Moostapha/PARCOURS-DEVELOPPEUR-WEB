@@ -25,8 +25,19 @@
                             </h2>
                             <div class="d-flex flex-column align-items-center text-center">
                                 <!-- :src="require(`@/assets/${user.image}`)"  :alt="user.name"-->
-                                <img src="../assets/user_icon.png" alt="userPic" class="rounded-circle" width="150">
+                                <img :src="user.avatar" alt="userPic" class="rounded-circle" width="150" ref="fileSelectedInput">
+
+                                <input @change="handleFile"
+                                    type="file"
+                                    method="post" 
+                                    style="display: none"
+                                    ref="fileSelectedInput"
+                                    class="btnPost form-control-file sm md lg xl btn btn-primary"
+                                />
+                                <button @click="$refs.fileSelectedInput.click()" class="sm md lg xl btn btn-primary">Choisir une image</button>
+
                                 <div class="mt-3">
+                                    <!-- <div class="col-md-3"> -->
                                     <!-- INFOS DU PROFIL -->
                                         <h4 >Infos de votre compte:</h4>
                                         <p class="text-secondary mb-1">
@@ -36,23 +47,25 @@
                                             Date de création du compte: {{ dateFormat(user.date_creation) }}
                                         </p>
                                     <!-- FIN -->
+                                    <!-- </div> -->
                                     <div class="space"></div>
                                     <!-- BOUTON DEROULANT les options de modification du compte Mettre type="button" pour éviter "form not connected" -->
                                         <div>
                                             <button  v-on:click="show = !show" 
                                                 id='btnShow'
                                                 type="button" class="btn btn-primary sm md lg xl">
-                                                Afficher
+                                                <i class="fas fa-pen"></i> 
+                                                Modifier votre profil
                                             </button> 
                                         </div>
                                     <!-- FIN -->
                                     <div class="space"></div>
                                     
-                                        DIV NOTIF USER HERE
+                                        <!-- DIV NOTIF USER HERE -->
                                     <!-- OPTIONS DE MODIFICATION DU COMPTE -->
                                     <div v-if="show">
                                         <!-- TELECHARGEMENT FICHIER IMAGE DU USER -->
-                                            <form >
+                                            <form>
                                                 <!-- RENDU DYNAMIQUE DE L'ETAT DE L'UPLOAD -->
                                                     <div v-if="message" :class="`message ${error ? 'is-danger' : 'is-success'}`" >
                                                         <div class="message-body"> 
@@ -60,23 +73,35 @@
                                                         </div>
                                                     </div>
                                                 <!-- FIN -->
+                                                
                                                 <label for="formFileLg" class="form-label">
                                                     Sélectionner fichier
                                                 </label><br>
-                                                <!-- POSITION INPUT FILE UPLOAD ET BOUTON UPLOAD -->
+                                                
+                                                <!-- INPUT FILE UPLOAD ET BOUTON UPLOAD -->
                                                     <div id="uploadInputBtn">
-                                                        <input 
-                                                            enctype="multipart/form-data" method="post" 
-                                                            class="form-control form-control-lg" id="formFileLg" type="file" 
+                                                        
+                                                        <input @change="handleFile"
+                                                            type="file"  
+                                                            method="post"
+                                                            id="formFileLg"
+                                                            class="form-control form-control-lg"
                                                         />
-                                                        <button @click="uploadFile"
+                                                        <!-- <button @click="$refs.inputFileSelected.click()" class="sm md lg xl btn btn-primary">
+                                                            Choisir un fichier
+                                                        </button> -->
+                                                        
+                                                        <button @click="uploadFile()"
+                                                            method="post"
+                                                            type = "button"
                                                             id="btnUpload"  
-                                                            class="sm md lg xl btn btn-outline-success form-control-file" type = "button">
+                                                            class="sm md lg xl btn btn-outline-success form-control-file primary" >
                                                             <i class="fa fa-download"></i>
                                                         </button>
                                                     </div>
                                                 <!-- FIN -->
-                                            </form> 
+                                            </form>
+                                            
                                         <!-- FIN -->
                                         
                                         <div class="space"></div> 
@@ -108,6 +133,7 @@
                                                             </validationProvider>
                                                         </div>
                                                     <!-- FIN -->
+                                                    
                                                     <!-- CHAMP OLD PASSWORD -->
                                                         <div class="form-group">
                                                             <label for="InputPassword">Ancien mot de passe</label>
@@ -122,6 +148,7 @@
                                                             </validationProvider>
                                                         </div>
                                                     <!-- FIN -->
+                                                    
                                                     <!-- CHAMP UPDATED PASSWORD -->
                                                         <div class="form-group">
                                                             <label for="InputPassword">Nouveau mot de passe</label>
@@ -136,19 +163,21 @@
                                                             </validationProvider>
                                                         </div>
                                                     <!-- FIN -->
+                                                    
                                                     <!-- POSITION BOUTONS UPDATE ET DELETE -->
                                                         <div class='btnUpdateDelete'>
                                                             <!-- Bouton de validation Mettre type="button" pour éviter "form not connected" -->
-                                                                <button @click="submitUpdated"
+                                                                <button @click="submitUpdated(user.userID)"
                                                                     id="btnModif" 
                                                                     type="button" class="sm md lg xl btn btn-outline-success">
                                                                     <i class="fas fa-pen"></i> 
                                                                 </button>
                                                             <!-- FIN -->
+
                                                             <div class="space"></div>
                                                             <!-- BOUTON SUPPRESSION DE COMPTE mettre en dehors de validationObserver en dessous-->
                                                             <!-- Bouton de validation Mettre type="button" pour éviter "form not connected" -->
-                                                                <button @click="deleteAccount" id="btnDelete" type="button" class="sm md lg xl btn btn-outline-danger">
+                                                                <button @click="deleteAccount(user.userID)" id="btnDelete" type="button" class="sm md lg xl btn btn-outline-danger">
                                                                     <i class="fas fa-trash-alt"></i> 
                                                                 </button>
                                                             <!-- FIN -->
@@ -192,17 +221,19 @@
         data () {
         return {
             
+            // Etat de connection pour rendu conditionnel
             user: "",
-            // infos user loggé
-            // user : [],
-            // récupération dans localStorage et conversion en int avec +
-            userID: +localStorage.getItem("userID"), 
+            
+            // Infos user logged récupération dans localStorage et conversion en int avec +
+            userID: +localStorage.getItem("userID"),
+            username: localStorage.getItem("username"), 
+            // avatar:"",
             
             // infos des updates
+            file: null, // avatar user
             updatedUsername:"",
             password:"",
             updatedPassword:"",
-            file:"",
             
             // Gestion message d'erreurs des champs de saisie middleware express-validator
             error:"",
@@ -217,12 +248,7 @@
     
     created () {
         
-        // Get userById
-        // axios.get(`api/users/${userID}`)
-        // axios.get(`api/users/${this.$route.params.userID}`)
-        
         // route dynamique avec id du user loggé en paramètre
-        
         axios.get('api/users/'+ this.userID)
         .then(response => {
             console.log(response.data)
@@ -235,6 +261,11 @@
     
     
     methods: {
+        
+        handleFile(event){
+            this.file= event.target.files[0];
+            console.log(event);
+        },
         
         // FONCTION DE CHARGEMENT DE FICHIER USER
         uploadFile() {
@@ -249,7 +280,7 @@
                 console.log(obj);
             }
             
-            // axios.get(`api/users/${id}`)
+            // axios.get(`api/users/${userID}`)
             // axios.get(`api/users/${this.$route.params.id}`)
             axios.post('api/users/updateuser/:userId', fileUploaded, {
                 headers: {
@@ -276,7 +307,7 @@
         
         
         // Fonction submitUpdated des updatedDatas
-        submitUpdated() {
+        submitUpdated(userID) {
             
             // 1) Récupération des données à poster au backend
             const dataPosted = new FormData();
@@ -289,27 +320,30 @@
                 console.log(obj);
             }
             
-            // image du user
-            // avatar:`${req.protocol}://${req.get('host')}/image/${req.file.filename}`
-            
-            // 3) Requête axios post vers endpoint express.js
-            // updateUserById
-            // axios.put(`api/users/${id}`)
-            // axios.put(`api/users/${this.$route.params.id}`)
-            
-            axios.put('api/users/updateuser/:userId', dataPosted, {
-                headers: {
-                    // mettre header pour que le front configure les infos correctement pour le backend
-                    'content-type': 'multipart/form-data',
-                    'Authorization': 'Bearer '+ localStorage.getItem('token'),
-                }
-            })
+            // boite de dialogue pour confirmation
+            if(confirm(this.username+', voulez vous modifier vos informations?'))
+            // 3) Requête put axios vers endpoint express.js
+            axios.put(`api/users/${userID}/update`, dataPosted)
             .then(response => {
                 console.log(response.data);
+                // notification de réussite avec FlashMessage
+                this.flashMessage.show({
+                    status: 'success',
+                    icon: '../assets/success.png',
+                    title: 'PUBLICATION REUSSIE !!!',
+                    message: 'Votre post a été publié avec succés'
+                })
             })
             .catch((error) => {
                 console.log(error);
-                this.error = error.response.data.errors; 
+                this.error = error.response.data.errors;
+                // notif erreur avec flashmessage
+                this.flashMessage.show({
+                    status: 'error',
+                    icon: 'success',
+                    title: 'ERREUR !!!',
+                    message: 'Une erreur est survenue'
+                })
             })
             
             // 4) reset inputs
@@ -319,35 +353,41 @@
         
         
         // Fonction qui supprime le compte user
-        deleteAccount() {
-            // 2) Requête axios delete vers endpoint express.js
-            
-            // deleteUserById
-            // axios.delete(`api/users/${id}`)
-            // axios.delete(`api/users/${this.$route.params.userID}`)
-            axios.delete('api/users/deleteuser/:userId', {
-                headers: {
-                    // mettre header pour que le front configure les infos correctement pour le backend
-                    'content-type': 'multipart/form-data',
-                    'Authorization': 'Bearer '+ localStorage.getItem('token'),
-                }
-            })
-            .then(response => {
-                console.log(response.data);
-                console.log('button cliked !!!');
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        deleteAccount(userID) {
+            if(confirm(this.username+', voulez vous vraiment supprimer votre compte?'))
+                axios.delete(`api/users/${userID}/delete,`)
+                .then(response => {
+                    console.log(response.data);
+                    console.log('button cliked !!!');
+                    // redirection vers page signup
+                    this.$router.push('/groupomania/signup');
+                    // notification de réussite avec FlashMessage
+                    this.flashMessage.show({
+                        status: 'success',
+                        icon: '../assets/success.png',
+                        title: 'SUPPRESSION DU COMPTE REUSSIE !!!',
+                        message: 'Votre compte a été supprimé avec succés'
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                    // notif erreur avec flashmessage
+                    this.flashMessage.show({
+                        status: 'error',
+                        icon: 'success',
+                        title: 'ERREUR !!!',
+                        message: 'Une erreur est survenue'
+                    })
+                })
             
             // 3) Redirection vers page signup
             // this.$router.push('/groupomania/signup');
         },
         
         
-        hide(){
-            this.isDisplay = false
-        },
+        // hide(){
+        //     this.isDisplay = false
+        // },
         
         // fonction qui transforme le format de la date reçu pour un meilleur affichage
         dateFormat(date){                                                       
@@ -424,9 +464,10 @@
                 list-style: none
                 padding: 0
             #btnShow
-                width: 15vh
+                width: 30vh
             #formFileLg
                 margin-right: 1vh
+                
             #uploadInputBtn
                 display: inline-flex
                 justify-content: space-between

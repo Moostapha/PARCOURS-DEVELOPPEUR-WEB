@@ -28,8 +28,5 @@ Router.delete('/:commentID/delete', auth, multer, commentCtler.deleteComment);
 // Router.put('/:commentID/update', auth, rules.validFormComment, rules.validate, commentCtler.updateComment);
 
 
-
-
-
 // Exportation
 module.exports = Router

@@ -44,8 +44,7 @@
                         <validationProvider 
                             name="password" 
                             rules="required|alpha_num" 
-                            v-slot="{ errors }"
-                        >
+                            v-slot="{ errors }">
                             <!-- 2 way binding grâce à v-model qui remplira data (objet signup ligne 49) avec input -->
                             <input 
                                 v-model="password"
@@ -64,8 +63,8 @@
                         </button>
                     </div>
                 </form>
-
             </ValidationObserver>
+            <FlashMessage></FlashMessage>
         </div>
     </div>
 </template>
@@ -128,13 +127,27 @@
                     // redirection vers route fil d'actualité
                     this.$router.push('/groupomania/publications');
                     
-                    // alert('Connexion réussie !!!!')
+                    // flashmessage ('Connexion réussie !!!!')
+                    // this.flashMessage.show({
+                    //     status: 'success',
+                    //     icon: '../assets/success.png',
+                    //     title: 'CONNEXION REUSSIE !!!',
+                    //     message: 'Compte authentifié'
+                    // })
+                    
                     
                 })
                 .catch((error) => {
                     // récupération de la réponse du middleware validator.js validation des champs de saisie des formulaires
                     // this.error linked a error dans data et à v-if error dans render template
                     this.error = error.response.data.errors; //.errors at the end à cause du format réponse dans middleware express-validator
+                     // notif user avec flashmessage
+                    this.flashMessage.show({
+                        status: 'error',
+                        icon: 'success',
+                        title: 'ERREUR !!!',
+                        message: 'Une erreur est survenue'
+                    })
                 })
             },
             

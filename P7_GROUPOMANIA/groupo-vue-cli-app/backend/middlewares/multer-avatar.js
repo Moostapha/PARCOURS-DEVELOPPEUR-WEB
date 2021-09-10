@@ -1,6 +1,7 @@
 const multer = require('multer');
 
-// Dico d'extension des fichiers images téléchargeables pour les publications
+// Dico d'extension des fichiers images téléchargeables pour les avatars users
+
 const MIME_TYPES = {
     'image/jpg' : 'jpg',
     'image/jpeg' : 'jpg',
@@ -12,7 +13,7 @@ const MIME_TYPES = {
 const storage = multer.diskStorage({  
     // callback (arg1 => no error, arg2 => dossier de destination)    
     destination: (req, file, callback) => {
-        callback(null, 'images/post');
+        callback(null, 'images/avatar');
     },
     filename: (req, file, callback) => {
         // récup nom fichier + supp + remplacement des espaces car soucis éventuel côté server
@@ -24,4 +25,4 @@ const storage = multer.diskStorage({
     }
 });
 
-module.exports = multer({ storage: storage }).single('imagePost');
+module.exports = multer({ storage: storage }).single('avatar');

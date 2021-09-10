@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@smartweb/vue-flash-message": "^0.6.10",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap": "^4.5.3",
     "caniuse-lite": "^1.0.30001247",
     "core-js": "^3.6.5",

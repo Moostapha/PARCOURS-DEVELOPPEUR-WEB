@@ -10,9 +10,8 @@ Table post => postID | idUserAuteur | username | contentPost | date_creation */
 exports.getAll = () => {
     return new Promise((resolve, reject) => { 
         // Préparation requête SQL
-        // const sql = 'SELECT * FROM posts' changement SQL avec jointure sur table users
-        // faire des tests ici pour enlever le duplicated key id et userId the same
-        const sql = 'SELECT * FROM posts ORDER BY posts.date_creation DESC';
+        //const sql = 'SELECT * FROM posts ORDER BY posts.date_creation DESC' => post du plus récent au moins récent
+        const sql = 'SELECT * FROM posts';
         // Exécution requête
         dbmySql.query( sql, function(error, results, fields) {
             if (error) reject(error);
@@ -52,12 +51,12 @@ exports.create = ( userID, username, contentPost ) => {
     })
 };
 
+
 // Fonction requête sql pour MODIFIER un post after
 exports.update = ( contentPost, postID ) => {
     return new Promise((resolve,result,reject) => {
         //requete sql dans une const
         //'UPDATE posts SET contentPost=? WHERE postID =?'   
-        // UPDATE `posts` SET `contentPost` = 'test' WHERE `posts`.`postID` = 11
         const sql = 'UPDATE `posts` SET `contentPost`= ? WHERE `posts`.`postID` = ?' ;
         let dataUpdated = [contentPost, postID]
         dbmySql.query( sql, dataUpdated , function (error, results, fields){
@@ -67,6 +66,7 @@ exports.update = ( contentPost, postID ) => {
         })
     })
 };
+
 
 // Fonction requête sql pour SUPPRIMER un post (after)
 exports.delete = (postID) => { 
@@ -97,15 +97,14 @@ exports.upload = (userID, username, imagePost) => {
 
 
 // Fonction update upload image du post
-exports.updateUpload = (imagePost, postID) => {
+exports.updateUpload = ( imagePost, postID ) => {
     return new Promise(() => {
-        const sql = "UPDATE `posts` SET `imagePost` = ? WHERE `posts`.`postID` = ?";
+        const sql = 'UPDATE `posts` SET `imagePost`= ? WHERE `posts`.`postID` = ?';
         let data = [imagePost, postID]
         dbmySql.query(sql, data, function(error, results, fields){
             if(error) reject(error);
-            resolve(results);
-            console.log(results)
+            console.log('Résultat du update image: ',results);
+            resolve(results)
         })
-        
     })
 };

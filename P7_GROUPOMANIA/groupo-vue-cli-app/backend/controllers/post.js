@@ -134,13 +134,13 @@ exports.updateImagePost = async(req, res, next) => {
     const file = req.file;
     console.log("Nouveau fichier: ", file);
     
-    // URL dynamique du fichier à stocker dans la db
+    // URL dynamique du fichier mis à jour à stocker dans la db
     const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
     
     // Enregistrement dans la db via le Model updateUpload
     const updatedFilePost = await postModel.updateUpload(
-        updatedData.postID,
-        imageURL
+        imageURL,
+        updatedData.postID
     );
     console.log('Résultat de la promise: ', updatedFilePost);
     res.status(200).json({

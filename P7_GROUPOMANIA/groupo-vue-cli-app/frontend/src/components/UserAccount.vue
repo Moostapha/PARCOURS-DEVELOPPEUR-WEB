@@ -25,7 +25,7 @@
                             </h2>
                             <div class="d-flex flex-column align-items-center text-center">
                                 <!-- :src="require(`@/assets/${user.image}`)"  :alt="user.name"-->
-                                <img :src="user.avatar" alt="userPic" class="rounded-circle" width="150" ref="fileSelectedInput">
+                                <img :src="user.avatar" alt="userPic" class="rounded-circle" ref="fileSelectedInput">
 
                                 <input @change="handleFile"
                                     type="file"
@@ -33,13 +33,14 @@
                                     style="display: none"
                                     ref="fileSelectedInput"
                                     class="btnPost form-control-file sm md lg xl btn btn-primary"
+                                    
                                 />
-                                <button @click="$refs.fileSelectedInput.click()" class="sm md lg xl btn btn-primary">Choisir une image</button>
+                                <button @click="$refs.fileSelectedInput.click()" id="chooseAvatarPic" class="sm md lg xl btn btn-primary">Choisir une image</button>
 
                                 <div class="mt-3">
                                     <!-- <div class="col-md-3"> -->
                                     <!-- INFOS DU PROFIL -->
-                                        <h4 >Infos de votre compte:</h4>
+                                        <h4 >Infos de votre compte</h4>
                                         <p class="text-secondary mb-1">
                                             Email: {{user.email}}
                                         </p>
@@ -442,6 +443,11 @@
         h2
             font-weight: 800
             color: royalblue
+        .rounded-circle // avatar user
+            width: 200px
+        h4 
+            color: #007bff
+            font-weight: 700
         .card
             padding-top: 5vh
             box-shadow: 0px 15px 15px 0px 
@@ -463,11 +469,12 @@
                 margin-bottom: 1rem
                 list-style: none
                 padding: 0
+            #chooseAvatarPic
+                margin-top: 1vh
             #btnShow
                 width: 30vh
             #formFileLg
                 margin-right: 1vh
-                
             #uploadInputBtn
                 display: inline-flex
                 justify-content: space-between
@@ -484,4 +491,3 @@
                 height: 7vh
                 width: 10vh
 </style>
-

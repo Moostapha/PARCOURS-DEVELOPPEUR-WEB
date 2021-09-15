@@ -45,7 +45,6 @@
           <!-- TEXTAREA + BTN PUBLIER + BTN TELECHARGER FICHIER -->
             <label for="inputpost">Quoi de neuf ?</label>
             <ValidationObserver v-slot="{ handleSubmit}">
-              <!-- <label for="inputpost">Que voulez vous dire?</label> -->
               <form @submit.prevent="handleSubmit(createPost)" class="formPost" method="post" enctype="multipart/form-data">
               
                 <!--  CHAMP PUBLICATION (POST) => Seuls les champs de formulaires valides sont inclus dans un objet FormData, c'est-à-dire ceux qui portent un nom (attribut name) -->
@@ -78,29 +77,9 @@
                         Publier
                       </button>
                     <!-- FIN -->
-                    <!-- CHOISIR UN FICHIER -->
-                      <!-- <input :change="handleFileUpload()"
-                        ref="file"
-                        type="file"
-                        method="post" 
-                        id="" 
-                        class="btnPost form-control-file sm md lg xl btn btn-primary" 
-                      /> -->
-                    <!-- FIN -->
-                    <!-- BTN TELECHARGER -->
-                      <!-- <button @click="submitFile()"
-                        id="btnPost"  
-                        type = "button"
-                        method="post"
-                        class="sm md lg xl btn btn-primary form-control-file">
-                        <i class="fa fa-download"></i>
-                        Télécharger
-                      </button> -->
-                    <!-- FIN -->
-                  <!-- </div> -->
-                <!-- FIN -->
               </form>
             </ValidationObserver>
+            
             
             <label>Ajoutez des images</label>
             <div class="buttonPost">
@@ -161,6 +140,7 @@
                         <!-- FIN -->
                       </div>
                     
+                    <div class="imgPostContentPost">
                     <!-- PUBLICATION IMAGE -->
                       <figure v-if="post.imagePost"  class="imgPost">
                         <img :src="post.imagePost" alt="">
@@ -262,13 +242,15 @@
                             </div>
                           <!-- FIN -->
                       </div>
+                      </div> 
                     <!-- FIN -->
                     
-                    <hr class="my-0.5">
+                    
                   </div>
                   <!-- FIN CARD INFO -->
                 </div>
                 <!-- FIN CARD-BODY -->
+                
                 
                 <!-- --------------------------------------------------------------  COMMENTAIRES  --------------------------------------------------------------------------- -->
                 <!-- PARTIE COMMENTAIRE DES POSTS -->
@@ -366,7 +348,7 @@ export default {
   
   // sera exporté vers views/Actualites.vue
   name: "Posts",
-  props: { msg: String},
+  props: { msg: String },
   
   data() {
     return {
@@ -764,61 +746,76 @@ export default {
         padding: 0px
       .info
         flex: 2
-      .avatar
+      .avatar //div contenant image avatar + nom
         padding: 0vh
         display: flex
         flex-direction: row
         align-items: center
         margin-left: -12vh
+        @media screen and (min-width: 1599px)
+          margin-left: -10vh
+        @media screen and (max-width: 1599px)
+          margin-left: -11vh
         @media screen and (max-width: 768px)
           flex-direction: column
           margin-left: 0vh
-      
-      .card-img
-        margin: 2vh 0vh
-        flex-shrink: 1
-        background-color: #f2f4f6
-        box-shadow: 0px 5px 5px #e0e3ea
-        border: groove
-        border-radius: 100%
-        // padding: 2vh 0vh 0vh 0vh
-        width: 40%
-        @media screen and (max-width: 767px)
-          width: 30%
-      
-      .card-title
-        margin-top: 2vh
-        margin-left: -7vh
-        padding: 2vh
-        border: groove 0.3px //inset
-        border-radius: 2vh
-        width: 75%
-        @media screen and (max-width: 768px)
-          margin: 0vh 1vh 0vh 1vh
-          width: 60%
-          margin-left: 0vh
+        // avatarUser
+        .card-img
+          margin: 2vh 0vh
+          flex-shrink: 1
+          background-color: #f2f4f6
+          box-shadow: 0px 5px 5px #e0e3ea
+          border: groove
+          border-radius: 100%
+          width: 50%
+          @media screen and (max-width: 768px)
+            width: 35%
+        // Username
+        .card-title
+          margin-top: 2vh
+          margin-left: -13vh
+          padding: 2vh
+          border: groove 0.3px //inset
+          border-radius: 2vh
+          width: 70%
+          @media screen and (min-width: 1599px)
+            width: 73%
+            margin-left: -7vh
+          @media screen and (max-width: 1599px)
+            width: 72%
+            margin-left: -9vh
+          @media screen and (max-width: 768px)
+            margin: 0vh 1vh 0vh 1vh
+            width: 60%
+            margin-left: 0vh
       .imgPost
         box-shadow: 0px 5px 5px #e0e3ea
-        // margin-top: 4vh
+        margin-top: 2vh
         border-radius: 3vh
         border: solid .5px
         @media screen and (max-width: 768px)
           border: none 
           margin-top: 2vh
         img
-          margin: 3vh 0vh 3vh 0vh
-          width: 70%
+          margin: 1vh 0vh 0vh 0vh
+          padding: 0vh 1vh
+          width: 100%
+          border-radius: 2vh
       .card-text
         margin: 3vh 1vh 3vh 1vh
+        padding-left: 2vh
         display: flex
         justify-content: space-between
         border-radius: 4vh
         box-shadow: 0px 5px 5px #e0e3ea
-        background-color: #f2f4f6
+        background-color: white
+        border: solid .5px
         align-items: flex-end
+        @media screen and (max-width: 768px)
+          border: none
         .publication 
           width: 95%
-          margin: 0vh 1vh 4vh
+          margin: 0vh 0vh 2vh
           display: flex
           flex-direction: column
           align-items: flex-start
@@ -828,7 +825,7 @@ export default {
           small
             align-self: center
           .space
-            height: 6vh
+            height: 1vh
           .likeThumbsCommenter
             @media screen and (max-width: 440px) 
               display: flex
@@ -843,17 +840,17 @@ export default {
             margin-left: 1vh
             @media screen and (max-width: 440px)
               padding: 0vh
-              margin-top: 1vh
+              margin: .5vh 0vh
               padding-top: 1vh
               width: 15vh
           #btnCommenter
             margin-right: 1vh
             @media screen and (max-width: 440px)
-              margin: 0vh
+              margin-bottom: .5vh
       .btnModifSupPublication
-        // display: flex
+        // display: 
         margin-top: 0vh
-        margin-bottom: 3vh
+        margin-bottom: 1vh
         width: 24%
         .btn
           margin: 1vh

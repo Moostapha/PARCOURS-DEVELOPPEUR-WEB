@@ -145,7 +145,7 @@ export default {
             imgUpdated.append('imagePost', this.newFileSelected);
             imgUpdated.append('postID', this.postID);
             
-            console.log(Array.from(imgUpdated));
+            console.log('Fichier modifié: ',Array.from(imgUpdated));
             
             // Requête axios au back => envoie des données modifiées
             axios.put(`api/posts/${this.$route.params.postID}/updateImg`, imgUpdated)

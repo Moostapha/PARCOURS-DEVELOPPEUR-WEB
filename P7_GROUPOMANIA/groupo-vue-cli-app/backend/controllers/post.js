@@ -30,6 +30,7 @@ exports.getOnePost = async(req, res, next) => {
 
 // Fonction créant un post
 exports.createPost = async(req, res, next) => {
+    
     // on capture le corps de la requete dans une cst
     const created = JSON.parse(JSON.stringify(req.body));
     // const created = req.body;
@@ -75,6 +76,7 @@ exports.updatePost = async(req, res, next) => {
 
 // Fonction supprimant un post (after) à modifier pour supprimer file 
 exports.deletePost = async(req, res, next) => {
+
     //Récup. clé primaire à supp
     const postID = req.params.postID;
     console.log('postId post supprimé: ', postID);
@@ -110,7 +112,7 @@ exports.uploadImagePost = async(req, res, next) => {
     console.log('Nom du fichier téléchargé: ', req.file.filename,);
     
     // Insertion ligne dans database
-    const uploadedFilePost = await postModel.upload(
+    const uploadedFilePost = await postModel.uploadImage(
         //inputs venant du front (axios)
         createdData.userID,
         createdData.username,
@@ -131,14 +133,14 @@ exports.updateImagePost = async(req, res, next) => {
     console.log("Corps de la requête axios: ", updatedData);
     
     // Nouveau fichier image
-    const file = req.file;
+    const file = JSON.parse(req.file);
     console.log("Nouveau fichier: ", file);
     
     // URL dynamique du fichier mis à jour à stocker dans la db
     const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
     
     // Enregistrement dans la db via le Model updateUpload
-    const updatedFilePost = await postModel.updateUpload(
+    const updatedFilePost = await postModel.updateUploadImage(
         imageURL,
         updatedData.postID
     );

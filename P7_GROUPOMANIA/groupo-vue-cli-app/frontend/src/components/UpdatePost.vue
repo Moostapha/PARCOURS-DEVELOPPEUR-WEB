@@ -2,17 +2,17 @@
 <div class="updatePost">
     
     <div class="formAndBtns">
-        
+        <label for="updatePostInputForm" id="updateLabel">{{msg}}</label>
         <form @submit.prevent action="" method="post" type="submit" enctype="multipart/form-data">
             
-            <h2>{{msg}}</h2>
+            <!-- <h2>{{msg}}</h2> -->
             
             <AlertNotifValidator v-if="error" 
             alertType= "alert-danger"
             alertMsg= 'Erreur ! Vérifiez les informations saisies:'
             :error="error"/>
             
-            <label for="updatePostInputForm"></label>
+            <!-- <label for="updatePostInputForm" id="updateLabel">{{msg}}</label> -->
             <textarea 
                 v-model="contentPost"
                 name="contentPost"
@@ -23,9 +23,9 @@
                 require="required">
             </textarea>
             <!-- <label for="floatingTextarea">Modifier...</label> -->
-           
+            
         </form>
-         <div class="dispoBtn">
+        <div class="dispoBtn">
                 <button @click="updatePost()"
                     method="post"
                     type="button" 
@@ -41,24 +41,22 @@
                         class="btnPost form-control-file sm md lg xl btn btn-primary"
                     />
                     <button @click="$refs.fileSelectedInput.click()"  
-                    class="sm md lg xl btn btn-outline-primary" >
-                    Modifier image
+                        class="sm md lg xl btn btn-outline-primary" >
+                        Choisir image
                     </button>
                 <!-- FIN -->  
                 <!-- BTN TELECHARGER -->
                     <button @click="updateFile()"
-                    name="imagePost"
-                    
-                    type = "button"
-                    method="post"
-                    class="sm md lg xl btn btn-outline-primary">
-                    <i class="fa fa-download"></i>
-                    Télécharger
+                        name="imagePost"
+                        type = "button"
+                        method="post"
+                        class="sm md lg xl btn btn-outline-primary">
+                        <i class="fa fa-download"></i>
+                        Modifier image
                     </button>
                 <!-- FIN -->
                 <router-link :to="{name:'Fil d\'actualité'}">
-                    <button 
-                        type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger">
                         Annuler
                     </button>
                 </router-link>
@@ -90,13 +88,13 @@ export default {
         return {
             postID: +this.$route.params.postID,
             contentPost:"",
-            newFileSelected: null,
+            newFileSelected: null, // newImagePost
             error:"",
         }
     },
     
     methods: {
-        // Modif post texte
+        // Modif contentPost
         updatePost(){
             // Données à transmettre au back
             let postUpdated = new FormData();
@@ -138,7 +136,7 @@ export default {
             console.log(event);
         },
         
-        //Modif post image
+        //Modif imagePost
         updateFile(){
             // Préparation du formdata à envoyer au back
             let imgUpdated = new FormData();
@@ -186,21 +184,21 @@ export default {
         background-image: url('../assets/img2.jpg')
         background-size: cover
         .formAndBtns
-            padding: 30vh 25vh 15vh 25vh
-            // display: flex
-            // justify-content: center
-            // flex-direction: column
-            // background-image: url('../assets/img2.jpg')
-            // background-size: cover
-        h2
+            padding: 30vh 0vh 15vh 0vh
+        #updateLabel
             color: white
-            margin: 0vh
+            margin: 0vh 
+            float: left
+            font-size: xx-large
+            @media screen and (max-width: 768px) 
+                font-size: large
         #updatePostInputForm
             height: 30vh
             width: 100vh
             @media screen and (max-width: 440px) 
-                width: 80vh
+                width: 70vh
                 height: 20vh
+                margin-right: 0vh
             @media screen and (max-width: 348px) 
                 width: 60vh
                 height: 20vh
@@ -211,6 +209,10 @@ export default {
         .dispoBtn
             display: flex
             margin-top: 1vh
+            @media screen and (max-width: 440px)
+                flex-direction: column
             .btn
                 margin: 1vh
+                // @media screen and (max-width: 768px) 
+                //     font-size: small
 </style>

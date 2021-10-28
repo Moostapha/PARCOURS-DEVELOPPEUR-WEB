@@ -87,6 +87,11 @@ const userAccountInput = () => {
             .trim()
             .escape(),
             
+        body('email')
+            .not().isEmpty().withMessage('Champs "Email" requis')
+            .isEmail().normalizeEmail().withMessage('Format email non valide')
+            .trim()
+            .escape(),
         
         body('password')
             .not().isEmpty().withMessage('Champs "Mot de passe" requis')
@@ -96,13 +101,14 @@ const userAccountInput = () => {
             .trim()
             .escape(),
         
-        body('newPassword')
-            .not().isEmpty().withMessage('Champs "Nouveau mot de passe" requis')
-            .isAlphanumeric().withMessage('Caractères alphanumériques')
-            .isLength({min:3, max:10}).withMessage('Longueur minimum 3 caractères, maximum 10')
-            .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
-            .trim()
-            .escape(),
+
+        // body('newPassword')
+        //     .not().isEmpty().withMessage('Champs "Nouveau mot de passe" requis')
+        //     .isAlphanumeric().withMessage('Caractères alphanumériques')
+        //     .isLength({min:3, max:10}).withMessage('Longueur minimum 3 caractères, maximum 10')
+        //     .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
+        //     .trim()
+        //     .escape(),
         ]
     };
 

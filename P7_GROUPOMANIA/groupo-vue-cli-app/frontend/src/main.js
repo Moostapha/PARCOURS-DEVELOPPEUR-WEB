@@ -1,4 +1,6 @@
 import Vue from 'vue'
+// Vue.forceUpdate()
+
 import App from './App.vue'
 
 // Ajout de bootstrap by us

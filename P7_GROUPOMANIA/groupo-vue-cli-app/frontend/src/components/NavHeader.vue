@@ -77,6 +77,8 @@ export default {
   font-size: x-large
   background-color: white //#42b7b945
   justify-items: center
+  @media screen and (max-width: 768px)
+    font-size: large 
   #navbarNavDropdown
     justify-content: center
   h3

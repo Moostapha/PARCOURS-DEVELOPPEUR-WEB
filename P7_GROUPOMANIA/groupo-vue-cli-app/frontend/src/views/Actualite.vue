@@ -1,6 +1,6 @@
 <template>
   <div class="accueil-posts">
-    <Posts msg ="MUR DES PUBLICATIONS"/>
+    <Posts msg ="MUR DES PUBLICATIONS" :key="componentKey"/>
   </div>
 </template>
 
@@ -13,5 +13,19 @@ import Posts from '../components/PostsComments.vue'
 export default {
   name: 'Actualite',
   components: { Posts },
+  
+  data() {
+    return {
+      componentKey: 0,
+    };
+  },
+  methods: {
+    forceRerender() {
+      this.componentKey += 1;
+    }
+  },
+  created(){
+    this.forceRerender()
+  }
 }
 </script>

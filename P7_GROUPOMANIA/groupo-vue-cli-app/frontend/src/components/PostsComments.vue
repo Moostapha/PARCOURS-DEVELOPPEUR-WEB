@@ -41,9 +41,9 @@
           />
         <!-- FIN -->
         
-        <div v-if="user">
+        <div v-if="user" class="textImageSubmit">
           <!-- TEXTAREA + BTN PUBLIER + BTN TELECHARGER FICHIER -->
-            <label for="inputpost">Quoi de neuf ?</label>
+            <label for="inputpost" id="labelInputPost">Publiez du texte ou...</label>
             <ValidationObserver v-slot="{ handleSubmit}">
               <form @submit.prevent="handleSubmit(createPost)" class="formPost" method="post" enctype="multipart/form-data">
               
@@ -81,7 +81,7 @@
             </ValidationObserver>
             
             
-            <label>Ajoutez des images</label>
+            <label>...Ajoutez des images</label>
             <div class="buttonPost">
               <!-- CHOISIR UN FICHIER -->
                 <input @change="handleFileSelected"
@@ -104,7 +104,7 @@
                   method="post"
                   class="sm md lg xl btn btn-primary form-control-file">
                   <i class="fa fa-download"></i>
-                  Télécharger et publier
+                    publier image
                 </button>
               <!-- FIN -->
             </div>
@@ -168,27 +168,48 @@
                           <div class="space"></div>
                           
                           <!-- BOUTONS COMMENTER + LIKES | DISLIKE -->
-                            <div class="likeThumbsCommenter">
-                              <router-link :to="{ name: 'NewComment' , params: {postID: post.postID} }">
-                                <button 
-                                    id="btnCommenter"
-                                    type="button"
-                                    class="sm md lg btn btn-outline-primary">
-                                    <i type="button"  
-                                    class="far fa-comments"></i>
-                                    Commenter
-                                </button>
-                              </router-link>
-                              <!-- BOUTONS LIKE + DISLIKE -->
-                                <button @click="counterlike(post.postID)"
+                            <div id="likeThumbsCommenter">
+                            
+                              <!-- BOUTON COMMENTER -->
+                                <router-link :to="{ name: 'NewComment' , params: {postID: post.postID} }">
+                                  <button 
+                                      id="btnCommenter"
+                                      type="button"
+                                      class="sm md lg btn btn-outline-primary">
+                                      <i type="button"  
+                                      class="far fa-comments"></i>
+                                      Commenter
+                                  </button>
+                                </router-link>
+                              <!-- FIN -->
+                            
+                              <!-- BOUTON LIKE -->
+                                <button  @click="likePost(post.postID)"
                                   method="post"
                                   id='btnThumb' 
                                   type="button"
                                   class="sm md lg btn btn-outline-primary"> 
                                   <i class="far fa-thumbs-up"></i>
-                                  <span id="like">0</span>
+                                  <div class= "allLikes" v-for="(like, index) in likes" :key="index">
+                                    <span id="like"  v-if="like.id_post_reacted === post.postID">
+                                      {{like.like}}
+                                    </span>
+                                  </div>
                                 </button>
-                                <button @click="counterdislike(post.postID)"
+                                
+                                <!-- <button v-else-if="reaction.like === 0" @click="likePost(post.postID)"
+                                  method="post"
+                                  id='btnThumb' 
+                                  type="button"
+                                  class="sm md lg btn btn-outline-primary"> 
+                                  <i class="far fa-thumbs-up"></i>
+                                    <span id="like">0</span>
+                                </button> -->
+                                  
+                              <!-- FIN -->  
+                            
+                              <!-- BOUTON DISLIKE -->
+                                <button @click="dislikePost(post.postID)"
                                   method="post"
                                   id='btnThumb' 
                                   type="button"
@@ -279,7 +300,7 @@
                           </div>
                           
                           <!-- ACCES BOUTON DELETE + UPDATE  COMMENT SSI C'EST L'AUTEUR -->
-                            <div class="actionOnComment" v-if="comment.id_user_auteur_comment === userID">
+                            <div class="actionOnComment" v-if="comment.id_user_auteur_comment === userID" >
                               <span @click="show= !show">...</span>
                               <div class="btnOnComment"  v-if="show">
                                 <span @click="updateComment(comment.commentID)" 
@@ -352,22 +373,29 @@ export default {
   
   data() {
     return {
-      // imagePost:false,
+      
       // Statut administrateur
       is_admin: 1,
       
-      // data pour state connection + infos user loggé authentifié récupéré depuis localStorage
+      // data pour state connection
       user: "", 
+      
+      // infos user connecté + authentifié récupéré depuis localStorage
       username: localStorage.getItem("username"), 
       userID: +localStorage.getItem("userID"),
       
       // fichier image téléchargé
       fileSelected: null,
       
-      // Affichage de tous les users | posts | comments => infos à getter du backend, toutes les données des 3 tables
+      // Affichage de tous les users | posts | comments | likes | dislikes => infos à getter du backend, toutes les données des 3 tables
       users: [],
       posts: [], 
       comments: [],
+      likes: [],
+      dislikes: [],
+      
+      // compteur ilke/dislike
+      counter:0,
       
       // infos à envoyer au backend dans la table posts
       publication: {
@@ -385,20 +413,30 @@ export default {
         contentComment:"",
       },
       
+      reaction:{
+        id_post_reacted:"", // postID
+        id_user_auteur_reaction:"",  // userID
+        like:"",
+        dislike:""
+      },
+      
       // gestion des erreurs de saisie du formulaire + apparition notif user
       error:'',
       
-      // montrer actions ossible sur commentaire auteur + admin
-      show: false
+      // montrer actions possibles sur commentaire auteur + admin
+      show: false,
+      
+      componentKey: 0
     }
     
   },
   
-  created() {
+  
+  mounted() {
     
+  // Affichage user loggé
     axios.get('api/users/' + this.userID)
     .then(response => {
-      // réponse vide sans this.userID
       console.log(response.data);
       this.user = response.data.user;
     })
@@ -435,11 +473,29 @@ export default {
     .catch((error) => {
       console.log(error);
     })
+    
+  // Affichage de tous les likes
+    axios.get('api/reactions/likes')
+    .then(response => {
+      console.log(response.data);
+      this.likes = response.data.likes
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  
+  // Affichage de tous les dislikes
+    axios.get('api/reactions/dislikes')
+    .then(response => {
+      console.log(response.data);
+      this.dislikes = response.data.dislikes
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    
+    // this.forceRerender()
   },
-
-  // mounted(){
-  //   this.createPost()
-  // },
   
   // Formatage des données de formulaire transmis via axios, il faut préciser, traduire les données transmises
   // on a un tableau avec +sieurs types de données différents à envoyer => string, int, images etc....
@@ -447,6 +503,10 @@ export default {
   // FormData => infos createdPost
     
     methods: {
+    
+    // forceRerender() {
+    //   this.componentKey += 1;
+    // },
     
     // FONCTION BOUTON "AJOUTER UN POST" POUR DU TEXTE
     createPost(){
@@ -464,7 +524,10 @@ export default {
       axios.post('api/posts/create', formData)
       .then(response => {
         console.log(response.data);
-        
+        // this.posts = response.data; // on met le data dans array posts
+        // refreshing page actuelle (windows.go(n))
+        // this.$router.go(0)
+        // this.contentPost = this.publication.contentPost
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',
@@ -472,11 +535,6 @@ export default {
           title: 'PUBLICATION REUSSIE !!!',
           message: 'Votre post a été publié avec succés'
         })
-        // redirection
-        this.$router.push('/groupomania/publications')
-        // this.$router.go(this.$router.currentRoute)
-        // this.$forceUpdate('/groupomania/publications')
-        // this.$router.go()
       })
       .catch((error) => {
         console.log(error);
@@ -493,6 +551,12 @@ export default {
       
       // 4) reset du input post form
       this.publication = "";
+      
+      // refreshing page
+      // this.componentKey += 1;
+      // this.$router.push('/groupomania/publications')
+      // this.$router.go(this.$router.currentRoute)
+      // this.$forceUpdate('/groupomania/publications')
     },
     
     
@@ -534,7 +598,7 @@ export default {
     },
     
     
-    // FONCTION BOUTON SUPPRESSION DE POST PAR SON AUTEUR + ADMIN
+    // FONCTION BOUTON SUPPRESSION DE POST PAR SON AUTEUR + ADMIN (régulateur)
     deletePost(postID){
       
       if(confirm(this.username +', voulez vous vraiment supprimer ce post?'))
@@ -560,8 +624,10 @@ export default {
         })
     },
     
+    
     // FONCTION BOUTON DE SUPPRESSION DU COMMENTAIRE PAR SON AUTEUR + ADMIN (régulateur)
     deleteComment(commentID){
+      
       if(confirm(this.username+', voulez vous vraiment supprimer ce commentaire ?'))
       axios.delete( `api/comments/${commentID}/delete`)
       .then(response => {
@@ -591,21 +657,86 @@ export default {
       
       
     },
-
+    
     // FONCTION BOUTON LIKE 
-    counterlike(){
-      let countLike = 0;
-      countLike++;
-      document.getElementById('like').innerHTML= countLike;
-      console.log('clicked');
+    likePost(postID){
+      
+      // test pour le postID dynamique
+      alert(postID)
+      
+      // Préparation envoie données du formulaire (entrées = lignes table likes)
+      const formData = new FormData();
+      formData.append('id_post_reacted', postID);
+      formData.append('id_user_auteur_reaction', this.userID);
+      // formData.append('like', 1);
+      console.log(Array.from(formData));
+      
+      axios.post('api/reactions/like' , formData)
+      .then(response => {
+        console.log(response.data);
+        
+        // Notif reussite
+        this.flashMessage.show({
+          status: 'success',
+          icon: true,
+          title: 'LIKE REUSSIE !!!',
+          message: 'Votre like sur ce post a été publié avec succés'
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+        
+        // Notif échec
+        this.flashMessage.show({
+          status: 'error',
+          icon: 'success',
+          title: 'ERREUR !!!',
+          message: 'Une erreur est survenue'
+        })
+      })
+      
+      // let countLike = 0;
+      // countLike++;
+      // document.getElementById('like').innerHTML= countLike;
+      // console.log('clicked');
+      
     },
     
     // FONCTION BOUTON DISLIKE 
-    counterdislike(){
-      let countDislike = 0;
-      countDislike++;
-      document.getElementById('dislike').innerHTML= countDislike;
-      console.log('clicked')
+    dislikePost(postID){
+      
+      // test pour le postID dynamique
+      alert(postID)
+      
+      // Préparation envoie données du formulaire (entrées = lignes table likes)
+      const formData = new FormData();
+      formData.append('id_post_reacted', postID);
+      formData.append('id_user_auteur_reaction', this.userID);
+      formData.append('dislike', 1);
+      
+      // datas envoyés dans console
+      console.log(Array.from(formData));
+      
+      axios.post('api/reactions/dislike' , formData)
+      .then(response => {
+        console.log(response.data);
+        this.flashMessage.show({
+          status: 'success',
+          icon: true,
+          title: 'DISLIKE REUSSIE !!!',
+          message: 'Votre dislike sur ce post a été publié avec succés'
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      
+      
+      // let countDislike = 0;
+      // countDislike++;
+      // document.getElementById('dislike').innerHTML= countDislike;
+      // console.log('clicked')
+      //alert(postID)
     },
     
     
@@ -660,7 +791,10 @@ export default {
       label
         font-size: xx-large
         @media screen and (max-width: 768px)
-          font-size: larger 
+          font-size: larger
+      #labelInputPost
+          float: left
+          margin-left: 7vh
       h5, h6
         box-shadow: 2px 5px 5px #e0e3ea
         font-weight: bold
@@ -704,24 +838,43 @@ export default {
           color: red
       .btnpublier
         margin-top: 3vh
-        width: 20%
+        width: 15%
+        border-radius: 4vh
+        font-size: large
+        font-weight: bold
+        @media screen and (max-width: 1041px)
+          width: 16%
+        @media screen and (max-width: 768px)
+          font-size: small
+          width: 15%
+          border-radius: 2vh
+        @media screen and (max-width: 500px)
+          font-size: x-small
+          width: 20%
+          border-radius: 2vh
+          padding: 1vh
       // Boutons publier + télécharger 
       .buttonPost
         // display: inline-flex
         display: flex
         justify-content: space-around
         align-items: center
-        @media screen and (max-width: 768px)
+        @media screen and (max-width: 320px)
           display: flex
           flex-direction: column
           margin-top: 0vh
           padding: 0vh 4vh 0vh 4vh
         #btnPost
-          width: 25%
+          width: 20%
           border-radius: 4vh
+          font-size: large
+          font-weight: bold
           // margin: 1vh
+          @media screen and (max-width: 1200px)
+            font-size: large
+            width: 23%
           @media screen and (max-width: 768px)
-            width: 20%
+            width: 25%
             font-size: small
             border-radius: 1vh
             @media screen and (max-width: 500px)
@@ -767,7 +920,9 @@ export default {
           box-shadow: 0px 5px 5px #e0e3ea
           border: groove
           border-radius: 100%
-          width: 50%
+          width: 45%
+          @media screen and (max-width: 1440px)
+            width: 40%
           @media screen and (max-width: 768px)
             width: 35%
         // Username
@@ -826,27 +981,33 @@ export default {
             align-self: center
           .space
             height: 1vh
-          .likeThumbsCommenter
+          #likeThumbsCommenter
+            display: flex
+            
             @media screen and (max-width: 440px) 
               display: flex
               flex-direction: column
-          .fa-thumbs-up, .fa-thumbs-down
-            margin: 0 rem
-            font-size: x-large
-          #like, #dislike
-            font-size: large
-          #btnThumb
-            padding: 0.5vh
-            margin-left: 1vh
-            @media screen and (max-width: 440px)
-              padding: 0vh
-              margin: .5vh 0vh
-              padding-top: 1vh
-              width: 15vh
-          #btnCommenter
-            margin-right: 1vh
-            @media screen and (max-width: 440px)
-              margin-bottom: .5vh
+            .fa-thumbs-up, .fa-thumbs-down
+              margin: 0 rem
+              font-size: x-large
+            // .allLikes
+            //   display: flex
+            //   flex-direction: row
+            #like, #dislike
+              font-size: large
+            #btnThumb
+              padding: 0.5vh
+              margin-left: 1vh
+              display: flex
+              @media screen and (max-width: 440px)
+                padding: 0vh
+                margin: .5vh 0vh
+                padding-top: 1vh
+                width: 15vh
+            #btnCommenter
+              margin-right: 1vh
+              @media screen and (max-width: 440px)
+                margin-bottom: .5vh
       .btnModifSupPublication
         // display: 
         margin-top: 0vh

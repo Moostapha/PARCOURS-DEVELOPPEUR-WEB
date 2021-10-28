@@ -54,7 +54,7 @@ exports.create = ( userID, username, contentPost ) => {
 
 // Fonction requête sql pour MODIFIER un post after
 exports.update = ( contentPost, postID ) => {
-    return new Promise((resolve,result,reject) => {
+    return new Promise((resolve,reject) => {
         //requete sql dans une const
         //'UPDATE posts SET contentPost=? WHERE postID =?'   
         const sql = 'UPDATE `posts` SET `contentPost`= ? WHERE `posts`.`postID` = ?' ;
@@ -70,6 +70,7 @@ exports.update = ( contentPost, postID ) => {
 
 // Fonction requête sql pour SUPPRIMER un post (after)
 exports.delete = (postID) => { 
+    
     return new Promise((resolve,reject) => {
         const sql = 'DELETE FROM `posts` WHERE `posts`.`postID` = ?';
         dbmySql.query( sql, [postID], function (error, results, fields){
@@ -82,7 +83,8 @@ exports.delete = (postID) => {
 
 
 // Fonction upload image du post
-exports.upload = (userID, username, imagePost) => {
+exports.uploadImage = (userID, username, imagePost) => {
+
     return new Promise((resolve, reject) =>{
         // 'INSERT INTO `posts` ( imagePost ) VALUES (?) WHERE `posts`.`postID` = ?'
         // 'INSERT INTO posts ( id_user_auteur_post, username, imagePost ) VALUES (?,?,?)'
@@ -97,14 +99,15 @@ exports.upload = (userID, username, imagePost) => {
 
 
 // Fonction update upload image du post
-exports.updateUpload = ( imagePost, postID ) => {
-    return new Promise(() => {
+exports.updateUploadImage = ( imagePost, postID ) => {
+    
+    return new Promise((resolve, reject) => {
         const sql = 'UPDATE `posts` SET `imagePost`= ? WHERE `posts`.`postID` = ?';
         let data = [imagePost, postID]
-        dbmySql.query(sql, data, function(error, results, fields){
+        dbmySql.query(sql, data, function(error, result, fields){
             if(error) reject(error);
-            console.log('Résultat du update image: ',results);
-            resolve(results)
+            console.log('Résultat du update image: ',result);
+            resolve(result)
         })
     })
 };

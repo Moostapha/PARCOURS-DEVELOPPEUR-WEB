@@ -33,7 +33,6 @@ export default {
 
 <style lang="sass" scoped>
     footer
-        
         padding: 5vh
         background-color: white //#42b7b945//#4280b945
         .container
@@ -44,6 +43,8 @@ export default {
             a 
                 font-weight: bold
                 font-size: x-large
+                @media screen and (max-width: 768px)
+                    font-size: large
                 color: #2c3e50
                 padding: 1.5vh
                 text-decoration: none
@@ -55,5 +56,3 @@ export default {
                 padding: 0.5rem
             
 </style>
-
-

@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, callback) => {
         // récup nom fichier + supp + remplacement des espaces car soucis éventuel côté server
-        const name = file.originalname.split(' ').join('_');
+        const name = file.originalname.split(' ',).join('_');
         // création extension fichier à l'aide du dico
         const extension = MIME_TYPES[file.mimetype];
         // Nom de fichier unique=> nomFichier + date + extensionFichier

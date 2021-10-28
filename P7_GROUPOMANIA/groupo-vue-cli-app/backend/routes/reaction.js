@@ -14,9 +14,31 @@ const auth = require('../middlewares/authentification');
 const multer = require('../middlewares/multer');
 
 
-Router.post('/:postID/like', auth, multer, reactionCtler.likePost);
+// ENDPOINTS
 
-Router.post('/:postID/dislike', auth, multer, reactionCtler.dislikePost);
+// Route pour afficher tous les likes
+Router.get('/likes', auth, reactionCtler.getAllLikes);
 
 
+// Route pour afficher tous les dislikes
+Router.get('/dislikes', auth, reactionCtler.getAllDislikes);
+
+
+// Route créant un like sur un post dans la table likes
+Router.post('/like', auth, multer, reactionCtler.likePost);
+
+
+// Route créant un dislike sur un post dans la table dislikes
+Router.post('/dislike', auth, multer, reactionCtler.dislikePost);
+
+
+// Route modifiant un like
+// Router.put('/:postID/like', auth, multer, reactionCtler.updateLikePost);
+
+
+// Route modifiant un dislike
+// Router.put('/:postID/dislike', auth, multer, reactionCtler.updateDislikePost);
+
+
+// exportation vers app.js
 module.exports = Router

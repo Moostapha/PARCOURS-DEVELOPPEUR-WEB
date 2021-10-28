@@ -60,11 +60,12 @@ exports.getOneUser = (userID) => {
 
 // Fonction modifiant une ligne de la table users
 
-exports.updateUser = (username, email,  password, userID) => {
+exports.updateUser = (username, email, password, userID) => {
+
     return new Promise((resolve, reject) =>{
         // prepared request UPDATE FROM users SET username=?, password=? WHERE id=?
-        // ;
-        const sql ='UPDATE `users` SET `username`=? , `password`=? WHERE `users`.`userID` = ?'; // est ce que la requête correspond à update Username || password?
+        // Requête sql
+        const sql ='UPDATE `users` SET `username`=? , `email`=?, `password`=? WHERE `users`.`userID` = ?'; // est ce que la requête correspond à update Username || password?
         let dataUpdated = [username, email, password, userID]
         //executed request
         dbmySql.query( sql, dataUpdated, function(error, result, field){ 
@@ -75,7 +76,17 @@ exports.updateUser = (username, email,  password, userID) => {
     })
 };
 
+exports.updateAvatar = (avatar, userID) => {
 
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE `users` SET `avatar` = ? WHERE `users`.`userID` = ?'
+        let dataUpdated = [avatar, userID]
+        dbmySql.query(sql, dataUpdated, function(error, result, field){
+            if(error) reject(error);
+            resolve(result);
+        })
+    })
+}
 
 // Fonction requete sql effacant la ligne liée à l'id de la table user
 

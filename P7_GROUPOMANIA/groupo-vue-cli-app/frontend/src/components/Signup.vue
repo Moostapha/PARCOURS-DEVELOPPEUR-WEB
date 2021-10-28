@@ -96,7 +96,7 @@
         components: {
         AlertNotifValidator
         },
-
+        
         data () {
             return {
                 // inputs formulaire
@@ -108,7 +108,7 @@
                 error: "",
             }
         },
-
+        
         methods: {
         
         // fonction eventListener submit sur le click => promise avec appel qui nécessite une attente (await)

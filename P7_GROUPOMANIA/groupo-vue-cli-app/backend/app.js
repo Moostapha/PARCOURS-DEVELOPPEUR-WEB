@@ -18,7 +18,7 @@ const morgan = require('morgan');
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
-
+const reactionRoutes = require('./routes/reaction');
 
 // PARTIE MIDDLEWARES de app.js
 
@@ -63,7 +63,7 @@ app.use('/images', express.static(path.join(__dirname, 'images'))); // gestion d
 app.use('/api/users', userRoutes); // Route user
 app.use('/api/posts', postRoutes);  // Route post
 app.use('/api/comments', commentRoutes);  // Route commentaire
-
+app.use('/api/reactions', reactionRoutes) // Route reaction
 
 // export vers le server.js
 module.exports= app;

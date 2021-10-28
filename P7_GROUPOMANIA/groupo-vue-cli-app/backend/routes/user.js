@@ -19,6 +19,9 @@ const rules = require('../middlewares/validator');
 // Middleware gérant fichiers venant du front
 const multer = require('../middlewares/multer');
 
+// Middleware gérant fichiers venant du front
+const multerAvatar = require('../middlewares/multerAvatar');
+
 
 
 // ROUTES ENDPOINTS CRUD USER 
@@ -27,12 +30,11 @@ const multer = require('../middlewares/multer');
 router.post('/signup', bouncer.block, rules.userSignupInput(), rules.validate, userCtler.signup); 
 
 
-// route connexion user
-// , bouncer.block avant all others
+// route connexion user => bouncer.block avant all others
 router.post('/login', bouncer.block, rules.userLoginInput(), rules.validate, userCtler.login); 
 
 
-//  route pour voir all users  => component PostsComments.vue
+// route pour voir all users  => component PostsComments.vue
 router.get('/', auth, userCtler.getAllUsers); 
 
 
@@ -44,18 +46,13 @@ router.get('/:userID', auth, userCtler.getUser);
 router.delete('/:userID/delete', auth, userCtler.deleteUser); 
 
 
-// route pour update password et username profil user  => UserAccount.vue
-router.put('/:userID/update', auth,  multer, rules.userAccountInput(), rules.validate, userCtler.updateUser); 
+// route pour update infos profil user  => UserAccount.vue
+router.put('/:userID/updateInfo', auth,  multer, rules.userAccountInput(), rules.validate, userCtler.updateUser); 
 
 
+// Route update avatar du profil
+router.put('/:userID/updateAvatar', auth, multerAvatar, userCtler.updateUserAvatar); 
 
-// Methods	Urls	Actions
-// GET	api/user	get all users
-// GET	api/user/:id	get user by id
-// POST	api/user	add new user
-// PUT	api/user/:id	update user by id
-// DELETE	api/user/:id	remove user by id
-// DELETE	api/user	remove all user
-// GET	api/user?title=[kw]	find all user which title contains 'kw'
 
+// Exportation vers app.js
 module.exports = router;

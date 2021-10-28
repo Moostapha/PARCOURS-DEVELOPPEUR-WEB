@@ -1,6 +1,6 @@
 <template>
     <div class="createComment">
-        <CreateComment msg='Donner votre avis sur ce post'/>
+        <CreateComment msg='Commenter ce post:'/>
     </div>
 </template>
 

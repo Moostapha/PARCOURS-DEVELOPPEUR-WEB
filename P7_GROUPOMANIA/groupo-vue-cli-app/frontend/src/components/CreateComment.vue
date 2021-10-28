@@ -3,8 +3,8 @@
     
     <div class="form">
         <ValidationObserver v-slot="{ handleSubmit}">
+                <!-- <label>{{msg}}</label> -->
             <form @submit.prevent="handleSubmit(createComment)" method="post" type="submit" enctype="multipart/form-data">
-                <h2>{{msg}}</h2>
 
                 <!-- NOTIF USER VALIDATION CHAMPS FROM -->
                     <AlertNotifValidator v-if="error" 
@@ -13,7 +13,7 @@
                         :error="error"
                     />
                 <!-- FIN -->
-                <label for="commentInputForm"></label>
+                <label for="commentInputForm" id="commentInputLabel"> {{msg}}</label>
                 <validationProvider name="comment" rules="required|alpha_num" v-slot="{ errors }">
                     <textarea v-model="contentComment"
                         id="commentInputForm"
@@ -111,7 +111,6 @@ export default {
                     title: 'SUCCES !!!',
                     message: 'Modification du commentaire réussie'
                 })
-
             })
             .catch((error) => {
                 console.log(error);
@@ -139,8 +138,12 @@ export default {
         padding: 30vh 0vh 15vh 0vh
         background-image: url('../assets/img3.jpg')
         background-size: cover
-        h2
+        #commentInputLabel
             color: white
+            // float: left
+            font-size: xx-large
+            @media screen and (max-width: 768px)
+                font-size: large
         #commentInputForm
             height: 30vh
             width: 100vh
@@ -148,16 +151,26 @@ export default {
             margin-top: 3vh
             padding-top: 2vh
             padding-left: 2vh
-            @media screen and (max-width: 440px) 
-                width: 80vh
+            @media screen and (max-width: 453px) 
+                width: 75vh
                 height: 20vh
             @media screen and (max-width: 348px) 
-                width: 60vh
+                width: 61vh
                 height: 20vh
         span
             color: red
+            font-size: medium
         .dispoBtn
             display: flex
+            @media screen and (max-width: 426px)
+                    font-size: small
+                    justify-content: center
             .btn
                 margin: 1vh
+                font-size: x-large
+                @media screen and (max-width: 768px)
+                    font-size: medium
+                @media screen and (max-width: 426px)
+                    font-size: small
+                    justify-content: center
 </style>

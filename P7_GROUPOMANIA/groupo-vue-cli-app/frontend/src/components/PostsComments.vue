@@ -183,39 +183,41 @@
                                 </router-link>
                               <!-- FIN -->
                             
-                              <!-- BOUTON LIKE -->
-                                <button  @click="likePost(post.postID)"
+                              <!-- BOUTON LIKE + NOMBRE DE LIKES SUR CHAQUE POST -->
+                                <button v-if ="like" @click="likePost(post.postID)"
                                   method="post"
                                   id='btnThumb' 
                                   type="button"
                                   class="sm md lg btn btn-outline-primary"> 
                                   <i class="far fa-thumbs-up"></i>
-                                  <div class= "allLikes" v-for="(like, index) in likes" :key="index">
-                                    <span id="like"  v-if="like.id_post_reacted === post.postID">
-                                      {{like.like}}
-                                    </span>
-                                  </div>
+                                    <!-- boucle sur [likes]  -->
+                                      <div class= "allLikes" v-for="(like, index) in likes" :key="index">
+                                        <!-- condition assignant le like sur son post -->
+                                          <span id="like"  v-if="like.postID === post.postID">
+                                            {{like.reactionsLike}}
+                                          </span>
+                                        <!-- fin -->
+                                      </div>
+                                    <!-- fin -->
                                 </button>
-                                
-                                <!-- <button v-else-if="reaction.like === 0" @click="likePost(post.postID)"
-                                  method="post"
-                                  id='btnThumb' 
-                                  type="button"
-                                  class="sm md lg btn btn-outline-primary"> 
-                                  <i class="far fa-thumbs-up"></i>
-                                    <span id="like">0</span>
-                                </button> -->
-                                  
                               <!-- FIN -->  
                             
-                              <!-- BOUTON DISLIKE -->
+                              <!-- BOUTON DISLIKE + NOMBRE DE DISLIKE SUR CHAQUE POST -->
                                 <button @click="dislikePost(post.postID)"
                                   method="post"
                                   id='btnThumb' 
                                   type="button"
                                   class="sm md lg btn btn-outline-danger"> 
                                   <i class="far fa-thumbs-down"></i>
-                                  <span id="dislike">0</span>
+                                  <!-- boucle sur [dislikes] -->
+                                    <div class= "allLikes" v-for="(dislike, index) in dislikes" :key="index">
+                                      <!-- condition assignant le dislike sur son post -->
+                                        <span id="dislike" v-if="dislike.postID === post.postID" >
+                                          {{dislike.reactionsDislike}}
+                                        </span>
+                                      <!-- fin -->
+                                    </div>
+                                  <!-- fin -->
                                 </button>
                               <!-- FIN -->
                             </div>
@@ -376,7 +378,9 @@ export default {
       
       // Statut administrateur
       is_admin: 1,
-      
+      like: 1,
+      // isLiked: 1,
+      // isNotLiked: 0,
       // data pour state connection
       user: "", 
       
@@ -680,7 +684,7 @@ export default {
           status: 'success',
           icon: true,
           title: 'LIKE REUSSIE !!!',
-          message: 'Votre like sur ce post a été publié avec succés'
+          message: 'Vous aimez ce post !!!'
         })
       })
       .catch((error) => {
@@ -724,7 +728,7 @@ export default {
           status: 'success',
           icon: true,
           title: 'DISLIKE REUSSIE !!!',
-          message: 'Votre dislike sur ce post a été publié avec succés'
+          message: 'Vous n\'aimez pas ce post !!!'
         })
       })
       .catch((error) => {

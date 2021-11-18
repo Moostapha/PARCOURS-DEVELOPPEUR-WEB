@@ -6,13 +6,15 @@ const dbmySql = require('../mysqlconnection');
 exports.getLikes = () => {
     
     return new Promise((resolve, reject) => {
-        //'SELECT SUM (`like`) FROM `reactions`'
-        //'SELECT * FROM `reactions` WHERE `reactions`.`like` = 1 '
-        //SELECT SUM(`like`) FROM `reactions` WHERE `reactions`.`id_post_reacted`= 23; => addition all likes pour post 23
-        const sql = 'SELECT * FROM `reactions` WHERE `reactions`.`like` = 1 ';
+        //'SELECT SUM (`like`) FROM `reactions`' => additionne tous les likes de la table
+        //'SELECT * FROM `reactions` WHERE `reactions`.`like` = 1'
+        //SELECT SUM (`like`) FROM `reactions` WHERE `reactions`.`id_post_reacted`= 23; => addition all likes pour post 23
+        // SUM OU COUNT CHECKER LES 2
+        const sql = 'SELECT `posts`.`postID`, COUNT(DISTINCT `reactions`.`like`) AS reactionsLike FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`';
         dbmySql.query(sql, function(error, results, fields){
             if (error) reject(error);
             resolve(results);
+            console.log(results);
             // console.log(fields)
         })
     })
@@ -21,9 +23,11 @@ exports.getLikes = () => {
 
 // Fonction GET donnant tous les dislikes
 exports.getDislikes = () => {
-    
+    // SELECT * FROM `reactions` WHERE `reactions`.`dislike` = 1
+    // SUM OU COUNT checker les 2
+    //SELECT `posts`.`postID`, SUM(DISTINCT `reactions`.`dislike`) AS reactionsDislike FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM `reactions` WHERE `reactions`.`dislike` = 1 ';
+        const sql = 'SELECT `posts`.`postID`, COUNT(DISTINCT `reactions`.`dislike`) AS reactionsDislike FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`';
         dbmySql.query(sql, function(error, results, fields){
             if(error) reject (error);
             resolve(results);

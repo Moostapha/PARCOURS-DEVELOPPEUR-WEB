@@ -25,6 +25,8 @@ exports.getAllDislikes = async(req, res, next) => {
 // Fonction créant un like
 exports.likePost = async(req, res, next)=> {
     // Capture corps requête venant du front via axios
+    // req.body.id_post_reacted => postID
+    // req.body.id_user_auteur_reaction => userID
     const like = req.body;
     console.log('corps requête POST by axios: ', like);
     

@@ -92,7 +92,8 @@ exports.uploadImage = (userID, username, imagePost) => {
         let data = [userID, username, imagePost]
         dbmySql.query(sql, data, function(error, results, fields){
             if(error) reject(error);
-            resolve(results)
+            resolve(results);
+            console.log(results);
         })
     })
 };
@@ -107,7 +108,8 @@ exports.updateUploadImage = ( imagePost, postID ) => {
         dbmySql.query(sql, data, function(error, result, fields){
             if(error) reject(error);
             console.log('Résultat du update image: ',result);
-            resolve(result)
+            resolve(result);
+            console.log(result);
         })
     })
 };

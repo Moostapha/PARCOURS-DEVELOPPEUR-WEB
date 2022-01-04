@@ -61,7 +61,7 @@ exports.getOneUser = (userID) => {
 // Fonction modifiant une ligne de la table users
 
 exports.updateUser = (username, email, password, userID) => {
-
+    
     return new Promise((resolve, reject) =>{
         // prepared request UPDATE FROM users SET username=?, password=? WHERE id=?
         // Requête sql
@@ -114,5 +114,4 @@ exports.getUsers = () => {
             resolve(results);
         })
     })
-
 };

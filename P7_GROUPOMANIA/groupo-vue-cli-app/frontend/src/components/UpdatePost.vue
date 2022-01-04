@@ -13,6 +13,9 @@
             :error="error"/>
             
             <!-- <label for="updatePostInputForm" id="updateLabel">{{msg}}</label> -->
+
+            <!-- Note : Seuls les champs de formulaires valides sont inclus dans un objet FormData, 
+            c'est-à-dire ceux qui portent un nom (attribut name) -->
             <textarea 
                 v-model="contentPost"
                 name="contentPost"
@@ -96,11 +99,14 @@ export default {
     methods: {
         // Modif contentPost
         updatePost(){
+            
             // Données à transmettre au back
             let postUpdated = new FormData();
             postUpdated.append('contentPost', this.contentPost);
             postUpdated.append('postID', this.postID );
             console.log(Array.from(postUpdated));
+            
+            // requête axios du frontend vers le backend => Récup. dynamique de postID dans l'URL via vue.router
             //headers d'axios configuré en global dans axiosConfig.js => Token + content-type
             axios.put(`api/posts/${this.$route.params.postID}/update`, postUpdated)
             .then(response => {

@@ -1,11 +1,14 @@
 import Vue from 'vue'
+
 import VueRouter from 'vue-router'
-import AccueilConnexion from '../views/AccueilConnexion' // Import view pour page d'accueil connexion (component Login)
-import Inscription from '../views/Inscription.vue' //  Import view pour page signup (component Signup)
-import Actualite from '../views/Actualite.vue' // Import view pour page publications (component Posts)
-import Profil from '../views/Profil'           // Import view pour page profil (component UserAccount)
-import ModifPost from '../views/ModifPost'
-import NewComment from '../views/NewComment'
+import AccueilConnexion from '../views/AccueilConnexion'     // Import view pour page d'accueil connexion (component Login)
+import Inscription from '../views/Inscription.vue'          //  Import view pour page signup (component Signup)
+import Actualite from '../views/Actualite.vue'             // Import view pour page publications (component Posts)
+import Profil from '../views/Profil'                      // Import view pour page profil (component UserAccount)
+import ModifPost from '../views/ModifPost'               // Import pour page de modification post
+import NewComment from '../views/NewComment'            // Import pour page d'edition commentaire
+import ModifComment from '../views/ModifComment'       // Import pour page de modification commentaire
+import AdminDashboard from '../views/AdminDashboard'  // Import pour page de l'administrateur
 
 Vue.use(VueRouter)
 
@@ -24,7 +27,7 @@ const routes = [
     component: AccueilConnexion // component venant de views importé en haut
   },
   
-
+  
   // URL PAGE D'INSCRIPTION navbar: signup | component: Signup => views: Inscription
   {
     path: '/groupomania/signup',
@@ -32,7 +35,7 @@ const routes = [
     component: Inscription
   },
   
-
+  
   // URL PAGE FIL D'ACTUALITE navbar: publications | component: Posts => views: Actualite
   {
     path: '/groupomania/publications',       // URL correspondant au composant
@@ -43,23 +46,32 @@ const routes = [
     // }
   },
   
-
-  // URL Page de modification des posts => UpdatePost.vue dans view ModifPost.vue
+  
+  // URL Page de modification des posts => Component: UpdatePost.vue dans view: ModifPost.vue
   {
     path: '/groupomania/publications/:postID/editer',
     name: 'ModifPost',
     component: ModifPost
   },
   
-
+  
   // URL Page d'édition des commentaires => CreatePost.vue dans view NewComment.vue
+  // Récupération dynamique du postID pour y assigner une commentaire => Navigation programmatique
   {
-    path: '/groupomania/publications/:postID/commentaire',
+    path: '/groupomania/publications/:postID/commentaire/editer',
     name: 'NewComment',
     component: NewComment
   },
   
-
+  
+  // URL PAGE MODIFICATION D'UN COMMENTAIRE PAR SON AUTEUR => Component: UpdateComment.vue dans views: ModifComment.vue
+  // Navigation programmatique pour récupérer de manière dynamique le commentID à modifier dans la table comments de la db groupomania
+  {
+    path: '/groupomania/commentaire/:commentID/modifier',
+    name: 'ModifComment',
+    component: ModifComment
+  },
+  
   // URL PAGE profil
   // component: UserAccount => views: profil
   {
@@ -67,6 +79,14 @@ const routes = [
     name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
     component: Profil,  // Composant affiché lorsque le path est trouvé
   },
+  
+  //URL page Admin Dashboard
+  {
+    path: '/groupomania/administrateur',   // URL correspondant au composant
+    name: 'Dashboard',                    // Nom de cette route pas obligatoire | champ non obligatoire
+    component: AdminDashboard,                   // Composant affiché lorsque le path est trouvé
+  },
+
 ]
 
 

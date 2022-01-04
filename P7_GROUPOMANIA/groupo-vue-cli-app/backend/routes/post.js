@@ -43,11 +43,9 @@ Router.put('/:postID/updateImg', auth, multer, postCtler.updateImagePost);
 Router.delete('/:postID/delete', auth, postCtler.deletePost);
 
 
-Router.post('/:postID/like');
-
-
-Router.post('/:postID/dislike');
-
+// TESTS
+// Router.post('/:postID/like');
+// Router.post('/:postID/dislike');
 // router.post("/:id/comment", auth, postCtrl.createComment);
 // router.post("/:id/reaction", auth, postCtrl.reactPost);
 // Router.post(':postID/reaction', auth, postCtler.deletePost);

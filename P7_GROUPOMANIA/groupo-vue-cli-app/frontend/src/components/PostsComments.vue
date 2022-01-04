@@ -139,136 +139,155 @@
                           </h5>
                         <!-- FIN -->
                       </div>
-                    
-                    <div class="imgPostContentPost">
-                    <!-- PUBLICATION IMAGE -->
-                      <figure v-if="post.imagePost"  class="imgPost">
-                        <img :src="post.imagePost" alt="">
-                        <figcaption v-for="(user, index) in users" :key="index"> 
-                          <small class="text-muted" v-if="user.userID === post.id_user_auteur_post">
-                            Image postée par {{user.username}}
-                          </small>
-                        </figcaption>
-                      </figure>
                     <!-- FIN -->
-                    <!-- AFFICHAGE CONTENU DU POST + BOUTONS -->
-                      <div class="card-text">
-                        <!-- <figure v-if="post.imagePost"  class="imgPost">
-                          <img :src="post.imagePost" alt="" style="width:80%">
-                        </figure> -->
-                        <div class="publication">
-                        
-                          <!-- PUBLICATION TEXTE -->
-                            <p>{{ post.contentPost }}</p>
-                            <small class="text-muted">
-                              auteur: {{ post.username }} - publié le: {{dateFormat(post.date_creation)}} 
-                            </small>
-                          <!-- FIN -->
+                    
+                    <!-- RENDU DYNAMIQUE  POST + TEXTE + BOUTONS -->
+                    <div class="imgPostContentPost">
+                      
+                      <!-- PUBLICATION IMAGE -->
+                        <!-- Condition: apparition de l'image du post que si elle existe dans la bd -->
+                          <figure v-if="post.imagePost" class="imgPost">
+                            <!-- {{post}} -->
+                            <img :src="post.imagePost" :alt="post.imagePost">
+                            <figcaption v-for="(user, index) in users" :key="index"> 
+                              <small class="text-muted" v-if="user.userID === post.id_user_auteur_post">
+                                Belle image partagée sur Groupomania par {{user.username}}
+                              </small>
+                            </figcaption>
+                          </figure>
+                        <!-- fin conditionnalité -->
+                      <!-- FIN PUBLICATION IMAGE -->
+                      
+                      <!-- AFFICHAGE CONTENU DU POST + BOUTONS -->
+                        <div class="card-text">
                           
-                          <div class="space"></div>
+                          <!-- IDEE DE RENDU INTERESSANT -->
+                            <!-- <figure v-if="post.imagePost"  class="imgPost">
+                              <img :src="post.imagePost" alt="" style="width:80%">
+                            </figure> -->
+                          <!-- FIN IDEE RENDU INTERESSANT -->
                           
-                          <!-- BOUTONS COMMENTER + LIKES | DISLIKE -->
-                            <div id="likeThumbsCommenter">
-                            
-                              <!-- BOUTON COMMENTER -->
-                                <router-link :to="{ name: 'NewComment' , params: {postID: post.postID} }">
-                                  <button 
-                                      id="btnCommenter"
-                                      type="button"
-                                      class="sm md lg btn btn-outline-primary">
-                                      <i type="button"  
-                                      class="far fa-comments"></i>
-                                      Commenter
-                                  </button>
-                                </router-link>
+                          <!-- TEXTE PUBLICATIONS + BOUTONS COMMENTER LIKE DISLIKE -->
+                            <div class="publication">
+                              
+                              <!-- PUBLICATION TEXTE -->
+                                <p>{{ post.contentPost }}</p>
+                                <small class="text-muted">
+                                  auteur: {{ post.username }} - publié le: {{dateFormat(post.date_creation)}} 
+                                </small>
                               <!-- FIN -->
-                            
-                              <!-- BOUTON LIKE + NOMBRE DE LIKES SUR CHAQUE POST -->
-                                <button v-if ="like" @click="likePost(post.postID)"
-                                  method="post"
-                                  id='btnThumb' 
-                                  type="button"
-                                  class="sm md lg btn btn-outline-primary"> 
-                                  <i class="far fa-thumbs-up"></i>
-                                    <!-- boucle sur [likes]  -->
-                                      <div class= "allLikes" v-for="(like, index) in likes" :key="index">
-                                        <!-- condition assignant le like sur son post -->
-                                          <span id="like"  v-if="like.postID === post.postID">
-                                            {{like.reactionsLike}}
+                              
+                              <div class="space"></div>
+                              
+                              <!-- BOUTONS COMMENTER + LIKES | DISLIKE -->
+                                <div id="likeThumbsCommenter">
+                              
+                                <!-- BOUTON COMMENTER UN POST SUR CHAQUE PUBLICATION-->
+                                  <router-link :to="{ name: 'NewComment' , params: {postID: post.postID} }">
+                                    <button 
+                                        id="btnCommenter"
+                                        type="button"
+                                        class="sm md lg btn btn-outline-primary">
+                                        <i type="button"  
+                                        class="far fa-comments"></i>
+                                        Commenter
+                                    </button>
+                                  </router-link>
+                                <!-- FIN -->
+                                
+                                <!-- BOUTON LIKE + NOMBRE DE LIKES SUR CHAQUE POST -->
+                                  <button v-if ="like" @click="likePost(post.postID)"
+                                    method="post"
+                                    id='btnThumb' 
+                                    type="button"
+                                    class="sm md lg btn btn-outline-primary"> 
+                                    <i class="far fa-thumbs-up"></i>
+                                      <!-- boucle sur [likes]  -->
+                                        <div class= "allLikes" v-for="(like, index) in likes" :key="index">
+                                          <!-- condition assignant le like sur son post -->
+                                            <span id="like"  v-if="like.postID === post.postID">
+                                              {{like.reactionsLike}}
+                                            </span>
+                                          <!-- fin -->
+                                        </div>
+                                      <!-- fin -->
+                                  </button>
+                                <!-- FIN BOUTON LIKE + NOMBRE DE LIKES SUR CHAQUE POST -->  
+                                
+                                <!-- BOUTON DISLIKE + NOMBRE DE DISLIKE SUR CHAQUE POST -->
+                                  <button @click="dislikePost(post.postID)"
+                                    method="post"
+                                    id='btnThumb' 
+                                    type="button"
+                                    class="sm md lg btn btn-outline-danger"> 
+                                    <i class="far fa-thumbs-down"></i>
+                                    <!-- boucle sur [dislikes] -->
+                                      <div class= "allLikes" v-for="(dislike, index) in dislikes" :key="index">
+                                        <!-- condition assignant le dislike sur son post -->
+                                          <span id="dislike" v-if="dislike.postID === post.postID" >
+                                            {{dislike.reactionsDislike}}
                                           </span>
                                         <!-- fin -->
                                       </div>
                                     <!-- fin -->
-                                </button>
-                              <!-- FIN -->  
-                            
-                              <!-- BOUTON DISLIKE + NOMBRE DE DISLIKE SUR CHAQUE POST -->
-                                <button @click="dislikePost(post.postID)"
-                                  method="post"
-                                  id='btnThumb' 
-                                  type="button"
-                                  class="sm md lg btn btn-outline-danger"> 
-                                  <i class="far fa-thumbs-down"></i>
-                                  <!-- boucle sur [dislikes] -->
-                                    <div class= "allLikes" v-for="(dislike, index) in dislikes" :key="index">
-                                      <!-- condition assignant le dislike sur son post -->
-                                        <span id="dislike" v-if="dislike.postID === post.postID" >
-                                          {{dislike.reactionsDislike}}
-                                        </span>
-                                      <!-- fin -->
-                                    </div>
-                                  <!-- fin -->
-                                </button>
-                              <!-- FIN -->
-                            </div>
-                          <!-- FIN -->
-                        </div>
-                        <!-- BOUTONS UPDATE + DELETE POST -->
-                          <!-- RENDU CONDITIONNEL L'ADMIN A ACCES A TOUTE ACTION SUR TOUS LES POSTS -->
-                          <div v-if="user.is_admin === 1" class="btnModifSupPublication">
-                            
-                            <!-- BOUTON MODIFPOST -->
-                              <router-link :to="{ name: 'ModifPost', params: {postID: post.postID} }">
-                                <button 
-                                  type="button" 
-                                  class="btn btn-outline-success">
-                                  <i class="fas fa-pen"></i>
-                                </button>
-                              </router-link>
-                            <!-- FIN -->
-                            
-                            <!-- BOUTON DELETEPOST -->
-                              <button  @click="deletePost(post.postID)" 
-                                type="button" 
-                                class="btn btn-outline-danger">
-                                <i class="fas fa-trash-alt"></i>
-                              </button>
-                            <!-- FIN -->
-                          </div>
-                          
-                          <!-- RENDU CONDITIONNEL DES BOUTONS DELETE ET UPDATE: SSI LE USER EST AUTEUR DU POST -->
-                            <div v-else-if="userID === post.id_user_auteur_post" class="btnModifSupPublication">
-                              <!-- BOUTON MODIFPOST -->
-                                <router-link :to="{ name: 'ModifPost', params: {postID: post.postID}}">
-                                  <button type="button" class="btn btn-outline-success">
-                                    <i class="fas fa-pen"></i>
                                   </button>
-                                </router-link>
-                              <!-- FIN -->
-                              <!-- BOUTON DELETEPOST -->
-                                <button @click="deletePost(post.postID)" 
-                                  type="button" 
-                                  class="btn btn-outline-danger">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <!-- FIN BOUTON DISLIKE + NOMBRE DE DISLIKE SUR CHAQUE POST -->
+                              </div>
                               <!-- FIN -->
                             </div>
-                          <!-- FIN -->
-                      </div>
-                      </div> 
-                    <!-- FIN -->
-                    
-                    
+                          <!-- FIN TEXTE PUBLICATIONS + BOUTONS COMMENTER LIKE DISLIKE -->
+                          
+                          <!-- BOUTONS UPDATE + DELETE POST -->
+                            <!-- 1) RENDU CONDITIONNEL L'ADMIN A ACCES A TOUTE ACTION SUR TOUS LES POSTS -->
+                              <div v-if="user.is_admin === 1" class="btnModifSupPublication">
+                                
+                                <!-- BOUTON MODIFPOST -->
+                                  <router-link :to="{ name: 'ModifPost', params: {postID: post.postID} }">
+                                    <button 
+                                      type="button" 
+                                      class="btn btn-outline-success">
+                                      <i class="fas fa-pen"></i>
+                                    </button>
+                                  </router-link>
+                                <!-- FIN -->
+                                
+                                <!-- BOUTON DELETEPOST -->
+                                  <button  @click="deletePost(post.postID)" 
+                                    type="button" 
+                                    class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                  </button>
+                                <!-- FIN -->
+                              </div>
+                            <!-- FIN RENDU CONDITIONNEL L'ADMIN A ACCES A TOUTE ACTION SUR TOUS LES POSTS -->
+                            
+                            <!-- 2) RENDU CONDITIONNEL DES BOUTONS DELETE ET UPDATE: SSI LE USER EST AUTEUR DU POST -->
+                              <div v-else-if="userID === post.id_user_auteur_post" class="btnModifSupPublication">
+                                
+                                <!-- BOUTON MODIFPOST -->
+                                  <router-link :to="{ name: 'ModifPost', params: {postID: post.postID}}">
+                                    <button type="button" class="btn btn-outline-success">
+                                      <i class="fas fa-pen"></i>
+                                    </button>
+                                  </router-link>
+                                <!-- FIN -->
+                                
+                                <!-- BOUTON DELETEPOST -->
+                                  <button @click="deletePost(post.postID)" 
+                                    type="button" 
+                                    class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                  </button>
+                                <!-- FIN -->
+                                
+                              </div>
+                            <!-- FIN RENDU CONDITIONNEL DES BOUTONS DELETE ET UPDATE: SSI LE USER EST AUTEUR DU POST-->
+                          <!-- FIN BOUTONS UPDATE ET DELETE -->
+                        
+                        </div>
+                      <!-- FIN AFFICHAGE CONTENU DU POST + BOUTONS (CARD TEXT)-->
+                    </div> 
+                    <!-- FIN RENDU DYNAMIQUE  POST + TEXTE + BOUTONS-->
                   </div>
                   <!-- FIN CARD INFO -->
                 </div>
@@ -303,31 +322,42 @@
                           
                           <!-- ACCES BOUTON DELETE + UPDATE  COMMENT SSI C'EST L'AUTEUR -->
                             <div class="actionOnComment" v-if="comment.id_user_auteur_comment === userID" >
+                            
                               <span @click="show= !show">...</span>
-                              <div class="btnOnComment"  v-if="show">
-                                <span @click="updateComment(comment.commentID)" 
-                                  id="updateComment" class="btn btn-outline-success" aria-hidden="true">
-                                  <i class="fas fa-pen"></i>
-                                </span>
+                              <!-- MENU DEROULANT DEVOILANT LES ACTIONS (BTNS SUR LE COMMENTAIRE) -->
+                                <div class="btnOnComment"  v-if="show">
                                 
-                                <span @click="deleteComment(comment.commentID)" 
-                                  id="deleteComment" class="btn btn-outline-danger" aria-hidden="true">
-                                  <i class="fas fa-trash-alt"></i>
-                                </span>
-                                <!-- <i class="far fa-paper-plane"></i>
-                                  <input> -->
-                              </div>
+                                  <!-- BOUTON MODIFICATION COMMENTAIRE PAR USER-AUTEUR -->
+                                    <router-link :to="{ name: 'ModifComment' , params: {commentID: comment.commentID} }">
+                                      <span id="updateComment" class="btn btn-outline-success" aria-hidden="true">
+                                        <i class="fas fa-pen"></i>
+                                      </span>
+                                    </router-link>
+                                  <!-- FIN BOUTON MODIFICATION COMMENTAIRE PAR USER-AUTEUR -->
+                                  
+                                  <!-- BOUTON DELETE COMMENTAIRE PAR USER-AUTEUR -->
+                                    <span @click="deleteComment(comment.commentID)" 
+                                      id="deleteComment" class="btn btn-outline-danger" aria-hidden="true">
+                                      <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                  <!-- BOUTON DELETE COMMENTAIRE PAR USER-AUTEUR -->
+                                
+                                </div>
+                              <!-- FIN MENU DEROULANT DEVOILANT LES ACTIONS (BTNS SUR LE COMMENTAIRE) -->
                             </div>
-                          <!-- FIN -->
+                          <!-- FIN ACCES BOUTON DELETE + UPDATE  COMMENT SSI C'EST L'AUTEUR -->
+                          
                           
                           <!-- ACCES BOUTON DELETE + UPDATE  COMMENT  SI C'EST L'ADMIN-->
                             <div class="actionOnComment" v-else-if="user.is_admin === 1">
                               <span @click="show= !show">...</span>
                               <div class="btnOnComment"  v-if="show">
-                                <span @click="updateComment(comment.commentID)" 
-                                  id="updateComment" class="btn btn-outline-success" aria-hidden="true">
-                                  <i class="fas fa-pen"></i>
-                                </span>
+                                <!-- a enlever car pas nécessaire pour admin -->
+                                  <span @click="updateComment(comment.commentID)" 
+                                    id="updateComment" class="btn btn-outline-success" aria-hidden="true">
+                                    <i class="fas fa-pen"></i>
+                                  </span>
+                                <!-- a enlever car pas nécessaire pour admin -->
                                 <span @click="deleteComment(comment.commentID)" 
                                   id="deleteComment" class="btn btn-outline-danger" aria-hidden="true">
                                   <i class="fas fa-trash-alt"></i>
@@ -379,8 +409,7 @@ export default {
       // Statut administrateur
       is_admin: 1,
       like: 1,
-      // isLiked: 1,
-      // isNotLiked: 0,
+      
       // data pour state connection
       user: "", 
       
@@ -417,6 +446,7 @@ export default {
         contentComment:"",
       },
       
+      // infos à envoyer au backend dans la table reactions
       reaction:{
         id_post_reacted:"", // postID
         id_user_auteur_reaction:"",  // userID
@@ -657,10 +687,6 @@ export default {
       })
     },
     
-    updateComment(){
-      
-      
-    },
     
     // FONCTION BOUTON LIKE 
     likePost(postID){
@@ -960,6 +986,8 @@ export default {
           padding: 0vh 1vh
           width: 100%
           border-radius: 2vh
+      .imgPost1
+        display: none
       .card-text
         margin: 3vh 1vh 3vh 1vh
         padding-left: 2vh
@@ -987,7 +1015,6 @@ export default {
             height: 1vh
           #likeThumbsCommenter
             display: flex
-            
             @media screen and (max-width: 440px) 
               display: flex
               flex-direction: column
@@ -1007,7 +1034,7 @@ export default {
                 padding: 0vh
                 margin: .5vh 0vh
                 padding-top: 1vh
-                width: 15vh
+                width: 10vh
             #btnCommenter
               margin-right: 1vh
               @media screen and (max-width: 440px)

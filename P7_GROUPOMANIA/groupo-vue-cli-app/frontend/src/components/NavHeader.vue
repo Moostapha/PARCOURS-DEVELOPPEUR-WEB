@@ -22,13 +22,28 @@
         
         <!-- RENDU DYNAMIQUE DU SEGMENT DYNAMIQUE :userID  -->
         <li class="nav-item">
-          <router-link :to="{ name : 'Profil', params: { userID: userID }}"><i class="fas fa-user-circle"></i>Profil</router-link>
+          <router-link :to="{ name : 'Profil', params: { userID: userID }}">
+            <i class="fas fa-user-circle"></i>Profil
+          </router-link>
         </li>
         
-        <!-- lien de déconnexion du compte-->
-        <li class="nav-item">
-          <a href="javascript:void(0)" @click="logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        <!-- Ajout du lien pour admin pour acces Dashboard -->
+        
+        <li  class="nav-item">
+          <router-link :to="{ name : 'Dashboard', params: { userID: userID }}">
+            <i class="fas fa-chart-line"></i>Admin
+          </router-link>
         </li>
+        
+        
+          
+        <!-- Fin Ajout du lien pour admin pour acces Dashboard -->
+        
+        <!-- lien de déconnexion du compte-->
+          <li class="nav-item">
+            <a href="javascript:void(0)" @click="logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+          </li>
+        <!-- lien de déconnexion du compte-->
       </ul>
     </div>
   </nav>
@@ -48,9 +63,10 @@ export default {
   name:'NavHeader',
   
   data(){
-    return{
+    return {
       // Pour récupérer dynamiquement :userID du user connecté pour concordance dynamique de route
       userID: +localStorage.getItem("userID"), 
+      user:"",
     }
   },
   

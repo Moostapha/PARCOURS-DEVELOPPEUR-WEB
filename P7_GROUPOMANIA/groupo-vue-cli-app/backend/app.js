@@ -14,11 +14,12 @@ const path = require('path');
 const morgan = require('morgan');
 
 
-// Import des routes USER | POST | COMMENT
+// Import des routes USER | POST | COMMENT | REACTIONS | ADMIN
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
 const reactionRoutes = require('./routes/reaction');
+const adminRoutes = require('./routes/administrateur');
 
 // PARTIE MIDDLEWARES de app.js
 
@@ -64,6 +65,6 @@ app.use('/api/users', userRoutes); // Route user
 app.use('/api/posts', postRoutes);  // Route post
 app.use('/api/comments', commentRoutes);  // Route commentaire
 app.use('/api/reactions', reactionRoutes) // Route reaction
-
+app.use('/api/admin', adminRoutes) // Route administrateur
 // export vers le server.js
 module.exports= app;

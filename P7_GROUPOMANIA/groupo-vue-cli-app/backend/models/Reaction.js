@@ -2,7 +2,7 @@
 const dbmySql = require('../mysqlconnection');
 
 
-// Fonction GET donnant tous les likes
+// Fonction GET donnant tous les likes sur un post
 exports.getLikes = () => {
     
     return new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ exports.getLikes = () => {
 }
 
 
-// Fonction GET donnant tous les dislikes
+// Fonction GET donnant tous les dislikes sur un post
 exports.getDislikes = () => {
     // SELECT * FROM `reactions` WHERE `reactions`.`dislike` = 1
     // SUM OU COUNT checker les 2

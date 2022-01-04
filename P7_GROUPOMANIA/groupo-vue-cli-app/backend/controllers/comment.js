@@ -35,11 +35,21 @@ exports.createComment = async(req, res, next) => {
 
 // Fonction modifiant un commentaire sur un post
 exports.updateComment = async(req, res, next) => {
-    const id = req.params.id;  // capture de l'id du commentaire modifié
-    const modify = req.body;
-    // Attention !!! Respecter ordre des paramètres de fonction
-    const updatedComment = await commentModel.update(  modify.userId , modify.postId , modify.commentaire , id );
-    res.status(200).json({ message:'commentaire modifié avec succés', comment: updatedComment});
+    
+    const commentID = req.params.commentID;  // capture de l'id du commentaire modifié
+    const modify = req.body;   
+    
+    console.log('=> commentID modifié : ',commentID)
+    console.log('=> Datas new comment : ',modify);
+    // Attention !!! Respecter ordre des paramètres de fonction (fonction udpate de Comment.js)
+    const updatedComment = await commentModel.update( 
+        modify.contentComment , 
+        modify.commentID , 
+    );
+    res.status(200).json({ 
+        message:'commentaire modifié avec succés', 
+        newComment: updatedComment
+    });
 };
 
 

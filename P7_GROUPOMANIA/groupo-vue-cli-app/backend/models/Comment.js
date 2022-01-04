@@ -31,10 +31,10 @@ exports.create = ( postID, userID, username, contentComment ) => {
 };
 
 
-exports.update = ( commentaire, postId, userId ) => {
+exports.update = ( contentComment, commentID ) => {
     return new Promise((resolve, reject) => {
-        const sql = 'UPDATE posts SET commentaire=?, postId=?, userId=? WHERE id=?'
-        let dataUpdated = [commentaire, postId, userId, id]
+        const sql = 'UPDATE `comments` SET `contentComment` = ? WHERE `comments`.`commentID` = ?';
+        let dataUpdated = [contentComment, commentID]
         dbmySql.query( sql , dataUpdated ,function(error, result, field) {
             if ( error ) reject( error );
             resolve(result);

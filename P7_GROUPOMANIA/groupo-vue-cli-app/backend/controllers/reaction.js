@@ -79,7 +79,10 @@ exports.dislikePost = async(req, res, next)=> {
 };
 
 // Fonction modifiant un like
-exports.updateLikePost = async(req, res, next)=> {}
+exports.updateLikePost = async(req, res, next)=> {
+    // si user a déja liké enlever le like 
+    // sinon
+}
 
 
 // Fonction modifiant un dislike

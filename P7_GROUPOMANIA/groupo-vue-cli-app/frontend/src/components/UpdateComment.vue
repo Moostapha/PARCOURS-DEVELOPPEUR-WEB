@@ -4,7 +4,7 @@
     <div class="form">
         <ValidationObserver v-slot="{ handleSubmit}">
                 <!-- <label>{{msg}}</label> -->
-            <form @submit.prevent="handleSubmit(createComment)" method="post" type="submit" enctype="multipart/form-data">
+            <form @submit.prevent="handleSubmit(updateComment)" method="post" type="submit" enctype="multipart/form-data">
                 
                 <!-- NOTIF USER VALIDATION CHAMPS FROM -->
                     <AlertNotifValidator v-if="error" 
@@ -28,11 +28,14 @@
                 <!-- <input type="hidden" name="commentID" :value="article.id"> -->
                 <!-- BOUTONS -->
                     <div class="dispoBtn">
-                        <button @click="createComment()"
-                            type="submit" 
-                            class="sm md lg btn btn-outline-success">
-                            Publier
-                        </button>
+                        
+                        <!-- BOUTON DE MODIFICATION DU COMMENTAIRE -->
+                            <button @click="updateComment()"
+                                type="submit" 
+                                class="sm md lg btn btn-outline-primary">
+                                Modifier
+                            </button>
+                        <!-- FIN BOUTON DE MODIFICATION DU COMMENTAIRE -->
                         
                         <!-- BOUTON ANNULER RETOUR SUR PUBLICATIONS -->
                             <router-link :to="{name:'Fil d\'actualité'}">
@@ -40,7 +43,7 @@
                                     Annuler
                                 </button>
                             </router-link>
-                        <!-- FIN -->
+                        <!-- FIN BOUTON ANNULER RETOUR SUR PUBLICATIONS -->
                     </div>
                 <!-- FIN -->
             </form>
@@ -49,69 +52,61 @@
     </div>
     <!-- USER NOTIFS -->
         <FlashMessage></FlashMessage>
-    <!-- FIN -->
+    <!-- FIN USER NOTIFS -->
 </div>
 </template>
-
 
 <script>
 import axios from 'axios';
 import AlertNotifValidator from '../components/AlertNotifValidator.vue';
 
 export default {
-    
     components: {
         AlertNotifValidator
     },
-    
-    name: 'CreateComment',
+    name: 'UpdateComment',
     props: {
         msg: String,
-        newComment: String
+        UpdateComment: String
     },
     
-    data () {
+    data() {
         return {
             
-            // Infos à poster au back (dans l'ordre des colonnes de ma table comments)
-            id_post_commented : +this.$route.params.postID, 
-            id_user_auteur_comment: +localStorage.getItem('userID'), 
-            username: localStorage.getItem('username'),
+            // récupération dynamique du commentID sur commentaire choisi pour modification
+            commentID: +this.$route.params.commentID,
+            
+            // Saisie nouvelle valeur du commentaire à écrire dans la table comments
             contentComment:"",
             
-            // Gestion erreurs 
+            // Gestion erreurs champs commentaire+ validation saisie user (regex validator)
             error: ""
         }
     },
     
     methods: {
         
-        // FONCTION ENVOYANT LES DATAS SUR LA ROUTE CREATE DE comment.js POUR CREATION DE COMMENTAIRE
-        createComment(){
-            // Préparation des datas envoyés depuis le front dans FormData()
+        // FONCTION ENVOYANT LES DATAS SUR LA ROUTE PUT DE MODIFICATION DE comment.js POUR MODIFICATION DE COMMENTAIRE
+        updateComment(){
+            
+            // Préparation des new datas saisies depuis le front dans FormData()
             const formdata = new FormData();
-                formdata.append('id_post_commented', this.id_post_commented);
-                formdata.append('id_user_auteur_comment', this.id_user_auteur_comment );
-                formdata.append('username', this.username );
                 formdata.append('contentComment', this.contentComment );
-                
+                formdata.append('commentID', this.commentID);
                 console.log('elements du formdata: ', Array.from(formdata));
             
-            
-            // Je n'ai pas besoin de préciser postID dans le post axios car j'ai déja tout dans mon formdata
-            // Vu que la table comments est séparée et à part de posts
-            // Cela aurait été vrai si dans posts j'avais une colonne comment
-            // Ici je vais juste remplir les colonnes de comments avec les infos venant du formdata sent par le front
-            axios.post('api/comments/create' , formdata)
+            // requête axios du frontend vers le backend => Récup. dynamique de commentID dans l'URL
+            axios.put(`api/comments/${this.$route.params.commentID}/update` , formdata)
             .then(response => {
                 console.log(response);
+                // redirection vers page publications
                 this.$router.push('/groupomania/publications');
-                // flashmessage ('Modif réussie !!!!')
+                // Notif SUCCESS 
                 this.flashMessage.show({
                     status: 'success',
                     icon: '../assets/success.png',
                     title: 'SUCCES !!!',
-                    message: 'Votre commentaire sur ce post est enregistré !!!'
+                    message: 'Votre commentaire a bien été modifié !!!'
                 })
             })
             .catch((error) => {
@@ -127,13 +122,11 @@ export default {
             })
             
             this.contentComment = "";
-        },
-        
-    
-    }
+        }
+    },
+
 }
 </script>
-
 
 <style lang="sass" scoped>
     .form

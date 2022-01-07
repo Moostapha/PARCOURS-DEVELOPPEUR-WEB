@@ -124,8 +124,9 @@
                     // récupération du username côté client
                     localStorage.setItem('username', response.data.username);
                     
+                    // récupération statut administrateur user logged
                     localStorage.setItem('is_admin', response.data.is_admin);
-
+                    
                     // redirection vers route fil d'actualité
                     this.$router.push('/groupomania/publications');
                     

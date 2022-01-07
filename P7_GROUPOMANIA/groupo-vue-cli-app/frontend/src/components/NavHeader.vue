@@ -11,37 +11,37 @@
       <ul class="navbar-nav">
         
         <li class="nav-item">
-          <router-link to="/groupomania/login"><i class="fas fa-sign-in-alt"></i>Login</router-link> 
+          <router-link to="/groupomania/login"><i class="fas fa-sign-in-alt"></i> Login</router-link> 
         </li>
+        
         <li class="nav-item">
-          <router-link to="/groupomania/signup"><i class="fas fa-user-edit"></i>Signup</router-link> 
+          <router-link to="/groupomania/signup"><i class="fas fa-user-edit"></i> Signup</router-link> 
         </li>
+        
         <li class="nav-item">
           <router-link to="/groupomania/publications"><i class="fas fa-comments"></i> Publications</router-link> 
         </li>
         
-        <!-- RENDU DYNAMIQUE DU SEGMENT DYNAMIQUE :userID  -->
-        <li class="nav-item">
-          <router-link :to="{ name : 'Profil', params: { userID: userID }}">
-            <i class="fas fa-user-circle"></i>Profil
-          </router-link>
-        </li>
-        
-        <!-- Ajout du lien pour admin pour acces Dashboard -->
-        
-        <li  class="nav-item">
-          <router-link :to="{ name : 'Dashboard', params: { userID: userID }}">
-            <i class="fas fa-chart-line"></i>Admin
-          </router-link>
-        </li>
+        <!-- Lien pour accés au profil (component) en récupérant dynamiquement le userID  -->
+          <li class="nav-item">
+            <router-link :to="{ name : 'Profil', params: { userID: userID }}">
+              <i class="fas fa-user-circle"></i> Profil
+            </router-link>
+          </li>
+        <!-- Lien pour accés au profil en récupérant dynamiquement le userID -->
         
         
-          
+        <!-- Ajout du lien pour admin pour acces Dashboard de l'admin -->
+          <li  class="nav-item">
+            <router-link :to="{ name : 'AdminDashboard', params: { userID: userID }}">
+              <i class="fas fa-chart-line"></i> Admin
+            </router-link>
+          </li>
         <!-- Fin Ajout du lien pour admin pour acces Dashboard -->
         
         <!-- lien de déconnexion du compte-->
           <li class="nav-item">
-            <a href="javascript:void(0)" @click="logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+            <a href="javascript:void(0)" @click="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </li>
         <!-- lien de déconnexion du compte-->
       </ul>
@@ -134,4 +134,5 @@ export default {
       margin: 1px
       &:hover
         background-color: transparent
+    
 </style>

@@ -375,9 +375,11 @@
           </div>
         <!-- FIN -->
       </div>
-      <!-- USER NOTIFS -->
+      
+      <!-- USER'S ACTIONS NOTIFS -->
         <FlashMessage></FlashMessage>
-      <!-- FIN -->
+      <!-- FIN USER'S ACTIONS NOTIFS -->
+    
     </div>
   </main>
 </template>

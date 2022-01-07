@@ -1,18 +1,19 @@
 <template>
-<div id ="notifUser" class ="alert" v-bind:class="alertType" role="alert">
-    <strong> {{ alertMsg }} </strong>
-    <button 
-        @click="closeNotifConnexion()"
-        type="button" 
-        class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    <div id ="notifUser" class ="alert" v-bind:class="alertType" role="alert">
+        <strong> {{ alertMsg }} </strong>
+        <button 
+            @click="closeNotifConnexion()"
+            type="button" 
+            class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </template>
 
 
 <script>
 export default {
+
     name: 'Alert',
     
     props: {
@@ -21,7 +22,7 @@ export default {
     },
     
     methods: {
-
+        
         closeNotifConnexion(){  
         console.log('clicked');
         document.getElementsByClassName('alert')[0].style.display='none';
@@ -47,7 +48,7 @@ export default {
         // setTimeout(){
             
         // }
-
+        
     }
 }
 </script>

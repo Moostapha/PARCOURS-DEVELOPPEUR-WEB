@@ -95,7 +95,7 @@ exports.login = async(req, res, next) => {
             USER_AUTH_TOKEN: token, 
             userID: result[0].userID, 
             username: result[0].username,
-            // is_admin: result[0].is_admin,
+            is_admin: result[0].is_admin,
         }) 
     })
     .catch(error => res.status(500).json({ error }));

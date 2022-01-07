@@ -82,8 +82,8 @@ const routes = [
   
   //URL page Admin Dashboard
   {
-    path: '/groupomania/administrateur',   // URL correspondant au composant
-    name: 'Dashboard',                    // Nom de cette route pas obligatoire | champ non obligatoire
+    path: '/groupomania/administrateur',         // URL correspondant au composant
+    name: 'AdminDashboard',                          // Nom de cette route pas obligatoire | champ non obligatoire
     component: AdminDashboard,                   // Composant affiché lorsque le path est trouvé
   },
 

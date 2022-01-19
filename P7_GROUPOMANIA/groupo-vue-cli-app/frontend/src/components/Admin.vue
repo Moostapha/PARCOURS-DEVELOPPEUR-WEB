@@ -5,23 +5,24 @@
         <!-- NOTIFICATION USER -->
             <Alert v-if="is_admin === 0"
                 alertType="alert-danger" 
-                alertMsg= 'Page interdite aux utilisateurs !!!'
+                alertMsg= 'Vous ne pouvez pas accéder à cette page !!!'
             />
-        <!-- NOTIFICATION USER -->
+        <!-- FIN NOTIFICATION USER -->
         
         <!-- NOTIFICATION ADMIN -->
             <Alert v-if="is_admin === 1"
-                alertType="alert-succes" 
-                alertMsg= 'Page autoriséé, Bonjour Administrateur !!!'
+                alertType="alert-success" 
+                alertMsg= 'Bonjour Administrateur, bienvenue sur votre Dashboard'
             />
-        <!-- NOTIFICATION ADMIN -->
+        <!-- FIN NOTIFICATION ADMIN -->
+        
         
         <div class="container">
             
             <!-- LOGO GROUPOMANIA -->
                 <div class="logo"></div>
             <!-- FIN LOGO GROUPOMANIA -->
-            
+            <div class="space"></div>
             <!-- RENDU CONDITIONNEL SSI ADMIN CONNECTED -->
                 <div  v-if="is_admin === 1">
                     
@@ -173,47 +174,49 @@
     #admin
         background-image: url('../assets/img5.jpg')
         background-size: 100%
-        margin-top: 2vh
-        padding-top: 13vh // à baisser sur large écran
-        // hauteur minimum au cas ou pas de contenu pour que l'image apparaisse correctement
-        min-height: 90vh
+        margin-top: 6vh
+        padding-top: 12vh    // à baisser sur large écran
+        min-height: 90vh    // hauteur minimum au cas ou pas de contenu pour que l'image apparaisse correctement
         display: flex
         flex-direction: column
+        @media screen and (max-width: 768px) 
+            margin: 0vh
         @media screen and (max-width: 991px) 
             padding-top: 6vh
-        @media screen and (max-width: 1040px) 
-            min-height: 95vh
-            padding-top: 10vh
+        // @media screen and (max-width: 1040px) 
+        //     min-height: 95vh
+        //     padding-top: 16vh
         .container
-            margin-top: 4vh
+            flex: 1
+            padding-top: 4vh
+            padding-bottom: 4vh
+            height: fit-content
         h1 
             // color: #51a4fe
-            color: #ff0000
+            color: white //#ff0000
             font-weight: bold
-            background-color: black
-            // width: 90vh
+            background-color: #8785f761  //#8785f7 //black
             margin: auto
+            border-radius: 3vh
             @media screen and (max-width: 576px)
                 font-size: 2rem
-            // @media screen and (max-width: 1040px) 
-            //     width: 90vh
         ul
             display: flex
             flex-wrap: wrap
             justify-content: center
-            margin: 2vh
-            padding-top: 2vh
+            margin: 5vh 3vh 3vh 3vh
+            padding: 2vh 0vh 0vh 0vh
             background-color: #fffc
             
             li
                 padding: 2vh
                 margin: 1vh
-                // background-color: #b8b8b81c
                 h3,h4 
                     font-weight: bold
                     color: royalblue
                 h4 
                     margin-top: 2vh
+                    background-color: #357f7f21
                 strong 
                     color: royalblue
                 p 
@@ -225,16 +228,16 @@
         background-image: url('../assets/icon-left-font-monochrome-white.svg')
         background-repeat: no-repeat
         background-position: top
-        background-color: black
+        background-color: #8785f761 //#8785f7   //black
         height: 8vh
-        // width: 90vh
         margin: auto
+        border-radius: 2vh
         @media screen and (max-width: 508px) 
             display: none
-        @media screen and (max-width: 768px) 
-            height: 13vh
-            margin-top: 1vh
+        @media screen and (max-width: 1024px) 
+            height: 15vh   
         @media screen and (min-width: 1024px) 
-            // width: 90vh
-            height: 10vh        
+            height: 14vh 
+    .space 
+        height: 4vh        
 </style>

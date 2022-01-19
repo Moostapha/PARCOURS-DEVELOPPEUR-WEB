@@ -6,11 +6,8 @@ const dbmySql = require('../mysqlconnection');
 exports.getLikes = () => {
     
     return new Promise((resolve, reject) => {
-        //'SELECT SUM (`like`) FROM `reactions`' => additionne tous les likes de la table
-        //'SELECT * FROM `reactions` WHERE `reactions`.`like` = 1'
-        //SELECT SUM (`like`) FROM `reactions` WHERE `reactions`.`id_post_reacted`= 23; => addition all likes pour post 23
-        // SUM OU COUNT CHECKER LES 2
-        const sql = 'SELECT `posts`.`postID`, COUNT(DISTINCT `reactions`.`like`) AS reactionsLike FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`';
+        
+        const sql = 'SELECT `posts`.`postID`,`reactions`.`id_user_auteur_reaction` AS auteur_like, SUM(`reactions`.`like`) AS nbre_like FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`';
         dbmySql.query(sql, function(error, results, fields){
             if (error) reject(error);
             resolve(results);
@@ -23,11 +20,10 @@ exports.getLikes = () => {
 
 // Fonction GET donnant tous les dislikes sur un post
 exports.getDislikes = () => {
-    // SELECT * FROM `reactions` WHERE `reactions`.`dislike` = 1
-    // SUM OU COUNT checker les 2
-    //SELECT `posts`.`postID`, SUM(DISTINCT `reactions`.`dislike`) AS reactionsDislike FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`
+    
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT `posts`.`postID`, COUNT(DISTINCT `reactions`.`dislike`) AS reactionsDislike FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`';
+        
+        const sql = 'SELECT `posts`.`postID`,`reactions`.`id_user_auteur_reaction` AS auteur_dislike, SUM(`reactions`.`dislike`) AS nbre_dislike FROM `posts` LEFT JOIN `reactions` ON `posts`.`postID` = `reactions`.`id_post_reacted` GROUP BY `posts`.`postID`';
         dbmySql.query(sql, function(error, results, fields){
             if(error) reject (error);
             resolve(results);
@@ -38,11 +34,32 @@ exports.getDislikes = () => {
 }
 
 
+// Fonction requête vérifiant si le user a déjà liké un post
+exports.checkIfUserLikeExists = async(postID, userID) => {
+    
+    // SELECT EXISTS(SELECT 1 FROM `reactions` WHERE (`reactions`.`id_post_reacted`= ?) AND (`reactions`.`id_user_auteur_reaction`= ?) AND (`reactions`.`like`= 1)) AS mycheckIfUserLikeAlready
+    
+    return new Promise ((resolve, reject) => {
+        let data = [postID, userID];
+        const sql = 'SELECT * FROM `reactions` WHERE `reactions`.`id_post_reacted` = ? AND `reactions`.`id_user_auteur_reaction`= ? AND `reactions`.`like`= 1';
+        dbmySql.query(sql, data, function(error, results, fields){
+            if(error) reject (error);
+            resolve(results);
+            console.log(results);
+            // console.log(fields);
+        })
+    })
+    
+}
+
 
 // Fonction réaction like +1 => j'aime ou create like dans table reaction
-exports.liked = async(postID, userID) => {
+exports.createLike = async(postID, userID) => {
     
     return new Promise((resolve, reject) => {
+        
+        // requête permettant de vérifier si cette ligne avec ces 2 datas existe => renvoie 0 si rien et 1 si ok
+        // SELECT EXISTS(SELECT 1 FROM `reactions` WHERE `reactions`.`id_post_reacted`  = ? AND `reactions`.`id_user_auteur_reaction` = ? AND `reactions`.`like` = 1 ) AS mycheckIfUserLike;
         
         const sql = 'INSERT INTO `reactions` (`id_post_reacted`, `id_user_auteur_reaction`, `like`) VALUES (?,?,1)';
         let data = [postID, userID]
@@ -53,19 +70,31 @@ exports.liked = async(postID, userID) => {
             // console.log(fields);
         })
     })
-
 };
 
-// Fonction update like
 
-
+// Fonction requête vérifiant si le user a déjà disliké un post
+exports.checkIfUserDislikeExists = async(postID, userID) => {
+    // SELECT EXISTS(SELECT 1 FROM `reactions` WHERE `reactions`.`id_post_reacted`  = ? AND `reactions`.`id_user_auteur_reaction` = ? AND `reactions`.`dislike` = 1 ) AS mycheckIfUserDislikeAlready
+    
+    return new Promise ((resolve, reject) => {
+        let data = [postID, userID];
+        const sql = 'SELECT * FROM `reactions` WHERE `reactions`.`id_post_reacted` = ? AND `reactions`.`id_user_auteur_reaction`= ? AND `reactions`.`dislike`= 1';
+        dbmySql.query(sql, data, function(error, results, fields){
+            if(error) reject (error);
+            resolve(results);
+            console.log(results);
+            // console.log(fields);
+        })
+    })
+    
+}
 
 
 // Fonction réaction dislike +1 => j'aime pas
-exports.dislike = async(postID, userID) => {
+exports.createDislike = async(postID, userID) => {
     
     return new Promise((resolve, reject) => {
-        
         const sql = 'INSERT INTO `reactions` (`id_post_reacted`, `id_user_auteur_reaction`, `dislike`) VALUES (?,?,1)';
         let data = [postID, userID]
         dbmySql.query(sql, data, function(error, result, fields){
@@ -78,5 +107,18 @@ exports.dislike = async(postID, userID) => {
 };
 
 
+// Fonction cancelLike => Fonction qui annule like ou dislike sur un post
+exports.cancelLikeDislike = async(postID, userID) => {
+    
+    return new Promise ((resolve, reject) => {
+        //UPDATE `reactions` SET `like`= 0 WHERE `reactions`.`id_post_reacted` = ? AND `reactions`.`id_user_auteur_reaction` = ?
+        let data = [postID, userID];
+        const sql = 'DELETE FROM `reactions` WHERE `id_post_reacted` = ? AND `id_user_auteur_reaction` = ?';
+        dbmySql.query(sql, data, function(error, result, fields) {
+            if(error) reject (error);
+            resolve(result);
+            console.log(result);
+        })
+    })
+};
 
-// Fonction update dislike

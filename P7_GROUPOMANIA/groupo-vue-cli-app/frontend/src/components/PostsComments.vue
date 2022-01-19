@@ -196,7 +196,7 @@
                                 <!-- FIN -->
                                 
                                 <!-- BOUTON LIKE + NOMBRE DE LIKES SUR CHAQUE POST -->
-                                  <button v-if ="like" @click="likePost(post.postID)"
+                                  <button @click="likePost(post.postID)"
                                     method="post"
                                     id='btnThumb' 
                                     type="button"
@@ -204,15 +204,43 @@
                                     <i class="far fa-thumbs-up"></i>
                                       <!-- boucle sur [likes]  -->
                                         <div class= "allLikes" v-for="(like, index) in likes" :key="index">
-                                          <!-- condition assignant le like sur son post -->
+                                          <!-- condition assignant le nbre de like sur son post -->
                                             <span id="like"  v-if="like.postID === post.postID">
-                                              {{like.reactionsLike}}
+                                              {{like.nbre_like}}
+                                            </span>
+                                          <!-- fin -->
+                                          <!-- affichage 0 like si nbre_like = null -->
+                                            <span id="like"  v-if="like.nbre_like === null && like.postID === post.postID">
+                                                0
+                                            </span>
+                                          <!-- fin -->
+                                          <!-- affichage mention "j'aime" du user connecté sur les posts qu'il a liké -->
+                                            <span id="like" v-if="like.auteur_like === user.userID && like.nbre_like === 1 && like.postID === post.postID">
+                                              J'aime
                                             </span>
                                           <!-- fin -->
                                         </div>
                                       <!-- fin -->
                                   </button>
                                 <!-- FIN BOUTON LIKE + NOMBRE DE LIKES SUR CHAQUE POST -->  
+                                
+                                <!-- <div class= "allLikes" v-for="(like, index) in likes" :key="index">
+                                  <span v-if="like.auteur_like === user.userID && like.nbre_like === 1 && like.postID === post.postID"
+                                    method="post"
+                                    id='btnThumb' 
+                                    type="button"
+                                    class="sm md lg btn btn-primary">
+                                  </span>  
+                                </div> -->
+                                
+                                <!-- <div class= "allDislikes" v-for="(dislike, index) in dislikes" :key="index">
+                                  <button v-if="dislike.auteur_dislike === user.userID && like.nbre_like === 1 && dislike.postID === post.postID"
+                                    method="post"
+                                    id='btnThumb' 
+                                    type="button"
+                                    class="sm md lg btn btn-danger">
+                                  </button>  
+                                </div> -->
                                 
                                 <!-- BOUTON DISLIKE + NOMBRE DE DISLIKE SUR CHAQUE POST -->
                                   <button @click="dislikePost(post.postID)"
@@ -222,16 +250,27 @@
                                     class="sm md lg btn btn-outline-danger"> 
                                     <i class="far fa-thumbs-down"></i>
                                     <!-- boucle sur [dislikes] -->
-                                      <div class= "allLikes" v-for="(dislike, index) in dislikes" :key="index">
-                                        <!-- condition assignant le dislike sur son post -->
+                                      <div class= "allDislikes" v-for="(dislike, index) in dislikes" :key="index">
+                                        <!-- condition assignant le nbre de dislike sur son post -->
                                           <span id="dislike" v-if="dislike.postID === post.postID" >
-                                            {{dislike.reactionsDislike}}
+                                            {{dislike.nbre_dislike}}
                                           </span>
+                                        <!-- fin -->
+                                        <!-- affichage 0 like si nbre_like = null -->
+                                          <span id="dislike"  v-if="dislike.nbre_dislike === null && dislike.postID === post.postID">
+                                            0
+                                          </span>
+                                        <!-- fin -->
+                                        <!-- affichage mention "je" n'aime pas" du user connecté sur les posts qu'il a disliké -->
+                                            <span id="dislike" v-if="dislike.auteur_dislike === user.userID && dislike.nbre_dislike === 1 && dislike.postID === post.postID">
+                                              Je n'aime pas
+                                            </span>
                                         <!-- fin -->
                                       </div>
                                     <!-- fin -->
                                   </button>
                                 <!-- FIN BOUTON DISLIKE + NOMBRE DE DISLIKE SUR CHAQUE POST -->
+                                
                               </div>
                               <!-- FIN -->
                             </div>
@@ -408,9 +447,11 @@ export default {
   data() {
     return {
       
-      // Statut administrateur
+      // Statut administrateur => pour rendu conditionnel d'actions spécifiques à l'admin et disparition si user normal (is_admin=0)
       is_admin: 1,
-      like: 1,
+      
+      // Faire apparaitre ou disparaitre le bouton like, rajout de v-if = like sur ce btn
+      // like: 1,
       
       // data pour state connection
       user: "", 
@@ -422,16 +463,20 @@ export default {
       // fichier image téléchargé
       fileSelected: null,
       
-      // Affichage de tous les users | posts | comments | likes | dislikes => infos à getter du backend, toutes les données des 3 tables
+      // GET BACK => FRONT
+      //Affichage de tous les users | posts | comments | likes | dislikes => infos à getter du backend, toutes les données des 4 tables
       users: [],
       posts: [], 
       comments: [],
-      likes: [],
+      // requête donnant nbre de like par post
+      likes: [], 
+      // requête donnant nbre de dislike par post  
       dislikes: [],
       
       // compteur ilke/dislike
       counter:0,
       
+      // POST FRONT => BACK
       // infos à envoyer au backend dans la table posts
       publication: {
         userID:"", // id_user_auteur_post 
@@ -450,11 +495,12 @@ export default {
       
       // infos à envoyer au backend dans la table reactions
       reaction:{
-        id_post_reacted:"", // postID
-        id_user_auteur_reaction:"",  // userID
+        id_post_reacted:"",          // postID liké ou disliké
+        id_user_auteur_reaction:"",  // userID auteur de la réaction
         like:"",
         dislike:""
       },
+      
       
       // gestion des erreurs de saisie du formulaire + apparition notif user
       error:'',
@@ -693,17 +739,19 @@ export default {
     // FONCTION BOUTON LIKE 
     likePost(postID){
       
+      //Table likes => likeID PK | userID_auteur_like | postID_liked
+      
       // test pour le postID dynamique
       alert(postID)
       
       // Préparation envoie données du formulaire (entrées = lignes table likes)
       const formData = new FormData();
       formData.append('id_post_reacted', postID);
-      formData.append('id_user_auteur_reaction', this.userID);
+      formData.append('id_user_auteur_reaction', this.userID); // 
       // formData.append('like', 1);
       console.log(Array.from(formData));
       
-      axios.post('api/reactions/like' , formData)
+      axios.post('api/reactions/like', formData)
       .then(response => {
         console.log(response.data);
         
@@ -723,7 +771,8 @@ export default {
           status: 'error',
           icon: 'success',
           title: 'ERREUR !!!',
-          message: 'Une erreur est survenue'
+          // message: 'Une erreur est survenue ' + error.message
+          message: 'Une erreur est survenue, vous avez déjà liké ce post !!!'
         })
       })
       
@@ -737,14 +786,15 @@ export default {
     // FONCTION BOUTON DISLIKE 
     dislikePost(postID){
       
+      //Table dislikes => dislikeID PK | userID_auteur_dislike FK | postID_disliked FK
       // test pour le postID dynamique
       alert(postID)
       
-      // Préparation envoie données du formulaire (entrées = lignes table likes)
+      // Préparation envoie données du formulaire (entrées = lignes table dislikes)
       const formData = new FormData();
       formData.append('id_post_reacted', postID);
       formData.append('id_user_auteur_reaction', this.userID);
-      formData.append('dislike', 1);
+      // formData.append('dislike', 1);
       
       // datas envoyés dans console
       console.log(Array.from(formData));

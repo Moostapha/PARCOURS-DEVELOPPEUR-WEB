@@ -27,14 +27,14 @@ exports.signup = (req, res, next) => {
     
     // récupération infos envoyées par le front
     const newUser = req.body;
-    console.log(" Infos new user:  ", newUser); 
+    console.log(" ----- Infos new user -----:  ", newUser); 
     // Cryptage | hash du password
     bcrypt.hash(newUser.password , 10) // cryptage de ce dernier
     .then (
         async(hash) => {
             const inscription = await User.signUp( newUser.username, newUser.email, hash ); // params fonction ici dans le meme ordre que params fonction du Model
             res.status(201).json({ 
-                message:'Utilisateur créé avec succés' , 
+                message:'Utilisateur créè avec succés' , 
                 account: inscription 
             });
             // console.log(inscription);
@@ -44,15 +44,15 @@ exports.signup = (req, res, next) => {
 };
 
 
-//Fonction de connexion sécurisée avec remise de tokens
+// Fonction de connexion sécurisée avec remise de tokens
 
 exports.login = async(req, res, next) => {
     
     // Récupération password et email send avec requête depuis le front
     const password = req.body.password;
-    console.log(" Password venant du front:  ", password); 
+    console.log(" ----- Password venant du front -----=> :  ", password); 
     const email = req.body.email; 
-    console.log(" email venant du front:  ", email); 
+    console.log(" ----- email venant du front -----=> :  ", email); 
     
     // Gestion erreur 1 => Cas ou une entrée manque => est ce nécessaire vu que cas traité via validator?
     if( password == null || email == null){
@@ -63,7 +63,7 @@ exports.login = async(req, res, next) => {
     const result = await User.login(email); 
     
     // resultat de la promise affichée dans console toujours sur des var et des resultats attendus comme await
-    console.log("résultat de la promise", result[0]); 
+    console.log("----- résultat recherche email dans DB ----- => : ", result[0]); 
     
     // Gestion erreur 2 => cas où le résultat de la requête est vide
     if(result.length == 0) {
@@ -86,7 +86,7 @@ exports.login = async(req, res, next) => {
             { expiresIn: '24h'},
         );
         // Check du token 
-        console.log(token);
+        console.log('----- Token du user loggé ----- : ',token);
         
         // réponse renvoyée au front
         // succés et assignation du TOKEN + récupération du userId
@@ -108,13 +108,13 @@ exports.login = async(req, res, next) => {
 // commun a user + admin
 exports.getUser = async(req, res, next) => {
     
-    console.log('param de la requete axios.get: ',req.params);
+    console.log('----- param de la requete axios.get ----- : ',req.params);
     const userById = req.params.userID;
-    console.log('type de userID: ', typeof userById);
+    console.log('----- type de userID ----- : ', typeof userById);
     console.log("userId de la request: ", userById);
     // on reprend la fonction getOneUser du model
     const result = await User.getOneUser(userById); 
-    console.log("résultat de la promise", result[0]); 
+    console.log("----- résultat de la promise -----:  ", result[0]); 
     res.status(200).json(
         { 
             message:'user loggé et authentifié', 
@@ -131,7 +131,7 @@ exports.getUser = async(req, res, next) => {
 exports.updateUser = async(req, res, next) => {
     // Corps de la reqête venant du front
     const updated = JSON.parse(JSON.stringify(req.body));
-    console.log(" Update venant du front:  ", updated); 
+    console.log(" ----- Update venant du front -----:  ", updated); 
     // Cas ou le user veut modifier soit son username soit son password
     if ( updated.username || updated.email || updated.password ) {
         bcrypt.hash(updated.password, 10)
@@ -143,7 +143,7 @@ exports.updateUser = async(req, res, next) => {
                 // updatedPassword: updatedAccount,
                 // updatedUsername: updatedAccount
             })
-            console.log('Résultat de la promise: ',updatedAccount)
+            console.log('----- Résultat de la promise -----: ',updatedAccount)
         })
         .catch( error => res.status(500).json({ message: error }));
     }
@@ -160,20 +160,20 @@ exports.updateUserAvatar = async(req,res,next) => {
     
     // Récupération données envoyées par le front
     const updatedData = JSON.parse(JSON.stringify(req.body));
-    console.log('axios request: ', updatedData)
+    console.log('---- axios request -----: ', updatedData)
     const avatarFile = req.file;
-    console.log('Avatar média modifié: ', avatarFile)
+    console.log('----- Avatar média modifié -----: ', avatarFile)
     
     // Encodage URL image avatar dans dossier images/avatar
     const avatarURL = `${req.protocol}://${req.get('host')}/images/avatar/${req.file.filename}`;
-    console.log('URL avatar fichier image: ', avatarURL);
+    console.log('----- URL avatar fichier image -----: ', avatarURL);
     
     //Insert data dans ligne database users
     const newAvatar = await User.updateAvatar(
         avatarURL,
         updatedData.userID
     );
-    console.log('Résultat de la promise: ', newAvatar);
+    console.log('----- Résultat de la promise -----: ', newAvatar);
     res.status(200).json({
         message:'Avatar de profil modifié avec succés',
         avatarUploaded: newAvatar
@@ -185,7 +185,7 @@ exports.updateUserAvatar = async(req,res,next) => {
 // commun a user + admin
 exports.deleteUser = async(req, res, next) => {
     const userById  = req.params.userID;
-    console.log("Utilisateur supprimé:  ", userById); 
+    console.log("----- Utilisateur supprimé -----:  ", userById); 
     const deletedAccount = await User.deleteUser(userById);
     res.status(200).json({ 
         message:'Utilisateur supprimé avec succés', 

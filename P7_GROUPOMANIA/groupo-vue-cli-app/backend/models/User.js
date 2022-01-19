@@ -27,7 +27,7 @@ exports.signUp = (username, email, password) => {
 exports.login = (email) => {
     return new Promise((resolve, reject) => {
         // requete SQL préparée qui renverra tous les champs de la ligne ou cet email apparait:
-        const sql = 'SELECT * FROM users WHERE email=?' //'SELECT userID, password FROM users WHERE email=?'; 
+        const sql = 'SELECT * FROM users WHERE email = ?' //'SELECT userID, password FROM users WHERE email=?'; 
         // excécution de la requête SQL:
         dbmySql.query( sql, [email], function(error, result, field){
             if(error) reject(error);

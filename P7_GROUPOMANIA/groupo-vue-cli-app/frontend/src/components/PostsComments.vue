@@ -674,7 +674,7 @@ export default {
         this.flashMessage.show({
           status: 'error',
           title: 'ERREUR !!!',
-          message: 'Une erreur est survenue'
+          message: 'Une erreur est survenue' + error.message
         })
       })
     },
@@ -701,7 +701,7 @@ export default {
           this.flashMessage.show({
             status: 'error',
             title: 'ERREUR !!!',
-            message: 'Une erreur est survenue'
+            message: 'Une erreur est survenue' + error.message
           })
         })
     },
@@ -715,7 +715,7 @@ export default {
       .then(response => {
         console.log(response.data);
         // this.$router.push('/groupomania/publications');
-         // notification de réussite avec FlashMessage
+        // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',
           icon: '../assets/success.png',
@@ -730,7 +730,7 @@ export default {
           status: 'error',
           icon: 'success',
           title: 'ERREUR !!!',
-          message: 'Une erreur est survenue'
+          message: 'Une erreur est survenue' + error.message
         })
       })
     },
@@ -759,8 +759,8 @@ export default {
         this.flashMessage.show({
           status: 'success',
           icon: true,
-          title: 'LIKE REUSSIE !!!',
-          message: 'Vous aimez ce post !!!'
+          title: 'ACTION REUSSIE !!!',
+          message: 'Votre réaction a bien été enregistrée !!!'
         })
       })
       .catch((error) => {
@@ -771,22 +771,15 @@ export default {
           status: 'error',
           icon: 'success',
           title: 'ERREUR !!!',
-          // message: 'Une erreur est survenue ' + error.message
-          message: 'Une erreur est survenue, vous avez déjà liké ce post !!!'
+          message: 'Une erreur est survenue ' + error.message
+          
         })
       })
-      
-      // let countLike = 0;
-      // countLike++;
-      // document.getElementById('like').innerHTML= countLike;
-      // console.log('clicked');
-      
     },
     
     // FONCTION BOUTON DISLIKE 
     dislikePost(postID){
       
-      //Table dislikes => dislikeID PK | userID_auteur_dislike FK | postID_disliked FK
       // test pour le postID dynamique
       alert(postID)
       
@@ -805,22 +798,22 @@ export default {
         this.flashMessage.show({
           status: 'success',
           icon: true,
-          title: 'DISLIKE REUSSIE !!!',
-          message: 'Vous n\'aimez pas ce post !!!'
+          title: 'ACTION REUSSIE !!!',
+          message: 'Votre réaction a bien été enregistrée !!!'
         })
       })
       .catch((error) => {
         console.log(error);
+        // Notif échec
+        this.flashMessage.show({
+          status: 'error',
+          icon: 'success',
+          title: 'ERREUR !!!',
+          message: 'Une erreur est survenue ' + error.message
+          
+        })
       })
-      
-      
-      // let countDislike = 0;
-      // countDislike++;
-      // document.getElementById('dislike').innerHTML= countDislike;
-      // console.log('clicked')
-      //alert(postID)
     },
-    
     
     //fonction qui transforme le format de la date reçu pour un meilleur affichage
     dateFormat(date){                                                       

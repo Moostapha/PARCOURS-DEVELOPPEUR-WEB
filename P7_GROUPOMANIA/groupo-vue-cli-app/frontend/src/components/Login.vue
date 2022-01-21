@@ -54,7 +54,7 @@
                             <span>{{ errors[0] }}</span>
                         </validationProvider>
                     </div>
-
+                    
                     <!-- BOUTON CONNEXION  Mettre type="button" pour éviter "form not connected" -->
                     <div>
                         <button @click="submit" 
@@ -95,7 +95,7 @@
             }
         },
         
-
+        
         methods: {
             
             // Fonction de soumission du formulaire
@@ -149,7 +149,7 @@
                         status: 'error',
                         icon: 'success',
                         title: 'ERREUR !!!',
-                        message: 'Une erreur est survenue'
+                        message: 'Une erreur est survenue' + error.message
                     })
                 })
             },

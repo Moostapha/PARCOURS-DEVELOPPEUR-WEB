@@ -272,7 +272,7 @@
                 this.flashMessage.show({
                     status: 'success',
                     title: 'MODIFICATION AVATAR REUSSIE !!!',
-                    message: 'Votre image de profil a été modifié avec succés'
+                    message: 'Votre image de profil a été modifiée avec succés'
                 })
                 this.message = 'Fichier téléchargé';
                 this.error = false;
@@ -283,7 +283,7 @@
                 this.flashMessage.show({
                     status: 'error',
                     title: 'ERREUR !!!',
-                    message: 'Une erreur est survenue'
+                    message: 'Une erreur est survenue' + error.message
                 })
                 this.message = 'Un erreur est survenue';
                 this.error = true;
@@ -331,7 +331,7 @@
                     status: 'error',
                     icon: 'success',
                     title: 'ERREUR !!!',
-                    message: 'Une erreur est survenue, veuillez recommencer plus tard'
+                    message: 'Une erreur est survenue, veuillez recommencer plus tard' + error.message
                 })
             })
             
@@ -365,7 +365,7 @@
                         status: 'error',
                         icon: 'success',
                         title: 'ERREUR !!!',
-                        message: 'Une erreur est survenue'
+                        message: 'Une erreur est survenue' + error.message
                     })
                 })
         },

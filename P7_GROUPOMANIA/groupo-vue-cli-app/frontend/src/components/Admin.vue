@@ -44,8 +44,9 @@
                                 <p>
                                     Auteur de {{user.nbre_de_posts}} publication(s)<br>
                                     A commenté {{user.nbre_de_commentaires}} publication(s)<br>
-                                    A liké {{user.nbre_de_like}} publication(s)<br>
-                                    A disliké {{user.nbre_de_like}} publication(s)<br>
+                                    A réagi à {{user.nbre_de_reactions}} publication(s)<br>
+                                    <!-- A liké {{user.nbre_de_like}} publication(s)<br>
+                                    A disliké {{user.nbre_de_dislike}} publication(s)<br> -->
                                 </p>
                             </div>
                             
@@ -153,7 +154,7 @@
                         status: 'error',
                         icon: 'success',
                         title: 'ERREUR !!!',
-                        message: 'Une erreur est survenue'
+                        message: 'Une erreur est survenue' + error.message
                     })
                 })
             },

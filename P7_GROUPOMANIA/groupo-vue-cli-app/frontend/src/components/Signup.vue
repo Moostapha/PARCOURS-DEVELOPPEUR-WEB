@@ -148,7 +148,7 @@
                     status: 'error',
                     icon: 'success',
                     title: 'ERREUR !!!',
-                    message: 'Une erreur est survenue'
+                    message: 'Une erreur est survenue' + error.message
                     })
                 })
             },

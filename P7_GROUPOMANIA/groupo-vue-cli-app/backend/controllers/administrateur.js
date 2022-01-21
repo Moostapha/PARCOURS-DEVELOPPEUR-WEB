@@ -10,6 +10,7 @@ exports.getAllUsersInfos = async(req, res, next) => {
     });
 };
 
+// Fonction donnant le ndre de likes | dislikes par user
 exports.getUsersLikesAndDislikes = async(req, res, next) => {
     const allLikesDislikesByUser = await Admin.getUsersAllReactions();
     res.status(200).json({
@@ -18,6 +19,7 @@ exports.getUsersLikesAndDislikes = async(req, res, next) => {
     });
 }
 
+// Fonction de suppression d'un user par Admin
 exports.deleteUser = async(req, res, next) => {
     const userById  = req.params.userID;
     console.log("=> ID Utilisateur supprimé:  ", userById); 

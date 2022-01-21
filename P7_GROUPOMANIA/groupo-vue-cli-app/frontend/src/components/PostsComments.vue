@@ -224,24 +224,6 @@
                                   </button>
                                 <!-- FIN BOUTON LIKE + NOMBRE DE LIKES SUR CHAQUE POST -->  
                                 
-                                <!-- <div class= "allLikes" v-for="(like, index) in likes" :key="index">
-                                  <span v-if="like.auteur_like === user.userID && like.nbre_like === 1 && like.postID === post.postID"
-                                    method="post"
-                                    id='btnThumb' 
-                                    type="button"
-                                    class="sm md lg btn btn-primary">
-                                  </span>  
-                                </div> -->
-                                
-                                <!-- <div class= "allDislikes" v-for="(dislike, index) in dislikes" :key="index">
-                                  <button v-if="dislike.auteur_dislike === user.userID && like.nbre_like === 1 && dislike.postID === post.postID"
-                                    method="post"
-                                    id='btnThumb' 
-                                    type="button"
-                                    class="sm md lg btn btn-danger">
-                                  </button>  
-                                </div> -->
-                                
                                 <!-- BOUTON DISLIKE + NOMBRE DE DISLIKE SUR CHAQUE POST -->
                                   <button @click="dislikePost(post.postID)"
                                     method="post"

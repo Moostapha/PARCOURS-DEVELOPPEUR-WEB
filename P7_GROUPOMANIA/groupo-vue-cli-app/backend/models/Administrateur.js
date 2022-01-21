@@ -20,7 +20,7 @@ exports.getUsersInfosAndStats = () => {
 exports.getUsersAllReactions = () => {
     
     return new Promise((resolve, reject) => {
-
+        
         const sql = 'SELECT `users`.`userID`, SUM(`reactions`.`like`) AS nbre_de_like , SUM(`reactions`.`dislike`) AS nbre_de_dislike FROM `users` LEFT JOIN `reactions` ON `users`.`userID` = `reactions`.`id_user_auteur_reaction` GROUP BY `users`.`userID`';
         dbmySql.query(sql, function(error, results, fields) {
             if(error) reject (error);
@@ -36,7 +36,7 @@ exports.getUsersAllReactions = () => {
 exports.deleteUser = (userID) => {
 
     return new Promise((resolve, reject) => {
-    
+        
         const sql = 'DELETE FROM `users` WHERE `users`.`userID` = ?';
         dbmySql.query( sql, [userID], function(error, result, field){
             if(error) reject(error);

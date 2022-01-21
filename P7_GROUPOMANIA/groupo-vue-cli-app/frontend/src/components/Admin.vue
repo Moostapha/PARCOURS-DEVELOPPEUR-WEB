@@ -41,12 +41,27 @@
                                     
                                 </p>
                                 <strong><h4>Statistiques</h4></strong>
+                                    
                                 <p>
                                     Auteur de {{user.nbre_de_posts}} publication(s)<br>
                                     A commenté {{user.nbre_de_commentaires}} publication(s)<br>
                                     A réagi à {{user.nbre_de_reactions}} publication(s)<br>
-                                    <!-- A liké {{user.nbre_de_like}} publication(s)<br>
-                                    A disliké {{user.nbre_de_dislike}} publication(s)<br> -->
+                                    <!-- Boucle sur [reactions] -->
+                                        <em v-for="(reaction, index) in reactions" :key="index">
+                                            <!-- Condition affichage 1 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike existe -->
+                                                <p v-if="reaction.userID === user.userID && reaction.nbre_de_like !== null && reaction.nbre_de_like !== null ">
+                                                    Dont {{reaction.nbre_de_like}} like(s)<br>
+                                                    et {{reaction.nbre_de_dislike}} dislike(s)<br>
+                                                </p>
+                                            <!-- fin -->
+                                            <!-- Condition affichage 2 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike n'existe pas-->
+                                                <p v-if="reaction.userID === user.userID && reaction.nbre_de_like === null && reaction.nbre_de_dislike === null">
+                                                    Dont 0 like(s)<br>
+                                                    et 0 dislike(s)<br>
+                                                </p>
+                                            <!-- fin -->
+                                        </em>
+                                    <!-- fin -->
                                 </p>
                             </div>
                             
@@ -58,7 +73,6 @@
                     </ul>
                 </div>
             <!-- FIN RENDU CONDITIONNEL SSI ADMIN CONNECTED -->
-            
             
             <!-- RENDU SI ADMIN NON CONNECTED | SI SIMPLE USER -->
                 <div v-else>
@@ -110,15 +124,27 @@
                 
                 // Affichage infos et stats de tous les users (requête getUsersInfosAndStats() de Administrateurs.js)
                 users: [],
+                
+                // Affichage du nbre de likes et de dislikes par user
+                reactions: []
             }
         },
         
         mounted(){
             // Requête Affichage de tous les users avec leurs infos + stats
-            axios.get('api/admin')
+            axios.get('api/admin/infos')
             .then(response => {
             console.log(response.data);
             this.users = response.data.users;
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+            
+            axios.get('api/admin/reactions')
+            .then(response => {
+            console.log(response.data);
+            this.reactions = response.data.reactions;
             })
             .catch((error) => {
             console.log(error);

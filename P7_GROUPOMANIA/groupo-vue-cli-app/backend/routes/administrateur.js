@@ -15,7 +15,10 @@ const multer = require('../middlewares/multer');
 
 
 // route pour voir all users infos + statistiques (nbre de posts, comments, likes, dislikes)
-router.get('/', auth, adminCtler.getAllUsersInfos); 
+router.get('/infos', auth, adminCtler.getAllUsersInfos, adminCtler.getUsersLikesAndDislikes);
+
+
+router.get('/reactions', auth, adminCtler.getUsersLikesAndDislikes); 
 
 
 // route pour effacer/ bannir un user

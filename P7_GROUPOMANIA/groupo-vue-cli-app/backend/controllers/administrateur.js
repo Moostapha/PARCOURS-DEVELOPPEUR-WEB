@@ -10,6 +10,13 @@ exports.getAllUsersInfos = async(req, res, next) => {
     });
 };
 
+exports.getUsersLikesAndDislikes = async(req, res, next) => {
+    const allLikesDislikesByUser = await Admin.getUsersAllReactions();
+    res.status(200).json({
+        message: 'Likes et Dislikes par user',
+        reactions: allLikesDislikesByUser
+    });
+}
 
 exports.deleteUser = async(req, res, next) => {
     const userById  = req.params.userID;

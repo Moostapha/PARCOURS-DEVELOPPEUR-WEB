@@ -34,7 +34,7 @@ exports.getUsersAllReactions = () => {
 
 // Modèle avec requeête SQL supprimant un userID
 exports.deleteUser = (userID) => {
-
+    
     return new Promise((resolve, reject) => {
         
         const sql = 'DELETE FROM `users` WHERE `users`.`userID` = ?';

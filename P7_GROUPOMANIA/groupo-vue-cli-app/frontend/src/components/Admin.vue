@@ -48,12 +48,14 @@
                                     A réagi à {{user.nbre_de_reactions}} publication(s)<br>
                                     <!-- Boucle sur [reactions] -->
                                         <em v-for="(reaction, index) in reactions" :key="index">
+                                            
                                             <!-- Condition affichage 1 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike existe -->
                                                 <p v-if="reaction.userID === user.userID && reaction.nbre_de_like !== null && reaction.nbre_de_like !== null ">
                                                     Dont {{reaction.nbre_de_like}} like(s)<br>
                                                     et {{reaction.nbre_de_dislike}} dislike(s)<br>
                                                 </p>
                                             <!-- fin -->
+                                            
                                             <!-- Condition affichage 2 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike n'existe pas-->
                                                 <p v-if="reaction.userID === user.userID && reaction.nbre_de_like === null && reaction.nbre_de_dislike === null">
                                                     Dont 0 like(s)<br>
@@ -131,6 +133,7 @@
         },
         
         mounted(){
+            
             // Requête Affichage de tous les users avec leurs infos + stats
             axios.get('api/admin/infos')
             .then(response => {
@@ -141,6 +144,7 @@
             console.log(error);
             });
             
+            // Requête Affichage de tous les likes et dislikes de chaque user
             axios.get('api/admin/reactions')
             .then(response => {
             console.log(response.data);
@@ -158,10 +162,10 @@
                 // test pour le postID dynamique
                 alert(userID)
                 // Message d'avertissement
-                if(confirm('voulez vous vraiment bannir l\'utilisateur '+this.username+' du réseau GROUPOMANIA ?'))
+                if(confirm('voulez vous vraiment bannir cet utilisateur du réseau GROUPOMANIA ?'))
                 
                 //Requêtes axios vers endpoint admin => '/:userID/delete'
-                axios.delete(`api/admin/${userID}/delete,`)
+                axios.delete(`api/admin/${userID}/delete`)
                 .then(response => {
                     console.log(response.data);
                     console.log('button cliked !!!');
@@ -180,7 +184,7 @@
                         status: 'error',
                         icon: 'success',
                         title: 'ERREUR !!!',
-                        message: 'Une erreur est survenue' + error.message
+                        message: 'Une erreur est survenue ' + error.message
                     })
                 })
             },

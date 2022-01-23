@@ -204,16 +204,19 @@
                                     <i class="far fa-thumbs-up"></i>
                                       <!-- boucle sur [likes]  -->
                                         <div class= "allLikes" v-for="(like, index) in likes" :key="index">
+                                          
                                           <!-- condition assignant le nbre de like sur son post -->
                                             <span id="like"  v-if="like.postID === post.postID">
                                               {{like.nbre_like}}
                                             </span>
                                           <!-- fin -->
-                                          <!-- affichage 0 like si nbre_like = null -->
+                                          
+                                          <!-- affichage par défaut => 0 like si nbre_like = null -->
                                             <span id="like"  v-if="like.nbre_like === null && like.postID === post.postID">
                                                 0
                                             </span>
                                           <!-- fin -->
+                                          
                                           <!-- affichage mention "j'aime" du user connecté sur les posts qu'il a liké -->
                                             <span id="like" v-if="like.auteur_like === user.userID && like.nbre_like === 1 && like.postID === post.postID">
                                               J'aime
@@ -232,22 +235,26 @@
                                     class="sm md lg btn btn-outline-danger"> 
                                     <i class="far fa-thumbs-down"></i>
                                     <!-- boucle sur [dislikes] -->
-                                      <div class= "allDislikes" v-for="(dislike, index) in dislikes" :key="index">
+                                      <div class= "allDislikes" v-for="(dislike, index) in dislikes" :key="index"> 
+                                        
                                         <!-- condition assignant le nbre de dislike sur son post -->
                                           <span id="dislike" v-if="dislike.postID === post.postID" >
                                             {{dislike.nbre_dislike}}
                                           </span>
                                         <!-- fin -->
-                                        <!-- affichage 0 like si nbre_like = null -->
+                                        
+                                        <!-- affichage par défaut => 0 like si nbre_like = null -->
                                           <span id="dislike"  v-if="dislike.nbre_dislike === null && dislike.postID === post.postID">
                                             0
                                           </span>
                                         <!-- fin -->
-                                        <!-- affichage mention "je" n'aime pas" du user connecté sur les posts qu'il a disliké -->
+                                        
+                                        <!-- affichage mention "je" n'aime pas" du user connecté sur les posts qu'il a disliké (si dislike existe)-->
                                             <span id="dislike" v-if="dislike.auteur_dislike === user.userID && dislike.nbre_dislike === 1 && dislike.postID === post.postID">
                                               Je n'aime pas
                                             </span>
                                         <!-- fin -->
+                                        
                                       </div>
                                     <!-- fin -->
                                   </button>
@@ -609,7 +616,7 @@ export default {
           status: 'error',
           icon: 'success',
           title: 'ERREUR !!!',
-          message: 'Une erreur est survenue'
+          message: 'Une erreur est survenue '+ error.message
         })
       })
       
@@ -656,7 +663,7 @@ export default {
         this.flashMessage.show({
           status: 'error',
           title: 'ERREUR !!!',
-          message: 'Une erreur est survenue' + error.message
+          message: 'Une erreur est survenue ' + error.message
         })
       })
     },
@@ -712,7 +719,7 @@ export default {
           status: 'error',
           icon: 'success',
           title: 'ERREUR !!!',
-          message: 'Une erreur est survenue' + error.message
+          message: 'Une erreur est survenue ' + error.message
         })
       })
     },

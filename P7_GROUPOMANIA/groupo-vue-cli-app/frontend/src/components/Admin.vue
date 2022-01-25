@@ -161,7 +161,7 @@
             deleteBanUser(userID){
                 // test pour le postID dynamique
                 alert(userID)
-                // Message d'avertissement
+                // Message d'avertissement avant destruction
                 if(confirm('voulez vous vraiment bannir cet utilisateur du réseau GROUPOMANIA ?'))
                 
                 //Requêtes axios vers endpoint admin => '/:userID/delete'

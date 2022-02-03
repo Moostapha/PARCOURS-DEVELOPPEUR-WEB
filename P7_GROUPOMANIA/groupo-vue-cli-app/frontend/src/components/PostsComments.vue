@@ -595,6 +595,7 @@ export default {
       axios.post('api/posts/create', formData)
       .then(response => {
         console.log(response.data);
+        // this.$router.push('/groupomania/publications')
         // this.posts = response.data; // on met le data dans array posts
         // refreshing page actuelle (windows.go(n))
         // this.$router.go(0)

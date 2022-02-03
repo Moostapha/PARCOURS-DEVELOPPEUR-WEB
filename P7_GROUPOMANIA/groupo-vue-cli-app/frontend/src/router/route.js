@@ -39,8 +39,8 @@ const routes = [
   // URL PAGE FIL D'ACTUALITE navbar: publications | component: Posts => views: Actualite
   {
     path: '/groupomania/publications',       // URL correspondant au composant
-    name: 'Fil d\'actualité',    // Nom de cette route pas obligatoire | champ non obligatoire
-    component: Actualite,  // Composant affiché lorsque le path est trouvé
+    name: 'Fil d\'actualité',               // Nom de cette route pas obligatoire | champ non obligatoire
+    component: Actualite,                  // Composant affiché lorsque le path est trouvé
     // meta: {
     //   reload:true
     // }
@@ -76,24 +76,23 @@ const routes = [
   // component: UserAccount => views: profil
   {
     path: '/groupomania/profil/:userID',       // URL correspondant au composant
-    name: 'Profil',    // Nom de cette route pas obligatoire | champ non obligatoire
-    component: Profil,  // Composant affiché lorsque le path est trouvé
+    name: 'Profil',                           // Nom de cette route pas obligatoire | champ non obligatoire
+    component: Profil,                       // Composant affiché lorsque le path est trouvé
   },
   
   //URL page Admin Dashboard
   {
     path: '/groupomania/administrateur',         // URL correspondant au composant
-    name: 'AdminDashboard',                          // Nom de cette route pas obligatoire | champ non obligatoire
-    component: AdminDashboard,                   // Composant affiché lorsque le path est trouvé
+    name: 'AdminDashboard',                     // Nom de cette route pas obligatoire | champ non obligatoire
+    component: AdminDashboard,                 // Composant affiché lorsque le path est trouvé
   },
 
 ]
 
 
-//mode:'history' => pour enlever le # de l'URL
 const router = new VueRouter({
   routes,
-  mode:'history'
+  mode:'history'          // mode:'history' => pour enlever le # de l'URL
 })
 
 // export du router vers router-link => component Nav

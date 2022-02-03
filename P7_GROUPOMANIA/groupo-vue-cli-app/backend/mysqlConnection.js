@@ -1,15 +1,14 @@
-const mysql = require('mysql');  // import driver js mysql pour Node => nodemysql
-// plugin pour charger variable d'environnement depuis .env
-require('dotenv').config() ;
+const mysql = require('mysql');   // import driver js mysql pour Node => nodemysql
+require('dotenv').config() ;     // plugin pour charger variable d'environnement depuis .env
 
 
 // Params de la connection avec infos de la database créée et masquage des données sensibles
 const mysqlConnection = mysql.createConnection({ 
-  host     : process.env.HOST, // changer le code ici avec l'adresse mysql cree en ligne
-  user     : process.env.USER,     // MySQLonline username
-  password : process.env.PASSWORD, // MySQLonline password
-  database : process.env.DATABASENAME, //nom db créé en ligne 28 (si code l-28 absent commenter cette ligne)
-  port: 3307  // port de MySql en local (port de pma)
+  host     : process.env.HOST,             // changer le code ici avec l'adresse mysql cree en ligne
+  user     : process.env.USER,            // MySQLonline username
+  password : process.env.PASSWORD,       // MySQLonline password
+  database : process.env.DATABASENAME,  //nom db créé en ligne 28 (si code l-28 absent commenter cette ligne)
+  port: 3307                           // port de MySql en local (port de pma)
 });
 //console.log(mysqlConnection);
 

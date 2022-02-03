@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router'                             // Import de vue-router pour gestion de la navigation entre les différentes views de l'app
+
 import AccueilConnexion from '../views/AccueilConnexion'     // Import view pour page d'accueil connexion (component Login)
 import Inscription from '../views/Inscription.vue'          //  Import view pour page signup (component Signup)
 import Actualite from '../views/Actualite.vue'             // Import view pour page publications (component Posts)

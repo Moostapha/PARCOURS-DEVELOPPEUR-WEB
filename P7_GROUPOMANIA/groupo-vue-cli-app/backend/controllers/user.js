@@ -161,24 +161,33 @@ exports.updateUserAvatar = async(req,res,next) => {
     // Récupération données envoyées par le front
     const updatedData = JSON.parse(JSON.stringify(req.body));
     console.log('---- axios request -----: ', updatedData)
+    // Fichier téléchargé
     const avatarFile = req.file;
     console.log('----- Avatar média modifié -----: ', avatarFile)
     
-    // Encodage URL image avatar dans dossier images/avatar
-    const avatarURL = `${req.protocol}://${req.get('host')}/images/avatar/${req.file.filename}`;
-    console.log('----- URL avatar fichier image -----: ', avatarURL);
+    // Gestion d'erreur cas ou aucun fichier n'est sélectionné pour chargement
+    if (avatarFile === undefined) {
+        throw "Veuillez sélectionner un fichier !!!"
+    } 
     
-    //Insert data dans ligne database users
-    const newAvatar = await User.updateAvatar(
-        avatarURL,
-        updatedData.userID
-    );
-    console.log('----- Résultat de la promise -----: ', newAvatar);
-    res.status(200).json({
-        message:'Avatar de profil modifié avec succés',
-        avatarUploaded: newAvatar
-    })
+    else {
+        // Encodage URL image avatar dans dossier images/avatar
+        const avatarURL = `${req.protocol}://${req.get('host')}/images/avatar/${req.file.filename}`;
+        console.log('----- URL avatar fichier image -----: ', avatarURL);
+        
+        //Insert data dans ligne database users
+        const newAvatar = await User.updateAvatar(
+            avatarURL,
+            updatedData.userID
+        );
+        console.log('----- Résultat de la promise -----: ', newAvatar);
+        res.status(200).json({
+            message:'Avatar de profil modifié avec succés',
+            avatarUploaded: newAvatar
+        })
+    } 
 };
+
 
 // Fonction suppression de mon compte user
 

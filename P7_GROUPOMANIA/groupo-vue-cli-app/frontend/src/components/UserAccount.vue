@@ -29,9 +29,12 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-column align-items-center text-center">
-                                <!-- :src="require(`@/assets/${user.image}`)"  :alt="user.name"-->
-                                <img :src="user.avatar" alt="userPic" @click="$refs.fileSelectedInput.click()" 
-                                    title="Cliquez ici pour sélectionner une image" id="userAvatarPic" class="rounded-circle" ref="fileSelectedInput"
+                                
+                                <img :src="user.avatar" 
+                                    @click="$refs.fileSelectedInput.click()" 
+                                    alt="userPic" 
+                                    title="Cliquez ici pour sélectionner une image" 
+                                    id="userAvatarPic" class="rounded-circle" ref="fileSelectedInput"
                                 >
                                 
                                 <input @change="handleFile"
@@ -250,13 +253,35 @@
             const fileUploaded = new FormData();
             fileUploaded.append('avatar', this.file);
             fileUploaded.append('userID', this.userID);
+            
             // 2) Affichage de notre objet formData dans la console
             console.log(Array.from(fileUploaded));
             for(let obj of fileUploaded) {
                 console.log(obj);
             }
             
-            // Requête PUT vers serveur
+            // 3) Gestion des erreurs éventuelles et boite de dialogue user
+
+            // Affichage dans console de la valeur de avatar
+            console.log('Valeur de avatar: ',fileUploaded.get('avatar'));
+            
+            // si fichier non sélectionné par user
+            if (fileUploaded.get('avatar') === 'null') {
+                
+                // info user
+                alert("Veuillez sélectionner un fichier en cliquant sur votre avatar")
+                
+            }
+            // sinon, et on peut passer à la request axios
+            else {
+                
+                //info user pour confirmation
+                confirm(this.username+', voulez vous télécharger ce fichier ?')
+                
+            }
+            
+            
+            // 4) Requête PUT vers serveur
             axios.put(`api/users/${userID}/updateAvatar`, fileUploaded, {
                 headers: {
                     // mettre header pour que le front configure les infos correctement pour le backend
@@ -267,7 +292,7 @@
             .then(response => {
                 console.log(response.data);
                 // this.$router.push('/groupomania/profil/${userID}')
-                this.$router.go(0);
+                // this.$router.go(0);
                  // notification de réussite avec FlashMessage
                 this.flashMessage.show({
                     status: 'success',
@@ -283,7 +308,7 @@
                 this.flashMessage.show({
                     status: 'error',
                     title: 'ERREUR !!!',
-                    message: 'Une erreur est survenue' + error.message
+                    message: 'Une erreur est survenue ' + error.message
                 })
                 this.message = 'Un erreur est survenue';
                 this.error = true;
@@ -303,6 +328,7 @@
             dataPosted.append('email', this.updatedEmail);
             dataPosted.append('password', this.updatedPassword);
             dataPosted.append('userID', this.userID);
+            
             // 2) Affichage de notre objet formData dans la console
             console.log(Array.from(dataPosted));
             for(let obj of dataPosted) {

@@ -30,6 +30,30 @@ exports.getUsersAllReactions = () => {
     })
 }
 
+// DERNIER POST PAR USER
+exports.getUserLastPost = () => {
+    return new Promise((resolve,reject) => {
+        const sql = 'SELECT `users`.`userID` AS id_user_auteur_post, `posts`.`contentPost` AS last_post, `posts`.`imagePost` AS last_image, max(`posts`.`date_creation`) AS last_published_date FROM `users` LEFT JOIN `posts` ON `users`.`userID`=`posts`.`id_user_auteur_post` GROUP BY `users`.`userID`'
+        dbmySql.query(sql, function(error, results, fields) {
+            if(error) reject (error);
+            resolve(results);
+            console.log(results)
+        })
+    })
+}
+
+
+// DERNIER COMMENTAIRE PAR USER
+exports.getUserLastComment = () => {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT `users`.`userID` AS id_user_auteur_comment, `comments`.`contentComment` AS last_comment, max(`comments`.`date_creation`) AS last_published_date FROM `users` LEFT JOIN `comments` ON `users`.`userID`=`comments`.`id_user_auteur_comment` GROUP BY `users`.`userID`'
+        dbmySql.query(sql, function(error, results, fields) {
+            if(error) reject (error);
+            resolve(results);
+            console.log(results)
+        })
+    })
+}
 
 
 // Modèle avec requeête SQL supprimant un userID

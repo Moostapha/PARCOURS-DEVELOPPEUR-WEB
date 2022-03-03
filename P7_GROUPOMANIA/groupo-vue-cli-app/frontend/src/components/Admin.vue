@@ -16,7 +16,6 @@
             />
         <!-- FIN NOTIFICATION ADMIN -->
         
-        
         <div class="container">
             
             <!-- LOGO GROUPOMANIA -->
@@ -30,43 +29,149 @@
                     <ul >
                         <li id="allUsers" v-for="(user, index) in users" :key="index"  class='card mb-4'>
                             <h3>{{user.username}}</h3>
-                            <img class="card-img" :src=" user.avatar" :alt="user.username">
-                            <div class="userInfos">
-                                <strong><h4>Informations</h4></strong>
-                                <p>
-                                    <strong>Email:</strong> 
-                                    {{user.email}} <br>
-                                    <strong>Création du compte:</strong><br>
-                                    {{dateFormat(user.date_creation_compte)}}<br>
+                            <div id="user_avatar_infos">
+                                
+                                <!-- AVATAR DU USER -->
+                                    <img :src=" user.avatar" :alt="user.username" class="card-img" id="userAvatar">
+                                <!-- FIN AVATAR DU USER --> 
+                                
+                                <section id="userInfosStats">
                                     
-                                </p>
-                                <strong><h4>Statistiques</h4></strong>
+                                    <!-- INFOS GENERALES DU USER -->
+                                    <strong><h4>Informations</h4></strong>
+                                    <div class="space"></div>
+                                    <p>
+                                        <strong>Email:</strong> 
+                                        {{user.email}} <br>
+                                        <strong>Création du compte:</strong><br>
+                                        {{dateFormat(user.date_creation_compte)}}<br>
+                                        
+                                    </p>
+                                    <!-- FIN INFOS GENERALES USER -->
                                     
-                                <p>
-                                    Auteur de {{user.nbre_de_posts}} publication(s)<br>
-                                    A commenté {{user.nbre_de_commentaires}} publication(s)<br>
-                                    A réagi à {{user.nbre_de_reactions}} publication(s)<br>
-                                    <!-- Boucle sur [reactions] -->
-                                        <em v-for="(reaction, index) in reactions" :key="index">
-                                            
-                                            <!-- Condition affichage 1 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike existe -->
-                                                <p v-if="reaction.userID === user.userID && reaction.nbre_de_like !== null && reaction.nbre_de_like !== null ">
-                                                    Dont {{reaction.nbre_de_like}} like(s)<br>
-                                                    et {{reaction.nbre_de_dislike}} dislike(s)<br>
-                                                </p>
-                                            <!-- fin -->
-                                            
-                                            <!-- Condition affichage 2 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike n'existe pas-->
-                                                <p v-if="reaction.userID === user.userID && reaction.nbre_de_like === null && reaction.nbre_de_dislike === null">
-                                                    Dont 0 like(s)<br>
-                                                    et 0 dislike(s)<br>
-                                                </p>
-                                            <!-- fin -->
-                                        </em>
-                                    <!-- fin -->
-                                </p>
+                                    <!-- STATISTIQUES GENERALES USER -->
+                                    <strong><h4>Statistiques</h4></strong>
+                                    <div class="space"></div>
+                                    <p>
+                                        Auteur de {{user.nbre_de_posts}} publication(s)<br>
+                                        A commenté {{user.nbre_de_commentaires}} publication(s)<br>
+                                        A réagi à {{user.nbre_de_reactions}} publication(s)<br>
+                                        <!-- Boucle sur [reactions] -->
+                                            <em v-for="(reaction, index) in reactions" :key="index">
+                                                
+                                                <!-- Condition affichage 1 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike existe -->
+                                                    <p v-if="reaction.userID === user.userID && reaction.nbre_de_like !== null && reaction.nbre_de_like !== null ">
+                                                        Dont {{reaction.nbre_de_like}} like(s)<br>
+                                                        et {{reaction.nbre_de_dislike}} dislike(s)<br>
+                                                    </p>
+                                                <!-- fin -->
+                                                
+                                                <!-- Condition affichage 2 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike n'existe pas-->
+                                                    <p v-if="reaction.userID === user.userID && reaction.nbre_de_like === null && reaction.nbre_de_dislike === null">
+                                                        Dont 0 like(s)<br>
+                                                        et 0 dislike(s)<br>
+                                                    </p>
+                                                <!-- fin -->
+                                            </em>
+                                        <!-- fin -->
+                                    </p>
+                                <!-- FIN STATS GENERALES USER -->
+                                </section>
                             </div>
                             
+                            <!-- ACTIVITES RECENTES -->
+                                <div class="lastUsersActivities">
+                                    <strong><h4>Activités récentes</h4></strong>
+                                    <br>
+                                    <!-- Publications récentes (texte + image + date) -->
+                                        <div id="allRecentPost" >
+                                            
+                                            <!-- Boucle sur [recentPublications] -->
+                                                <div class ="publications" v-for="(recentPublication, index) in recentPublications" :key="index">
+                                                    
+                                                    <!-- condition affectant publication (texte + image + date la plus récente) à son auteur -->
+                                                        <div v-if="recentPublication.id_user_auteur_post === user.userID">
+                                                            
+                                                            <!-- texte -->
+                                                                <strong><h5>Dernier texte</h5></strong>
+                                                                
+                                                                <!-- si user a posté une image -->
+                                                                <p v-if="recentPublication.last_post">
+                                                                    <em>{{recentPublication.last_post}}</em> 
+                                                                </p>
+                                                                
+                                                                <!-- sinon -->
+                                                                <p v-if="!recentPublication.last_post">
+                                                                    Aucun texte de publié
+                                                                </p>
+                                                            <!-- fin texte -->
+                                                            
+                                                            <!-- image -->
+                                                                <!-- si user a posté une image -->
+                                                                    <figure v-if="recentPublication.last_image">
+                                                                        <strong>
+                                                                            <h5>Derniere image</h5>
+                                                                        </strong>
+                                                                        <img :src="recentPublication.last_image" :alt="user.username" class="card-img" id="last_image">
+                                                                    </figure>
+                                                                
+                                                                <!-- sinon -->
+                                                                    <div v-if="!recentPublication.last_image">
+                                                                        <strong>
+                                                                            <h5>Dernière image</h5>
+                                                                        </strong>
+                                                                        <p>Aucune image postée par {{user.username}}</p> 
+                                                                    </div>
+                                                            <!-- fin texte -->
+                                                            
+                                                            <!-- date -->
+                                                            <strong><h5>Date de publication</h5></strong>
+                                                            <p>Publié le {{dateFormat(recentPublication.last_published_date)}}</p>
+                                                        </div>
+                                                    <!-- fin condition affectant publication à son auteur -->
+                                                    
+                                                </div>
+                                            <!-- Fin boucle -->
+                                        </div>
+                                    <!-- FIN Publications récentes (texte + image + date) -->
+                                    
+                                    <!-- Commentaires récents -->
+                                        <div id="allRecentComment">
+                                            
+                                            <!-- boucle sur [recentCommentaires] -->
+                                                <div class="commentaires" v-for="(recentCommentaire, index) in recentCommentaires" :key="index" >
+                                                    
+                                                    <!-- Condition affectant le commentaire à son auteur -->
+                                                        <div v-if="recentCommentaire.id_user_auteur_comment === user.userID">
+                                                            
+                                                            <!-- Si le commentaire du user existe -->
+                                                            <div v-if="recentCommentaire.last_comment">
+                                                                <strong><h5>Dernier commentaire</h5></strong>
+                                                                <p>
+                                                                    <em>{{recentCommentaire.last_comment}}</em> <br>  publié le {{dateFormat(recentCommentaire.last_published_date)}}
+                                                                </p>
+                                                            </div>
+                                                            
+                                                            <!-- sinon -->
+                                                            <div v-if="!recentCommentaire.last_comment">
+                                                                <strong><h5>Dernier commentaire</h5></strong>
+                                                                <p>Aucun commentaire pour {{user.username}}</p>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                    <!-- Fin Condition affectant le commentaire à son auteur -->
+                                                
+                                                </div>
+                                            <!-- Fin boucle sur [recentCommentaires] -->
+                                            
+                                        </div>
+                                    <!-- Fin Commentaires récents -->
+                                </div>
+                            <!-- FIN ACTIVITES RECENTES -->
+                            
+                            <br>
+                            
+                            <!-- BOUTON DE BANISSEMENT D'UN USER PAR ADMIN-->
                             <button @click="deleteBanUser(user.userID)"
                                 type="button" class="btn btn-outline-danger">
                                 <i class="fas fa-trash-alt"></i>
@@ -78,7 +183,6 @@
             
             <!-- RENDU SI ADMIN NON CONNECTED | SI SIMPLE USER -->
                 <div v-else>
-                    
                     <h1>
                         Accés réservé à l'administrateur !!!
                     </h1>
@@ -94,7 +198,6 @@
     </main>
     
 </template>
-
 
 
 <script>
@@ -128,7 +231,13 @@
                 users: [],
                 
                 // Affichage du nbre de likes et de dislikes par user
-                reactions: []
+                reactions: [],
+                
+                // Affichage publication récente par user
+                recentPublications: [],
+                
+                // Affichage commentaire récent par user
+                recentCommentaires: [],
             }
         },
         
@@ -149,6 +258,26 @@
             .then(response => {
             console.log(response.data);
             this.reactions = response.data.reactions;
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+            
+            // Requête Affichage de toutes les dernières publication (incluant texte + image + date de publication) de chaque user
+            axios.get('api/admin/lastPost')
+            .then(response => {
+            console.log(response.data);
+            this.recentPublications = response.data.recentPublications;
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+            
+            // Requête Affichage de tous les derniers commentaires de chaque user
+            axios.get('api/admin/lastComment')
+            .then(response => {
+            console.log(response.data);
+            this.recentCommentaires = response.data.recentCommentaires;
             })
             .catch((error) => {
             console.log(error);
@@ -242,19 +371,45 @@
             li
                 padding: 2vh
                 margin: 1vh
-                h3,h4 
+                h3,h4, h5
                     font-weight: bold
                     color: royalblue
+                    margin: 0vh
                 h4 
                     margin-top: 2vh
                     background-color: #357f7f21
+                    border-radius: 4vh
                 strong 
                     color: royalblue
                 p 
-                    margin-top: 2vh
+                    margin: 0vh
+                    background-color: azure
+                    border-radius: 2vh
                 button
                     width: 20%
                     margin: 0vh 0vh 2vh 2vh
+                #user_avatar_infos
+                    display: flex
+                    justify-content: space-around
+                    align-items: center
+                    #userAvatar
+                        width: 45%
+                        border-radius: 50%
+                        @media screen and (min-width: 990px)
+                            width: 20%
+                    #userInfosStats
+                        width: 50%
+                    @media screen and (max-width: 990px)
+                        flex-direction: column
+                    .space
+                        height: 1vh
+                #last_image
+                    box-shadow: 0px 5px 5px #e0e3ea
+                    margin-top: 2vh
+                    border-radius: 3vh
+                    border: solid 0.5px
+                    @media screen and (min-width: 990px)
+                        width: 50%
     .logo
         background-image: url('../assets/icon-left-font-monochrome-white.svg')
         background-repeat: no-repeat

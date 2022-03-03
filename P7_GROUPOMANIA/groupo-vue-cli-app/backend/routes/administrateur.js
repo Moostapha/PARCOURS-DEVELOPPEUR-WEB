@@ -18,7 +18,16 @@ const multer = require('../middlewares/multer');
 router.get('/infos', auth, adminCtler.getAllUsersInfos, adminCtler.getUsersLikesAndDislikes);
 
 
+// route donnant tous les likes | dislikes par user
 router.get('/reactions', auth, adminCtler.getUsersLikesAndDislikes); 
+
+
+// route donnant dernier post d'un user
+router.get('/lastPost', auth, adminCtler.lastUserPost); 
+
+
+// route donnant dernier commentaire d'un user
+router.get('/lastComment', auth, adminCtler.lastUserComment); 
 
 
 // route pour effacer/ bannir un user

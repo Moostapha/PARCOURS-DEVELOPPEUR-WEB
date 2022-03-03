@@ -19,6 +19,26 @@ exports.getUsersLikesAndDislikes = async(req, res, next) => {
     });
 }
 
+// Fonction donnant le dernier post (image et texte) d'un user
+exports.lastUserPost = async(req,res,next) => {
+    const lastPost = await Admin.getUserLastPost();
+    res.status(200).json({
+        message:'Dernier post par user',
+        recentPublications: lastPost
+    })
+}
+
+// Fonction donnant le dernier comment d'un user
+exports.lastUserComment = async(req,res,next) => {
+    const lastComment = await Admin.getUserLastComment();
+    res.status(200).json({
+        message:'Dernier commentaire par user',
+        recentCommentaires: lastComment
+    })
+
+}
+
+
 // Fonction de suppression d'un user par Admin
 exports.deleteUser = async(req, res, next) => {
     const userById  = req.params.userID;

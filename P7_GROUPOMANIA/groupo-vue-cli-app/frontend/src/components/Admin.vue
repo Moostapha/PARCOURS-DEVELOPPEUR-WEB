@@ -41,9 +41,9 @@
                                     <strong><h4>Informations</h4></strong>
                                     <div class="space"></div>
                                     <p>
-                                        <strong>Email:</strong> 
+                                        <strong class="informations_sub">Email:</strong> 
                                         {{user.email}} <br>
-                                        <strong>Création du compte:</strong><br>
+                                        <strong class="informations_sub">Création du compte:</strong><br>
                                         {{dateFormat(user.date_creation_compte)}}<br>
                                         
                                     </p>
@@ -53,23 +53,23 @@
                                     <strong><h4>Statistiques</h4></strong>
                                     <div class="space"></div>
                                     <p>
-                                        Auteur de {{user.nbre_de_posts}} publication(s)<br>
-                                        A commenté {{user.nbre_de_commentaires}} publication(s)<br>
-                                        A réagi à {{user.nbre_de_reactions}} publication(s)<br>
+                                        Auteur de <strong>{{user.nbre_de_posts}} publication(s)</strong><br>
+                                        A commenté <strong>{{user.nbre_de_commentaires}} publication(s)</strong><br>
+                                        A réagi à <strong>{{user.nbre_de_reactions}} publication(s)</strong><br>
                                         <!-- Boucle sur [reactions] -->
                                             <em v-for="(reaction, index) in reactions" :key="index">
                                                 
                                                 <!-- Condition affichage 1 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike existe -->
                                                     <p v-if="reaction.userID === user.userID && reaction.nbre_de_like !== null && reaction.nbre_de_like !== null ">
-                                                        Dont {{reaction.nbre_de_like}} like(s)<br>
-                                                        et {{reaction.nbre_de_dislike}} dislike(s)<br>
+                                                        Dont <strong>{{reaction.nbre_de_like}} like(s)</strong>
+                                                        et <strong>{{reaction.nbre_de_dislike}} dislike(s)</strong><br>
                                                     </p>
                                                 <!-- fin -->
                                                 
                                                 <!-- Condition affichage 2 => Affectation du nbre de reactions sur le user auteur si ce like ou dislike n'existe pas-->
                                                     <p v-if="reaction.userID === user.userID && reaction.nbre_de_like === null && reaction.nbre_de_dislike === null">
-                                                        Dont 0 like(s)<br>
-                                                        et 0 dislike(s)<br>
+                                                        Dont <strong>0 like(s)</strong> 
+                                                        et <strong>0 dislike(s)</strong> <br>
                                                     </p>
                                                 <!-- fin -->
                                             </em>
@@ -90,14 +90,17 @@
                                                 <div class ="publications" v-for="(recentPublication, index) in recentPublications" :key="index">
                                                     
                                                     <!-- condition affectant publication (texte + image + date la plus récente) à son auteur -->
-                                                        <div v-if="recentPublication.id_user_auteur_post === user.userID">
+                                                        <div class="userPublication" v-if="recentPublication.id_user_auteur_post === user.userID">
                                                             
                                                             <!-- texte -->
                                                                 <strong><h5>Dernier texte</h5></strong>
                                                                 
                                                                 <!-- si user a posté une image -->
                                                                 <p v-if="recentPublication.last_post">
-                                                                    <em>{{recentPublication.last_post}}</em> 
+                                                                    <strong>
+                                                                        <em>{{recentPublication.last_post}}</em>
+                                                                    </strong> <br> 
+                                                                    Publié le {{dateFormat(recentPublication.last_published_date)}}
                                                                 </p>
                                                                 
                                                                 <!-- sinon -->
@@ -106,6 +109,8 @@
                                                                 </p>
                                                             <!-- fin texte -->
                                                             
+                                                            <div class="space"></div>
+
                                                             <!-- image -->
                                                                 <!-- si user a posté une image -->
                                                                     <figure v-if="recentPublication.last_image">
@@ -113,10 +118,13 @@
                                                                             <h5>Derniere image</h5>
                                                                         </strong>
                                                                         <img :src="recentPublication.last_image" :alt="user.username" class="card-img" id="last_image">
+                                                                        <figcaption>
+                                                                            Image publiée le {{dateFormat(recentPublication.last_published_date)}}
+                                                                        </figcaption>
                                                                     </figure>
                                                                 
                                                                 <!-- sinon -->
-                                                                    <div v-if="!recentPublication.last_image">
+                                                                    <div class="noImage" v-if="!recentPublication.last_image">
                                                                         <strong>
                                                                             <h5>Dernière image</h5>
                                                                         </strong>
@@ -124,9 +132,6 @@
                                                                     </div>
                                                             <!-- fin texte -->
                                                             
-                                                            <!-- date -->
-                                                            <strong><h5>Date de publication</h5></strong>
-                                                            <p>Publié le {{dateFormat(recentPublication.last_published_date)}}</p>
                                                         </div>
                                                     <!-- fin condition affectant publication à son auteur -->
                                                     
@@ -142,18 +147,21 @@
                                                 <div class="commentaires" v-for="(recentCommentaire, index) in recentCommentaires" :key="index" >
                                                     
                                                     <!-- Condition affectant le commentaire à son auteur -->
-                                                        <div v-if="recentCommentaire.id_user_auteur_comment === user.userID">
+                                                        <div class="userCommentaire" v-if="recentCommentaire.id_user_auteur_comment === user.userID">
                                                             
                                                             <!-- Si le commentaire du user existe -->
-                                                            <div v-if="recentCommentaire.last_comment">
+                                                            <div class="ifLastComment" v-if="recentCommentaire.last_comment">
                                                                 <strong><h5>Dernier commentaire</h5></strong>
                                                                 <p>
-                                                                    <em>{{recentCommentaire.last_comment}}</em> <br>  publié le {{dateFormat(recentCommentaire.last_published_date)}}
+                                                                    <strong>
+                                                                        <em>{{recentCommentaire.last_comment}}</em> 
+                                                                    </strong><br>  
+                                                                    publié le {{dateFormat(recentCommentaire.last_published_date)}}
                                                                 </p>
                                                             </div>
                                                             
                                                             <!-- sinon -->
-                                                            <div v-if="!recentCommentaire.last_comment">
+                                                            <div class="ifNoLastComment" v-if="!recentCommentaire.last_comment">
                                                                 <strong><h5>Dernier commentaire</h5></strong>
                                                                 <p>Aucun commentaire pour {{user.username}}</p>
                                                             </div>
@@ -371,7 +379,7 @@
             li
                 padding: 2vh
                 margin: 1vh
-                h3,h4, h5
+                h3,h4
                     font-weight: bold
                     color: royalblue
                     margin: 0vh
@@ -379,7 +387,9 @@
                     margin-top: 2vh
                     background-color: #357f7f21
                     border-radius: 4vh
-                strong 
+                // strong 
+                //     color: royalblue
+                h5 
                     color: royalblue
                 p 
                     margin: 0vh
@@ -403,6 +413,8 @@
                         flex-direction: column
                     .space
                         height: 1vh
+                    .informations_sub
+                        color: royalblue
                 #last_image
                     box-shadow: 0px 5px 5px #e0e3ea
                     margin-top: 2vh

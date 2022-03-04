@@ -73,6 +73,15 @@
                             Inscription
                         </button>
                     </div>
+                    
+                    <br>
+                    
+                    <!-- Si compte existant redirection vers page login pour connexion directe -->
+                    <small>Vous avez déjà un compte ?
+                        <router-link :to="{name: 'Connexion'}">
+                            connectez-vous ici
+                        </router-link>
+                    </small>
                 </form>
                 
             </ValidationObserver>

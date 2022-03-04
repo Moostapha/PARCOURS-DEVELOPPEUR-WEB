@@ -100,7 +100,7 @@
                                                                     <strong>
                                                                         <em>{{recentPublication.last_post}}</em>
                                                                     </strong> <br> 
-                                                                    Publié le {{dateFormat(recentPublication.last_published_date)}}
+                                                                    <small> Publié le {{dateFormat(recentPublication.last_published_date)}}</small>  
                                                                 </p>
                                                                 
                                                                 <!-- sinon -->
@@ -140,6 +140,7 @@
                                         </div>
                                     <!-- FIN Publications récentes (texte + image + date) -->
                                     
+                                    <div class="space"></div>
                                     <!-- Commentaires récents -->
                                         <div id="allRecentComment">
                                             
@@ -156,7 +157,7 @@
                                                                     <strong>
                                                                         <em>{{recentCommentaire.last_comment}}</em> 
                                                                     </strong><br>  
-                                                                    publié le {{dateFormat(recentCommentaire.last_published_date)}}
+                                                                    <small>publié le {{dateFormat(recentCommentaire.last_published_date)}}</small>  
                                                                 </p>
                                                             </div>
                                                             

@@ -62,6 +62,16 @@
                             Connexion
                         </button>
                     </div>
+                    
+                    <br>
+                    
+                    <!-- Si compte inexistant redirection vers page Signup pour inscription -->
+                    <small>Vous n'êtes pas encore inscrit ?
+                        <router-link :to="{name: 'Inscription'}">
+                            inscrivez-vous ici
+                        </router-link>
+                    </small>
+                    
                 </form>
             </ValidationObserver>
             <FlashMessage></FlashMessage>

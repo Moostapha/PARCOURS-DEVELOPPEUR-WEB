@@ -453,16 +453,24 @@ export default {
       fileSelected: null,
       
       // GET BACK => FRONT
-      //Affichage de tous les users | posts | comments | likes | dislikes => infos à getter du backend, toutes les données des 4 tables
+      // Affichage de tous les users | posts | comments | likes | dislikes => toutes les données des 5 tables (GET from backend)
+      
+      // Tableau datas table users
       users: [],
+      
+      // Tableau datas table posts
       posts: [], 
+      
+      // Tableau datas table comments
       comments: [],
-      // requête donnant nbre de like par post
+      
+      // Tableau datas nbre de like par post
       likes: [], 
-      // requête donnant nbre de dislike par post  
+      
+      // Tableau datas nbre de dislike par post  
       dislikes: [],
       
-      // compteur ilke/dislike
+      // compteur like/dislike
       counter:0,
       
       // POST FRONT => BACK
@@ -501,7 +509,6 @@ export default {
     }
     
   },
-  
   
   mounted() {
     

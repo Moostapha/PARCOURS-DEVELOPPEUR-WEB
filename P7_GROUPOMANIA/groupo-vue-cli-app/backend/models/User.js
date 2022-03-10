@@ -104,11 +104,10 @@ exports.deleteUser = (userID) => {
 
 
 // Fonction requête pour afficher tous les users
-
 exports.getUsers = () => {
     return new Promise((resolve,reject) => {
         // 'SELECT * FROM users WHERE is_admin=0'
-        const sql = 'SELECT * FROM users';
+        const sql = 'SELECT * FROM `users`';
         dbmySql.query(sql, function(error, results, fields) {
             if (error) reject(error);
             resolve(results);

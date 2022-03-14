@@ -110,7 +110,7 @@
                                                             <!-- fin texte -->
                                                             
                                                             <div class="space"></div>
-
+                                                            
                                                             <!-- image -->
                                                                 <!-- si user a posté une image -->
                                                                     <figure v-if="recentPublication.last_image">

@@ -270,13 +270,14 @@
                               <div v-if="user.is_admin === 1" class="btnModifSupPublication">
                                 
                                 <!-- BOUTON MODIFPOST -->
-                                  <router-link :to="{ name: 'ModifPost', params: {postID: post.postID} }">
-                                    <button 
-                                      type="button" 
-                                      class="btn btn-outline-success">
-                                      <i class="fas fa-pen"></i>
-                                    </button>
-                                  </router-link>
+                                  <!-- navigation programmatique pour récupération en dynamique du postID et du texte -->
+                                    <router-link :to="{ name: 'ModifPost', params: {postID: post.postID, contentPost: post.contentPost} }">
+                                      <button 
+                                        type="button" 
+                                        class="btn btn-outline-success">
+                                        <i class="fas fa-pen"></i>
+                                      </button>
+                                    </router-link>
                                 <!-- FIN -->
                                 
                                 <!-- BOUTON DELETEPOST -->
@@ -293,11 +294,12 @@
                               <div v-else-if="userID === post.id_user_auteur_post" class="btnModifSupPublication">
                                 
                                 <!-- BOUTON MODIFPOST -->
-                                  <router-link :to="{ name: 'ModifPost', params: {postID: post.postID}}">
-                                    <button type="button" class="btn btn-outline-success">
-                                      <i class="fas fa-pen"></i>
-                                    </button>
-                                  </router-link>
+                                  <!-- navigation programmatique pour récupération en dynamique du postID et du texte -->
+                                    <router-link :to="{ name: 'ModifPost', params: {postID: post.postID, contentPost: post.contentPost}}">
+                                      <button type="button" class="btn btn-outline-success">
+                                        <i class="fas fa-pen"></i>
+                                      </button>
+                                    </router-link>
                                 <!-- FIN -->
                                 
                                 <!-- BOUTON DELETEPOST -->
@@ -614,6 +616,7 @@ export default {
           title: 'PUBLICATION REUSSIE !!!',
           message: 'Votre post a été publié avec succés'
         })
+        location.reload()
       })
       .catch((error) => {
         console.log(error);

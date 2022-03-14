@@ -28,7 +28,8 @@ Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, post
 
 
 // Route Modification d'un post par son auteur => Nécessité de multer lorsque le content-type posté est du multipart form data
-Router.put('/:postID/update', auth, multer, rules.validFormPost(), rules.validate, postCtler.updatePost);
+// Modif de cette route avec contentPost en dynamique pour afficher l'ancien post dans le textarea dédié de UpdatePost.vue
+Router.put('/:postID/update/:contentPost', auth, multer, rules.validFormPost(), rules.validate, postCtler.updatePost);
 
 
 // Route de création fichier multimédia pour un post

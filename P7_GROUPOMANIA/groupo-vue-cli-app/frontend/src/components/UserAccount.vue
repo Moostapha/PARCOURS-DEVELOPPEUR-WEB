@@ -21,7 +21,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h2>
-                                Profif de {{user.username}}
+                                Profil de {{user.username}}
                             </h2>
                             <div v-if="message" :class="`message ${error ? 'is-danger' : 'is-success'}`" >
                                 <div class="message-body"> 
@@ -206,7 +206,7 @@
             // Infos user logged récupération dans localStorage et conversion en int avec +
             userID: +localStorage.getItem("userID"),
             username: localStorage.getItem("username"), 
-            // avatar:"",
+            
             
             // infos des updates
             file: null, // avatar user
@@ -261,7 +261,7 @@
             }
             
             // 3) Gestion des erreurs éventuelles et boite de dialogue user
-
+            
             // Affichage dans console de la valeur de avatar
             console.log('Valeur de avatar: ',fileUploaded.get('avatar'));
             
@@ -336,7 +336,8 @@
             }
             
             // boite de dialogue pour confirmation
-            if(confirm(this.username+', voulez vous modifier vos informations?'))
+            if(confirm(this.username +', voulez vous modifier vos informations?'))
+            
             // 3) Requête put axios vers endpoint express.js
             axios.put(`api/users/${userID}/updateInfo`, dataPosted)
             .then(response => {

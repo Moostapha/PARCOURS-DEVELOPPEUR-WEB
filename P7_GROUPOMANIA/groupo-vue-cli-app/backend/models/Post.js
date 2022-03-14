@@ -52,17 +52,18 @@ exports.create = ( userID, username, contentPost ) => {
 };
 
 
-// Fonction requête sql pour MODIFIER un post after
+// Fonction requête sql pour MODIFIER un post after => texte + image ou texte ou image only dans UpdatePost.vue
 exports.update = ( contentPost, postID ) => {
     return new Promise((resolve,reject) => {
         //requete sql dans une const
         //'UPDATE posts SET contentPost=? WHERE postID =?'   
         const sql = 'UPDATE `posts` SET `contentPost`= ? WHERE `posts`.`postID` = ?' ;
-        let dataUpdated = [contentPost, postID]
+        let dataUpdated = [contentPost,postID]
         dbmySql.query( sql, dataUpdated , function (error, results, fields){
             if(error) reject(error);
             resolve(results);
-            console.log(results.affectedRows + " record(s) updated");
+            console.log(results)
+            // console.log(results.affectedRows + " record(s) updated");
         })
     })
 };
@@ -82,13 +83,12 @@ exports.delete = (postID) => {
 };
 
 
-// Fonction upload image du post
+// Fonction upload image du post => PostComments.vue
 exports.uploadImage = (userID, username, imagePost) => {
 
     return new Promise((resolve, reject) =>{
-        // 'INSERT INTO `posts` ( imagePost ) VALUES (?) WHERE `posts`.`postID` = ?'
-        // 'INSERT INTO posts ( id_user_auteur_post, username, imagePost ) VALUES (?,?,?)'
-        const sql ='INSERT INTO posts (id_user_auteur_post, username, imagePost) VALUES (?,?,?)';
+        
+        const sql ='INSERT INTO `posts` (`id_user_auteur_post`, `username`, `imagePost`) VALUES (?,?,?)';
         let data = [userID, username, imagePost]
         dbmySql.query(sql, data, function(error, results, fields){
             if(error) reject(error);
@@ -99,7 +99,7 @@ exports.uploadImage = (userID, username, imagePost) => {
 };
 
 
-// Fonction update upload image du post
+// Fonction update upload image du post => UpdatePost.vue
 exports.updateUploadImage = ( imagePost, postID ) => {
     
     return new Promise((resolve, reject) => {

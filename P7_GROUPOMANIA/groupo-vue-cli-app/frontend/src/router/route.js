@@ -49,8 +49,9 @@ const routes = [
   
   
   // URL Page de modification des posts => Component: UpdatePost.vue dans view: ModifPost.vue
+  // Modif de cette route avec contentPost en dynamique pour afficher l'ancien post dans le textarea dédié de UpdatePost.vue
   {
-    path: '/groupomania/publications/:postID/editer',
+    path: '/groupomania/publications/:postID/editer/:contentPost',
     name: 'ModifPost',
     component: ModifPost
   },

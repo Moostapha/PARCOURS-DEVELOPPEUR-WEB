@@ -347,7 +347,8 @@
                     status: 'success',
                     // icon: '../assets/success.png',
                     title: 'MODIFICATION REUSSIE !!!',
-                    message: 'Infos du profil modifiés avec succés'
+                    message: 'Infos du profil modifiés avec succés',
+                    time: 3000
                 })
             })
             .catch((error) => {

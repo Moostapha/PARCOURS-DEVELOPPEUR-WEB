@@ -69,17 +69,25 @@
                 <!-- BOUTONS DE SOUMISSION DES PUBLICATIONS + TELECHARGEMENT DE FICHIER-->
                   <!-- <div class="buttonPost"> -->
                     <!-- BTN PUBLIER -->
+                    <router-link :to="{ name: 'Fil d\'actualité'}">
                       <button @click="createPost()"
                         id="btnPost"
                         method="post"
                         class="sm md lg xl btn btn-primary btnpublier">
                         <i class="far fa-paper-plane"></i>
-                        Publier
+                        Publier texte
                       </button>
+                    </router-link>
                     <!-- FIN -->
               </form>
             </ValidationObserver>
             
+            <!-- PREVISUALISATION FICHIER CHOISI PAR USER -->
+                <div v-if="url"  id="preview">
+                    <h4>Prévisualisation du fichier séléctionné:</h4> 
+                    <img :src="url"/>
+                </div>
+            <!-- FIN -->
             
             <label>...Ajoutez des images</label>
             <div class="buttonPost">
@@ -104,7 +112,7 @@
                   method="post"
                   class="sm md lg xl btn btn-primary form-control-file">
                   <i class="fa fa-download"></i>
-                    publier image
+                    Publier image
                 </button>
               <!-- FIN -->
             </div>
@@ -271,7 +279,12 @@
                                 
                                 <!-- BOUTON MODIFPOST -->
                                   <!-- navigation programmatique pour récupération en dynamique du postID et du texte -->
-                                    <router-link :to="{ name: 'ModifPost', params: {postID: post.postID, contentPost: post.contentPost} }">
+                                    <router-link :to="{ 
+                                      name: 'ModifPost', 
+                                      params: {
+                                        postID: post.postID, 
+                                        contentPost: post.contentPost
+                                    }}">
                                       <button 
                                         type="button" 
                                         class="btn btn-outline-success">
@@ -295,7 +308,14 @@
                                 
                                 <!-- BOUTON MODIFPOST -->
                                   <!-- navigation programmatique pour récupération en dynamique du postID et du texte -->
-                                    <router-link :to="{ name: 'ModifPost', params: {postID: post.postID, contentPost: post.contentPost}}">
+                                    <router-link :to="{ 
+                                      name: 'ModifPost', 
+                                      params: {
+                                        postID: post.postID,
+                                        contentPost: post.contentPost
+                                      }, 
+                                      //query: {contentPost: post.contentPost} 
+                                    }">
                                       <button type="button" class="btn btn-outline-success">
                                         <i class="fas fa-pen"></i>
                                       </button>
@@ -358,7 +378,13 @@
                                 <div class="btnOnComment"  v-if="show">
                                 
                                   <!-- BOUTON MODIFICATION COMMENTAIRE PAR USER-AUTEUR -->
-                                    <router-link :to="{ name: 'ModifComment' , params: {commentID: comment.commentID} }">
+                                    <router-link :to="{ 
+                                      name: 'ModifComment', 
+                                      params: {
+                                        commentID: comment.commentID, // récupération dynamique via URL du postID
+                                        contentComment: comment.contentComment  // récupération dynamique via URL du contenu du commentaire
+                                      } }"
+                                    >
                                       <span id="updateComment" class="btn btn-outline-success" aria-hidden="true">
                                         <i class="fas fa-pen"></i>
                                       </span>
@@ -382,12 +408,7 @@
                             <div class="actionOnComment" v-else-if="user.is_admin === 1">
                               <span @click="show= !show">...</span>
                               <div class="btnOnComment"  v-if="show">
-                                <!-- a enlever car pas nécessaire pour admin -->
-                                  <span @click="updateComment(comment.commentID)" 
-                                    id="updateComment" class="btn btn-outline-success" aria-hidden="true">
-                                    <i class="fas fa-pen"></i>
-                                  </span>
-                                <!-- a enlever car pas nécessaire pour admin -->
+                                
                                 <span @click="deleteComment(comment.commentID)" 
                                   id="deleteComment" class="btn btn-outline-danger" aria-hidden="true">
                                   <i class="fas fa-trash-alt"></i>
@@ -453,6 +474,9 @@ export default {
       
       // fichier image téléchargé
       fileSelected: null,
+
+      // prévisualisation fichier téléchargé
+      url: null, 
       
       // GET BACK => FRONT
       // Affichage de tous les users | posts | comments | likes | dislikes => toutes les données des 5 tables (GET from backend)
@@ -599,16 +623,24 @@ export default {
       
       // 2) Affichage de notre objet formData dans la console
       console.log(Array.from(formData));
-      
+        for(let obj of formData) {
+            console.log(obj);
+        }
+      // console.log(Array.from(formData));
+      // Cas ou texte non publié
       // 3) envoie des données par requête axios => headers configuré en global dans axiosConfig.js
       axios.post('api/posts/create', formData)
       .then(response => {
         console.log(response.data);
+        
         // this.$router.push('/groupomania/publications')
-        // this.posts = response.data; // on met le data dans array posts
+        // this.posts.push(data); // on met le new data dans data array posts
+        
+        // TENTATIVE RELOAD AVEC NEW DATAS
         // refreshing page actuelle (windows.go(n))
         // this.$router.go(0)
         // this.contentPost = this.publication.contentPost
+        
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',
@@ -616,7 +648,7 @@ export default {
           title: 'PUBLICATION REUSSIE !!!',
           message: 'Votre post a été publié avec succés'
         })
-        location.reload()
+        // location.reload()
       })
       .catch((error) => {
         console.log(error);
@@ -638,7 +670,7 @@ export default {
       // this.componentKey += 1;
       // this.$router.push('/groupomania/publications')
       // this.$router.go(this.$router.currentRoute)
-      // this.$forceUpdate('/groupomania/publications')
+      this.$forceUpdate()
     },
     
     
@@ -646,6 +678,11 @@ export default {
     handleFileSelected(event){
       this.fileSelected = event.target.files[0];
       console.log(event);
+      
+      // preview image sélectionnée
+      const file = event.target.files[0];
+      this.url = URL.createObjectURL(file)
+    
     },
     
     
@@ -657,10 +694,15 @@ export default {
       formData.append('imagePost', this.fileSelected);
       
       console.log(Array.from(formData));
+      for(let obj of formData) {
+          console.log(obj);
+      }
+      // console.log(Array.from(formData));
       
       axios.post('api/posts/uploadImg', formData)
       .then(response => {
         console.log('SUCCES: ', response.data);
+        this.$router.push('/groupomania/publications')
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',
@@ -748,8 +790,12 @@ export default {
       const formData = new FormData();
       formData.append('id_post_reacted', postID);
       formData.append('id_user_auteur_reaction', this.userID); // 
-      // formData.append('like', 1);
+      
       console.log(Array.from(formData));
+      for(let obj of formData) {
+          console.log(obj);
+      }
+      // console.log(Array.from(formData));
       
       axios.post('api/reactions/like', formData)
       .then(response => {
@@ -787,10 +833,13 @@ export default {
       const formData = new FormData();
       formData.append('id_post_reacted', postID);
       formData.append('id_user_auteur_reaction', this.userID);
-      // formData.append('dislike', 1);
       
       // datas envoyés dans console
       console.log(Array.from(formData));
+      for(let obj of formData) {
+          console.log(obj);
+      }
+      // console.log(Array.from(formData));
       
       axios.post('api/reactions/dislike' , formData)
       .then(response => {
@@ -875,6 +924,10 @@ export default {
         font-weight: bold
       h6 
         padding: 0.6rem
+      // preview image user
+      h4 
+        color: white
+        font-weight: bold
       ul
         list-style-type: none
         padding: 0

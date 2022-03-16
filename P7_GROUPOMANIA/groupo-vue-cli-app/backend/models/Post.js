@@ -9,9 +9,9 @@ Table post => postID | idUserAuteur | username | contentPost | date_creation */
 // Fonction requête sql pour affichage de tous les posts
 exports.getAll = () => {
     return new Promise((resolve, reject) => { 
-        // Préparation requête SQL
+        // Préparation requête SQL donnant le post le plus récent au plus ancien
         //const sql = 'SELECT * FROM posts ORDER BY posts.date_creation DESC' => post du plus récent au moins récent
-        const sql = 'SELECT * FROM posts';
+        const sql = 'SELECT * FROM `posts` ORDER BY `posts`.`date_creation` DESC';
         // Exécution requête
         dbmySql.query( sql, function(error, results, fields) {
             if (error) reject(error);
@@ -56,7 +56,6 @@ exports.create = ( userID, username, contentPost ) => {
 exports.update = ( contentPost, postID ) => {
     return new Promise((resolve,reject) => {
         //requete sql dans une const
-        //'UPDATE posts SET contentPost=? WHERE postID =?'   
         const sql = 'UPDATE `posts` SET `contentPost`= ? WHERE `posts`.`postID` = ?' ;
         let dataUpdated = [contentPost,postID]
         dbmySql.query( sql, dataUpdated , function (error, results, fields){

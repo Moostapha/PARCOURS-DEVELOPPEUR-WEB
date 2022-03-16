@@ -105,7 +105,7 @@ export default {
     name: 'UpdatePost',
     props: {
         msg: {String},
-        
+        // contentPost: ['contentPost']
     },
     
     data(){
@@ -119,7 +119,7 @@ export default {
             // saisi et actualisation du post
             contentPost:this.$route.params.contentPost, 
             
-            // newImagePost selected
+            // newImagePost Fichier choisi par user
             newFileSelected: null, 
             
             // prévisualisation fichier téléchargé
@@ -135,44 +135,26 @@ export default {
     
     
     methods: {
-        // Modif contentPost
+        
+        // Modif contentPost (texte publication) => 1ere fonction sur le bouton publier
         updatePost(){
             
-            // Données à transmettre au back
+            // 1) Données à transmettre au back avec constructeur FormData et sa fonction append()
             let postUpdated = new FormData();
             postUpdated.append('postID', this.postID );
             postUpdated.append('contentPost', this.contentPost );
-            // postUpdated.append('imagePost', this.newFileSelected);
+            
+            // 2) Affichage de notre objet formData dans la console
             console.log(Array.from(postUpdated));
+            for(let obj of postUpdated) {
+                console.log(obj);
+            }
             
-            // si fichier non téléchargé on update contenPost
-            // if (postUpdated.get('imagePost') === 'null') {
-                
-                // let postUpdated = new FormData();
-                // postUpdated.append('postID', this.postID );
-                // postUpdated.append('contentPost', this.contentPost );
-                // postUpdated.append('imagePost', '');
-                
-            // }
-            // sinon les 2
-            
-            // boite de dialogue pour confirmation
-            if(confirm(this.username+', voulez vous vraiment modifier cette publication?'))
-            
-            // requête axios du frontend vers le backend => Récup. dynamique de postID dans l'URL via vue.router
+            // 3) requête axios du frontend vers le backend => Récup. dynamique de postID dans l'URL via vue.router
             //headers d'axios configuré en global dans axiosConfig.js => Token + content-type
             axios.put(`api/posts/${this.$route.params.postID}/update/${this.$route.params.contentPost}`, postUpdated)
             .then(response => {
-                console.log(response);
-                this.$router.push('/groupomania/publications');
-                // flashmessage ('Modif réussie !!!!')
-                this.flashMessage.show({
-                    status: 'success',
-                    icon: '../assets/success.png',
-                    title: 'SUCCES !!!',
-                    message: 'Modification de la publication réussie',
-                    time: 3000
-                })
+                console.log(response);               
             })
             .catch((error) =>{
                 console.log(error);
@@ -195,39 +177,64 @@ export default {
             
             // Affectation et récupération du fichier
             this.newFileSelected = event.target.files[0];
+            console.log(event);
             
             // preview image sélectionnée
             const file = event.target.files[0];
             this.url = URL.createObjectURL(file)
-            console.log(event);
         },
         
-        //Modif imagePost
+        //Modif imagePost (image publication) => 2e et dernière fonction sur le bouton publier
         updateFile(){
-            // Préparation du formdata à envoyer au back
+            
+            // 1) Préparation du formdata à envoyer au back avec constructeur FormData et sa fonction append()
             let imgUpdated = new FormData();
             imgUpdated.append('imagePost', this.newFileSelected);
             imgUpdated.append('postID', this.postID);
             
-            console.log('Fichier modifié: ',Array.from(imgUpdated));
+            // 2) Affichage de notre objet formData dans la console
+            console.log(Array.from(imgUpdated));
+            for(let obj of imgUpdated) {
+                console.log(obj);
+            }
             
-            // Requête axios au back => envoie des données modifiées
+            // 3) Gestion des cas d'exception et boite de dialogue user
+            
+            // Affichage dans console de la valeur de avatar
+            console.log('Valeur de imagePost: ', imgUpdated.get('imagePost'));
+            
+            // Si fichier non updated par user 
+            if (imgUpdated.get('imagePost') === 'null') {
+                // info user pour confirmation
+                confirm(this.username+', aucune modification conserver cette publiation ?')
+                // Redirection vers forum
+                this.$router.push('/groupomania/publications')
+                
+            } 
+            // sinon on peut passer à la requête axios
+            else {
+                confirm(this.username+', voulez vous vraiment modifier cette publication?')
+            }
+            
+            // 4) Requête PUT axios vers ctler
             axios.put(`api/posts/${this.$route.params.postID}/updateImg`, imgUpdated)
             .then(response =>{
                 console.log(response);
-                // redirection vers page publication
-                // this.$router.push('/groupomania/publications');
+                
+                // redirection sur la dernière fonction update() du btn publier
+                this.$router.push('/groupomania/publications')
                 
                 // flashmessage ('Modif réussie !!!!')
-                // this.flashMessage.show({
-                //     status: 'success',
-                //     icon: '../assets/success.png',
-                //     title: 'SUCCES !!!',
-                //     message: 'Modification de l\'image réussie',
-                //     time: 3000
-                // })
+                this.flashMessage.show({
+                    status: 'success',
+                    icon: '../assets/success.png',
+                    title: 'SUCCES !!!',
+                    message: 'Modification de la publication réussie',
+                    time: 3000
+                })
             })
             .catch((error) =>{
+                // erreur
                 console.log(error);
                 // notif erreur avec flashmessage
                 this.flashMessage.show({

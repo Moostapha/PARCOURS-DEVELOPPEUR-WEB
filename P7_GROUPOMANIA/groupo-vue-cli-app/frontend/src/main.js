@@ -14,6 +14,7 @@ import  ('../axiosConfig');
 
 /* Plugin vee-validate pour customer inputs, installation globale => les règles de validation ne sont pas mises par défaut, nous les avons toutes importées*/
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
+
 Vue.component('ValidationProvider', ValidationProvider);
 
 

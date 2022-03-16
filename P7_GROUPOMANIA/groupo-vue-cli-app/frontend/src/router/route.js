@@ -2,6 +2,10 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'                             // Import de vue-router pour gestion de la navigation entre les différentes views de l'app
 
+// import { createRouter, createWebHistory } from 'vue-router'
+
+
+// VIEWS DES COMPONENTS DE L'APPLICATION
 import AccueilConnexion from '../views/AccueilConnexion'     // Import view pour page d'accueil connexion (component Login)
 import Inscription from '../views/Inscription.vue'          //  Import view pour page signup (component Signup)
 import Actualite from '../views/Actualite.vue'             // Import view pour page publications (component Posts)
@@ -53,7 +57,8 @@ const routes = [
   {
     path: '/groupomania/publications/:postID/editer/:contentPost',
     name: 'ModifPost',
-    component: ModifPost
+    component: ModifPost,
+    props: true  // contentPost dynamique sera query URL récupérable dans ce component
   },
   
   
@@ -69,7 +74,7 @@ const routes = [
   // URL PAGE MODIFICATION D'UN COMMENTAIRE PAR SON AUTEUR => Component: UpdateComment.vue dans views: ModifComment.vue
   // Navigation programmatique pour récupérer de manière dynamique le commentID à modifier dans la table comments de la db groupomania
   {
-    path: '/groupomania/commentaire/:commentID/modifier',
+    path: '/groupomania/commentaire/:commentID/modifier/:contentComment',
     name: 'ModifComment',
     component: ModifComment
   },
@@ -82,7 +87,7 @@ const routes = [
     component: Profil,                       // Composant affiché lorsque le path est trouvé
   },
   
-  //URL page Admin Dashboard
+  // URL page Admin Dashboard
   {
     path: '/groupomania/administrateur',         // URL correspondant au composant
     name: 'AdminDashboard',                     // Nom de cette route pas obligatoire | champ non obligatoire
@@ -93,9 +98,17 @@ const routes = [
 
 
 const router = new VueRouter({
-  routes,
-  mode:'history'          // mode:'history' => pour enlever le # de l'URL
+  
+  mode:'history',          // mode:'history' => pour enlever le # de l'URL
+  routes
+  
 })
+
+// const router = createRouter({
+//   history: createWebHistory(),
+//   routes
+  
+// })
 
 // export du router vers router-link => component Nav
 export default router

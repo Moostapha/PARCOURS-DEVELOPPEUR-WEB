@@ -15,13 +15,16 @@
                 <!-- FIN -->
                 <label for="commentInputForm" id="commentInputLabel"> {{msg}}</label>
                 <validationProvider name="comment" rules="required|alpha_num" v-slot="{ errors }">
-                    <textarea v-model="contentComment"
+                    <textarea 
+                        
+                        v-model="contentComment"
                         id="commentInputForm"
                         type="text"
                         name="contentComment"
                         class="form-control sm md lg " 
                         placeholder="Votre commentaire..."
                         require="required">
+                        
                     </textarea>
                 <span>{{ errors[0] }}</span>
                 </validationProvider>
@@ -76,8 +79,15 @@ export default {
             // récupération dynamique du commentID sur commentaire choisi pour modification
             commentID: +this.$route.params.commentID,
             
+            // récupération dynamique du contentPost dans l'URL => affichage ancien message dans textarea
+            // saisi et actualisation du post
+            contentComment: this.$route.params.contentComment, 
+            
             // Saisie nouvelle valeur du commentaire à écrire dans la table comments
-            contentComment:"",
+            // contentComment:"",
+            
+            // récupération du username pour boite de dialogue dynamique pour confirmation
+            username: localStorage.getItem("username"), 
             
             // Gestion erreurs champs commentaire+ validation saisie user (regex validator)
             error: ""
@@ -89,14 +99,34 @@ export default {
         // FONCTION ENVOYANT LES DATAS SUR LA ROUTE PUT DE MODIFICATION DE comment.js POUR MODIFICATION DE COMMENTAIRE
         updateComment(){
             
-            // Préparation des new datas saisies depuis le front dans FormData()
-            const formdata = new FormData();
-                formdata.append('contentComment', this.contentComment );
-                formdata.append('commentID', this.commentID);
-                console.log('elements du formdata: ', Array.from(formdata));
+            // 1) Préparation des new datas saisies depuis le front dans FormData()
+            const formData = new FormData();
+                formData.append('contentComment', this.contentComment );
+                formData.append('commentID', this.commentID);
+            
+            // 2) Affichage de notre objet formData dans la console
+            console.log(Array.from(formData));
+                for(let obj of formData) {
+                    console.log(obj);
+                }
+                // console.log('elements du formdata: ', Array.from(formdata));
+            
+            //3) Cas d'exception
+            // Si fichier non updated par user 
+            if (formData.get('contentComment') === 'null') {
+                // info user pour confirmation
+                confirm(this.username+', aucune modification conserver ce commentaire?')
+                // Redirection vers forum
+                this.$router.push('/groupomania/publications')
+                
+            } 
+            // sinon on peut passer à la requête axios
+            else {
+                confirm(this.username+', voulez vous vraiment modifier votre commentaire?')
+            }
             
             // requête axios du frontend vers le backend => Récup. dynamique de commentID dans l'URL
-            axios.put(`api/comments/${this.$route.params.commentID}/update` , formdata)
+            axios.put(`api/comments/${this.$route.params.commentID}/update/${this.$route.params.contentComment}` , formData)
             .then(response => {
                 console.log(response);
                 // redirection vers page publications

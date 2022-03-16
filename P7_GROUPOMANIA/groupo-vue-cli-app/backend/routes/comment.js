@@ -33,7 +33,7 @@ Router.delete('/:commentID/delete', auth, multer, commentCtler.deleteComment);
 
 
 // Route de modification d'un commentaire (par son auteur)
-Router.put('/:commentID/update', auth, multer, rules.validFormComment(), rules.validate, commentCtler.updateComment);
+Router.put('/:commentID/update/:contentComment', auth, multer, rules.validFormComment(), rules.validate, commentCtler.updateComment);
 
 
 

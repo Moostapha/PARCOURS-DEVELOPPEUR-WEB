@@ -1,7 +1,10 @@
+const history = require('connect-history-api-fallback');
 // PARTIE IMPORT DE app.js package express
 const express = require('express'); 
 // utilisation d'express
 const app = express(); 
+// Middleware permettant la navigation sur les SPA pour reload les routes et leurs datas
+app.use(history());
 // package contre injections xss
 const xss = require('xss-clean'); 
 // package protection headers
@@ -12,7 +15,7 @@ const cors = require('cors');
 const path = require('path');
 // Morgan pour développement
 const morgan = require('morgan');
-
+//
 
 // Import des routes USER | POST | COMMENT | REACTIONS | ADMIN
 const userRoutes = require('./routes/user');
@@ -35,6 +38,7 @@ app.use((req, res, next) => {
     next();
 });
 
+
 // Middleware Node.js de connection pour sécuriser les users inputs venant de POST, GET et des URL PARAMS
 app.use(xss()); 
 
@@ -46,7 +50,7 @@ app.use(express.json());
 
 // encodage URL infos venant du front au format JSON
 // avec version 4.16 d'express, bodyParser devient express
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true })); // Rend le corps de la requête exploitabe facilement
 
 
 // Middleware permettant de recevoir http de localhost 8080 frontend

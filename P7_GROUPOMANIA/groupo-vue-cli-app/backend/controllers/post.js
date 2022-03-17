@@ -123,21 +123,28 @@ exports.uploadImagePost = async(req, res, next) => {
         message:'Fichier téléchargé avec succés',
         fileUploaded: uploadedFilePost
     })
+
+    
+    (async function () {
+        var result = await returnsPromise().catch((e) => { console.error(e.message) })
+        console.log( result ? 'This was a success! ' + result : 'This was a failure.' )
+        })()
 };
 
 
 // Fonction de modification fichier image
 exports.updateImagePost = async(req, res, next) => {
-    // postID dont on modifie l'image
+    // // postID dont on modifie l'image
     const updatedData = req.body;
     console.log("------ 1) Corps de la requête axios pour update image ------>", updatedData);
-    // Fichier nouveau choisi par user
+    // // Fichier nouveau choisi par user
     const uploadedImg = req.body.imagePost
-    console.log("------ Fichier téléchargé modifié par user ----->", uploadedImg)
+    console.log("------ 2) Fichier téléchargé non modifié par user ----->", uploadedImg)
     
     const file = req.file;
-    console.log("------- 2) Nouveau fichier ------> ", file); 
-    // URL dynamique du fichier mis à jour à stocker dans la db
+    console.log("------- 3) URL Nouveau fichier ------> ", file); 
+    
+    // URL dynamique du fichier mis à jour à stocker dans la db + Stockage dans backend/images
     const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
     
     // Enregistrement dans la db via le Model updateUpload
@@ -149,7 +156,38 @@ exports.updateImagePost = async(req, res, next) => {
     res.status(200).json({
         message:'Fichier mis à jour avec succés',
         fileUpdated: updatedFilePost
-    })
+    }).catch( e => { console.error(e) })
+    
+    // if (uploadedImg === null) {
+    //     // Enregistrement dans la db via le Model updateUpload
+    //     const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.body.filename}`
+    //     const updatedFilePost = await postModel.updateUploadImage(
+    //     imageURL,
+    //     updatedData.postID
+    // );
+    // console.log('Résultat de la promise: ', updatedFilePost);
+    // res.status(200).json({
+    //     message:'Fichier mis à jour avec succés',
+    //     fileUpdated: updatedFilePost
+    // })
+    // } else if(uploadedImg === !null) {
+    //     const file = req.file;
+    //     console.log("------- 3) URL Nouveau fichier ------> ", file); 
+    //     // URL dynamique du fichier mis à jour à stocker dans la db
+    //     const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+        
+    //     // Enregistrement dans la db via le Model updateUpload
+    //     const updatedFilePost = await postModel.updateUploadImage(
+    //         imageURL,
+    //         updatedData.postID
+    //     );
+    //     console.log('Résultat de la promise: ', updatedFilePost);
+    //     res.status(200).json({
+    //         message:'Fichier mis à jour avec succés',
+    //         fileUpdated: updatedFilePost
+    //     })
+    // }
+    
 }
 
 // Toutes nos fonctions exportées vers /routes/post

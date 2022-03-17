@@ -45,6 +45,16 @@
                                     class="btnPost form-control-file sm md lg xl btn btn-primary"
                                     
                                 />
+                                
+                                <!-- PREVISUALISATION FICHIER CHOISI PAR USER -->
+                                    <div v-if="url"  id="preview">
+                                        <h4>Fichier séléctionné:</h4> 
+                                        <img :src="url"/>
+                                        <button type="button" class="sm md lg xl btn btn-outline-danger">
+                                            Annuler
+                                        </button>
+                                    </div>
+                                <!-- FIN -->
                                 <button @click="uploadAvatar(user.userID)" id="chooseAvatarPic" class="sm md lg xl btn btn-primary">
                                     Modifier votre avatar
                                 </button>
@@ -208,8 +218,11 @@
             username: localStorage.getItem("username"), 
             
             
-            // infos des updates
             file: null, // avatar user
+            // prévisualisation fichier téléchargé
+            url: null, 
+            
+            // infos des updates
             updatedUsername:"",
             updatedEmail:"",
             updatedPassword:"",
@@ -242,8 +255,14 @@
     methods: {
         
         handleFile(event){
+            
+            // Affectation et récupération du fichier
             this.file= event.target.files[0];
             console.log(event);
+            
+            // preview image sélectionnée
+            const file = event.target.files[0];
+            this.url = URL.createObjectURL(file)
         },
         
         // FONCTION DE CHARGEMENT DE FICHIER USER

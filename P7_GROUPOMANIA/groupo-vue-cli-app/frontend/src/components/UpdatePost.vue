@@ -33,6 +33,13 @@
             <!-- <label for="floatingTextarea">Modifier...</label> -->
             
             <!-- PREVISUALISATION FICHIER CHOISI PAR USER -->
+                <div v-if="imagePost"  id="preview">
+                    <h4>Ancien Fichier:</h4> 
+                    <img :src="imagePost"/>
+                </div>
+            <!-- FIN -->
+            
+            <!-- PREVISUALISATION FICHIER CHOISI PAR USER -->
                 <div v-if="url"  id="preview">
                     <h4>Fichier séléctionné:</h4> 
                     <img :src="url"/>
@@ -117,7 +124,10 @@ export default {
             
             // récupération dynamique du contentPost dans l'URL => affichage ancien message dans textarea
             // saisi et actualisation du post
-            contentPost:this.$route.params.contentPost, 
+            contentPost: this.$route.params.contentPost, 
+            
+            // saisi et actualisation du post
+            imagePost: this.$route.params.imagePost,
             
             // newImagePost Fichier choisi par user
             newFileSelected: null, 
@@ -181,13 +191,15 @@ export default {
             
             // preview image sélectionnée
             const file = event.target.files[0];
-            this.url = URL.createObjectURL(file)
+            this.url = URL.createObjectURL(file);
         },
         
         //Modif imagePost (image publication) => 2e et dernière fonction sur le bouton publier
         updateFile(){
             
             // 1) Préparation du formdata à envoyer au back avec constructeur FormData et sa fonction append()
+            
+            // si modif image
             let imgUpdated = new FormData();
             imgUpdated.append('imagePost', this.newFileSelected);
             imgUpdated.append('postID', this.postID);
@@ -198,22 +210,37 @@ export default {
                 console.log(obj);
             }
             
+            // sinon modif image => ancienne image contentPost récupérée dynamiquement
+            let oldImg = new FormData();
+            oldImg.append('imagePost', this.imagePost);
+            oldImg.append('postID', this.postID);
+            
+            console.log(Array.from(oldImg));
+            for(let obj of oldImg) {
+                console.log(obj);
+            }
+            
             // 3) Gestion des cas d'exception et boite de dialogue user
             
-            // Affichage dans console de la valeur de avatar
-            console.log('Valeur de imagePost: ', imgUpdated.get('imagePost'));
+            // Affichage dans console de la valeur du nouveau fichier
+            console.log('Valeur new file: ', imgUpdated.get('imagePost'));
             
-            // Si fichier non updated par user 
+            // Affichage dans console de la valeur de l'ancien fichier
+            console.log('Valeur de old file: ', oldImg.get('imagePost'));
+            
+            // if() {
+
+            // }
+            // CAS 1 => pas de fichier sélectionné et télécharge 
             if (imgUpdated.get('imagePost') === 'null') {
                 // info user pour confirmation
-                confirm(this.username+', aucune modification conserver cette publiation ?')
+                confirm(this.username+', conserver cet ancien fichier ')
                 // Redirection vers forum
                 this.$router.push('/groupomania/publications')
-                
             } 
-            // sinon on peut passer à la requête axios
-            else {
-                confirm(this.username+', voulez vous vraiment modifier cette publication?')
+            // CAS 2 => Fichier sélectionné et téléchargé
+            else if (imgUpdated.get('imagePost') !== 'null'){
+                confirm(this.username+', modifier cette image ?')
             }
             
             // 4) Requête PUT axios vers ctler

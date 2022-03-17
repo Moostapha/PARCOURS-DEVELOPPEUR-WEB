@@ -283,7 +283,8 @@
                                       name: 'ModifPost', 
                                       params: {
                                         postID: post.postID, 
-                                        contentPost: post.contentPost
+                                        contentPost: post.contentPost,
+                                        
                                     }}">
                                       <button 
                                         type="button" 
@@ -312,9 +313,10 @@
                                       name: 'ModifPost', 
                                       params: {
                                         postID: post.postID,
-                                        contentPost: post.contentPost
+                                        contentPost: post.contentPost,
+                                        //imagePost: post.imagePost
                                       }, 
-                                      //query: {contentPost: post.contentPost} 
+                                      
                                     }">
                                       <button type="button" class="btn btn-outline-success">
                                         <i class="fas fa-pen"></i>
@@ -439,6 +441,8 @@
 <script>
 // Client http axios
 import axios from "axios";
+// setups global axios
+// import axiosConfig from'../axiosConfig.js'
 // component pour notififications user
 import Alert from '../components/Alert.vue';
 // component pour notif erreur des champs invalides (post + comment)
@@ -474,7 +478,7 @@ export default {
       
       // fichier image téléchargé
       fileSelected: null,
-
+      
       // prévisualisation fichier téléchargé
       url: null, 
       
@@ -629,16 +633,21 @@ export default {
       // console.log(Array.from(formData));
       // Cas ou texte non publié
       // 3) envoie des données par requête axios => headers configuré en global dans axiosConfig.js
-      axios.post('api/posts/create', formData)
+      axios.post('api/posts/create', formData , {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+      })
       .then(response => {
         console.log(response.data);
         
+        
         // this.$router.push('/groupomania/publications')
-        // this.posts.push(data); // on met le new data dans data array posts
+        this.posts.push(response.data); // on met le new data dans data array posts
         
         // TENTATIVE RELOAD AVEC NEW DATAS
         // refreshing page actuelle (windows.go(n))
-        // this.$router.go(0)
+        this.$router.go(0)
         // this.contentPost = this.publication.contentPost
         
         // notification de réussite avec FlashMessage
@@ -670,7 +679,7 @@ export default {
       // this.componentKey += 1;
       // this.$router.push('/groupomania/publications')
       // this.$router.go(this.$router.currentRoute)
-      this.$forceUpdate()
+      // this.$forceUpdate()
     },
     
     
@@ -699,10 +708,29 @@ export default {
       }
       // console.log(Array.from(formData));
       
+      // si user veut télécharger sans choisir un fichier
+      if (formData.get('imagePost') === 'null') {
+        alert("Veuillez d'abord sélectionner un fichier")
+      }
+      // sinon, et on peut passer à la request axios
+      else {
+          
+          //info user pour confirmation
+          confirm(this.username+', voulez vous télécharger ce fichier ?')
+          
+      }
       axios.post('api/posts/uploadImg', formData)
       .then(response => {
+        
         console.log('SUCCES: ', response.data);
-        this.$router.push('/groupomania/publications')
+        
+        // Ajout new data dans le tableau de datas posts
+        this.posts.push(response.data); 
+        
+        // Redirection sur la même page (reload)
+        // this.$router.push('/groupomania/publications')
+        
+        this.$router.go(0)
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',

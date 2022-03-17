@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import VueRouter from 'vue-router'                             // Import de vue-router pour gestion de la navigation entre les différentes views de l'app
+import VueRouter from 'vue-router'                     // Import de vue-router pour gestion de la navigation entre les différentes views de l'app
 
 // import { createRouter, createWebHistory } from 'vue-router'
 
@@ -46,9 +46,6 @@ const routes = [
     path: '/groupomania/publications',       // URL correspondant au composant
     name: 'Fil d\'actualité',               // Nom de cette route pas obligatoire | champ non obligatoire
     component: Actualite,                  // Composant affiché lorsque le path est trouvé
-    // meta: {
-    //   reload:true
-    // }
   },
   
   
@@ -58,7 +55,7 @@ const routes = [
     path: '/groupomania/publications/:postID/editer/:contentPost',
     name: 'ModifPost',
     component: ModifPost,
-    props: true  // contentPost dynamique sera query URL récupérable dans ce component
+    // props: true  // contentPost dynamique sera query URL récupérable dans ce component
   },
   
   

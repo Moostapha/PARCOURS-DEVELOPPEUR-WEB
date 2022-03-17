@@ -80,11 +80,8 @@ export default {
             commentID: +this.$route.params.commentID,
             
             // récupération dynamique du contentPost dans l'URL => affichage ancien message dans textarea
-            // saisi et actualisation du post
-            contentComment: this.$route.params.contentComment, 
-            
             // Saisie nouvelle valeur du commentaire à écrire dans la table comments
-            // contentComment:"",
+            contentComment: this.$route.params.contentComment, 
             
             // récupération du username pour boite de dialogue dynamique pour confirmation
             username: localStorage.getItem("username"), 

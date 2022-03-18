@@ -42,8 +42,9 @@
         <!-- FIN -->
         
         <div v-if="user" class="textImageSubmit">
+
           <!-- TEXTAREA + BTN PUBLIER + BTN TELECHARGER FICHIER -->
-            <label for="inputpost" id="labelInputPost">Publiez du texte ou...</label>
+            <label for="inputpost" id="labelInputPost">Publier du texte?</label>
             <ValidationObserver v-slot="{ handleSubmit}">
               <form @submit.prevent="handleSubmit(createPost)" class="formPost" method="post" enctype="multipart/form-data">
               
@@ -52,12 +53,13 @@
                   <div class="addPost">
                     <validationProvider name="publication" rules="required|alpha_num" v-slot="{ errors }">
                       
-                      <textarea v-model="publication.contentPost"
+                      <textarea 
+                        v-model="publication.contentPost"
                         name="contentPost"  
                         type="text"
                         id="inputpost"
                         class="form-control sm md lg xl"
-                        placeholder="Editer vos posts ici"
+                        placeholder="Editer vos posts ici..."
                         rows="2" cols="4"> 
                       </textarea>
                       <span>{{ errors[0] }}</span>
@@ -68,8 +70,8 @@
                 
                 <!-- BOUTONS DE SOUMISSION DES PUBLICATIONS + TELECHARGEMENT DE FICHIER-->
                   <!-- <div class="buttonPost"> -->
-                    <!-- BTN PUBLIER -->
-                    <router-link :to="{ name: 'Fil d\'actualité'}">
+                    <!-- BTN PUBLIER DU TEXTE -->
+                    
                       <button @click="createPost()"
                         id="btnPost"
                         method="post"
@@ -77,19 +79,23 @@
                         <i class="far fa-paper-plane"></i>
                         Publier texte
                       </button>
-                    </router-link>
+                    
                     <!-- FIN -->
               </form>
             </ValidationObserver>
             
             <!-- PREVISUALISATION FICHIER CHOISI PAR USER -->
-                <div v-if="url"  id="preview">
-                    <h4>Prévisualisation du fichier séléctionné:</h4> 
+                  <h4 v-if="url">Prévisualisation du fichier séléctionné:</h4> 
+                  <div v-if="url"  id="preview">
                     <img :src="url"/>
+                    <button @click="cancelSubmitFile()" 
+                      type="button" class="sm md lg xl btn btn-outline-danger">
+                        Annuler
+                    </button>
                 </div>
             <!-- FIN -->
             
-            <label>...Ajoutez des images</label>
+            <label>Ajouter un fichier ?</label>
             <div class="buttonPost">
               <!-- CHOISIR UN FICHIER -->
                 <input @change="handleFileSelected"
@@ -101,10 +107,10 @@
                 />
                 <button @click="$refs.fileSelectedInput.click()" id="btnPost"  
                   class="sm md lg xl btn btn-primary" >
-                  Choisir une image
+                  Choisir un fichier
                 </button>
               <!-- FIN -->  
-              <!-- BTN TELECHARGER -->
+              <!-- BTN TELECHARGER FICHIER -->
                 <button @click="submitFile()"
                   name="imagePost"
                   id="btnPost"  
@@ -112,7 +118,7 @@
                   method="post"
                   class="sm md lg xl btn btn-primary form-control-file">
                   <i class="fa fa-download"></i>
-                    Publier image
+                    Publier Fichier
                 </button>
               <!-- FIN -->
             </div>
@@ -283,8 +289,6 @@
                                       name: 'ModifPost', 
                                       params: {
                                         postID: post.postID, 
-                                        contentPost: post.contentPost,
-                                        
                                     }}">
                                       <button 
                                         type="button" 
@@ -535,7 +539,7 @@ export default {
       // montrer actions possibles sur commentaire auteur + admin
       show: false,
       
-      componentKey: 0
+      // componentKey: 0
     }
     
   },
@@ -602,7 +606,6 @@ export default {
       console.log(error);
     })
     
-    // this.forceRerender()
   },
   
   // Formatage des données de formulaire transmis via axios, il faut préciser, traduire les données transmises
@@ -611,10 +614,6 @@ export default {
   // FormData => infos createdPost
     
     methods: {
-    
-    // forceRerender() {
-    //   this.componentKey += 1;
-    // },
     
     // FONCTION BOUTON "AJOUTER UN POST" POUR DU TEXTE
     createPost(){
@@ -626,29 +625,22 @@ export default {
       formData.append("contentPost" , this.publication.contentPost );
       
       // 2) Affichage de notre objet formData dans la console
-      console.log(Array.from(formData));
+      console.log('POST CREATED: ',Array.from(formData));
         for(let obj of formData) {
             console.log(obj);
         }
       // console.log(Array.from(formData));
       // Cas ou texte non publié
       // 3) envoie des données par requête axios => headers configuré en global dans axiosConfig.js
-      axios.post('api/posts/create', formData , {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-      })
+      axios.post(
+        'api/posts/create', // endpoint API createPost
+        formData           // Formulaire de datas envoyés
+      )
       .then(response => {
         console.log(response.data);
         
-        
-        // this.$router.push('/groupomania/publications')
-        this.posts.push(response.data); // on met le new data dans data array posts
-        
-        // TENTATIVE RELOAD AVEC NEW DATAS
-        // refreshing page actuelle (windows.go(n))
+        // refreshing page actuelle 
         this.$router.go(0)
-        // this.contentPost = this.publication.contentPost
         
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
@@ -657,7 +649,6 @@ export default {
           title: 'PUBLICATION REUSSIE !!!',
           message: 'Votre post a été publié avec succés'
         })
-        // location.reload()
       })
       .catch((error) => {
         console.log(error);
@@ -671,15 +662,8 @@ export default {
           message: 'Une erreur est survenue '+ error.message
         })
       })
-      
       // 4) reset du input post form
       this.publication = "";
-      
-      // refreshing page
-      // this.componentKey += 1;
-      // this.$router.push('/groupomania/publications')
-      // this.$router.go(this.$router.currentRoute)
-      // this.$forceUpdate()
     },
     
     
@@ -709,16 +693,16 @@ export default {
       // console.log(Array.from(formData));
       
       // si user veut télécharger sans choisir un fichier
-      if (formData.get('imagePost') === 'null') {
-        alert("Veuillez d'abord sélectionner un fichier")
-      }
-      // sinon, et on peut passer à la request axios
-      else {
+      // if (formData.get('imagePost') === 'null') {
+      //   alert("Veuillez d'abord sélectionner un fichier")
+      // }
+      // // sinon, et on peut passer à la request axios
+      // else {
           
-          //info user pour confirmation
-          confirm(this.username+', voulez vous télécharger ce fichier ?')
+      //     //info user pour confirmation
+      //     confirm(this.username+', voulez vous télécharger ce fichier ?')
           
-      }
+      // }
       axios.post('api/posts/uploadImg', formData)
       .then(response => {
         
@@ -727,10 +711,9 @@ export default {
         // Ajout new data dans le tableau de datas posts
         this.posts.push(response.data); 
         
-        // Redirection sur la même page (reload)
-        // this.$router.push('/groupomania/publications')
-        
+        // refresh page
         this.$router.go(0)
+
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',
@@ -749,6 +732,11 @@ export default {
       })
     },
     
+    cancelSubmitFile (){
+      
+      //refresh page si fuser ne veut pas ce fichier
+      this.$router.go(0)
+    },
     
     // FONCTION BOUTON SUPPRESSION DE POST PAR SON AUTEUR + ADMIN (régulateur)
     deletePost(postID){
@@ -952,7 +940,7 @@ export default {
         font-weight: bold
       h6 
         padding: 0.6rem
-      // preview image user
+      
       h4 
         color: white
         font-weight: bold
@@ -1039,6 +1027,10 @@ export default {
             margin: 2vh
           .fa-paper-plane, .fa-download
             font-size: larger
+      // preview fileSelected
+      #preview
+        display: flex
+        justify-content: center
       
       // style du card PARTIE POST (PUBLICATIONS DES USERS)
       .card

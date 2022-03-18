@@ -123,7 +123,7 @@ export default {
             }
             
             // requête axios du frontend vers le backend => Récup. dynamique de commentID dans l'URL
-            axios.put(`api/comments/${this.$route.params.commentID}/update/${this.$route.params.contentComment}` , formData)
+            axios.put(`api/comments/${this.$route.params.commentID}/update` , formData)
             .then(response => {
                 console.log(response);
                 // redirection vers page publications

@@ -18,7 +18,7 @@
             c'est-à-dire ceux qui portent un nom (attribut name) -->
             <!-- DEMANDE MODIF EN SOUTENANCE: affichage de l'ancien post dans le textarea pour sa modification -->
             
-            <textarea 
+            <textarea
                 
                 v-model="contentPost"
                 name="contentPost"
@@ -30,16 +30,25 @@
                 
             </textarea>
             
-            <!-- <label for="floatingTextarea">Modifier...</label> -->
             
-            <!-- PREVISUALISATION FICHIER CHOISI PAR USER -->
-                <div v-if="imagePost"  id="preview">
-                    <h4>Ancien Fichier:</h4> 
-                    <img :src="imagePost"/>
-                </div>
+            <div v-for="(post, index) in posts" :key="index" >
+                <!-- PREVISUALISATION ANCIEN FICHIER -->
+                    <!-- S'il existe -->
+                        <div v-if="post.imagePost" id="preview">
+                            <h4>Ancien Fichier:</h4> 
+                            <img  :src="post.imagePost"/>
+                        </div>
+                    <!-- fin -->
+                    <!-- Sinon -->
+                        <div v-else  >
+                            <h4>Ancien Fichier: aucun</h4> 
+                        </div>
+                    <!-- fin -->
+                <!-- FIN -->
+            </div>
             <!-- FIN -->
             
-            <!-- PREVISUALISATION FICHIER CHOISI PAR USER -->
+            <!-- PREVISUALISATION NOUVEAU FICHIER CHOISI PAR USER -->
                 <div v-if="url"  id="preview">
                     <h4>Fichier séléctionné:</h4> 
                     <img :src="url"/>
@@ -119,20 +128,21 @@ export default {
         
         return {
             
+            // infos Poste sélectionné à modifier
+            posts:[],
+            
             // récupération dynamique du postID dans l'URL
             postID: +this.$route.params.postID, 
             
             // récupération dynamique du contentPost dans l'URL => affichage ancien message dans textarea
             // saisi et actualisation du post
+            // récupération dynamique du postID dans l'URL
             contentPost: this.$route.params.contentPost, 
-            
-            // saisi et actualisation du post
-            imagePost: this.$route.params.imagePost,
             
             // newImagePost Fichier choisi par user
             newFileSelected: null, 
             
-            // prévisualisation fichier téléchargé
+            // prévisualisation fichier à télécharger
             url: null, 
             
             // récupération du username pour boite de dialogue dynamique pour confirmation
@@ -143,6 +153,17 @@ export default {
         }
     },
     
+    mounted() {
+        // GET infos du post à modifier 
+        axios.get('api/posts/readOne/' + this.postID)
+        .then(response => {
+        console.log(response.data); 
+        this.posts = response.data.post;
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+    },
     
     methods: {
         
@@ -155,14 +176,14 @@ export default {
             postUpdated.append('contentPost', this.contentPost );
             
             // 2) Affichage de notre objet formData dans la console
-            console.log(Array.from(postUpdated));
+            console.log('postUpdated => ',Array.from(postUpdated));
             for(let obj of postUpdated) {
                 console.log(obj);
             }
             
             // 3) requête axios du frontend vers le backend => Récup. dynamique de postID dans l'URL via vue.router
             //headers d'axios configuré en global dans axiosConfig.js => Token + content-type
-            axios.put(`api/posts/${this.$route.params.postID}/update/${this.$route.params.contentPost}`, postUpdated)
+            axios.put(`api/posts/${this.postID}/update`, postUpdated)
             .then(response => {
                 console.log(response);               
             })
@@ -211,14 +232,14 @@ export default {
             }
             
             // sinon modif image => ancienne image contentPost récupérée dynamiquement
-            let oldImg = new FormData();
-            oldImg.append('imagePost', this.imagePost);
-            oldImg.append('postID', this.postID);
+            // let oldImg = new FormData();
+            // oldImg.append('imagePost', this.imagePost);
+            // oldImg.append('postID', this.postID);
             
-            console.log(Array.from(oldImg));
-            for(let obj of oldImg) {
-                console.log(obj);
-            }
+            // console.log('imgUpdated: ',Array.from(oldImg));
+            // for(let obj of oldImg) {
+            //     console.log(obj);
+            // }
             
             // 3) Gestion des cas d'exception et boite de dialogue user
             
@@ -226,17 +247,15 @@ export default {
             console.log('Valeur new file: ', imgUpdated.get('imagePost'));
             
             // Affichage dans console de la valeur de l'ancien fichier
-            console.log('Valeur de old file: ', oldImg.get('imagePost'));
+            // console.log('Valeur de old file: ', oldImg.get('imagePost'));
             
-            // if() {
-
-            // }
             // CAS 1 => pas de fichier sélectionné et télécharge 
             if (imgUpdated.get('imagePost') === 'null') {
                 // info user pour confirmation
-                confirm(this.username+', conserver cet ancien fichier ')
+                confirm(this.username+", vous n'avez pas sélectionné de nouveau fichier, conserver l'ancien ? ")
                 // Redirection vers forum
-                this.$router.push('/groupomania/publications')
+                // this.$router.push('/groupomania/publications')
+                this.$router.go(1)
             } 
             // CAS 2 => Fichier sélectionné et téléchargé
             else if (imgUpdated.get('imagePost') !== 'null'){
@@ -244,7 +263,8 @@ export default {
             }
             
             // 4) Requête PUT axios vers ctler
-            axios.put(`api/posts/${this.$route.params.postID}/updateImg`, imgUpdated)
+            // axios.put(`api/posts/${this.$route.params.postID}/updateImg`, imgUpdated)
+            axios.put(`api/posts/${this.postID}/updateImg`, imgUpdated)
             .then(response =>{
                 console.log(response);
                 

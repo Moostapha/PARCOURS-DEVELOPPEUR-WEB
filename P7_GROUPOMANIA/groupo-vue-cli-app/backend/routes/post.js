@@ -22,6 +22,7 @@ const multer = require('../middlewares/multer');
 
 Router.get('/readAll', auth, postCtler.getAllPosts); 
 
+Router.get('/readOne/:postID', auth, postCtler.getOnePost); 
 
 // Route création post (text) => avec middleware validator + content-type: multipart-form-data faire attention à multer !!!
 Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, postCtler.createPost); 
@@ -29,7 +30,7 @@ Router.post('/create', auth, multer, rules.validFormPost(), rules.validate, post
 
 // Route Modification d'un post par son auteur => Nécessité de multer lorsque le content-type posté est du multipart form data
 // Modif de cette route avec contentPost en dynamique pour afficher l'ancien post dans le textarea dédié de UpdatePost.vue
-Router.put('/:postID/update/:contentPost', auth, multer, rules.validFormPost(), rules.validate, postCtler.updatePost);
+Router.put('/:postID/update', auth, multer, rules.validFormPost(), rules.validate, postCtler.updatePost);
 
 
 // Route de création fichier multimédia pour un post

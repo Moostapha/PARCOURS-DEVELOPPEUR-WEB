@@ -17,10 +17,10 @@ exports.getAllPosts = async(req, res, next) => {
 };
 
 
-// Fonction affichant un seul post 
+// Fonction affichant un seul post => Pour component UpdatePost
 exports.getOnePost = async(req, res, next) => {
-    const id = req.params.id; // clé primaire de la ligne de table posts
-    const post = await postModel.getOne(id);
+    const postID = req.params.postID; // clé primaire de la ligne de table posts
+    const post = await postModel.getOne(postID);
     res.status(200).json({ 
         message:'post sélectionné', 
         post : post 
@@ -31,22 +31,24 @@ exports.getOnePost = async(req, res, next) => {
 // Fonction créant un post
 exports.createPost = async(req, res, next) => {
     
-    // on capture le corps de la requete dans une cst
-    const created = JSON.parse(JSON.stringify(req.body));
-    // const created = req.body;
-    console.log('corps requête POST by axios: ', created);
-    // on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
+    // 1) on capture le corps de la requete dans une cst => Requête axios
+    const created = req.body;
+    
+    // Affichage du corps de requête dans la console
+    console.log('---- 1) CORPS REQUETE CREATEPOST() PAR AXIOS: ', created);
+    
+    // 2) on la passe à la fonction Model  en précisant les champs dans l'ordre de la requete sql (dans Models)
     const createdPost = await postModel.create( 
         // inputs du front:
         created.userID,    
         created.username, 
-        created.contentPost,
+        created.contentPost
     );
-    console.log("résultat de la promise", createdPost)
+    console.log("----- 2) RESULTAT DE LA PROMISE: ", createdPost)
     res.status(201).json({ 
         message:'post créé avec succés',  
         post: createdPost,
-        postID: createdPost.insertId // pour récupération via localStorage côté front
+        // postID: createdPost.insertId // pour récupération via localStorage côté front
     });
 };
 
@@ -56,27 +58,34 @@ exports.updatePost = async(req, res, next) => {
     const postID = req.params.postID;  // clé primaire du post dans db
     // on recupere le corps du nouveau post dans une constante
     const newPost = req.body;
-    console.log('postId post modifié: ', postID);
-    console.log('type de postID: ', typeof postID);
-    console.log('corps de la requête: ', newPost);
-    console.log('type de la requête: ', typeof newPost);
+    console.log('----1) POSTID POST MODIFIE: ', postID);
+    console.log('----2) TYPE DE POSTID: ', typeof postID);
+    console.log('----3) CORPS REQUETE UPDATEPOST(): ', newPost);
+    console.log('----4) TYPE DE LA REQUETE UPDATEPOST(): ', typeof newPost);
     
-    // on les met en paramètre dans la fonction Model update de Post.js
-    const updatedPost = await postModel.update( 
-        newPost.contentPost, 
-        newPost.postID 
-    );
-    console.log("résultat de la promise: ", updatedPost)
-    res.status(201).json({ 
-        message:'post modifié avec succés', 
-        post: updatedPost 
-    });
+    if (newPost.contentPost === 'null') {
+        res.status(204).json({ 
+            message:'post non modifié', 
+        })
+    } else {
+        // on les met en paramètre dans la fonction Model update de Post.js
+        const updatedPost = await postModel.update( 
+            newPost.contentPost, 
+            newPost.postID 
+        );
+        console.log("----5) RESULTAT DE LA PROMISE UPDATEPOST(): ", updatedPost)
+        res.status(201).json({ 
+            message:'post modifié avec succés', 
+            post: updatedPost 
+        });
+    }
+    
 };
 
 
 // Fonction supprimant un post (after) à modifier pour supprimer file 
 exports.deletePost = async(req, res, next) => {
-
+    
     //Récup. clé primaire à supp
     const postID = req.params.postID;
     console.log('postId post supprimé: ', postID);
@@ -99,36 +108,40 @@ exports.uploadImagePost = async(req, res, next) => {
     // Récupération corps post request chaine de caractère transformée en objet JS
     // const createdData = JSON.parse(req.body);
     const createdData = req.body;
-    console.log('corps requête upload d\'axios: ', createdData);
+    console.log('----- 1) CORPS REQUETE AXIOS UPLOADIMAGEPOST(): ', createdData);
     
-    // Fichier téléchargé et envoyé depuis le front
-    const file = req.file;
-    console.log('Média: ', file)
-    
-    // URL image pour lecture GET au niveau frontend + configuration URL dynamique des fichiers images
-    // cet URL sera dans la colonne imagePost de notre database
-    const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
-    console.log('URL fichier image: ', imageURL);
-    console.log('Nom du fichier téléchargé: ', req.file.filename,);
-    
-    // Insertion ligne dans database
-    const uploadedFilePost = await postModel.uploadImage(
-        //inputs venant du front (axios)
-        createdData.userID,
-        createdData.username,
-        imageURL, 
-    );
-    console.log('Résultat de la promise: ', uploadedFilePost);
-    res.status(200).json({
-        message:'Fichier téléchargé avec succés',
-        fileUploaded: uploadedFilePost
-    })
-
-    
-    (async function () {
-        var result = await returnsPromise().catch((e) => { console.error(e.message) })
-        console.log( result ? 'This was a success! ' + result : 'This was a failure.' )
-        })()
+    if (createdData.imagePost === 'null') {
+        res.status(204).json({
+            message:'Fichier non mis à jour, ancien fichier conservé',
+        })
+    } else {
+        // Fichier téléchargé et envoyé depuis le front
+        const file = req.file;
+        console.log('----- 2) MEDIA TELECHARGE: ', file)
+        
+        // URL image pour lecture GET au niveau frontend + configuration URL dynamique des fichiers images
+        // cet URL sera dans la colonne imagePost de notre database
+        const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+        console.log('--- 2) URL FICHIER IMAGE UPLOADED : ', imageURL);
+        console.log('--- 3) NOM DU FICHIER TELECHARGE: ', req.file.filename,);
+        
+        // Insertion ligne dans database
+        const uploadedFilePost = await postModel.uploadImage(
+            //inputs venant du front (axios)
+            createdData.userID,
+            createdData.username,
+            imageURL, 
+        );
+        console.log('4) RESULTAT DE LA PROMISE UPLOADIMAGEPOST(): ', uploadedFilePost);
+        res.status(200).json({
+            message:'Fichier téléchargé avec succés',
+            fileUploaded: uploadedFilePost
+        })
+    }
+    // (async function () {
+    //     var result = await returnsPromise().catch((e) => { console.error(e.message) })
+    //     console.log( result ? 'This was a success! ' + result : 'This was a failure.' )
+    //     })()
 };
 
 
@@ -141,22 +154,48 @@ exports.updateImagePost = async(req, res, next) => {
     const uploadedImg = req.body.imagePost
     console.log("------ 2) Fichier téléchargé non modifié par user ----->", uploadedImg)
     
-    const file = req.file;
-    console.log("------- 3) URL Nouveau fichier ------> ", file); 
+    if (updatedData.imagePost === 'null') {
+        // return {
+            res.status(204).json({
+                message:'Fichier non mis à jour, ancien fichier conservé',
+            })
+            
+        //}
+    } else {
+        const file = req.file;
+        console.log("------- 3) URL Nouveau fichier ------> ", file); 
+        
+        // URL dynamique du fichier mis à jour à stocker dans la db + Stockage dans backend/images
+        const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+        
+        // Enregistrement dans la db via le Model updateUpload
+        const updatedFilePost = await postModel.updateUploadImage(
+            imageURL,
+            updatedData.postID
+        );
+        console.log('Résultat de la promise: ', updatedFilePost);
+        res.status(200).json({
+            message:'Fichier mis à jour avec succés',
+            fileUpdated: updatedFilePost
+        }).catch( e => { console.error(e) })
+    }
+
+    // const file = req.file;
+    // console.log("------- 3) URL Nouveau fichier ------> ", file); 
     
-    // URL dynamique du fichier mis à jour à stocker dans la db + Stockage dans backend/images
-    const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+    // // URL dynamique du fichier mis à jour à stocker dans la db + Stockage dans backend/images
+    // const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
     
-    // Enregistrement dans la db via le Model updateUpload
-    const updatedFilePost = await postModel.updateUploadImage(
-        imageURL,
-        updatedData.postID
-    );
-    console.log('Résultat de la promise: ', updatedFilePost);
-    res.status(200).json({
-        message:'Fichier mis à jour avec succés',
-        fileUpdated: updatedFilePost
-    }).catch( e => { console.error(e) })
+    // // Enregistrement dans la db via le Model updateUpload
+    // const updatedFilePost = await postModel.updateUploadImage(
+    //     imageURL,
+    //     updatedData.postID
+    // );
+    // console.log('Résultat de la promise: ', updatedFilePost);
+    // res.status(200).json({
+    //     message:'Fichier mis à jour avec succés',
+    //     fileUpdated: updatedFilePost
+    // }).catch( e => { console.error(e) })
     
     // if (uploadedImg === null) {
     //     // Enregistrement dans la db via le Model updateUpload

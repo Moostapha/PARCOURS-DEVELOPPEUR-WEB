@@ -2,8 +2,6 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'                     // Import de vue-router pour gestion de la navigation entre les différentes views de l'app
 
-// import { createRouter, createWebHistory } from 'vue-router'
-
 
 // VIEWS DES COMPONENTS DE L'APPLICATION
 import AccueilConnexion from '../views/AccueilConnexion'     // Import view pour page d'accueil connexion (component Login)
@@ -52,7 +50,7 @@ const routes = [
   // URL Page de modification des posts => Component: UpdatePost.vue dans view: ModifPost.vue
   // Modif de cette route avec contentPost en dynamique pour afficher l'ancien post dans le textarea dédié de UpdatePost.vue
   {
-    path: '/groupomania/publications/:postID/editer/:contentPost',
+    path: '/groupomania/publications/:postID/editer',
     name: 'ModifPost',
     component: ModifPost,
     // props: true  // contentPost dynamique sera query URL récupérable dans ce component
@@ -71,7 +69,7 @@ const routes = [
   // URL PAGE MODIFICATION D'UN COMMENTAIRE PAR SON AUTEUR => Component: UpdateComment.vue dans views: ModifComment.vue
   // Navigation programmatique pour récupérer de manière dynamique le commentID à modifier dans la table comments de la db groupomania
   {
-    path: '/groupomania/commentaire/:commentID/modifier/:contentComment',
+    path: '/groupomania/commentaire/:commentID/modifier',
     name: 'ModifComment',
     component: ModifComment
   },
@@ -93,7 +91,6 @@ const routes = [
 
 ]
 
-
 const router = new VueRouter({
   
   mode:'history',          // mode:'history' => pour enlever le # de l'URL
@@ -101,11 +98,6 @@ const router = new VueRouter({
   
 })
 
-// const router = createRouter({
-//   history: createWebHistory(),
-//   routes
-  
-// })
 
 // export du router vers router-link => component Nav
 export default router

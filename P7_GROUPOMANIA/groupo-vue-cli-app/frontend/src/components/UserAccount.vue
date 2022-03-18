@@ -50,9 +50,11 @@
                                     <div v-if="url"  id="preview">
                                         <h4>Fichier séléctionné:</h4> 
                                         <img :src="url"/>
-                                        <button type="button" class="sm md lg xl btn btn-outline-danger">
-                                            Annuler
-                                        </button>
+                                        
+                                            <button @click="cancelUpdateFile(user.userID)" type="button" class="sm md lg xl btn btn-outline-danger">
+                                                Annuler
+                                            </button>
+                                        
                                     </div>
                                 <!-- FIN -->
                                 <button @click="uploadAvatar(user.userID)" id="chooseAvatarPic" class="sm md lg xl btn btn-primary">
@@ -310,8 +312,10 @@
             })
             .then(response => {
                 console.log(response.data);
-                // this.$router.push('/groupomania/profil/${userID}')
-                // this.$router.go(0);
+                
+                // refresh de la page
+                this.$router.go(0);
+                
                  // notification de réussite avec FlashMessage
                 this.flashMessage.show({
                     status: 'success',
@@ -361,6 +365,10 @@
             axios.put(`api/users/${userID}/updateInfo`, dataPosted)
             .then(response => {
                 console.log(response.data);
+                
+                // refresh de la page
+                this.$router.go(0)
+                
                 // notification de réussite avec FlashMessage
                 this.flashMessage.show({
                     status: 'success',
@@ -417,6 +425,10 @@
                 })
         },
         
+        // Fonction cancel Update + refresh page
+        cancelUpdateFile(){
+            this.$router.go(0)
+        },
         
         // fonction qui transforme le format de la date reçu pour un meilleur affichage
         dateFormat(date){                                                       
@@ -515,6 +527,9 @@
                     width: 130px
                 @media screen and (max-width: 768px)
                     font-size: small
+            #preview
+                display: flex
+                flex-direction: column
             #chooseAvatarPic
                 margin-top: 2vh
                 @media screen and (max-width: 768px)

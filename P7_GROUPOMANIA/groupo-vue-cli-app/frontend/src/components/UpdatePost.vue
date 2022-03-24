@@ -2,7 +2,10 @@
 <div class="updatePost">
     
     <div class="formAndBtns">
-        <label for="updatePostInputForm" id="updateLabel">{{msg}}</label>
+        <label for="updatePostInputForm" id="updateLabel">
+            {{msg}}
+        </label>
+        
         <form @submit.prevent action="" method="post" type="submit" enctype="multipart/form-data">
             
             <!-- <h2>{{msg}}</h2> -->
@@ -31,17 +34,17 @@
             </textarea>
             
             
-            <div v-for="(post, index) in posts" :key="index" >
+            <div class="thisPost" v-for="(post, index) in posts" :key="index" >
                 <!-- PREVISUALISATION ANCIEN FICHIER -->
                     <!-- S'il existe -->
-                        <div v-if="post.imagePost" id="preview">
-                            <h4>Ancien Fichier:</h4> 
-                            <img  :src="post.imagePost"/>
+                        <div id="preview" v-if="post.imagePost" >
+                            <h4 >Remplacer cette image</h4> 
+                            <img class= "sizePreview" :src="post.imagePost" />
                         </div>
                     <!-- fin -->
                     <!-- Sinon -->
-                        <div v-else  >
-                            <h4>Ancien Fichier: aucun</h4> 
+                        <div id="preview" v-else  >
+                            <h4 >Ancien Fichier: aucun</h4> 
                         </div>
                     <!-- fin -->
                 <!-- FIN -->
@@ -50,8 +53,10 @@
             
             <!-- PREVISUALISATION NOUVEAU FICHIER CHOISI PAR USER -->
                 <div v-if="url"  id="preview">
-                    <h4>Fichier séléctionné:</h4> 
-                    <img :src="url"/>
+                    <h4>
+                        par celle-ci ?
+                    </h4> 
+                    <img class= "sizePreview" :src="url"/>
                 </div>
             <!-- FIN -->
         </form>
@@ -59,13 +64,21 @@
         <div class="dispoBtn">
                 
                 <!-- BTN PUBLIER -->
-                    <!-- Greffage sur le même bouton des fonctions update de texte et d'image  -->
-                        <button @click="updatePost(); updateFile()"
+                <!-- POSSIBILITE 2 => Une seule fonction avec fusion des logiques métiers pour texte + image -->
+                    <button @click="updatePublication()"
                             method="post"
                             type="button" 
                             class="sm md lg btn btn-outline-success">
                             Publier
                         </button>
+                    
+                    <!-- POSSIBILITE 1 => Greffage sur le même bouton des fonctions update de texte et d'image Séparation logiques métiers texte et image  -->
+                        <!-- <button @click="updatePost(); updateFile()"
+                            method="post"
+                            type="button" 
+                            class="sm md lg btn btn-outline-success">
+                            Publier
+                        </button> -->
                 <!-- FIN -->
                 
                 <!-- CHOISIR UN FICHIER -->
@@ -82,23 +95,13 @@
                     </button>
                 <!-- FIN -->  
                 
-                <!-- BTN TELECHARGER FICHIER CHOISI -->
-                    <!-- <button @click="updateFile()"
-                        name="imagePost"
-                        type = "button"
-                        method="post"
-                        class="sm md lg xl btn btn-outline-primary">
-                        <i class="fa fa-download"></i>
-                        Modifier image
-                    </button> -->
-                <!-- FIN -->
                 
                 <!-- BTN ANNULER RETOUR VERS PAGE DE PUBLICATION -->
-                    <router-link :to="{name:'Fil d\'actualité'}">
-                        <button type="button" class="btn btn-outline-danger">
+                    <!-- <router-link :to="{name:'Fil d\'actualité'}"> -->
+                        <button @click="cancelUpdatePost()" type="button" class="btn btn-outline-danger">
                             Annuler
                         </button>
-                    </router-link>
+                    <!-- </router-link> -->
                 <!-- FIN -->
             </div>
     </div>
@@ -121,7 +124,6 @@ export default {
     name: 'UpdatePost',
     props: {
         msg: {String},
-        // contentPost: ['contentPost']
     },
     
     data(){
@@ -136,10 +138,12 @@ export default {
             
             // récupération dynamique du contentPost dans l'URL => affichage ancien message dans textarea
             // saisi et actualisation du post
-            // récupération dynamique du postID dans l'URL
             contentPost: this.$route.params.contentPost, 
             
-            // newImagePost Fichier choisi par user
+            // oldImagePost si user a déjà file sur son post, on va le remettre dans db
+            imagePost: this.$route.params.imagePost,
+            
+            // newImagePost Fichier choisi par user => sera reset à une valeur === '' ou ancienne imagePost pour insertion dans bd
             newFileSelected: null, 
             
             // prévisualisation fichier à télécharger
@@ -167,6 +171,68 @@ export default {
     
     methods: {
         
+        // Gestion fichier img de l'input
+        handleFileSelected(event){
+            
+            // Affectation et récupération du fichier
+            this.newFileSelected = event.target.files[0];
+            console.log(event);
+            
+            // preview image sélectionnée
+            const file = event.target.files[0];
+            this.url = URL.createObjectURL(file);
+        },
+        
+        
+        // Fonction updatePublication => Fusion des 2 logiques métiers pour texte + image
+        updatePublication(){
+            
+            // 1) Stockage des inputs dans formulaire de datas
+            const formData = new FormData();
+            formData.append('contentPost',this.contentPost);
+            formData.append('imagePost', this.newFileSelected);
+            formData.append('postID', this.postID);
+            
+            // 2) Cas ou fileSelected === null cad si user ne modifie pas son fichier
+            // reset de la valeur de fileSelected à ''
+            if(formData.get('imagePost') === 'null'){
+                // reset imagePost à '' et non NULL
+                formData.set('imagePost',this.imagePost);
+                // Formulaire modifié
+                console.log('CAS FICHIER NULL, NOUVEAU FORMULAIRE AVEC RESET DE IMAGEPOST :', formData);
+                // Demande de confirmation au user
+                confirm(this.username + ', voulez vous modifier votre publication ?')
+            }
+            
+            // 3) Requête axios
+            axios.put(`api/posts/${this.postID}/updatePublication`, formData)
+            .then(response =>{
+                console.log('SUCCES:', response.data);
+                // refresh page
+                // this.$router.go(-1);
+                
+                // notification de réussite avec FlashMessage
+                this.flashMessage.show({
+                    status: 'success',
+                    title: 'TELECHARGEMENT REUSSIE !!!',
+                    time: 4000,
+                    message: 'Votre fichier a été téléchargé avec succés'
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+                this.flashMessage.show({
+                    status: 'error',
+                    title: 'ERREUR !!!',
+                    time: 4000,
+                    message: 'Une erreur est survenue ' + error.message
+                })
+            })
+        },
+        
+        
+        // POSSIBILITE 2 AVEC SEPARATION DES LOGIQUES METIER TEXTE ET IMAGE
+        
         // Modif contentPost (texte publication) => 1ere fonction sur le bouton publier
         updatePost(){
             
@@ -182,7 +248,6 @@ export default {
             }
             
             // 3) requête axios du frontend vers le backend => Récup. dynamique de postID dans l'URL via vue.router
-            //headers d'axios configuré en global dans axiosConfig.js => Token + content-type
             axios.put(`api/posts/${this.postID}/update`, postUpdated)
             .then(response => {
                 console.log(response);               
@@ -203,17 +268,6 @@ export default {
             this.contentPost=""
         },
         
-        // Stockage fichier img de l'input
-        handleFileSelected(event){
-            
-            // Affectation et récupération du fichier
-            this.newFileSelected = event.target.files[0];
-            console.log(event);
-            
-            // preview image sélectionnée
-            const file = event.target.files[0];
-            this.url = URL.createObjectURL(file);
-        },
         
         //Modif imagePost (image publication) => 2e et dernière fonction sur le bouton publier
         updateFile(){
@@ -254,8 +308,7 @@ export default {
                 // info user pour confirmation
                 confirm(this.username+", vous n'avez pas sélectionné de nouveau fichier, conserver l'ancien ? ")
                 // Redirection vers forum
-                // this.$router.push('/groupomania/publications')
-                this.$router.go(1)
+                this.$router.go(-1)
             } 
             // CAS 2 => Fichier sélectionné et téléchargé
             else if (imgUpdated.get('imagePost') !== 'null'){
@@ -291,6 +344,11 @@ export default {
                     message: 'Une erreur est survenue'
                 })
             })
+        },
+        
+        cancelUpdatePost(){
+            if(confirm(this.username+', abandonner la modification ?'))
+            this.$router.go(0)
         }
     }
 }
@@ -301,6 +359,7 @@ export default {
     .updatePost
         display: flex    
         flex-direction: column
+        justify-content: center
         align-items: center
         background-image: url('../assets/img2.jpg')
         background-size: cover
@@ -313,37 +372,42 @@ export default {
             font-size: xx-large
             @media screen and (max-width: 768px) 
                 font-size: large
+        // textarea
         #updatePostInputForm
             height: 30vh
-            width: 100vh
-            @media screen and (max-width: 440px) 
-                width: 70vh
-                height: 20vh
-                margin-right: 0vh
-            @media screen and (max-width: 348px) 
-                width: 60vh
-                height: 20vh
+            // width: 100vh
             padding-top: 2vh
             border-radius: 25px
             margin-top: 2vh
             padding-left: 2vh
-        #preview
-            display: flex
-            flex-direction: column
-            margin: 2vh
-            @media screen and (max-width: 440px) 
-                width: 70vh
+            // au dessus de 1024 longueur de 100vh
+            @media screen and (min-width: 1024px) 
+                width: 100vh 
+            // en dessous de 768px, cette taille inclue application rules
+            @media screen and (max-width: 768px) 
                 height: 20vh
                 margin-right: 0vh
+            @media screen and (max-width: 470px) 
+                width: 70vh
+                height: 20vh
+        // prévisualisation fichier user
+        #preview
+            display: flex
+            justify-content: center
+            flex-direction: column
+            margin: 1vh
+        // Taille image fichier
+        .sizePreview
+            @media screen and (max-width: 470px) 
+                width: 70vh
         h4 
             color: white
         .dispoBtn
             display: flex
             margin-top: 1vh
-            @media screen and (max-width: 440px)
+            // A partir de 534px et en dessous de cette taille, boutons en colonne
+            @media screen and (max-width: 534px)
                 flex-direction: column
             .btn
                 margin: 1vh
-                // @media screen and (max-width: 768px) 
-                //     font-size: small
 </style>

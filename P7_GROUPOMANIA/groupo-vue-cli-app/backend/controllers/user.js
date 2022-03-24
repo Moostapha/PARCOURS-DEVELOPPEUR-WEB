@@ -130,13 +130,14 @@ exports.getUser = async(req, res, next) => {
 // commun a user + admin
 exports.updateUser = async(req, res, next) => {
     // Corps de la reqête venant du front
-    const updated = JSON.parse(JSON.stringify(req.body));
+    // const updated = JSON.parse(JSON.stringify(req.body));
+    const updated = req.body
     console.log(" ----- Update venant du front -----:  ", updated); 
     // Cas ou le user veut modifier soit son username soit son password
-    if ( updated.username || updated.email || updated.password ) {
+    if ( updated.email || updated.password ) {
         bcrypt.hash(updated.password, 10)
         .then(async(hash)=> {
-            const updatedAccount = await User.updateUser( updated.username, updated.email, hash, updated.userID)
+            const updatedAccount = await User.updateUser( updated.email, hash, updated.userID)
             res.status(201).json({ 
                 message:'Modifications réussies',
                 updatedUser: updatedAccount,

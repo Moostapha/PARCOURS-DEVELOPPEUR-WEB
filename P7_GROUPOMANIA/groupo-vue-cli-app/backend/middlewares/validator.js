@@ -86,13 +86,13 @@ const userAccountInput = () => {
     
     // inputs rules au niveau des 2 champs username | mot de passe pour useraccount
         
-        body('username')
-            .not().isEmpty().withMessage('Champs "Username" requis')
-            .isAlphanumeric().withMessage('Caractères alphanumériques')
-            .isLength({min:3, max:10}).withMessage('Longueur minimum 3 caractères, maximum 10')
-            .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
-            .trim()
-            .escape(),
+        // body('username')
+        //     .not().isEmpty().withMessage('Champs "Username" requis')
+        //     .isAlphanumeric().withMessage('Caractères alphanumériques')
+        //     .isLength({min:3, max:10}).withMessage('Longueur minimum 3 caractères, maximum 10')
+        //     .not(specialChars).withMessage("caractères spéciaux: *|\":<>[\]{}`\\()';@&$ non acceptés.")
+        //     .trim()
+        //     .escape(),
         
         body('email')
             .not().isEmpty().withMessage('Champs "Email" requis')

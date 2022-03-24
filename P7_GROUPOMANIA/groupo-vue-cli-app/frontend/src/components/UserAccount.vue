@@ -105,21 +105,21 @@
                                             <ValidationObserver v-slot="{ handleSubmit}">
                                                 <form @submit.prevent="handleSubmit(submit)" class="userInfos">
                                                     <!-- CHAMP UPDATE USERNAME -->
-                                                        <div class="form-group">
-                                                            <label for="InputUsername">Nouveau username</label>
+                                                        <!-- <div class="form-group">
+                                                            <label for="InputUsername">Nouveau username</label> -->
                                                             <!-- regex supp caractères spéciaux à rajouter dans rules pour protection injections  -->
-                                                            <validationProvider name="username" rules="required|alpha_num" v-slot="{ errors }">
+                                                            <!-- <validationProvider name="username" rules="required|alpha_num" v-slot="{ errors }"> -->
                                                                 <!-- 2 way binding grâce à v-model qui remplira data avec userinput -->
-                                                                <input 
+                                                                <!-- <input 
                                                                     v-model="updatedUsername"
                                                                     autocomplete="username"
                                                                     type="text"  required="required" 
                                                                     class="form-control" id="InputUsername" 
                                                                     placeholder="Chiffres et lettres uniquement, max 10 caractères"
-                                                                />
-                                                                <span>{{ errors[0] }}</span>
+                                                                /> -->
+                                                                <!-- <span>{{ errors[0] }}</span>
                                                             </validationProvider>
-                                                        </div>
+                                                        </div> -->
                                                     <!-- FIN -->
                                                     
                                                     <!-- CHAMP UPDATED EMAIL -->
@@ -225,7 +225,7 @@
             url: null, 
             
             // infos des updates
-            updatedUsername:"",
+            // updatedUsername:"",
             updatedEmail:"",
             updatedPassword:"",
             
@@ -347,7 +347,7 @@
             
             // 1) Récupération des données à poster au backend
             const dataPosted = new FormData();
-            dataPosted.append('username', this.updatedUsername);
+            // dataPosted.append('username', this.updatedUsername);
             dataPosted.append('email', this.updatedEmail);
             dataPosted.append('password', this.updatedPassword);
             dataPosted.append('userID', this.userID);
@@ -391,7 +391,8 @@
             })
             
             // 4) reset inputs
-            this.updatedUsername = "";
+            // this.updatedUsername = "";
+            this.updatedEmail = "";
             this.updatedPassword= "";
         },
         

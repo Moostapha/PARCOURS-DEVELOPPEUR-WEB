@@ -41,11 +41,11 @@
                         <!-- FIN BOUTON DE MODIFICATION DU COMMENTAIRE -->
                         
                         <!-- BOUTON ANNULER RETOUR SUR PUBLICATIONS -->
-                            <router-link :to="{name:'Fil d\'actualité'}">
-                                <button type="button" class="btn btn-outline-danger">
+                            <!-- <router-link :to="{name:'Fil d\'actualité'}"> -->
+                                <button @click="cancelUpdate()" type="button" class="btn btn-outline-danger">
                                     Annuler
                                 </button>
-                            </router-link>
+                            <!-- </router-link> -->
                         <!-- FIN BOUTON ANNULER RETOUR SUR PUBLICATIONS -->
                     </div>
                 <!-- FIN -->
@@ -149,6 +149,11 @@ export default {
             })
             
             this.contentComment = "";
+        },
+        
+        cancelUpdate(){
+            if(confirm(this.username+', abandonner la modification et retourner sur la page Publication ?'))
+            this.$router.go(-1)
         }
     },
 

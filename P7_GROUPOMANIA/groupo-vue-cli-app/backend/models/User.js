@@ -60,13 +60,13 @@ exports.getOneUser = (userID) => {
 
 // Fonction modifiant une ligne de la table users
 
-exports.updateUser = (username, email, password, userID) => {
+exports.updateUser = ( email, password, userID) => {
     
     return new Promise((resolve, reject) =>{
         // prepared request UPDATE FROM users SET username=?, password=? WHERE id=?
         // Requête sql
-        const sql ='UPDATE `users` SET `username`=? , `email`=?, `password`=? WHERE `users`.`userID` = ?'; // est ce que la requête correspond à update Username || password?
-        let dataUpdated = [username, email, password, userID]
+        const sql ='UPDATE `users` SET `email`=?, `password`=? WHERE `users`.`userID` = ?'; // est ce que la requête correspond à update Username || password?
+        let dataUpdated = [email, password, userID]
         //executed request
         dbmySql.query( sql, dataUpdated, function(error, result, field){ 
             if(error) reject(error);

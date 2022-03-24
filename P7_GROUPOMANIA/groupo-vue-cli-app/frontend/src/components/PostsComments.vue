@@ -72,13 +72,13 @@
                   <!-- <div class="buttonPost"> -->
                     <!-- BTN PUBLIER DU TEXTE -->
                     
-                      <button @click="createPost()"
+                      <!-- <button @click="createPost()"
                         id="btnPost"
                         method="post"
                         class="sm md lg xl btn btn-primary btnpublier">
                         <i class="far fa-paper-plane"></i>
                         Publier texte
-                      </button>
+                      </button> -->
                     
                     <!-- FIN -->
               </form>
@@ -89,7 +89,7 @@
                   <div v-if="url"  id="preview">
                     <img :src="url"/>
                     <button @click="cancelSubmitFile()" 
-                      type="button" class="sm md lg xl btn btn-outline-danger">
+                      type="button" class="sm md lg xl btn btn-danger">
                         Annuler
                     </button>
                 </div>
@@ -97,6 +97,7 @@
             
             <label>Ajouter un fichier ?</label>
             <div class="buttonPost">
+
               <!-- CHOISIR UN FICHIER -->
                 <input @change="handleFileSelected"
                   type="file"
@@ -110,8 +111,9 @@
                   Choisir un fichier
                 </button>
               <!-- FIN -->  
+
               <!-- BTN TELECHARGER FICHIER -->
-                <button @click="submitFile()"
+                <!-- <button @click="submitFile()"
                   name="imagePost"
                   id="btnPost"  
                   type = "button"
@@ -119,8 +121,20 @@
                   class="sm md lg xl btn btn-primary form-control-file">
                   <i class="fa fa-download"></i>
                     Publier Fichier
-                </button>
+                </button> -->
               <!-- FIN -->
+              
+              <!-- BTN PUBLIER TEXTE IMAGE TEST POSSIBILITE 2 -->
+                <button @click="createPublication()"
+                  name="imagePost"
+                  id="btnPost"  
+                  type = "button"
+                  method="post"
+                  class="sm md lg xl btn btn-primary form-control-file">
+                  <i class="fa fa-download"></i>
+                    Publier
+                </button>
+                <!-- FIN -->
             </div>
             
             <hr class="my-4">
@@ -143,7 +157,10 @@
                         <!-- boucle sur [users] -->
                           <div class="allUsersForPost" v-for="(user, index) in users" :key="index" >
                             <!-- condition assignant avatar de l'auteur sur son post -->
-                              <img class="card-img"  v-if="user.userID === post.id_user_auteur_post" :src=" user.avatar" :alt="user.username">
+                              <img class="card-img"  v-if="user.userID === post.id_user_auteur_post" 
+                                :src=" user.avatar" 
+                                :alt="user.username"
+                              >
                             <!-- fin -->
                           </div>
                         <!-- fin -->
@@ -160,15 +177,16 @@
                       
                       <!-- PUBLICATION IMAGE -->
                         <!-- Condition: apparition de l'image du post que si elle existe dans la bd -->
-                          <figure v-if="post.imagePost" class="imgPost">
-                            <!-- {{post}} -->
+                          <figure v-if="post.imagePost " class="imgPost">
                             <img :src="post.imagePost" :alt="post.imagePost">
                             <figcaption v-for="(user, index) in users" :key="index"> 
                               <small class="text-muted" v-if="user.userID === post.id_user_auteur_post">
                                 Belle image partagée sur Groupomania par {{user.username}}
                               </small>
                             </figcaption>
+                            
                           </figure>
+                          <figure v-if="post.imagePost === null"> no image</figure>
                         <!-- fin conditionnalité -->
                       <!-- FIN PUBLICATION IMAGE -->
                       
@@ -288,7 +306,8 @@
                                     <router-link :to="{ 
                                       name: 'ModifPost', 
                                       params: {
-                                        postID: post.postID, 
+                                        postID: post.postID,
+                                         
                                     }}">
                                       <button 
                                         type="button" 
@@ -318,7 +337,7 @@
                                       params: {
                                         postID: post.postID,
                                         contentPost: post.contentPost,
-                                        //imagePost: post.imagePost
+                                        imagePost: post.imagePost
                                       }, 
                                       
                                     }">
@@ -481,7 +500,7 @@ export default {
       userID: +localStorage.getItem("userID"),
       
       // fichier image téléchargé
-      fileSelected: null,
+      fileSelected: null, 
       
       // prévisualisation fichier téléchargé
       url: null, 
@@ -615,6 +634,62 @@ export default {
     
     methods: {
     
+    // Fonction createPublication pour création texte +fichier (logique fusionnée)
+    createPublication(){
+      
+      // 1) Récupération userinputs dans formdata
+      const formData = new FormData();
+      formData.append("userID" , this.userID);
+      formData.append("username" , this.username);
+      formData.append("contentPost" , this.publication.contentPost );
+      formData.append("imagePost" , this.fileSelected ); // si no file la valeur sera null 
+      
+      // 2) Vérification du formulaire de données dans console
+      console.log('PUBLICATION CREATED: ', Array.from(formData));
+        for(let obj of formData) {
+            console.log(obj);
+        }
+      
+      // 3) Check si file n'existe pas, on va reset sa valeur en '' car elle est par défaut à null (table posts sans null pour imagePost)
+      if(formData.get('imagePost') === 'null'){
+        formData.set('imagePost', '');
+        console.log('Si file est null, reset de sa valeur en: ', formData)
+      }
+      // ) Envoie du formulaire vers le endpoint 
+      axios.post('api/posts/createPublication', formData)
+      .then(response => {
+        console.log(response);
+        
+        // rechargement de la page pour affichage nouvelle donnée via axios.get()
+        // this.$router.go(0)
+        
+        // Notif FlashMessage succés
+        this.flashMessage.show({
+          status: 'success',
+          icon: true,
+          title: 'PUBLICATION REUSSIE !!!',
+          time: 4000,
+          message: 'Votre post a été publié avec succés'
+        })
+        
+      })
+      .catch((error) => {
+        console.log(error);
+        
+        // Erreurs de validation champ formulaire => 422 lié au middleware validator qui check les formulaires de l'app.
+        // this.error = error.response.data.errors;
+        
+        // notif erreur avec flashmessage
+        this.flashMessage.show({
+          status: 'error',
+          icon: 'success',
+          title: 'ERREUR !!!',
+          message: 'Une erreur est survenue '+ error.message
+        })
+      })
+    },
+    
+    
     // FONCTION BOUTON "AJOUTER UN POST" POUR DU TEXTE
     createPost(){
       // Création post texte
@@ -667,7 +742,7 @@ export default {
     },
     
     
-    // Stockage fichier img de l'input
+    // Stockage fichier img de l'input possibilité 1 ou logique texte et image séparées
     handleFileSelected(event){
       this.fileSelected = event.target.files[0];
       console.log(event);
@@ -693,32 +768,30 @@ export default {
       // console.log(Array.from(formData));
       
       // si user veut télécharger sans choisir un fichier
-      // if (formData.get('imagePost') === 'null') {
-      //   alert("Veuillez d'abord sélectionner un fichier")
-      // }
-      // // sinon, et on peut passer à la request axios
-      // else {
+      if (formData.get('imagePost') === 'null') {
+        alert("Veuillez d'abord sélectionner un fichier")
+      }
+      
+      // sinon, et on peut passer à la request axios, après confirmation
+      else {
+          //info user pour confirmation
+          confirm(this.username+', voulez vous télécharger ce fichier ?')
           
-      //     //info user pour confirmation
-      //     confirm(this.username+', voulez vous télécharger ce fichier ?')
-          
-      // }
+      }
       axios.post('api/posts/uploadImg', formData)
       .then(response => {
         
         console.log('SUCCES: ', response.data);
         
-        // Ajout new data dans le tableau de datas posts
-        this.posts.push(response.data); 
-        
         // refresh page
         this.$router.go(0)
-
+        
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',
           title: 'TELECHARGEMENT REUSSIE !!!',
-          message: 'Votre fichier a été téléchargé avec succés'
+          message: 'Votre fichier a été téléchargé avec succés',
+          time: 4000
         })
       })
       .catch((error) => {
@@ -727,14 +800,14 @@ export default {
         this.flashMessage.show({
           status: 'error',
           title: 'ERREUR !!!',
+          time: 4000,
           message: 'Une erreur est survenue ' + error.message
         })
       })
     },
     
     cancelSubmitFile (){
-      
-      //refresh page si fuser ne veut pas ce fichier
+      // refresh page si fuser ne veut pas ce fichier
       this.$router.go(0)
     },
     
@@ -745,7 +818,10 @@ export default {
         axios.delete( `api/posts/${postID}/delete`)
         .then(response => {
           console.log(response.data);
-          this.$router.push('/groupomania/publications')
+          
+          // refresh page
+          this.$router.go(0)
+          
           // notification de réussite avec FlashMessage
           this.flashMessage.show({
             status: 'success',
@@ -763,8 +839,7 @@ export default {
           })
         })
     },
-    
-    
+
     // FONCTION BOUTON DE SUPPRESSION DU COMMENTAIRE PAR SON AUTEUR + ADMIN (régulateur)
     deleteComment(commentID){
       
@@ -772,7 +847,10 @@ export default {
       axios.delete( `api/comments/${commentID}/delete`)
       .then(response => {
         console.log(response.data);
-        // this.$router.push('/groupomania/publications');
+        
+        // refresh page
+          this.$router.go(0)
+        
         // notification de réussite avec FlashMessage
         this.flashMessage.show({
           status: 'success',
@@ -817,6 +895,9 @@ export default {
       .then(response => {
         console.log(response.data);
         
+        // refresh page
+        this.$router.go(0)
+        
         // Notif reussite
         this.flashMessage.show({
           status: 'success',
@@ -860,6 +941,11 @@ export default {
       axios.post('api/reactions/dislike' , formData)
       .then(response => {
         console.log(response.data);
+        
+        // refresh page => Affiche le dislike en rappelant axios.get dans mounted
+        this.$router.go(0)
+        
+        // Notif de réussite
         this.flashMessage.show({
           status: 'success',
           icon: true,
@@ -1003,7 +1089,7 @@ export default {
         display: flex
         justify-content: space-around
         align-items: center
-        @media screen and (max-width: 320px)
+        @media screen and (max-width: 326px)
           display: flex
           flex-direction: column
           margin-top: 0vh
@@ -1018,20 +1104,23 @@ export default {
             font-size: large
             width: 23%
           @media screen and (max-width: 768px)
-            width: 25%
-            font-size: small
+            width: 40%
+            font-size: larger
             border-radius: 1vh
             @media screen and (max-width: 500px)
-              font-size: x-small
-            padding: 1vh
-            margin: 2vh
+              font-size: small
+              padding: 1vh
+              margin: 2vh
+            @media screen and (max-width: 326px)
+              width: 60%
           .fa-paper-plane, .fa-download
             font-size: larger
       // preview fileSelected
       #preview
         display: flex
         justify-content: center
-      
+        @media screen and (max-width: 768px)
+          flex-direction: column
       // style du card PARTIE POST (PUBLICATIONS DES USERS)
       .card
         border: solid, 1px

@@ -27,7 +27,7 @@ exports.getOnePost = async(req, res, next) => {
     });
 };
 
-
+// ----------------------------------- POSSIBILITE 1 => 2 LOGIQUES METIERS SEPARES POUR TEXTE ET IMAGE ------------------------
 // Fonction créant un post
 exports.createPost = async(req, res, next) => {
     
@@ -82,26 +82,6 @@ exports.updatePost = async(req, res, next) => {
     
 };
 
-
-// Fonction supprimant un post (after) à modifier pour supprimer file 
-exports.deletePost = async(req, res, next) => {
-    
-    //Récup. clé primaire à supp
-    const postID = req.params.postID;
-    console.log('postId post supprimé: ', postID);
-    
-    //On la met en paramètre dans la fonction delete de Post.js
-    const deletedPost = await postModel.delete(postID);
-    console.log("résultat de la promise: ", deletedPost);
-    
-    // Renvoie de la réponse au front 
-    res.status(200).json({ 
-        message:'post supprimé avec succés', 
-        post: deletedPost 
-    });
-};
-
-
 // Fonction uploadFile qui permet aux users de télécharger une image pour la publier
 exports.uploadImagePost = async(req, res, next) => {
     
@@ -110,7 +90,7 @@ exports.uploadImagePost = async(req, res, next) => {
     const createdData = req.body;
     console.log('----- 1) CORPS REQUETE AXIOS UPLOADIMAGEPOST(): ', createdData);
     
-    if (createdData.imagePost === 'null') {
+    if (createdData.imagePost === 'null' || createdData.imagePost === 'undefined' ) {
         res.status(204).json({
             message:'Fichier non mis à jour, ancien fichier conservé',
         })
@@ -179,54 +159,144 @@ exports.updateImagePost = async(req, res, next) => {
             fileUpdated: updatedFilePost
         }).catch( e => { console.error(e) })
     }
-
-    // const file = req.file;
-    // console.log("------- 3) URL Nouveau fichier ------> ", file); 
-    
-    // // URL dynamique du fichier mis à jour à stocker dans la db + Stockage dans backend/images
-    // const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
-    
-    // // Enregistrement dans la db via le Model updateUpload
-    // const updatedFilePost = await postModel.updateUploadImage(
-    //     imageURL,
-    //     updatedData.postID
-    // );
-    // console.log('Résultat de la promise: ', updatedFilePost);
-    // res.status(200).json({
-    //     message:'Fichier mis à jour avec succés',
-    //     fileUpdated: updatedFilePost
-    // }).catch( e => { console.error(e) })
-    
-    // if (uploadedImg === null) {
-    //     // Enregistrement dans la db via le Model updateUpload
-    //     const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.body.filename}`
-    //     const updatedFilePost = await postModel.updateUploadImage(
-    //     imageURL,
-    //     updatedData.postID
-    // );
-    // console.log('Résultat de la promise: ', updatedFilePost);
-    // res.status(200).json({
-    //     message:'Fichier mis à jour avec succés',
-    //     fileUpdated: updatedFilePost
-    // })
-    // } else if(uploadedImg === !null) {
-    //     const file = req.file;
-    //     console.log("------- 3) URL Nouveau fichier ------> ", file); 
-    //     // URL dynamique du fichier mis à jour à stocker dans la db
-    //     const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
-        
-    //     // Enregistrement dans la db via le Model updateUpload
-    //     const updatedFilePost = await postModel.updateUploadImage(
-    //         imageURL,
-    //         updatedData.postID
-    //     );
-    //     console.log('Résultat de la promise: ', updatedFilePost);
-    //     res.status(200).json({
-    //         message:'Fichier mis à jour avec succés',
-    //         fileUpdated: updatedFilePost
-    //     })
-    // }
-    
 }
+
+
+// ----------------------------------- POSSIBILITE 2 => 1 seule LOGIQUES METIERS POUR TEXTE ET IMAGE ------------------------
+
+// Fonction création d'une publication (texte seul obligé, sinon erreur 422 validator | texte + image)
+
+exports.createPublication = async(req, res, next) => {
+    // Formulaire datas venant du client: req.body avec 4 champs => userID, username, contentPost, imagePost
+    
+    // Récupération des datas venant du front par requête axios
+    const dataFrontAxiosCreated = req.body;
+    
+    // Affichage du corps de requête dans la console
+    console.log('---- 1) CORPS REQUETE CREATEPUBLICATION() PAR AXIOS: ', dataFrontAxiosCreated )
+    
+    /* Vérification si req.file présent dans requête ou non
+    Nous devons  résoudre l'URL complète de notre image, car req.file.filename ne contient que le segment filename
+    Route GET pour servir image sur http://localhost:3000/images/<image-name>.jpg depuis API
+    Cela semble simple, mais n'oubliez pas que notre application s'exécute sur localhost:3000
+    et nous ne lui avons pas indiqué comment répondre aux requêtes transmises à cette route
+    */
+    
+    // cas contentPost 1 | imagePost 0 => Texte seul
+    if( dataFrontAxiosCreated.imagePost === '') {
+        // Si requête dataFrontAxiosCreated ne contient pas de fichier et que sa valeur soit 'null'
+        
+        // Consommation de la promise + insertion des datas dans les colonnes de la db posts via requête SQL sans le fichier
+        const newPublication = await postModel.creation(
+            dataFrontAxiosCreated.userID,
+            dataFrontAxiosCreated.username,
+            dataFrontAxiosCreated.contentPost,
+            dataFrontAxiosCreated.imagePost    //inscrira vide dans la colonne imagePost de table posts
+        ).catch( (error) => 
+        {
+            console.log(error)
+        });
+        
+        console.log('2) RESULTAT PROMISE CREATION: ', newPublication );
+        res.status(201).json({
+            message: 'Publication texte créée avec succés !!!',
+            newPublication: newPublication
+        })
+    } 
+    // sinon le reste de la requête est traitée et enregistrée dans notre db sans l'image
+    // cas contentPost 0 | imagePost 1 => Image seule
+    else {
+        // encodage de file dans backend/images/post + lecture sur port 3000 pour les requêtes GET axios de l'image
+        const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+        // Consommation de la promise + insertion des lignes dans la db via requête SQL avec le fichier
+        const newPublication = await postModel.creation(
+            dataFrontAxiosCreated.userID,
+            dataFrontAxiosCreated.username,
+            dataFrontAxiosCreated.contentPost, //inscrira vide dans la colonne contentPost de table posts
+            imageURL
+        ).catch((error) => 
+        {
+            console.log(error)
+        });
+        
+        console.log('2) RESULTAT PROMISE CREATION: ', newPublication );
+        res.status(201).json({
+            message: 'Publication texte avec fichier créèe avec succés !!!',
+            newPublication: newPublication
+        })
+    }
+
+};
+
+// Fonction modifiant la publication ( texte ou image, texte et image, texte only, image only)
+
+exports.updatePublication = async(req, res, next) => {
+    // Formulaire datas venant du client: req.body avec 3 champs
+    const dataUpdated = req.body;
+    console.log('DATAS MODIFIES VENANT DU FRONT DEPUIS UPDATEPUBLICATION()', dataUpdated)
+    // contentPost, imagePost, postID
+    // Pour file updated => 2 cas:
+    // 2) La publication avait déjà une image => Partie if : Il faut récupérer cette image et la réinsérer dans la colonne imagePost
+    // 1) la publication n'avait pas d'image => 
+    // Partie else : New Fichier présent dans requête front Axios
+    // Nous devons  résoudre l'URL complète de notre image, car req.file.filename ne contient que le segment filename
+    // Route GET pour servir image sur http://localhost:3000/images/<image-name>.jpg depuis API
+    // Cela semble simple, mais n'oubliez pas que notre application s'exécute sur localhost:3000
+    // et nous ne lui avons pas indiqué comment répondre aux requêtes transmises à cette route*/ 
+    
+    if ( dataUpdated.imagePost === 'null' || dataUpdated.imagePost ==='undefined' || dataUpdated.imagePost === '') {
+        const updatedPublication = await postModel.modification(
+            dataUpdated.contentPost,
+            dataUpdated.imagePost, // 2 cas => user n'a pas d'image sur son post ou user a déjà image sur son post, il faut le réécrire ds la db
+            dataUpdated.postID,
+        ).catch((error) => {
+            console.log(error)
+        });
+        
+        console.log('2) RESULTAT PROMISE MODIFICATION PUBLICATION: ', updatedPublication  );
+        res.status(201).json({
+            message: 'Modification texte  créée avec succés !!!',
+            updatedPublication : updatedPublication 
+        })
+        
+    } else {
+        // encodage de file dans backend/images/post + lecture sur port 3000 pour les requêtes GET axios de l'image
+        const imageURL = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
+        const updatedPublication = await postModel.modification(
+            dataUpdated.contentPost,
+            imageURL,
+            dataUpdated.postID,
+        ).catch((error) => {
+            console.log(error)
+        });
+        
+        console.log('2) RESULTAT PROMISE MODIFICATION PUBLICATION: ', updatedPublication );
+        res.status(201).json({
+            message: 'Modification texte avec fichier créèe avec succés !!!',
+            updatedPublication: updatedPublication
+        })
+    } 
+};
+
+
+
+// Fonction supprimant un post (after) à modifier pour supprimer file 
+exports.deletePost = async(req, res, next) => {
+    
+    //Récup. clé primaire à supp
+    const postID = req.params.postID;
+    console.log('postId post supprimé: ', postID);
+    
+    //On la met en paramètre dans la fonction delete de Post.js
+    const deletedPost = await postModel.delete(postID);
+    console.log("résultat de la promise: ", deletedPost);
+    
+    // Renvoie de la réponse au front 
+    res.status(200).json({ 
+        message:'post supprimé avec succés', 
+        post: deletedPost 
+    });
+};
+
 
 // Toutes nos fonctions exportées vers /routes/post

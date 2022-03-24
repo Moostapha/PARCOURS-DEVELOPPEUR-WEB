@@ -16,6 +16,7 @@ exports.getAll = () => {
         dbmySql.query( sql, function(error, results, fields) {
             if (error) reject(error);
             resolve(results);
+            // console.log(results);
         });
     })
 };
@@ -31,11 +32,51 @@ exports.getOne = (postID) => { // idPost === primaryId
         dbmySql.query( sql , [postID] , function(error, results, fields) {
             if (error) reject(error);
             resolve(results);
+            console.log(results)
         })
     })
 };
 
 
+// OPTION 1 POUR CREATION DE PUBLICATION => UNE SEULE LOGIQUE POUR CREATION DE TEXTE ET IMAGE DANS UNE SEULE REQUETE SQL
+
+// Fonction createPublication( texte + image | texte ou image)
+exports.creation = (userID, username, contentPost, imagePost) => {
+
+    return new Promise((resolve,reject) => {
+        const sql ='INSERT INTO `posts` ( `id_user_auteur_post`, `username` , `contentPost`, imagePost ) VALUES (?,?,?,?)'
+        let dataCreated = [ userID, username, contentPost, imagePost ]
+        dbmySql.query(sql, dataCreated, function (error, results, fields) {
+            if (error) reject (error);
+            resolve(results);
+            console.log(results.affectedRows + " record(s) updated");
+            // console.log(results);
+        })
+    })
+}
+
+
+// Fonction updatePublication( texte + image | texte ou image)  => 2 cas à gérer dans le ctler
+// cas 1 => contentPost 1 imagePost 0 : update texte et pas update image (gestion de req.file)
+// cas 2 => contentPost 0 imagePost 1 : pas update texte et update image (gestion de req.file)
+
+exports.modification = (contentPost, imagePost, postID) => {
+    
+    return new Promise( (resolve, reject) => {
+        const sql ='UPDATE `posts` SET `contentPost`= ?, `imagePost`= ? WHERE `posts`.`postID` = ?'
+        let dataUpdated = [contentPost, imagePost, postID]
+        dbmySql.query(sql, dataUpdated, function (error, results,fields) {
+            if (error) reject (error);
+            resolve(results);
+            console.log(results.affectedRows + " record(s) updated");
+        })
+    })
+}
+
+
+
+
+// OPTION 2 POUR CREATION DE PUBLICATION => DEUX LOGIQUE: SEPARATION STRICTE TEXTE ET IMAGE POUR CREATION  DANS DEUX REQUETE SQL
 // Fonction requête sql pour CREATION d'une ligne dans la table post
 // userID est la clé primaire id de user
 exports.create = ( userID, username, contentPost ) => { 
@@ -48,9 +89,11 @@ exports.create = ( userID, username, contentPost ) => {
             if (error) reject (error);
             resolve(results);
             console.log(results);
+            console.log(results.affectedRows + " record(s) updated");
         })
     })
 };
+
 
 
 // Fonction requête sql pour MODIFIER un post after => texte + image ou texte ou image only dans UpdatePost.vue
@@ -62,22 +105,7 @@ exports.update = ( contentPost, postID ) => {
         dbmySql.query( sql, dataUpdated , function (error, results, fields){
             if(error) reject(error);
             resolve(results);
-            console.log(results)
             console.log(results.affectedRows + " record(s) updated");
-        })
-    })
-};
-
-
-// Fonction requête sql pour SUPPRIMER un post (after)
-exports.delete = (postID) => { 
-    
-    return new Promise((resolve,reject) => {
-        const sql = 'DELETE FROM `posts` WHERE `posts`.`postID` = ?';
-        dbmySql.query( sql, [postID], function (error, results, fields){
-            if (error) reject (error);
-            console.log(results);
-            resolve(results);
         })
     })
 };
@@ -93,7 +121,8 @@ exports.uploadImage = (userID, username, imagePost) => {
         dbmySql.query(sql, data, function(error, results, fields){
             if(error) reject(error);
             resolve(results);
-            console.log(results);
+            console.log(results.affectedRows + " record(s) updated");
+            // console.log(results);
         })
     })
 };
@@ -105,11 +134,26 @@ exports.updateUploadImage = ( imagePost, postID ) => {
     return new Promise((resolve, reject) => {
         const sql = 'UPDATE `posts` SET `imagePost`= ? WHERE `posts`.`postID` = ?';
         let data = [imagePost, postID]
-        dbmySql.query(sql, data, function(error, result, fields){
+        dbmySql.query(sql, data, function(error, results, fields){
             if(error) reject(error);
-            console.log('Résultat du update image: ',result);
-            resolve(result);
-            console.log(result);
+            console.log('Résultat du update image: ',results);
+            resolve(results);
+            console.log(results.affectedRows + " record(s) updated");
+            // console.log(result);
+        })
+    })
+};
+
+// Fonction requête sql pour SUPPRIMER un post (after)
+exports.delete = (postID) => { 
+    
+    return new Promise((resolve,reject) => {
+        const sql = 'DELETE FROM `posts` WHERE `posts`.`postID` = ?';
+        dbmySql.query( sql, [postID], function (error, results, fields){
+            if (error) reject (error);
+            resolve(results);
+            console.log(results.affectedRows + " record(s) updated");
+            // console.log(results);
         })
     })
 };

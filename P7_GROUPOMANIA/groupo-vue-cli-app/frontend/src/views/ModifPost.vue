@@ -1,5 +1,5 @@
 <template>
-    <div class="modification">
+    <div >
         <UpdatePost msg='Changer votre publication ?'/>
     </div>
 </template>
@@ -16,6 +16,7 @@
 </script>
 
 <style lang="sass" scoped>
-    
+    // .modification
+    //     width: fit-content
 
 </style>

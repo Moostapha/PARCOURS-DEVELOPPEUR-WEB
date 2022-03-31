@@ -4,8 +4,11 @@ const express = require('express');
 // création d'un router avec la méthode Router() fournie par express
 const router = express.Router(); 
 
-// Import du controller user.js (logique métier)
+// Import du controller administrateur.js (logique métier)
 const adminCtler = require('../controllers/administrateur'); 
+
+// Import du controller user.js (fonction deleteUserAndFile) en commun
+const userCtler = require('../controllers/user')
 
 // import du middleware d'authentification
 const auth = require('../middlewares/authentification');
@@ -15,7 +18,7 @@ const multer = require('../middlewares/multer');
 
 
 // route pour voir all users infos + statistiques (nbre de posts, comments, likes, dislikes)
-router.get('/infos', auth, adminCtler.getAllUsersInfos, adminCtler.getUsersLikesAndDislikes);
+router.get('/infos', auth, adminCtler.getAllUsersInfos);
 
 
 // route donnant tous les likes | dislikes par user
@@ -30,8 +33,8 @@ router.get('/lastPost', auth, adminCtler.lastUserPost);
 router.get('/lastComment', auth, adminCtler.lastUserComment); 
 
 
-// route pour effacer/ bannir un user
-router.delete('/:userID/delete', auth, adminCtler.deleteUser); 
+// route pour effacer/ bannir un user => Utilisation de la fonction deleteUserAndFile du ctler user.js (DRY)
+router.delete('/:userID/delete', auth, userCtler.deleteUserAndFile); 
 
 
 // Exportation vers app.js

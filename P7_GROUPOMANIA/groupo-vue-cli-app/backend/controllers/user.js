@@ -4,7 +4,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // schema de donnees User de User/model
 const User = require('../models/User'); 
-
+// schéma de données Posts pour delete les fichiers images lors de la suppression du user
+const Post = require('../models/Post');
+// Import fonctionnalité de node.js pour fileSystem pour la fonction deleteUserAndFile
+const fs = require('fs'); 
 
 /* 
 ========================================================================================================================================================
@@ -124,6 +127,15 @@ exports.getUser = async(req, res, next) => {
 };
 
 
+// Fonction pour voir tous les users (admin et users)
+exports.getAllUsers = async(req, res, next) => {
+    const allUsers = await User.getUsers();
+    res.status(200).json({ 
+        message:'Liste des users statut 0 et statut 1', 
+        users: allUsers 
+    });
+};
+
 
 // Fonction modif de mon compte user => Choix laissé au user de changer leur username + password
 
@@ -160,7 +172,8 @@ exports.updateUserAvatar = async(req,res,next) => {
     // }
     
     // Récupération données envoyées par le front
-    const updatedData = JSON.parse(JSON.stringify(req.body));
+    // const updatedData = JSON.parse(JSON.stringify(req.body));
+    const updatedData = req.body;
     console.log('---- axios request -----: ', updatedData)
     // Fichier téléchargé
     const avatarFile = req.file;
@@ -190,25 +203,75 @@ exports.updateUserAvatar = async(req,res,next) => {
 };
 
 
-// Fonction suppression de mon compte user
+// Fonction suppression de mon compte user commun a user + admin
+// Fonction suppression avatar + fichiers user dans le dossier images du backend => fs unlink
 
-// commun a user + admin
-exports.deleteUser = async(req, res, next) => {
+exports.deleteUserAndFile = async(req, res, next) => {
+    
+    // userID à delete
     const userById  = req.params.userID;
-    console.log("----- Utilisateur supprimé -----:  ", userById); 
-    const deletedAccount = await User.deleteUser(userById);
-    res.status(200).json({ 
-        message:'Utilisateur supprimé avec succés', 
-        userDeleted : deletedAccount
-    });
-};
-
-
-// Fonction pour voir les autres users non administrateur
-exports.getAllUsers = async(req, res, next) => {
-    const allUsers = await User.getUsers();
-    res.status(200).json({ 
-        message:'Liste des users statut 0 et statut 1', 
-        users: allUsers 
-    });
+    console.log("1) USERID A SUPPRIMER  ", userById);
+    
+    // Pour delete de son avatar...
+    const userToDelete = await User.getOneUser(userById);
+    console.log('2) INFOS USER A SUPPRIMER: ', userToDelete);
+    
+    // Url de l'avatar est donné par le 1er résultat retourné par getOneUser
+    const urlAvatar = userToDelete[0].avatar;
+    console.log('3) URL AVATAR USER: ', urlAvatar)
+    
+    // Pour delete de ses post dans fichier images/post => Use de la fonction getAllImage(id_user_auteur_post) de Post.js
+    const urlImagePost = await Post.getAllImagePost(userById);
+    for(let obj of urlImagePost) {
+        console.log('4) URLS IMAGEPOST: ' , obj.imagePost);
+    }
+    
+    // Test sur la longueur des tableaux => pour déterminer que faire selon tableau vide ou pas
+    
+    // Si user n'a aucun fichier dans le dossier image (il n'a rien téléchargé)
+    if (urlAvatar.length === 0 && urlImagePost.length === 0) {
+        //do something
+        // Consommation de la promise deleteUser dans un param x
+        const deletedAccount = await User.deleteUser(userById);
+        res.status(200).json({ 
+            message:'Utilisateur supprimé avec succés', 
+            userDeleted : deletedAccount
+        });
+    }
+    // Si user a des fichiers dans le dossier image (il a téléchargé un avatar et des imagePost)
+    else if (urlAvatar.length !== 0 && urlImagePost.length !== 0) {
+        
+        // 1) Delete du fichier avatar s'il existe unlink avatar => images/avatar
+        
+        // Décomposition de l'URL en 2 parties avec split() => 1ere en amont de 'images/avatar' et 2e en aval => Nom du fichier [1] 
+        const filenameAvatar = urlAvatar.split('images/avatar')[1];
+        console.log('5) NOM DU FICHIER AVATAR A SUPPRIMER: ', filenameAvatar);
+        // Application de unlink => 2 params (chaine de caractère chemin fichier en dynamique + fonction) 
+        fs.unlink(`images/avatar/${filenameAvatar}`, function(error){
+            if(error) throw error;
+            console.log('fichier avatar du user supprimé du dossier images/avatar !!!')
+        });
+        
+        // 2) Delete  fichiers posts s'ils existent unlink post => images/post
+        
+        // Boucle sur l'objet urlImagePost | Catch du fichier localhost/urlImagePost avec obj.imagePost | Split pour le nom du fichier | Application de fs unlink de way dynamique pour each file
+        for(let obj of urlImagePost) {
+            console.log('6) URLS IMAGEPOST: ' , obj.imagePost);
+            // Décomposition de l'URL en 2 parties avec split() => 1ere en amont de 'images/post' et 2e en aval => Nom du fichier [1] 
+            // files sera tous les noms de fichiers téléchargés par le user dans backend/images/post
+            const files = obj.imagePost.split('images/post')[1];
+            console.log('7) NOM DES FICHIERS A DELETE DU DOSSIER IMAGES/POST', files)
+            fs.unlink(`images/post/${files}`, function(error){
+                if(error) throw error;
+                console.log('Tous les fichiers imagePost du user supprimés du dossier images/post !!!')
+            });
+        }
+        
+        // 3) Consommation de la promise deleteUser() dans param y (doit être différent de param x sinon erreur)
+        const deletedAccountAndFiles = await User.deleteUser(userById);
+        res.status(200).json({ 
+            message:'Utilisateur, fichier avatar et fichiers post supprimés avec succés', 
+            deletedAccountAndFiles : deletedAccountAndFiles
+        });
+    }
 };

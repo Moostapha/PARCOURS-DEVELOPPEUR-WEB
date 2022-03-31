@@ -157,3 +157,21 @@ exports.delete = (postID) => {
         })
     })
 };
+
+
+// Fonction requête sql pour GET pour pouvoir enlever toutes images postées par ce user lorsque son compte est supprimé (par lui ou admin)
+// Requête personalisée réutilisée dans ctler user.js pour la fonction deleteUserAndFile
+
+exports.getAllImagePost = (id_user_auteur_post) => { 
+    
+    return new Promise((resolve,reject) => {
+        const sql = 'SELECT `posts`.`imagePost` FROM `posts` WHERE `posts`.`id_user_auteur_post` = ?';
+        dbmySql.query( sql, [id_user_auteur_post], function (error, results, fields){
+            if (error) reject (error);
+            resolve(results);
+            console.log(results.affectedRows + " record(s) updated");
+            // console.log(results);
+        })
+    })
+};
+

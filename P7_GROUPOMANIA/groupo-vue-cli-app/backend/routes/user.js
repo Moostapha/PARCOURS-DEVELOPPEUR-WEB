@@ -42,8 +42,8 @@ router.get('/', auth, userCtler.getAllUsers);
 router.get('/:userID', auth, userCtler.getUser); 
 
 
-// route pour effacer un user => UserAccount.vue
-router.delete('/:userID/delete', auth, userCtler.deleteUser); 
+// route pour effacer un user + tous ses fichiers téléchargés du dossier backend/images => UserAccount.vue + Admin.vue
+router.delete('/:userID/delete', auth, userCtler.deleteUserAndFile); 
 
 
 // route pour update infos profil user  => UserAccount.vue

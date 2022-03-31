@@ -400,7 +400,7 @@
         // Fonction qui supprime le compte user
         deleteAccount(userID) {
             if(confirm(this.username+', voulez vous vraiment supprimer votre compte?'))
-                axios.delete(`api/users/${userID}/delete,`)
+                axios.delete(`api/users/${userID}/delete`)
                 .then(response => {
                     console.log(response.data);
                     console.log('button cliked !!!');

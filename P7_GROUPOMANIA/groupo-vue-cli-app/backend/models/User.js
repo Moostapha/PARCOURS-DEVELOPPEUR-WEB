@@ -76,8 +76,9 @@ exports.updateUser = ( email, password, userID) => {
     })
 };
 
-exports.updateAvatar = (avatar, userID) => {
 
+exports.updateAvatar = (avatar, userID) => {
+    
     return new Promise((resolve, reject) => {
         const sql = 'UPDATE `users` SET `avatar` = ? WHERE `users`.`userID` = ?'
         let dataUpdated = [avatar, userID]
@@ -87,6 +88,7 @@ exports.updateAvatar = (avatar, userID) => {
         })
     })
 }
+
 
 // Fonction requete sql effacant la ligne liée à l'id de la table user
 
@@ -100,7 +102,6 @@ exports.deleteUser = (userID) => {
         })
     })
 };
-
 
 
 // Fonction requête pour afficher tous les users

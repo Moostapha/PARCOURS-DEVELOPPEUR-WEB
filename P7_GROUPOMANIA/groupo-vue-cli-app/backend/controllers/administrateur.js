@@ -1,6 +1,7 @@
 // schema de donnees User de User/model
 const Admin = require('../models/Administrateur'); 
 
+
 // Fonction pour voir toutes les infos et activités des users
 exports.getAllUsersInfos = async(req, res, next) => {
     const allUsersInfos = await Admin.getUsersInfosAndStats();
@@ -39,13 +40,5 @@ exports.lastUserComment = async(req,res,next) => {
 }
 
 
-// Fonction de suppression d'un user par Admin
-exports.deleteUser = async(req, res, next) => {
-    const userById  = req.params.userID;
-    console.log("=> ID Utilisateur supprimé:  ", userById); 
-    const deletedAccount = await Admin.deleteUser(userById);
-    res.status(200).json({ 
-        message:'Utilisateur supprimé avec succés', 
-        userDeleted : deletedAccount
-    });
-};
+// Fonction de suppression d'un user par Admin avec suppression de son avatar du dossier images/avatar + images postées du dossier images/post
+// Cf controller/user.js avec la fonction deleteUserAndFile => Fonction commune (DRY)

@@ -1,5 +1,7 @@
 const postModel = require('../models/Post'); // Import des fonctions Models possédant nos requetes SQL
 
+const fs = require('fs'); // Import fonctionnalité de node.js pour fileSystem pour la fonction delete
+
 /* LOGIQUES METIERS DES POSTS CRUD
 Notre app doit permettre aux users d'accéder:
 1) à tous les posts
@@ -9,7 +11,7 @@ Notre app doit permettre aux users d'accéder:
 
 // Fonction affichant tous les posts (page d'accueil) admin
 exports.getAllPosts = async(req, res, next) => {
-    const posts = await postModel.getAll();  // model.nomFonctionModelPost
+    const posts = await postModel.getAll().catch( error => { console.error(error) });  // model.nomFonctionModelPost
     res.status(200).json({
         message:'Liste des posts', 
         posts : posts 
@@ -20,7 +22,7 @@ exports.getAllPosts = async(req, res, next) => {
 // Fonction affichant un seul post => Pour component UpdatePost
 exports.getOnePost = async(req, res, next) => {
     const postID = req.params.postID; // clé primaire de la ligne de table posts
-    const post = await postModel.getOne(postID);
+    const post = await postModel.getOne(postID).catch( error => { console.error(error) });
     res.status(200).json({ 
         message:'post sélectionné', 
         post : post 
@@ -43,12 +45,12 @@ exports.createPost = async(req, res, next) => {
         created.userID,    
         created.username, 
         created.contentPost
-    );
+    ).catch( error => { console.log(error) });
+    
     console.log("----- 2) RESULTAT DE LA PROMISE: ", createdPost)
     res.status(201).json({ 
         message:'post créé avec succés',  
         post: createdPost,
-        // postID: createdPost.insertId // pour récupération via localStorage côté front
     });
 };
 
@@ -72,7 +74,7 @@ exports.updatePost = async(req, res, next) => {
         const updatedPost = await postModel.update( 
             newPost.contentPost, 
             newPost.postID 
-        );
+        ).catch( error => { console.log(error) });
         console.log("----5) RESULTAT DE LA PROMISE UPDATEPOST(): ", updatedPost)
         res.status(201).json({ 
             message:'post modifié avec succés', 
@@ -111,7 +113,8 @@ exports.uploadImagePost = async(req, res, next) => {
             createdData.userID,
             createdData.username,
             imageURL, 
-        );
+        ).catch( error => { console.log(error) });
+        
         console.log('4) RESULTAT DE LA PROMISE UPLOADIMAGEPOST(): ', uploadedFilePost);
         res.status(200).json({
             message:'Fichier téléchargé avec succés',
@@ -152,12 +155,15 @@ exports.updateImagePost = async(req, res, next) => {
         const updatedFilePost = await postModel.updateUploadImage(
             imageURL,
             updatedData.postID
-        );
+        ).catch( error => { 
+            console.log(error) 
+        });
+        
         console.log('Résultat de la promise: ', updatedFilePost);
         res.status(200).json({
             message:'Fichier mis à jour avec succés',
             fileUpdated: updatedFilePost
-        }).catch( e => { console.error(e) })
+        })
     }
 }
 
@@ -192,8 +198,7 @@ exports.createPublication = async(req, res, next) => {
             dataFrontAxiosCreated.username,
             dataFrontAxiosCreated.contentPost,
             dataFrontAxiosCreated.imagePost    //inscrira vide dans la colonne imagePost de table posts
-        ).catch( (error) => 
-        {
+        ).catch( (error) => {
             console.log(error)
         });
         
@@ -214,8 +219,7 @@ exports.createPublication = async(req, res, next) => {
             dataFrontAxiosCreated.username,
             dataFrontAxiosCreated.contentPost, //inscrira vide dans la colonne contentPost de table posts
             imageURL
-        ).catch((error) => 
-        {
+        ).catch((error) => {
             console.log(error)
         });
         
@@ -280,23 +284,140 @@ exports.updatePublication = async(req, res, next) => {
 
 
 
-// Fonction supprimant un post (after) à modifier pour supprimer file 
+// Fonction supprimant un post (after) à modifier pour supprimer file du dossier images 
 exports.deletePost = async(req, res, next) => {
     
     //Récup. clé primaire à supp
     const postID = req.params.postID;
     console.log('postId post supprimé: ', postID);
     
-    //On la met en paramètre dans la fonction delete de Post.js
-    const deletedPost = await postModel.delete(postID);
-    console.log("résultat de la promise: ", deletedPost);
+    // Recherche et récupération du post à supprimer
+    const publicationToDelete = await postModel.getOne(postID);
+    console.log('1) FICHIER A DELETE DU DOSSIER IMAGES/POST: ', publicationToDelete[0].imagePost);
     
-    // Renvoie de la réponse au front 
-    res.status(200).json({ 
-        message:'post supprimé avec succés', 
-        post: deletedPost 
-    });
+    // Récupération de l'url de l'image que l'on doit supprimer
+    const imageUrl = publicationToDelete[0].imagePost;
+    console.log('2) url du fichier: ',imageUrl);
+    console.log('3) Longueur string: ',imageUrl.length);
+    
+    if (imageUrl.length === 0) {
+        const deletedPostWithNoFile = await postModel.delete(postID).catch(
+            (error) => {console.log(error)}
+        );
+        console.log("résultat de la promise: ", deletedPostWithNoFile);
+        
+        // Renvoie de la réponse au front 
+        res.status(200).json({ 
+            message:'post supprimé avec succés', 
+            deletedPostWithNoFile: deletedPostWithNoFile 
+        });
+    } else {
+        const filename = imageUrl.split('/images/post')[1];
+        console.log('FILENAME ',filename);
+        // unlink() => Fonction de suppression de fichier du module fs
+        // unlink( chaîne de caractère chemin du fichier, callback à faire une fois le fichier supprimé)
+        fs.unlink(`images/post/${filename}`, function(error){
+            if(error) throw error;
+            console.log('fichier supprimé du dossier images/post !!!')
+        });
+        
+        const deletedPostWithFile = await postModel.delete(postID).catch(
+            (error) => {console.log(error)}
+        );
+        console.log("résultat de la promise: ", deletedPostWithFile);
+        
+        // Renvoie de la réponse au front 
+        res.status(200).json({ 
+            message:'post supprimé avec succés', 
+            deletedPostWithFile : deletedPostWithFile 
+        });
+    }
+
+
+    // POSSIBILITE 2
+    // switch (imageUrl.length) {
+        
+    //     // cas ou fichier image n'existe pas
+    //     case 0:
+    //         const deletedPostWithNoFile = await postModel.delete(postID).catch(
+    //             (error) => {console.log(error)}
+    //         );
+    //         console.log("résultat de la promise: ", deletedPostWithNoFile);
+            
+    //         // Renvoie de la réponse au front 
+    //         res.status(200).json({ 
+    //             message:'post supprimé avec succés', 
+    //             deletedPostWithNoFile: deletedPostWithNoFile 
+    //         });
+    //     break;
+            
+    //     // cas ou fichier existe
+    //     // .split('/image/post/') => coupe autour de /image/post/ et renvoie un tableau de 2 éléments => Tout ce qu'il y a avant et après '/images/post/'
+    //     // on prend ce qui est after qui est notre nom de fichier filename => [1]
+    //     // Exemple http://localhost:3000/images/post/goku-sayan.gif1647936085517.gif
+    //     case 1:
+    //         const filename = imageUrl.split('/images/post')[1];
+    //         console.log('FILENAME ',filename);
+    //         // unlink() => Fonction de suppression de fichier du module fs
+    //         // unlink( chaîne de caractère chemin du fichier, callback à faire une fois le fichier supprimé)
+    //         fs.unlink(`images/post/${filename}`, function(error){
+    //             if(error) throw error;
+    //             console.log('fichier supprimé du dossier images/post !!!')
+    //         });
+            
+    //         const deletedPostWithFile = await postModel.delete(postID).catch(
+    //             (error) => {console.log(error)}
+    //         );
+    //         console.log("résultat de la promise: ", deletedPostWithFile);
+            
+    //         // Renvoie de la réponse au front 
+    //         res.status(200).json({ 
+    //             message:'post supprimé avec succés', 
+    //             deletedPostWithFile : deletedPostWithFile 
+    //         });
+            
+    //     break;
+        
+    //     default:
+    //         break;
+    // }
+    
+    
+    
+    //On la met en paramètre dans la fonction delete de Post.js
+    // const deletedPost = await postModel.delete(postID).catch(
+    //     (error) => {console.log(error)}
+    // );
+    // console.log("résultat de la promise: ", deletedPost);
+    
+    // // Renvoie de la réponse au front 
+    // res.status(200).json({ 
+    //     message:'post supprimé avec succés', 
+    //     post: deletedPost 
+    // });
+    
+    
+    // .then(
+    //     // console.log(postToDelete[0]),
+    //     post => {
+    //         // .split('/image/post/') => coupe autour de /image/post/ et renvoie un tableau de 2 éléments => Tout ce qu'il y a avant et après '/images/post/'
+    //         // on prend ce qui est after qui est notre nom de fichier filename => [1]
+    //         // Exemple http://localhost:3000/images/post/goku-sayan.gif1647936085517.gif
+            
+    //         const filename = fileToDelete[0].imagePost.split('/images/post/')[1];
+            
+    //         // unlink() => Fonction de suppression de fichier du module fs
+    //         // unlink( chaîne de caractère chemin du fichier, callback à faire une fois le fichier supprimé)
+    //         fs.unlink(`image/post/${filename}`, () => {
+    //             res.status(200).json({ 
+    //                 message:'post et son fichier supprimés avec succés', 
+    //                 post: deletedPost 
+    //             });
+    //         })
+    //     }).catch((error) => {console.log(error)}
+    // );
 };
+
 
 
 // Toutes nos fonctions exportées vers /routes/post

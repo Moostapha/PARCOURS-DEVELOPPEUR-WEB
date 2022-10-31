@@ -12,7 +12,7 @@ Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil
 
 
 # Publication Page
-
+<img width="803" alt="socialNetworkPublication" src="https://user-images.githubusercontent.com/43280818/199126745-398485ee-0332-4834-96ee-c14fad452e8d.PNG">
 
 
 

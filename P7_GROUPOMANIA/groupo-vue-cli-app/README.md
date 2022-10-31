@@ -17,12 +17,11 @@ Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil
 
 
 # Account Page
-<img width="585" alt="socialNetworkAccount" src="https://user-images.githubusercontent.com/43280818/199126855-300283c6-ad4f-4727-ab1f-62b08a1a6c86.PNG">
-
-
+<img width="803" alt="socialNetworkAccount" src="https://user-images.githubusercontent.com/43280818/199126855-300283c6-ad4f-4727-ab1f-62b08a1a6c86.PNG">
 
 
 # Login Page
+<img width="951" alt="socialNetworkLogin" src="https://user-images.githubusercontent.com/43280818/199127348-4265247b-10b3-44c5-8e57-88fb325c3147.PNG">
 
 # TECHNOLOGIES POUR CE PROJET: 
 

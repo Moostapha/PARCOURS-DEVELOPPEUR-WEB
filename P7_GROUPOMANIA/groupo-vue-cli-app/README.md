@@ -4,7 +4,7 @@ Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil
 
 
 # Signup Page
-
+<img width="947" alt="socialNetworkSignup" src="https://user-images.githubusercontent.com/43280818/199127260-10fa7509-9127-43de-9202-dfeac15fb7dc.PNG">
 
 
 # Home Page

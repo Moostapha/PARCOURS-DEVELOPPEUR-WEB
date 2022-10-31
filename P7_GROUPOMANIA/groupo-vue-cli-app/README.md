@@ -5,10 +5,10 @@ Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil
 <img width="948" alt="socialNetworkHomePage" src="https://user-images.githubusercontent.com/43280818/199130157-41f3ee77-203b-4227-b44c-b1cbce4b46e3.PNG">
 
 # PUBLICATION
-<img width="803" alt="socialNetworkPublication" src="https://user-images.githubusercontent.com/43280818/199130491-7d5b454e-9ad3-435a-94dd-efcc0a1e2b4f.PNG">
+<img width="948" alt="socialNetworkPublication" src="https://user-images.githubusercontent.com/43280818/199130491-7d5b454e-9ad3-435a-94dd-efcc0a1e2b4f.PNG">
 
 # USER ACCOUNT
-<img width="803" alt="socialNetworkAccount" src="https://user-images.githubusercontent.com/43280818/199130682-297f5af3-a5f6-411f-b48c-78c72e5dbcd6.PNG">
+<img width="948" alt="socialNetworkAccount" src="https://user-images.githubusercontent.com/43280818/199130682-297f5af3-a5f6-411f-b48c-78c72e5dbcd6.PNG">
 
 # SIGNUP
 <img width="947" alt="socialNetworkSignup" src="https://user-images.githubusercontent.com/43280818/199129986-3735c9e0-1e29-4374-b699-7c41e3a74c65.PNG">

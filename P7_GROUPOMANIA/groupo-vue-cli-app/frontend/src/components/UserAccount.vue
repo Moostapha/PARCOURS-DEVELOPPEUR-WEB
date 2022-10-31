@@ -547,7 +547,7 @@
                 align-items: center
             .btnUpdateDelete
                 display: flex
-            #btnUpload, #btnModif, #btnDelete,
+            #btnUpload, #btnModif, #btnDelete
                 width: fit-content
                 padding: 0.5vh
                 height: 7vh

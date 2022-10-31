@@ -2,6 +2,9 @@
 Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil de communication des posts ou publications
 
 
+
+
+
 # TECHNOLOGIES POUR CE PROJET: 
 
 # => Frontend: Vue.js | Bootstrap | VueCLI
@@ -55,7 +58,7 @@ DATABASENAME = Nom
 - Lancez la commande nodemon server.js dans le dossier backend pour vous connecter à la database
 
 # 3) frontend:
-- Ouvrez un autre terminal tapez cd backend pour accéder à ce dossier
+- Ouvrez un autre terminal tapez cd frontend pour accéder à ce dossier
 - Executez npm install pour installer toutes les dépendances du projet
 - Exécutez npm run serve pour lancer le frontend 
 - ouvrez votre navigateur à l'adresse indiquée pour y voir apparaitre le frontend dans le navigateur

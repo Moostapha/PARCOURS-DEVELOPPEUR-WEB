@@ -426,7 +426,7 @@
     .logo
         background-image: url('../assets/icon-left-font-monochrome-white.svg')
         background-repeat: no-repeat
-        background-position: top
+        background-position: center
         background-color: #8785f761 //#8785f7   //black
         height: 8vh
         margin: auto

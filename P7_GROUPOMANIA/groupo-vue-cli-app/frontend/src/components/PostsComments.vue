@@ -1011,7 +1011,6 @@ export default {
       h1, h2, label
         color: white
         font-weight: bold
-        h1
         @media screen and (max-width: 576px)
           font-size: 2rem
       label
@@ -1264,7 +1263,7 @@ export default {
         border-radius: 4vh
         display: flex
         flex-direction: row
-        width: 70%
+        width: 95%
         //ajouter rules pour devices sur ce width
         @media screen and (max-width: 768px)
           width: 90%

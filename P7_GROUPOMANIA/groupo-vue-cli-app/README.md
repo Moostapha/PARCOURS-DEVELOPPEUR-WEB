@@ -2,6 +2,27 @@
 Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil de communication des posts ou publications
 
 
+
+# Signup Page
+
+
+
+# Home Page
+<img width="948" alt="socialNetworkHomePage" src="https://user-images.githubusercontent.com/43280818/199126115-d0092de7-5ebb-40ce-a440-2ff1d728cc89.PNG">
+
+
+# Publication Page
+
+
+
+
+# Account Page
+
+
+
+
+# Login Page
+
 # TECHNOLOGIES POUR CE PROJET: 
 
 # => Frontend: Vue.js | Bootstrap | VueCLI

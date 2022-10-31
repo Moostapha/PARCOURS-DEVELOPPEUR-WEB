@@ -1,7 +1,10 @@
 # I) APPLICATION DE RESEAU SOCIAL POUR EMPLOYES DU GROUPE GROUPOMANIA
 Le projet se nomme "Groupomania", un réseau social d'entreprise avec pour outil de communication des posts ou publications
 
-# Sign Up Page
+# HOME PAGE
+<img width="948" alt="socialNetworkHomePage" src="https://user-images.githubusercontent.com/43280818/199130157-41f3ee77-203b-4227-b44c-b1cbce4b46e3.PNG">
+
+# SIGNUP
 <img width="947" alt="socialNetworkSignup" src="https://user-images.githubusercontent.com/43280818/199129986-3735c9e0-1e29-4374-b699-7c41e3a74c65.PNG">
 
 
